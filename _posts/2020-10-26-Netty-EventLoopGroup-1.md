@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Netty源码学习之-EventLoopGroup'
+title: 'Netty EventLoopGroup接口分析'
 date: 2020-10-26
 author: 李新
 tags: Netty
