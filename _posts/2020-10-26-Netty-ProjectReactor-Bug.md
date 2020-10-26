@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Project Reactor OOM排查'
+title: 'Project Reactor Stream OOM排查'
 date: 2020-10-26
 author: 李新
 tags: ProjectReactorStream
