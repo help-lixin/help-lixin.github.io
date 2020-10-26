@@ -15,18 +15,18 @@ tags: ProjectReactorStream
     模拟并发请求,查看内存回收情况和线程回收情况,以确定代码是否存在泄露的可能性.
 3. 了解业务代码含义?  
 
-### (2).查日志
+### (2)查日志
 !["Project Reactor Stream Bug"](/assets/project-reactor-stream/imgs/Project-ReactorStream-Bug.png)
 > 连续查看4天的OOM日志,发现:线程栈信息都是停留在业务代码:TestService.saveConfig()方法上,由此可以判断:这个类的方法应该是有问题,否则,<font color='red'>不可能巧合连续几天的OOM都是在这段代码上</font>.
 
-### (3).了解业务
+### (3)了解业务
 1. 用户通过UI配置延迟的定时任务信息
 2. 用户提交定时任务信息
 3. <font color='red'>取消以前创建的定时任务</font>
 4. 从DB中获取所有启用的定时任务信息
 5. <font color='red'>重新创建定时任务</font>
 
-### (4).模拟业务代码进行请求
+### (4)模拟业务代码进行请求
 > 刚接手项目,代码确实有很多的漏洞:  
 > 在并发的情况下,Disposable是单例的,会存在BUG.  
 > 定时任务是在单机创建的,代码是否有考虑健壮性?  
@@ -108,7 +108,7 @@ class TestService {
 ![](/assets/project-reactor-stream/imgs/Project-ReactorStream-Bug4.png)
 
 
-### (6).结论
+### (6)结论
 > 从业务的需求我们知道:<font color='red'>用户修改定时任务信息时,是需要停止以前创建的定时任务</font>,而,Project ReactorStream的dispose()方法有Bug.并没有把定时任务对象(Thread)给销毁掉.
 
 ### (7)RxJava是否存在有BUG呢?
