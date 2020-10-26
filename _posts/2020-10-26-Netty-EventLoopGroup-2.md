@@ -6,11 +6,13 @@ author: 李新
 tags: Netty
 ---
 
-### (1).new NioEventLoopGroup
+### (1)NioEventLoopGroup继承关系图
+!["NioEventLoopGroup类图"](/assets/netty/imgs/NioEventLoopGroup.png)
+### (2).new NioEventLoopGroup
 ```
 EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 ```
-### (2).NioEventLoopGroup 构造器
+### (3).NioEventLoopGroup 构造器
 ```
 public NioEventLoopGroup(int nThreads) {
     // nThreads = 1
@@ -18,7 +20,7 @@ public NioEventLoopGroup(int nThreads) {
 }
 ```
 
-### (3).NioEventLoopGroup 构造器
+### (4).NioEventLoopGroup 构造器
 ```
 public NioEventLoopGroup(int nThreads, Executor executor) {
     // nThreads = 1
@@ -27,7 +29,7 @@ public NioEventLoopGroup(int nThreads, Executor executor) {
     this(nThreads, executor, SelectorProvider.provider());
 }
 ```
-### (4).NioEventLoopGroup 构造器
+### (5).NioEventLoopGroup 构造器
 ```
 public NioEventLoopGroup(int nThreads, Executor executor, final SelectorProvider selectorProvider) {
     // nThreads = 1
@@ -37,7 +39,7 @@ public NioEventLoopGroup(int nThreads, Executor executor, final SelectorProvider
     this(nThreads, executor, selectorProvider, DefaultSelectStrategyFactory.INSTANCE);
 }
 ```
-### (5).NioEventLoopGroup 构造器
+### (6).NioEventLoopGroup 构造器
 ```
 public NioEventLoopGroup(int nThreads, Executor executor, final SelectorProvider selectorProvider,final SelectStrategyFactory selectStrategyFactory) {
     // nThreads = 1
@@ -50,7 +52,7 @@ public NioEventLoopGroup(int nThreads, Executor executor, final SelectorProvider
 }
 ```
 
-### (6).MultithreadEventLoopGroup 构造器
+### (7).MultithreadEventLoopGroup 构造器
 ```
 protected MultithreadEventLoopGroup(int nThreads, Executor executor, Object... args) {
     // nThreads = 1
@@ -61,7 +63,7 @@ protected MultithreadEventLoopGroup(int nThreads, Executor executor, Object... a
     super(nThreads == 0 ? DEFAULT_EVENT_LOOP_THREADS : nThreads, executor, args);
 }
 ```
-### (7).MultithreadEventExecutorGroup 构造器
+### (8).MultithreadEventExecutorGroup 构造器
 ```
 protected MultithreadEventExecutorGroup(int nThreads, Executor executor, Object... args) {
     // nThreads = 1
@@ -70,7 +72,7 @@ protected MultithreadEventExecutorGroup(int nThreads, Executor executor, Object.
     this(nThreads, executor, DefaultEventExecutorChooserFactory.INSTANCE, args);
 }
 ```
-### (8).MultithreadEventExecutorGroup 构造器
+### (9).MultithreadEventExecutorGroup 构造器
 ```
 // 属性域
 EventExecutor[] children;
@@ -173,7 +175,7 @@ protected MultithreadEventExecutorGroup(
     readonlyChildren = Collections.unmodifiableSet(childrenSet);
 }
 ```
-### (9).NioEventLoopGroup.newChild
+### (10).NioEventLoopGroup.newChild
 ```
 protected EventLoop newChild(Executor executor, Object... args) throws Exception {
     // executor = io.netty.util.concurrent.ThreadPerTaskExecutor
@@ -190,7 +192,7 @@ protected EventLoop newChild(Executor executor, Object... args) throws Exception
     return new NioEventLoop(this, executor, (SelectorProvider) args[0],((SelectStrategyFactory) args[1]).newSelectStrategy(), (RejectedExecutionHandler) args[2], queueFactory);
 }
 ```
-### (10).总结
+### (11).总结
 > NioEventLoopGroup实际是根据配置的nThreads,**创建N个NioEventLoop**
 NioEventLoopGroup和NioEventLoop都实现了:EventLoopGroup,相当于间两个类都间接的实现了ScheduledExecutorService(定时调度方法)和Iterable(迭代器).  
 **而NioEventLoopGroup的大部份调度方法都是委派给:NioEventLoop去调用的.自己实际不执行任务定时任务的内容.**
