@@ -111,7 +111,7 @@ class TestService {
 ### (6).结论
 > 从业务的需求我们知道:<font color='red'>用户修改定时任务信息时,是需要停止以前创建的定时任务</font>,而,Project ReactorStream的dispose()方法有Bug.并没有把定时任务对象(Thread)给销毁掉.
 
-### RxJava是否存在有BUG呢?
+### (7)RxJava是否存在有BUG呢?
 > 通过监控和测试,发现RxJava并不存在该Bug,RxJava会及时释放掉定时任务实例(Thread)  
 
 ```
@@ -179,4 +179,5 @@ class ServiceTemp {
 		return list;
 	}
 }
+
 ```
