@@ -1,5 +1,0 @@
-I"�<h3 id="1serverbootstrap继承关系">(1).ServerBootstrap继承关系</h3>
-<p>```
-io.netty.bootstrap.ServerBootstrap 
-    extends io.netty.bootstrap.AbstractBootstrap</p>
-:ET
