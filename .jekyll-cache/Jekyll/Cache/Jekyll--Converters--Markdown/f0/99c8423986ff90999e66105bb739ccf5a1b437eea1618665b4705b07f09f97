@@ -1,0 +1,30 @@
+I"2<h3 id="1publisher">(1).Publisher</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package org.reactivestreams;
+
+public interface Publisher&lt;T&gt; {
+    
+    public void subscribe(Subscriber&lt;? super T&gt; s);
+}
+</code></pre></div></div>
+<h3 id="2subscriber">(2).Subscriber</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package org.reactivestreams;
+
+public interface Subscriber&lt;T&gt; {
+    public void onSubscribe(Subscription s);
+    public void onNext(T t);
+    public void onError(Throwable t);
+    public void onComplete();    
+}
+</code></pre></div></div>
+<h3 id="3subscription">(3).Subscription</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package org.reactivestreams;
+public interface Subscription {
+    public void request(long n);
+    public void cancel();
+}
+</code></pre></div></div>
+<h3 id="4总结">(4).总结</h3>
+<p>Publisher    :   发布者<br />
+Subscriber   :   订阅者( 当调用Publisher.subscribe(Subscriber&lt;? super T&gt; s )时,会触发:Subscriber.onSubscribe(Subscription s) )<br />
+Subscription  :   发布者与订阅者的一次订阅周期,一旦调用cancel去掉订阅,则发布者不会再推送消息.</p>
+:ET

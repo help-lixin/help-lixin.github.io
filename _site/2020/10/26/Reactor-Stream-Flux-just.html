@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactor Stream源码(Flux.just) - 李新的博客</title>
+    <meta name="author"  content="李新">
+    <meta name="description" content="Reactor Stream源码(Flux.just)">
+    <meta name="keywords"  content="ProjectReactorStream">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Reactor Stream源码(Flux.just) - 李新的博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/2020/10/26/Reactor-Stream-Flux-just.html">
+    <meta property="og:description" content="昵称码农，热爱技术&喜欢探索源码。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="李新的博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/prism.css">
+    <link rel="stylesheet" href="/assets/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/app.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	
+	<!--
+Author: Ray-Eldath
+refer to:
+ - http://docs.mathjax.org/en/latest/options/index.html
+-->
+
+	<script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+		jax: ["input/TeX", "output/HTML-CSS"],
+		tex2jax: {
+			inlineMath: [ ["$", "$"] ],
+			displayMath: [ ["$$", "$$"] ],
+			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+		},
+		"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+      });
+    </script>
+
+	
+    <!--
+Author: Ray-Eldath
+-->
+<style>
+    .markdown-body .anchor{
+        float: left;
+        margin-top: -8px;
+        margin-left: -20px;
+        padding-right: 4px;
+        line-height: 1;
+        opacity: 0;
+    }
+    
+    .markdown-body .anchor .anchor-icon{
+        font-size: 15px
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        let nodes = document.querySelector(".markdown-body").querySelectorAll("h1,h2,h3")
+        for(let node of nodes) {
+            var anchor = document.createElement("a")
+            var anchorIcon = document.createElement("i")
+            anchorIcon.setAttribute("class", "fa fa-anchor fa-lg anchor-icon")
+            anchorIcon.setAttribute("aria-hidden", true)
+            anchor.setAttribute("class", "anchor")
+            anchor.setAttribute("href", "#" + node.getAttribute("id"))
+            
+            anchor.onmouseover = function() {
+                this.style.opacity = "0.4"
+            }
+            
+            anchor.onmouseout = function() {
+                this.style.opacity = "0"
+            }
+            
+            anchor.appendChild(anchorIcon)
+            node.appendChild(anchor)
+        }
+    })
+</script>
+</head>
+
+
+<body>
+  <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+  <input id="nm-switch" type="hidden" value="true"> <header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+  <header
+    class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover"
+    data-theme="default"
+  >
+    <div class="post-wrapper">
+      <div class="post-tags">
+        
+          
+            <a href="/tags.html#ProjectReactorStream" class="post-tag">ProjectReactorStream</a>
+          
+        
+      </div>
+      <h1>Reactor Stream源码(Flux.just)</h1>
+      <div class="post-meta">
+        <span class="post-meta-item"><i class="iconfont icon-author"></i>李新</span>
+        <time class="post-meta-item" datetime="20-10-26"><i class="iconfont icon-date"></i>26 Oct 2020</time>
+      </div>
+    </div>
+    
+  </header>
+
+  <div class="post-content visible">
+    
+
+    <article class="markdown-body">
+      <h3 id="1flux类关系图">(1).Flux类关系图</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 注意该类是抽象类
+public abstract class Flux&lt;T&gt; 
+               // 实现了reactor.core.CorePublisher
+               // CorePublisher是Publisher的增加
+               implements CorePublisher&lt;T&gt; {
+}
+
+public interface CorePublisher&lt;T&gt; 
+       // org.reactivestreams.Publisher
+       extends Publisher&lt;T&gt; {
+    
+}
+
+</code></pre></div></div>
+
+<h3 id="2fluxjust12">(2).Flux.just(“1”,”2”)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static &lt;T&gt; Flux&lt;T&gt; just(T... data) {
+    // ["1","2"]
+    return fromArray(data);
+}
+</code></pre></div></div>
+<h3 id="3fluxfromarray">(3).Flux.fromArray</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static &lt;T&gt; Flux&lt;T&gt; fromArray(T[] array) {
+    // ["1","2"]
+    if (array.length == 0) { // false
+        return empty();
+    }
+    if (array.length == 1) { // false
+        return just(array[0]);
+    }
+    
+    // 创建FluxArray包裹数组
+    // 调用onAssembly
+    return onAssembly(new FluxArray&lt;&gt;(array));
+}
+</code></pre></div></div>
+<h3 id="4fluxarray">(4).FluxArray</h3>
+<blockquote>
+  <p>FluxArray既是Flux的子类,而且还实现了:Publisher</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>final class FluxArray&lt;T&gt; 
+      // 继承于:reactor.core.publisher.Flux
+      extends Flux&lt;T&gt; 
+      // reactor.core.Fuseable
+      implements Fuseable, 
+      // reactor.core.publisher.SourceProducer
+      SourceProducer&lt;T&gt; {
+    
+}
+
+interface SourceProducer&lt;O&gt; 
+     // reactor.core.Scannable
+     extends Scannable, 
+     // org.reactivestreams.Publisher
+             Publisher&lt;O&gt; {
+}
+</code></pre></div></div>
+<h3 id="5-fluxonassembly">(5). Flux.onAssembly</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// onAssembly 包裹结果集,可以Hooks可以TRACE整个过程
+protected static &lt;T&gt; Flux&lt;T&gt; onAssembly(Flux&lt;T&gt; source) {
+    // source = FluxArray
+    Function&lt;Publisher, Publisher&gt; hook = Hooks.onEachOperatorHook;
+    if(hook != null) { // false
+        source = (Flux&lt;T&gt;) hook.apply(source);
+    }
+    
+    if (Hooks.GLOBAL_TRACE) {
+            AssemblySnapshot stacktrace = new AssemblySnapshot(null, Traces.callSiteSupplierFactory.get());
+            source = (Flux&lt;T&gt;) Hooks.addAssemblyInfo(source, stacktrace);
+    }
+    return source;
+}
+</code></pre></div></div>
+<h3 id="6总结">(6).总结</h3>
+<ol>
+  <li>Flux.just会把数组包裹成:reactor.core.publisher.FluxArray</li>
+  <li>返回:reactor.core.publisher.FluxArray,因为FluxArray继承于:Flux并实现了:Publisher</li>
+</ol>
+
+    </article>
+
+    
+  </div>
+
+  <section class="author-detail">
+    <section class="post-footer-item author-card">
+      <div class="avatar">
+        <img src="/assets/img/profile.png" alt="">
+      </div>
+      <div class="author-name" rel="author">李新</div>
+      <div class="bio">
+        <p>后端开发者，热爱技术&探索源码</p>
+      </div>
+      
+      <ul class="sns-links">
+        
+        <li>
+          <a href="//github.com/help-lixin" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+        </li>
+        
+      </ul>
+      
+    </section>
+    <section class="post-footer-item read-next">
+      
+      <div class="read-next-item">
+        <a href="/2020/10/26/Reactor-Stream-Flux-subscribe.html" class="read-next-link"></a>
+        <section>
+          <span>Reactor Stream源码(Flux.subscribe)</span>
+          <p>(1).案例Flux.just("1","2")    .subscribe(c-&gt;{           ...</p>
+        </section>
+        
+     </div>
+      
+
+      
+      <div class="read-next-item">
+        <a href="/2020/10/26/Netty-ServerBootstrap.html" class="read-next-link"></a>
+          <section>
+            <span>Netty源码(ServerBootstrap)</span>
+            <p>(1).ServerBootstrap继承关系```io.netty.bootstrap.ServerBootst...</p>
+          </section>
+          
+      </div>
+      
+    </section>
+    
+  </section>
+
+  <footer class="g-footer">
+  <section>李新的博客 ©
+  
+  
+    2017
+    -
+  
+  2020
+  </section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+</footer>
+
+
+  <script src="/assets/js/social-share.min.js"></script>
+  <script>
+    socialShare('.social-share', {
+      sites: [
+        
+      ],
+      wechatQrcodeTitle: "分享到微信朋友圈",
+      wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+  </script>
+
+  
+
+  <script src="/assets/js/prism.js"></script>
+  <script src="/assets/js/index.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+I"�<h3 id="1channelpipeline">(1).ChannelPipeline</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>说ChannelPipeline时,不得不说下以下几个接口:
+    io.netty.channel.ChannelPipeline 
+    io.netty.channel.ChannelHandlerContext 
+    io.netty.channel.ChannelHandler 
+    io.netty.channel.Channel
+</code></pre></div></div>
+:ET

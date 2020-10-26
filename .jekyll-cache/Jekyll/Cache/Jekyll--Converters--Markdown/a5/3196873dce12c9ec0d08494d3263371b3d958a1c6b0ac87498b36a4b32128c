@@ -1,0 +1,5 @@
+I"s<h3 id="1bossgroupnioeventloop初始化完成了是怎么接受请求accept事件并把请求分发给workgroupnioeventloop的呢">(1).BossGroup(NioEventLoop)初始化完成了,是怎么接受请求(ACCEPT事件),并把请求分发给:WorkGroup(NioEventLoop)的呢?</h3>
+<blockquote>
+  <p>答案在:<font color="red">NioEventLoop.run()</font>方法里.</p>
+</blockquote>
+:ET

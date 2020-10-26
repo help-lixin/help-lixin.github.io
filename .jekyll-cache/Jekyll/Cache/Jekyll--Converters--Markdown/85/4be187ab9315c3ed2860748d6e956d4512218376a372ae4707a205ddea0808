@@ -1,0 +1,241 @@
+I"�&<h3 id="1案例">(1).案例</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Flux.just("1","2")
+    .subscribe(c-&gt;{
+            System.out.println("consumer:" + c);
+    });
+</code></pre></div></div>
+<h3 id="2fluxsubscribe">(2).Flux.subscribe</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final Disposable subscribe(Consumer&lt;? super T&gt; consumer) {
+    // consumer = help.lixin.samples.Flux2Test$$Lambda$7
+    Objects.requireNonNull(consumer, "consumer");
+    return subscribe(consumer, null, null);
+}
+</code></pre></div></div>
+<h3 id="3fluxsubscribe">(3).Flux.subscribe</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final Disposable subscribe(
+        @Nullable Consumer&lt;? super T&gt; consumer,
+        @Nullable Consumer&lt;? super Throwable&gt; errorConsumer,
+        @Nullable Runnable completeConsumer) {
+           // consumer 订阅
+           // errorConsumer 错误处理
+           // completeConsumer 完成处理
+    return subscribe(consumer, errorConsumer, completeConsumer, (Context) null);
+}
+</code></pre></div></div>
+<h3 id="4fluxsubscribe">(4).Flux.subscribe</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final Disposable subscribe(
+        @Nullable Consumer&lt;? super T&gt; consumer,
+        @Nullable Consumer&lt;? super Throwable&gt; errorConsumer,
+        @Nullable Runnable completeConsumer,
+        // null
+        @Nullable Context initialContext) {
+    return subscribeWith(
+        // 创建:reactor.core.publisher.LambdaSubscriber
+        // 包课着正确消费者/错误消费者/完成处理等...
+        new LambdaSubscriber&lt;&gt;(consumer, errorConsumer,completeConsumer,null,initialContext)
+    );
+}
+</code></pre></div></div>
+<h3 id="5lambdasubscriber">(5).LambdaSubscriber</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interface CoreSubscriber&lt;T&gt; extends Subscriber&lt;T&gt; {}
+
+interface InnerConsumer&lt;I&gt;
+          extends CoreSubscriber&lt;I&gt;, 
+          Scannable {             
+}
+
+final class LambdaSubscriber&lt;T&gt;
+		implements InnerConsumer&lt;T&gt;, 
+             Disposable {      
+}
+// LambdaSubscriber 属于:Subscriber的实现类
+</code></pre></div></div>
+<h3 id="6fluxsubscribewith">(6).Flux.subscribeWith</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final &lt;E extends Subscriber&lt;? super T&gt;&gt; E subscribeWith(E subscriber) {
+    // reactor.core.publisher.LambdaSubscriber
+    // 调用最终的subscribe
+    subscribe(subscriber);
+    return subscriber;
+}
+</code></pre></div></div>
+<h3 id="7fluxsubscribe">(7).Flux.subscribe</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final void subscribe(Subscriber&lt;? super T&gt; actual) {
+    // actual = reactor.core.publisher.LambdaSubscriber
+    
+    // ***************************************************
+    // 把FluxArray转换成:CorePublisher
+    // this = FluxArray
+    // ***************************************************
+    CorePublisher publisher = Operators.onLastAssembly(this);
+    
+    // ***************************************************
+    // 把reactor.core.publisher.LambdaSubscriber
+    // 转换成: CoreSubscriber
+    // ***************************************************
+    CoreSubscriber subscriber = Operators.toCoreSubscriber(actual);
+
+    try {
+        // 从上面的分析得了:publisher不是OptimizableOperator的子类
+        if (publisher instanceof OptimizableOperator) {  // false
+            OptimizableOperator operator = (OptimizableOperator) publisher;
+            while (true) {
+                subscriber = operator.subscribeOrReturn(subscriber);
+                if (subscriber == null) {
+                    return;
+                }
+                
+                OptimizableOperator newSource = operator.nextOptimizableSource();
+                
+                if (newSource == null) {
+                    publisher = operator.source();
+						break;
+                } //end if
+                
+                operator = newSource;
+            } //end while
+        } //end if
+        
+        
+        // ***************************************************
+        // reactor.core.publisher.FluxArray
+        //   .subscribe(reactor.core.publisher.LambdaSubscriber s)
+        // ***************************************************
+        publisher.subscribe(subscriber);
+    } catch (Throwable e) {
+        Operators.reportThrowInSubscribe(subscriber, e);
+        return;
+    }
+}
+</code></pre></div></div>
+<h3 id="8fluxarraysubscribe">(8).FluxArray.subscribe</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public void subscribe(CoreSubscriber&lt;? super T&gt; actual) {
+    // actual = reactor.core.publisher.LambdaSubscriber
+    // array = ["1","2"]
+    subscribe(actual, array);
+}
+
+public static &lt;T&gt; void subscribe(CoreSubscriber&lt;? super T&gt; s, T[] array) {
+        // s = reactor.core.publisher.LambdaSubscriber
+        // array = ["1","2"]
+        if (array.length == 0) {  // false
+            Operators.complete(s);
+            return;
+        }// end if
+        
+        if (s instanceof ConditionalSubscriber) { // false
+            s.onSubscribe(new ArrayConditionalSubscription&lt;&gt;((ConditionalSubscriber&lt;? super T&gt;) s, array));
+        } else {
+            // *********************Subscriber.onSubscribe*************************
+            // reactor.core.publisher.LambdaSubscriber.onSubscribe
+            // 
+            // **********************************************
+            s.onSubscribe(new ArraySubscription&lt;&gt;(s, array));
+        } //end else
+}
+</code></pre></div></div>
+<h3 id="9lambdasubscriberonsubscribe">(9).LambdaSubscriber.onSubscribe</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// reactor.core.publisher.FluxArray$ArraySubscription
+public final void onSubscribe(Subscription s) {
+    // s = reactor.core.publisher.FluxArray$ArraySubscription
+    // s包裹着:数组和LambdaSubscriber
+    if (Operators.validate(subscription, s)) { // true
+            // 订阅者
+            this.subscription = s;
+            
+            if (subscriptionConsumer != null) { // false
+                try {
+                    subscriptionConsumer.accept(s);
+                } catch (Throwable t) {
+                    Exceptions.throwIfFatal(t);
+                    s.cancel();
+                    onError(t);
+                }
+            } else {
+                // s = FluxArray$ArraySubscription
+                s.request(Long.MAX_VALUE);
+            } //end else
+    } //end if
+}
+</code></pre></div></div>
+<h3 id="10fluxarrayarraysubscription">(10).FluxArray.ArraySubscription</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public void request(long n) {
+    // Long.MAX_VALUE
+    if (Operators.validate(n)) { // true
+            if (Operators.addCap(REQUESTED, this, n) == 0) { // true
+                if (n == Long.MAX_VALUE) { // true
+                   // invoker fastPath
+                    fastPath();
+                } else {
+                    slowPath(n);
+                }
+            } //end if
+    } //end if
+}
+</code></pre></div></div>
+<h3 id="11fluxarrayarraysubscriptionfastpath">(11).FluxArray.ArraySubscription.fastPath</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void fastPath() {
+    // a = [1, 2]
+    final T[] a = array;
+    // len = 2
+    final int len = a.length;
+    // s = reactor.core.publisher.LambdaSubscriber
+    final Subscriber&lt;? super T&gt; s = actual;
+
+    // 遍历数组
+    for (int i = index; i != len; i++) {
+        // 是否设置了取消
+        if (cancelled) {
+                return;
+        }
+
+        // 数组第N个元素
+        T t = a[i];
+
+        
+        if (t == null) {
+            // 为空的情况下调用:onError
+            s.onError(new NullPointerException("The " + i + "th array element was null"));
+            return;
+        }
+        // ************************************
+        // onNext调用
+        // ************************************
+        // 最后调用onNext方法
+        s.onNext(t);
+    }// end for
+        
+    if (cancelled) {
+            return;
+    } //end if
+        
+    // 最后调用:onCompelete()方法    
+    s.onComplete();
+}
+</code></pre></div></div>
+<h3 id="12总结">(12).总结</h3>
+<ol>
+  <li>Flux.just()方法.<br />
+ 会把传入的数据封装成:FluxArray(它属于Publisher的子类)</li>
+  <li>Flux.subscribe(Consumer c)方法.<br />
+ 会把Consumer函数封装成:LambdaSubscriber(它属于Subscriber的子类)</li>
+  <li>Flux.subscribe(Subscriber) 最后实际是这样调用的:<br />
+ FluxArray.subscribe(LambdaSubscriber s)</li>
+  <li>把数据和消费者封装成:ArraySubscription(属于:Subscription的子类)<br />
+ LambdaSubscriber
+     .onSubscribe(
+         new ArraySubscription(LambdaSubscriber,
+         [“1”,”2”])
+ );<br />
+ 注意:ArraySubscription持有:LambdaSubscriber和数组</li>
+  <li>设置一次订阅多少<br />
+ ArraySubscription.request(Long.MAX_VALUE)</li>
+  <li>进行快速消费或缓存消费<br />
+T[] data = [“1”,”2”];
+ for(int i=0;i&lt;data.length;i++){
+     如果数组元素有一个为空:
+     则调用:ArraySubscription.onError(…)
+     否则调用:ArraySubscription.onNext(…)
+ }
+ ArraySubscription.onComplete()</li>
+</ol>
+:ET

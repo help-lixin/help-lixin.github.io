@@ -1,0 +1,74 @@
+I"�	<h3 id="1schedulers">(1).Schedulers</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//1. 创建线程
+Schedulers.newElastic("selfTrade-thread")
+</code></pre></div></div>
+<h3 id="2schedulersnewelastic">(2).Schedulers.newElastic</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 1. 
+public static Scheduler newElastic(String name) {
+    // name = "selfTrade-thread"
+    return newElastic(name, ElasticScheduler.DEFAULT_TTL_SECONDS);
+  }
+  
+  // 2.
+  public static Scheduler newElastic(String name, int ttlSeconds) {
+    // name = "selfTrade-thread"
+    // ttlSeconds = 60 
+    return newElastic(name, ttlSeconds, false);
+  }
+  
+  // 3.
+  public static Scheduler newElastic(String name, int ttlSeconds) {
+      // name = "selfTrade-thread"
+      // ttlSeconds = 60 
+      return newElastic(name, ttlSeconds, false);
+  }
+  
+  // 4. 
+  public static Scheduler newElastic(String name, int ttlSeconds, boolean daemon) 
+      return newElastic(
+         ttlSeconds,
+         // 4.1 
+         new ReactorThreadFactory(     
+               // selfTrade-thread
+                name, 
+                // 统计信息
+                // AtomicLong COUNTER = new AtomicLong();
+                ElasticScheduler.COUNTER, 
+                // false
+                daemon, 
+                // 
+                false,
+                // 异常处理方法
+		     Schedulers::defaultUncaughtException)
+         );
+	}
+ 
+ // 5 
+ // 
+ static volatile Factory factory = DEFAULT;
+ static final Factory DEFAULT = new Factory() { };
+ public static Scheduler newElastic(int ttlSeconds, ThreadFactory threadFactory) {
+    // ttlSeconds = 60
+    // threadFactory = reactor.core.scheduler.ReactorThreadFactory
+    // fatory 指向了自己内部的一个属性:DEFAULT
+    // factory = Schedulers.DEFAULT
+    return factory.newElastic(ttlSeconds, threadFactory);
+ }
+ 
+ 
+ 
+ public interface Schedulers.Factory {
+     // 6. 
+     default Scheduler newElastic(int ttlSeconds, ThreadFactory threadFactory) {
+       // ttlSeconds = 60 
+       // threadFactory = reactor.core.scheduler.ReactorThreadFactory
+       // 创建ElasticScheduler并返回(看第5点)
+       return new ElasticScheduler(threadFactory, ttlSeconds);
+	 }
+  
+ }
+</code></pre></div></div>
+<h3 id="3reactorthreadfactory">(3).ReactorThreadFactory</h3>
+<p>```
+package reactor.core.scheduler;</p>
+:ET

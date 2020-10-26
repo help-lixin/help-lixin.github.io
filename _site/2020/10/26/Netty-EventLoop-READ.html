@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netty源码(EventLoop如何处理READ事件) - 李新的博客</title>
+    <meta name="author"  content="李新">
+    <meta name="description" content="Netty源码(EventLoop如何处理READ事件)">
+    <meta name="keywords"  content="Netty">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Netty源码(EventLoop如何处理READ事件) - 李新的博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/2020/10/26/Netty-EventLoop-READ.html">
+    <meta property="og:description" content="昵称码农，热爱技术&喜欢探索源码。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="李新的博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/prism.css">
+    <link rel="stylesheet" href="/assets/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/app.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	
+	<!--
+Author: Ray-Eldath
+refer to:
+ - http://docs.mathjax.org/en/latest/options/index.html
+-->
+
+	<script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+		jax: ["input/TeX", "output/HTML-CSS"],
+		tex2jax: {
+			inlineMath: [ ["$", "$"] ],
+			displayMath: [ ["$$", "$$"] ],
+			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+		},
+		"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+      });
+    </script>
+
+	
+    <!--
+Author: Ray-Eldath
+-->
+<style>
+    .markdown-body .anchor{
+        float: left;
+        margin-top: -8px;
+        margin-left: -20px;
+        padding-right: 4px;
+        line-height: 1;
+        opacity: 0;
+    }
+    
+    .markdown-body .anchor .anchor-icon{
+        font-size: 15px
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        let nodes = document.querySelector(".markdown-body").querySelectorAll("h1,h2,h3")
+        for(let node of nodes) {
+            var anchor = document.createElement("a")
+            var anchorIcon = document.createElement("i")
+            anchorIcon.setAttribute("class", "fa fa-anchor fa-lg anchor-icon")
+            anchorIcon.setAttribute("aria-hidden", true)
+            anchor.setAttribute("class", "anchor")
+            anchor.setAttribute("href", "#" + node.getAttribute("id"))
+            
+            anchor.onmouseover = function() {
+                this.style.opacity = "0.4"
+            }
+            
+            anchor.onmouseout = function() {
+                this.style.opacity = "0"
+            }
+            
+            anchor.appendChild(anchorIcon)
+            node.appendChild(anchor)
+        }
+    })
+</script>
+</head>
+
+
+<body>
+  <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+  <input id="nm-switch" type="hidden" value="true"> <header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+  <header
+    class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover"
+    data-theme="default"
+  >
+    <div class="post-wrapper">
+      <div class="post-tags">
+        
+          
+            <a href="/tags.html#Netty" class="post-tag">Netty</a>
+          
+        
+      </div>
+      <h1>Netty源码(EventLoop如何处理READ事件)</h1>
+      <div class="post-meta">
+        <span class="post-meta-item"><i class="iconfont icon-author"></i>李新</span>
+        <time class="post-meta-item" datetime="20-10-26"><i class="iconfont icon-date"></i>26 Oct 2020</time>
+      </div>
+    </div>
+    
+  </header>
+
+  <div class="post-content visible">
+    
+
+    <article class="markdown-body">
+      <h3 id="1netty又是如何处理读写请求的呢">(1).Netty又是如何处理读写请求的呢?</h3>
+<blockquote>
+  <p>代码的入口在:ServerBootstrap$ServerBootstrapAcceptor.channelRead处.</p>
+</blockquote>
+
+<h3 id="2serverbootstrapserverbootstrapacceptorchannelread">(2).ServerBootstrap$ServerBootstrapAcceptor.channelRead</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public void channelRead(ChannelHandlerContext ctx, Object msg) {
+    final Channel child = (Channel) msg;
+    
+    // ****************************************************
+    // 添加childHandler
+    // ****************************************************
+    child.pipeline().addLast(childHandler);
+    
+    setChannelOptions(child, childOptions, logger);
+    setAttributes(child, childAttrs);
+    
+    try {
+        // ****************************************************
+        // ****************************************************
+        // ----------------------重点就在于此处------------------
+        // 由于BossGroup与WorkGroup都属于:NioEventLoop,所以debug有一些难点.
+        // 在内存中是有存在两个NioEventLoop对象的.
+        // childGroup(NioEventLoop)注册NioSocketChannel
+        // ****************************************************
+        // ****************************************************
+        childGroup.register(child).addListener(new ChannelFutureListener() {
+            @Override
+            public void operationComplete(ChannelFuture future) throws Exception {
+                if (!future.isSuccess()) {
+                    forceClose(child, future.cause());
+                }
+            }
+        });
+    } catch (Throwable t) {
+        forceClose(child, t);
+    }
+} // end 
+</code></pre></div></div>
+<h3 id="3如何debug">(3).如何debug?</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+EventLoopGroup workerGroup = new NioEventLoopGroup(1);
+</code></pre></div></div>
+<blockquote>
+  <p>EventLoop在内存中有两个对象的,所以,断点都是打在NioEventLoop.run方法里.那到底要如何跟踪呢?<br />
+  可以针对连接和读写分别jstack的跟踪,查看线程的调用链到底是属于BossGroup还是WorkGroup.<br />
+  在NioEventLoop.processSelectedKeysOptimized方法里,增加条件断点.<br />
+    如果k.attachment是:NioServerSocketChannel则事件处理是属于:ACCEPT.<br />
+    如果k.attachment是:NioSocketChannel则事件处理属于:READ/WRITE<br />
+    设置条件条件表达式为:<br />
+      [a.getClass().equals(io.netty.channel.socket.nio.NioSocketChannel.class)]</p>
+</blockquote>
+
+<p><img src="/assets/netty/imgs/debug-1.png" alt="&quot;NioServerSocketChannel&quot;" />
+<img src="/assets/netty/imgs/debug-2.png" alt="&quot;NioSocketChannel&quot;" />
+<img src="/assets/netty/imgs/debug-3.png" alt="&quot;Eclipse设置条件断点&quot;" /></p>
+
+<h3 id="4nioeventlooprun">(4).NioEventLoop.run</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>protected void run() {
+    int selectCnt = 0;
+    for (;;) {
+        // ... ... 
+        try {
+            // 处理Keys
+            processSelectedKeys();
+        } finally {
+            final long ioTime = System.nanoTime() - ioStartTime;
+            ranTasks = runAllTasks(ioTime * (100 - ioRatio) / ioRatio);
+       }
+       // ... ... 
+    }// end for
+} // end run
+</code></pre></div></div>
+<h3 id="5nioeventloopprocessselectedkeys">(5).NioEventLoop.processSelectedKeys</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private void processSelectedKeys() {
+    if (selectedKeys != null) { // true
+        processSelectedKeysOptimized();
+    } else {
+        processSelectedKeysPlain(selector.selectedKeys());
+    }
+}
+</code></pre></div></div>
+<h3 id="6nioeventloopprocessselectedkeysoptimized">(6).NioEventLoop.processSelectedKeysOptimized</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private void processSelectedKeysOptimized() {
+    for (int i = 0; i &lt; selectedKeys.size; ++i) {
+        final SelectionKey k = selectedKeys.keys[i];
+        selectedKeys.keys[i] = null;
+        
+        // ********************************************************
+        // *******************************提示*********************
+        // NioServerSocketChannel 代表NioEventLoop处理的是ACCEPT事件
+        // NioSocketChannel 代表NioEventLoop处理的是READ/WRITE事件
+        // a = NioSocketChannel 
+        // ********************************************************
+        final Object a = k.attachment();
+    
+        if (a instanceof AbstractNioChannel) {
+            // 处理单个key事件
+            processSelectedKey(k, (AbstractNioChannel) a);
+        } else {
+            @SuppressWarnings("unchecked")
+            NioTask&lt;SelectableChannel&gt; task = (NioTask&lt;SelectableChannel&gt;) a;
+            processSelectedKey(k, task);
+        }
+    
+        if (needsToSelectAgain) {
+            // null out entries in the array to allow to have it GC'ed once the Channel close
+            // See https://github.com/netty/netty/issues/2363
+            selectedKeys.reset(i + 1);
+    
+            selectAgain();
+            i = -1;
+        }
+    }
+} // end processSelectedKeysOptimized
+</code></pre></div></div>
+
+<h3 id="7nioeventloopprocessselectedkey">(7).NioEventLoop.processSelectedKey</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private void processSelectedKey(SelectionKey k, AbstractNioChannel ch) {
+    // **************************************************************************
+    // unsafe = AbstractNioMessageChannel$NioMessageUnsafe 代表NioEventLoop处理的是ACCEPT事件
+    // unsafe = io.netty.channel.socket.nio.NioSocketChannel$NioSocketChannelUnsafe 代表NioEventLoop处理的是READ/WRITE事件
+    // 此处unsafe = io.netty.channel.socket.nio.NioSocketChannel$NioSocketChannelUnsafe
+    // 此:处处理的是Client发送过来的消息("hello world")
+    // **************************************************************************
+    final AbstractNioChannel.NioUnsafe unsafe = ch.unsafe();
+    
+    if (!k.isValid()) { // false
+        final EventLoop eventLoop;
+        try {
+            eventLoop = ch.eventLoop();
+        } catch (Throwable ignored) {
+            // If the channel implementation throws an exception because there is no event loop, we ignore this
+            // because we are only trying to determine if ch is registered to this event loop and thus has authority
+            // to close ch.
+            return;
+        }
+        // Only close ch if ch is still registered to this EventLoop. ch could have deregistered from the event loop
+        // and thus the SelectionKey could be cancelled as part of the deregistration process, but the channel is
+        // still healthy and should not be closed.
+        // See https://github.com/netty/netty/issues/5125
+        if (eventLoop == this) {
+            // close the channel if the key is not valid anymore
+            unsafe.close(unsafe.voidPromise());
+        }
+        return;
+    }
+    
+    try {
+        int readyOps = k.readyOps();
+        // We first need to call finishConnect() before try to trigger a read(...) or write(...) as otherwise
+        // the NIO JDK channel implementation may throw a NotYetConnectedException.
+        if ((readyOps &amp; SelectionKey.OP_CONNECT) != 0) {
+            // remove OP_CONNECT as otherwise Selector.select(..) will always return without blocking
+            // See https://github.com/netty/netty/issues/924
+            int ops = k.interestOps();
+            ops &amp;= ~SelectionKey.OP_CONNECT;
+            k.interestOps(ops);
+    
+            unsafe.finishConnect();
+        }
+    
+        // Process OP_WRITE first as we may be able to write some queued buffers and so free memory.
+        if ((readyOps &amp; SelectionKey.OP_WRITE) != 0) {
+            // Call forceFlush which will also take care of clear the OP_WRITE once there is nothing left to write
+            ch.unsafe().forceFlush();
+        }
+    
+        // Also check for readOps of 0 to workaround possible JDK bug which may otherwise lead
+        // to a spin loop
+        // true
+        if ((readyOps &amp; (SelectionKey.OP_READ | SelectionKey.OP_ACCEPT)) != 0 || readyOps == 0) {
+            // unsafe  = io.netty.channel.socket.nio.NioSocketChannel$NioSocketChannelUnsafe
+            // 调用读取消息
+            unsafe.read();
+        }
+    } catch (CancelledKeyException ignored) {
+        unsafe.close(unsafe.voidPromise());
+    }
+}// end 
+</code></pre></div></div>
+<h3 id="8niosocketchannelniosocketchannelunsaferead">(8).NioSocketChannel$NioSocketChannelUnsafe.read</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final void read() {
+    final ChannelConfig config = config();
+    if (shouldBreakReadReady(config)) { // false
+        clearReadPending();
+        return;
+    }  // end if
+    
+    // DefaultChannelPipeline
+    // {
+    //   (DelimiterBasedFrameDecoder#0 = io.netty.handler.codec.DelimiterBasedFrameDecoder), 
+    //   (StringDecoder#0 = io.netty.handler.codec.string.StringDecoder)
+    //   (StringEncoder#0 = io.netty.handler.codec.string.StringEncoder)
+    //   (TelnetServerHandler#0 = io.netty.example.telnet.TelnetServerHandler)
+    // }
+    final ChannelPipeline pipeline = pipeline();
+    
+    // 获取缓存分配管理器
+    // allocator = io.netty.buffer.PooledByteBufAllocator
+    final ByteBufAllocator allocator = config.getAllocator();
+    // allocHandle = io.netty.channel.AdaptiveRecvByteBufAllocator$HandleImpl
+    final RecvByteBufAllocator.Handle allocHandle = recvBufAllocHandle();
+    allocHandle.reset(config);
+    
+    ByteBuf byteBuf = null;
+    boolean close = false;
+    try {
+        do {
+            // ******************************************************************
+            // 创建ByteBuf对象,并从SocketChannel中读取数据到:ByteBuf中
+            // ******************************************************************
+            // allocHandle = io.netty.channel.AdaptiveRecvByteBufAllocator$HandleImpl
+            // 创建一个ByteBuf对象(PooledByteBufAllocator)
+            byteBuf = allocHandle.allocate(allocator);
+            
+            // 读取(SocketChannel)数据到ByteBuf中
+            allocHandle.lastBytesRead(doReadBytes(byteBuf));
+            if (allocHandle.lastBytesRead() &lt;= 0) {
+                // nothing was read. release the buffer.
+                byteBuf.release();
+                byteBuf = null;
+                close = allocHandle.lastBytesRead() &lt; 0;
+                if (close) {
+                    // There is nothing left to read as we received an EOF.
+                    readPending = false;
+                }
+                break;
+            }
+    
+            allocHandle.incMessagesRead(1);
+            readPending = false;
+            pipeline.fireChannelRead(byteBuf);
+            byteBuf = null;
+        } while (allocHandle.continueReading());
+    
+        allocHandle.readComplete();
+        pipeline.fireChannelReadComplete();
+    
+        if (close) {
+            closeOnRead(pipeline);
+        }
+    } catch (Throwable t) {
+        handleReadException(pipeline, byteBuf, t, close, allocHandle);
+    } finally {
+        // Check if there is a readPending which was not processed yet.
+        // This could be for two reasons:
+        // * The user called Channel.read() or ChannelHandlerContext.read() in channelRead(...) method
+        // * The user called Channel.read() or ChannelHandlerContext.read() in channelReadComplete(...) method
+        //
+        // See https://github.com/netty/netty/issues/2254
+        if (!readPending &amp;&amp; !config.isAutoRead()) {
+            removeReadOp();
+        }
+    }
+} // end read
+</code></pre></div></div>
+<h3 id="9总结">(9).总结</h3>
+
+
+    </article>
+
+    
+  </div>
+
+  <section class="author-detail">
+    <section class="post-footer-item author-card">
+      <div class="avatar">
+        <img src="/assets/img/profile.png" alt="">
+      </div>
+      <div class="author-name" rel="author">李新</div>
+      <div class="bio">
+        <p>后端开发者，热爱技术&探索源码</p>
+      </div>
+      
+      <ul class="sns-links">
+        
+        <li>
+          <a href="//github.com/help-lixin" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+        </li>
+        
+      </ul>
+      
+    </section>
+    <section class="post-footer-item read-next">
+      
+      <div class="read-next-item">
+        <a href="/2020/10/26/Netty-EventLoop.html" class="read-next-link"></a>
+        <section>
+          <span>Netty源码(EventLoop)</span>
+          <p>(1).NioEventLoopGroup.newChildprotected EventLoop newChil...</p>
+        </section>
+        
+     </div>
+      
+
+      
+      <div class="read-next-item">
+        <a href="/2020/10/26/Netty-EventLoop-ACCEPT.html" class="read-next-link"></a>
+          <section>
+            <span>Netty源码(EventLoop如何处理ACCEPT事件)</span>
+            <p>(1).BossGroup(NioEventLoop)初始化完成了,是怎么接受请求(ACCEPT事件),并把请求分...</p>
+          </section>
+          
+      </div>
+      
+    </section>
+    
+  </section>
+
+  <footer class="g-footer">
+  <section>李新的博客 ©
+  
+  
+    2017
+    -
+  
+  2020
+  </section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+</footer>
+
+
+  <script src="/assets/js/social-share.min.js"></script>
+  <script>
+    socialShare('.social-share', {
+      sites: [
+        
+      ],
+      wechatQrcodeTitle: "分享到微信朋友圈",
+      wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+  </script>
+
+  
+
+  <script src="/assets/js/prism.js"></script>
+  <script src="/assets/js/index.min.js"></script>
+</body>
+
+</html>

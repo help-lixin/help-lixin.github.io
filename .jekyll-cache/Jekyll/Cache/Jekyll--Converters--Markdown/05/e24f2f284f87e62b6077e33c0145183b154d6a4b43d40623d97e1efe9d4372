@@ -1,0 +1,12 @@
+I"<h3 id="1pomxml配置">(1).pom.xml配置</h3>
+<p>```
+&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>help.lixin</groupId>
+	<artifactId>springwebflux-demo</artifactId>
+	<packaging>jar</packaging>
+	<version>1.1.0</version>
+	<name>springwebflux ${project.version}</name>
+</project>
+:ET

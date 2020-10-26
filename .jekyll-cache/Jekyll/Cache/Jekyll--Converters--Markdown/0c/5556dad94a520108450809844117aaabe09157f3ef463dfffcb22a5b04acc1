@@ -1,0 +1,12 @@
+I"�<h3 id="1nioeventloopgroup继承关系图">(1).NioEventLoopGroup继承关系图</h3>
+<p><img src="/assets/netty/imgs/NioEventLoopGroup.png" alt="&quot;NioEventLoopGroup类图&quot;" /></p>
+<h3 id="2new-nioeventloopgroup">(2).new NioEventLoopGroup</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+</code></pre></div></div>
+<h3 id="3nioeventloopgroup-构造器">(3).NioEventLoopGroup 构造器</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public NioEventLoopGroup(int nThreads) {
+    // nThreads = 1
+    this(nThreads, (Executor) null);
+}
+</code></pre></div></div>
+:ET

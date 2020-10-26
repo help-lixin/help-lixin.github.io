@@ -1,0 +1,5 @@
+I"�<h3 id="1netty又是如何处理读写请求的呢">(1).Netty又是如何处理读写请求的呢?</h3>
+<blockquote>
+  <p>代码的入口在:ServerBootstrap$ServerBootstrapAcceptor.channelRead处.</p>
+</blockquote>
+:ET

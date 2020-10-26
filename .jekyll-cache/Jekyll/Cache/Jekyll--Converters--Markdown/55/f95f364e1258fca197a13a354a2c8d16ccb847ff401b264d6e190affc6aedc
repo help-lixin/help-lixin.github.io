@@ -1,0 +1,104 @@
+I"�<h3 id="1channelpipeline">(1).ChannelPipeline</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>说ChannelPipeline时,不得不说下以下几个接口:
+    io.netty.channel.ChannelPipeline 
+    io.netty.channel.ChannelHandlerContext 
+    io.netty.channel.ChannelHandler 
+    io.netty.channel.Channel
+</code></pre></div></div>
+
+<h3 id="2channelpipeline-接口声明">(2).ChannelPipeline 接口声明</h3>
+<p><img src="/assets/netty/imgs/ChannelPipeline.png" alt="&quot;ChannelPipeline接口声明&quot;" /></p>
+
+<h3 id="3channelhandlercontext接口详解">(3).ChannelHandlerContext接口详解</h3>
+<p><img src="/assets/netty/imgs/ChannelHandlerContext.png" alt="&quot;ChannelHandlerContext接口详解&quot;" /></p>
+
+<h3 id="4channelhandler接口详解">(4).ChannelHandler接口详解</h3>
+<p><img src="/assets/netty/imgs/ChannelHandler.png" alt="&quot;ChannelHandler接口详解&quot;" /></p>
+
+<h3 id="5channelpipelineaddlastxxx-流程图解">(5).ChannelPipeline.addLast(xxx) 流程图解</h3>
+<p><img src="/assets/netty/imgs/ChannelPipeline-addLast.png" alt="&quot;ChannelPipeline.addLast(xxx) 流程图解&quot;" /></p>
+
+<h3 id="6channelpipelineaddlastxxx">(6).ChannelPipeline.addLast(xxx)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class DefaultChannelPipeline implements ChannelPipeline {
+    private boolean registered;
+    
+    // 添加ChanndlHandler
+    public final ChannelPipeline addLast(ChannelHandler... handlers) {
+        return addLast(null, handlers);
+    } // end addLast
+    
+    public final ChannelPipeline addLast(EventExecutorGroup executor, ChannelHandler... handlers) {
+        ObjectUtil.checkNotNull(handlers, "handlers");
+
+        for (ChannelHandler h: handlers) {
+            if (h == null) {
+                break;
+            }
+            // addLast
+            addLast(executor, null, h);
+        }
+        return this;
+    } // end addLast
+    
+    public final ChannelPipeline addLast(EventExecutorGroup group, String name, ChannelHandler handler) {
+        final AbstractChannelHandlerContext newCtx;
+        synchronized (this) {
+            // 验证
+            checkMultiplicity(handler);
+
+            // 创建:DefaultChannelHandlerContext(包裹着channel/handler)
+            newCtx = newContext(group, filterName(name, handler), handler);
+
+            // 向链表的尾部加入上下文
+            addLast0(newCtx);
+
+            // !(false)
+            if (!registered) { 
+                // 为新创建的上下文设置状态为:ADD_PEDING
+                newCtx.setAddPending();
+                // 
+                callHandlerCallbackLater(newCtx, true);
+                // 直接return了
+                return this;
+            }
+
+            EventExecutor executor = newCtx.executor();
+            if (!executor.inEventLoop()) {
+                callHandlerAddedInEventLoop(newCtx, executor);
+                return this;
+            }
+        }
+        callHandlerAdded0(newCtx);
+        return this;
+    } // end addLast
+    
+    
+    private void callHandlerCallbackLater(AbstractChannelHandlerContext ctx, boolean added) {
+        assert !registered;
+        // added = true
+        // 创建:PendingHandlerAddedTask
+        PendingHandlerCallback task = added ? new PendingHandlerAddedTask(ctx) : new PendingHandlerRemovedTask(ctx);
+        PendingHandlerCallback pending = pendingHandlerCallbackHead;
+        if (pending == null) {
+            // 设置当前对象的属性:pendingHandlerCallbackHead为:PendingHandlerAddedTask
+            pendingHandlerCallbackHead = task;
+        } else {
+            while (pending.next != null) {
+                pending = pending.next;
+            }
+            pending.next = task;
+        }
+    }// end callHandlerCallbackLater
+    
+}
+</code></pre></div></div>
+
+<h3 id="7总结">(7).总结</h3>
+<p>ChannelPipeline.addLast()方法在执行时.</p>
+<ol>
+  <li>创建DefaultChannelHandlerContext包裹着:ChannelHandler</li>
+  <li>把DefaultChannelHandlerContext添加到链表的末端.</li>
+  <li>设置DefaultChannelHandlerContext状态为:ADD_PEDING</li>
+  <li>创建:PendingHandlerAddedTask任务.</li>
+</ol>
+:ET
