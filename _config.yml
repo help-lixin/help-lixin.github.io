@@ -1,7 +1,7 @@
 # Site settings 配置站点
 title: '李新的博客'
-description: '昵称码农，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。'
-keyword: '李新, 李新的独立博客, 李新的博客, 后端, 后端开发, Java'
+description: '昵称码农，热爱技术&喜欢探索源码。很高兴能在这里与你分享我对技术和生活的思考。'
+keyword: '李新, 李新的独立博客, 李新的博客, 后端, 后端开发, Java,源码探索者'
 url: 'http://www.lixin.help' # your host
 
 # when build blog on server, if you don't need baseurl, you should leave this value blank.
