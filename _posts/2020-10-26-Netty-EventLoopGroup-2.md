@@ -6,7 +6,7 @@ author: 李新
 tags: Netty
 ---
 
-### (1)NioEventLoopGroup继承关系图
+### (1).NioEventLoopGroup继承关系图
 !["NioEventLoopGroup类图"](/assets/netty/imgs/NioEventLoopGroup.png)
 ### (2).new NioEventLoopGroup
 ```
