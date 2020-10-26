@@ -3,7 +3,7 @@ layout: post
 title: 'Spring WebFlux Hello World(Function)'
 date: 2020-07-21
 author: 李新
-tags: Spring WebFlux
+tags: SpringWebFlux
 ---
 
 ### (1).pom.xml配置
