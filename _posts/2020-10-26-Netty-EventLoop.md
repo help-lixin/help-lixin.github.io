@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Netty源码学习(EventLoop)'
+title: 'Netty源码(EventLoop)'
 date: 2020-10-26
 author: 李新
 tags: Netty

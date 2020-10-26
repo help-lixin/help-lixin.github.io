@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Netty源码学习(EventLoop如何处理ACCEPT事件)'
+title: 'Netty源码(EventLoop如何处理ACCEPT事件)'
 date: 2020-10-26
 author: 李新
 tags: Netty

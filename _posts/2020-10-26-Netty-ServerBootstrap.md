@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Netty源码学习(ServerBootstrap)'
+title: 'Netty源码(ServerBootstrap)'
 date: 2020-10-26
 author: 李新
 tags: Netty
