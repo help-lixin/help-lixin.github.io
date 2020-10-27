@@ -29,15 +29,15 @@ import java.nio.channels.FileChannel;
 
 public class NIOFileChannelTest {
     public static void main(String[] args) throws Exception {
-        String outFileName = "/Users/xxx/Downloads/file01.txt";
-        
-        write(outFileName);
-        read(outFileName);
+        String sourceFileName = "/Users/xxx/Downloads/file01.txt";
+        write(sourceFileName);
+        read(sourceFileName);
 
         String targetFileName = "/Users/xxx/Downloads/file02.txt";
-        copyTo(outFileName,targetFileName);
+        copyTo(sourceFileName,targetFileName);
+
         // Channel之间直接传输文件
-        transferFrom(outFileName,targetFileName);
+        transferFrom(sourceFileName,targetFileName);
     }
 
     public static void transferFrom(String source,String target) throws Exception{
