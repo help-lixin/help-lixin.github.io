@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'JDK NIO Channel'
+title: 'JDK NIO FileChannel'
 date: 2018-06-20
 author: 李新
 tags: NIO
@@ -17,8 +17,6 @@ NIO的通道类似于流,但有些区别如下:
 
 ### (3). 案例
 ```
-package com.atguigu.nio2;
-
 import io.netty.buffer.ByteBufUtil;
 
 import java.io.FileInputStream;
