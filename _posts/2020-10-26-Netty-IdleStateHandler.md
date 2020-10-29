@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Netty源码学习(IdleStateHandler)'
+title: 'Netty源码(IdleStateHandler)'
 date: 2020-10-26
 author: 李新
 tags: Netty

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Netty源码学习(ChannelPipeline)'
+title: 'Netty源码(ChannelPipeline)'
 date: 2020-10-26
 author: 李新
 tags: Netty
