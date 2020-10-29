@@ -12,6 +12,7 @@ tags: NIO
 > 只有在连接真正有读写事件发生时,才会进行读写,大大地减少了系统开销,并且不必为每个连接创建一个线程,不用去维护多个线程.
 > 避免了多线程之间的上下文切换导致的开销.
 ### (2).Selector API
+
 ```
 public abstract class Selector implements Closeable {
 
@@ -29,8 +30,3 @@ public abstract class Selector implements Closeable {
     public abstract Set<SelectionKey> selectedKeys();
 }
 ```
-### (3).Selector
-
-### (4).Selector
-
-### (5).Selector
