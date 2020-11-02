@@ -279,4 +279,14 @@ object StreamWordCount {
 ```
 
 ### (8).流处理运行查看结果
+
 !["Flink流处理运行结果"](/assets/flink/imgs/flink-stream-wordcount.jpg)
+
+```
+3> (WORLD,1)
+4> (HELLO,1)
+2> (SCALA,1)
+4> (HELLO,2)
+1> (JAVA,1)
+4> (HELLO,3)
+```
