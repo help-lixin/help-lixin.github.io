@@ -215,7 +215,7 @@ lixin-macbook:~ lixin$ scala -version
 
 </project>
 ```
-### (4).WorkCount.scala
+### (4).批处理:WorkCount.scala
 ```
 
 import org.apache.flink.api.scala._
@@ -224,29 +224,59 @@ object WordCount {
   def main(args: Array[String]): Unit = {
     // 创建一个批处理执行环境
     val environment = ExecutionEnvironment.getExecutionEnvironment
-    val text = environment.fromElements(
+    val inputDataSet = environment.fromElements(
       "hello world",
       "hello scala",
       "hello eclipse"
     )
-    val counts = text.flatMap { _.toLowerCase.split(" ") }
+    val resultDataSet = inputDataSet.flatMap { _.toLowerCase.split(" ") }
       .map { (_, 1) }
       .groupBy(0)
       .sum(1)
-    counts.print()
+    resultDataSet.print()
   }
 }
 
 ```
-### (5).java.lang.ClassNotFoundException: org.apache.flink.api.scala.typeutils.CaseClassTypeInfo
+
+### (5).流处理
+```
+
+import org.apache.flink.streaming.api.scala._
+
+object StreamWordCount {
+  def main(args: Array[String]): Unit = {
+    // 创建流式执行上下文
+    val environment = StreamExecutionEnvironment.getExecutionEnvironment
+    // 接受一个Socket文本流
+    val inpuDataStream = environment.socketTextStream("localhost", 8888)
+    // 进行流处理
+    val resultDataStream = inpuDataStream.flatMap(x => x.toUpperCase.split(""))
+      .filter(_.nonEmpty)
+      .map((_, 1))
+      .keyBy(0)
+      .sum(1)
+    resultDataStream.print
+
+    // 启动任务执行
+    environment.execute("StreamWordCount");
+  }
+}
+
+```
+
+### (6).java.lang.ClassNotFoundException: org.apache.flink.api.scala.typeutils.CaseClassTypeInfo
 > 因为加入的依赖生命周期为:provided.
 
-!["org.apache.flink.api.scala.typeutils.CaseClassTypeInfo解决方案"](/assets/flink/imgs/flink-hello-world.jpg)
+!["org.apache.flink.api.scala.typeutils.CaseClassTypeInfo解决方案"](/assets/flink/imgs/flink-batch-wordcount-error.jpg)
 
-### (6).运行查看结果
+### (7).批处理运行查看结果
 ```
 (eclipse,1)
 (scala,1)
 (world,1)
 (hello,3)
 ```
+
+### (8).流处理运行查看结果
+!["Flink流处理运行结果"](/assets/flink/imgs/flink-stream-wordcount.jpg)
