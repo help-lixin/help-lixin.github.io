@@ -9,14 +9,14 @@ tags: Flink
 ### (1).JDK版本
 ```
 lixin-macbook:~ lixin$ java -version
-    java version "1.8.0_251"
-    Java(TM) SE Runtime Environment (build 1.8.0_251-b08)
-    Java HotSpot(TM) 64-Bit Server VM (build 25.251-b08, mixed mode)
+java version "1.8.0_251"
+Java(TM) SE Runtime Environment (build 1.8.0_251-b08)
+Java HotSpot(TM) 64-Bit Server VM (build 25.251-b08, mixed mode)
 ```
 ### (2).Scala版本
 ```
 lixin-macbook:~ lixin$ scala -version
-    Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
+Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
 ```
 ### (3).pom.xml配置
 ```
@@ -113,6 +113,7 @@ lixin-macbook:~ lixin$ scala -version
                     </execution>
                 </executions>
             </plugin>
+
             <!-- 打jar包插件(会包含所有依赖) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
