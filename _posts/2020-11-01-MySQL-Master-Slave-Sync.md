@@ -1,12 +1,36 @@
 ---
 layout: post
-title: 'MySQL主从同步'
+title: 'MySQL主从同步(Docker)'
 date: 2020-11-01
 author: 李新
 tags: MySQL
 ---
 
-### (1).机器配置和端口
+
+### (1).Docker创建容器
+> 基于mysql:5.7.9镜像,创建master容器 
+
+```
+docker run -p 3307:3306 --name master -v /Users/lixin/DockerWorkspace/mysql/master/conf:/etc/mysql/conf.d -v /Users/lixin/DockerWorkspace/mysql/master/logs:/var/log/mysql -v /Users/lixin/DockerWorkspace/mysql/master/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7.9
+```
+> 启动master容器
+
+```
+docsker start master
+```
+
+> 基于mysql:5.7.9镜像,创建slave容器,并**配置--link让两个容器可以通信**
+
+```
+docker run -p 3308:3306 --name slave  --link master  -v /Users/lixin/DockerWorkspace/mysql/slave/conf:/etc/mysql/conf.d -v /Users/lixin/DockerWorkspace/mysql/slave/logs:/var/log/mysql -v /Users/lixin/DockerWorkspace/mysql/slave/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7.9
+```
+
+> 启动slave容器
+
+```
+docsker start slave
+```
+### (2).机器配置和端口
 > IP端口以及描述
 
 |  IP        | 端口  | 描述  |
@@ -15,7 +39,9 @@ tags: MySQL
 | 172.17.0.3  | 3306 | Slave |
 
 ---
-### (2).Master配置(/etc/my.cnf)
+### (2).Master配置
+> /Users/lixin/DockerWorkspace/mysql/master/conf/my.cnf
+
 ```
 [mysqld]
 log-bin=master-bin
@@ -45,7 +71,9 @@ mysql> FLUSH PRIVILEGES;
     Query OK, 0 rows affected (0.01 sec)
 ```
 ---
-### (5).Slave配置(/etc/my.cnf)
+### (5).Slave配置
+> /Users/lixin/DockerWorkspace/mysql/slave/conf/my.cnf
+
 ```
 [mysqld]
 server-id = 2
@@ -53,10 +81,10 @@ relay-log-index = slave-relay-bin.index
 relay-log = slave-relay-bin
 ```
 ### (6).Slave命令配置
-> 在172.17.0.3的机器上,可尝试通过repl2账号登录,以测试能否登录成功(mysql -u repl2 -h 172.17.0.2 -p )
-> 同步后需要关注这两个状态
-> Slave_IO_Running: Yes
-> Slave_SQL_Running: Yes
+> 在172.17.0.3的机器上,可尝试通过repl2账号登录,以测试能否登录成功(mysql -u repl2 -h 172.17.0.2 -p )    
+> 同步后需要关注这两个状态:    
+> Slave_IO_Running: Yes    
+> Slave_SQL_Running: Yes    
 
 ```
 mysql> CHANGE MASTER TO MASTER_HOST='172.17.0.2',MASTER_USER='repl2',MASTER_PASSWORD='repl2',MASTER_PORT=3306,MASTER_LOG_FILE='master-bin.000001',MASTER_LOG_POS=1545;
