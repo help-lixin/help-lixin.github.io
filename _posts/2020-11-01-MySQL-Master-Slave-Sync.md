@@ -11,8 +11,8 @@ tags: MySQL
 
 |  IP        | 端口  | 描述  |
 |  ---       | ---  | ----  |
-| 172.17.0.2  | 3307 | <font color='red'>Master</font> |
-| 172.17.0.3  | 3308 | Slave |
+| 172.17.0.2  | 3306 | <font color='red'>Master</font> |
+| 172.17.0.3  | 3306 | Slave |
 
 ---
 ### (2).Master配置(/etc/my.cnf)
