@@ -1,24 +1,12 @@
 ---
 layout: post
-title: 'Flink WordCount'
+title: 'Flink学习 从Kafka读取数据'
 date: 2020-12-02
 author: 李新
 tags: Flink
 ---
 
-### (1).JDK版本
-```
-lixin-macbook:~ lixin$ java -version
-java version "1.8.0_251"
-Java(TM) SE Runtime Environment (build 1.8.0_251-b08)
-Java HotSpot(TM) 64-Bit Server VM (build 25.251-b08, mixed mode)
-```
-### (2).Scala版本
-```
-lixin-macbook:~ lixin$ scala -version
-Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
-```
-### (3).pom.xml配置
+### (1).pom.xml配置
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -47,14 +35,16 @@ Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
             <artifactId>flink-streaming-scala_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-clients_${scala.binary.version}</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
+        <!-- 添加kafka支持 -->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka-0.11_2.12</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-clients_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
         <dependency>
@@ -147,80 +137,40 @@ Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
             </plugin>
         </plugins>
     </build>
+
 </project>
 ```
-### (4).批处理:WorkCount.scala
+### (2).读取Kafka示例
 ```
-
-import org.apache.flink.api.scala._
-
-object WordCount {
-  def main(args: Array[String]): Unit = {
-    // 创建一个批处理执行环境
-    val environment = ExecutionEnvironment.getExecutionEnvironment
-    val inputDataSet = environment.fromElements(
-      "hello world",
-      "hello scala",
-      "hello eclipse"
-    )
-    val resultDataSet = inputDataSet.flatMap { _.toLowerCase.split(" ") }
-      .map { (_, 1) }
-      .groupBy(0)
-      .sum(1)
-    resultDataSet.print()
-  }
-}
-
-```
-
-### (5).流处理
-```
-
+import java.util.Properties
 import org.apache.flink.streaming.api.scala._
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011
+import org.apache.flink.api.common.serialization.SimpleStringSchema
 
-object StreamWordCount {
+
+object SourceKafkaTest {
   def main(args: Array[String]): Unit = {
-    // 创建流式执行上下文
-    val environment = StreamExecutionEnvironment.getExecutionEnvironment
-    // 接受一个Socket文本流
-    val inpuDataStream = environment.socketTextStream("localhost", 8888)
-    // 进行流处理
-    val resultDataStream = inpuDataStream.flatMap(x => x.toUpperCase.split(""))
-      .filter(_.nonEmpty)
-      .map((_, 1))
-      .keyBy(0)
-      .sum(1)
-    resultDataStream.print
+    val env = StreamExecutionEnvironment.getExecutionEnvironment
 
-    // 启动任务执行
-    environment.execute("StreamWordCount");
+    // kafka配置
+    var topic = "test"
+    var valueDeserializer = new SimpleStringSchema()
+    var props = new Properties()
+    props.setProperty("bootstrap.servers", "localhost:9092")
+    props.setProperty("group.id", "test")
+
+    val kafkaSource = new FlinkKafkaConsumer011[String](topic, valueDeserializer, props)
+    val inputStream = env.addSource(kafkaSource)
+    inputStream.print()
+    env.execute("kafka Stream process")
   }
 }
+```
+### (3).启动ZK(略)
+### (4).启动Kafka(略)
+### (5).创建生产者和topic
+> 通过创建的Producer发送数据
 
 ```
-
-### (6).java.lang.ClassNotFoundException: org.apache.flink.api.scala.typeutils.CaseClassTypeInfo
-> 因为加入的依赖生命周期为:provided.
-
-!["org.apache.flink.api.scala.typeutils.CaseClassTypeInfo解决方案"](/assets/flink/imgs/flink-batch-wordcount-error.jpg)
-
-### (7).批处理运行查看结果
-```
-(eclipse,1)
-(scala,1)
-(world,1)
-(hello,3)
-```
-
-### (8).流处理运行查看结果
-
-!["Flink流处理运行结果"](/assets/flink/imgs/flink-stream-wordcount.jpg)
-
-```
-3> (WORLD,1)
-4> (HELLO,1)
-2> (SCALA,1)
-4> (HELLO,2)
-1> (JAVA,1)
-4> (HELLO,3)
+/Users/lixin/Developer/kafka-cluster/kafka_2.12-0.11.0.3-1/bin/kafka-console-producer.sh  --broker-list localhost:9092 --topic test
 ```
