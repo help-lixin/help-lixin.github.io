@@ -3,7 +3,7 @@ layout: post
 title: 'MySQL主从同步(Docker)'
 date: 2020-11-01
 author: 李新
-tags: MySQL
+tags: MySQL Docker
 ---
 
 
