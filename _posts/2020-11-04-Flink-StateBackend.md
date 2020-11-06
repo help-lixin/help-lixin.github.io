@@ -83,7 +83,8 @@ object StateFileStoreTest {
 ```
 
 ### (7). 查看保存内容
-!["Flink CheckPoint保存点"](assets/flink/imgs/flink-savepoint.jpg)
+
+!["Flink CheckPoint保存点"](/assets/flink/imgs/flink-savepoint.jpg)
 
 ### (8). 测试流程
 > 启动Flink 
