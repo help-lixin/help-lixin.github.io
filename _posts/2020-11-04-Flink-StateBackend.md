@@ -87,9 +87,9 @@ object StateFileStoreTest {
 !["Flink CheckPoint保存点"](/assets/flink/imgs/flink-savepoint.jpg)
 
 ### (8). 测试流程
-> 启动Flink 
-> 启动nc(nc -lk 7000)
-> 向Flink提交任务  
-> nc添加数据 
-> 停止任务
-> 重新提交任务并指定savepoint(/Users/lixin/IDEAWorkspace/flink-example/flink-wordcount/target/checkpoint/checkpoint/95ddab2699f4573944174dade0f10acc/chk-6)
+> 1. 启动Flink   
+> 2. 启动nc(nc -lk 7000)  
+> 3. 向Flink提交任务    
+> 4. nc添加数据   
+> 5. 停止任务  
+> 6. 重新提交任务并指定savepoint(/Users/lixin/IDEAWorkspace/flink-example/flink-wordcount/target/checkpoint/checkpoint/95ddab2699f4573944174dade0f10acc/chk-6)
