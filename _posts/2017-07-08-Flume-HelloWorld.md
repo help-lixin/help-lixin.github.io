@@ -41,6 +41,8 @@ a1.sinks.k1.channel = c1
 ### (4). 启动agent
 ```
 ./bin/flume-ng agent --name a1  --conf conf  --conf-file ./works/netcat-flume-logger.conf -Dflume.root.logger=INFO,console
+
+# ./bin/flume-ng agent -n a1 -c conf -f ./works/netcat-flume-logger.conf -Dflume.root.logger=INFO,console
 ```
 
 >   --name         : 指定agent名称    
@@ -52,6 +54,3 @@ a1.sinks.k1.channel = c1
 ### (5). NC测试
 !["NC连接到Flume"](/assets/flume/imgs/nc-connect-flume.jpg)
 !["Flume事件日志"](/assets/flume/imgs/flume-agent-event-log.png)
-
-
-
