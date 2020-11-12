@@ -9,6 +9,7 @@ tags: Flume
 ### (1). 监控多个目录或文件,并能实现断点续传功能
 > 1. 监控多个目录    
 > 2. 断点续传(exec不支持)
+
 ### (2). 创建配置(taildir-flume-file.conf)
 ```
 a1.sources = r1
