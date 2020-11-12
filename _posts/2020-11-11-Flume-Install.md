@@ -8,7 +8,9 @@ tags: Flume
 
 ### (1). 下载Flume
 > 省略,自行去官网下载(http://archive.apache.org/dist/flume)
+
 ### (2). Flume目录结构
+
 ```
 lixin-macbook:apache-flume-1.8.0-bin lixin$ pwd
 /Users/lixin/Developer/apache-flume-1.8.0-bin
@@ -27,6 +29,7 @@ lixin-macbook:apache-flume-1.8.0-bin lixin$ tree
 ├── lib
 │   ├── ...
 ```
+
 ### (3). 重命名环境变量和配置文件
 ```
 lixin-macbook:apache-flume-1.8.0-bin lixin$ mv conf/flume-env.sh.template conf/flume-env.sh
