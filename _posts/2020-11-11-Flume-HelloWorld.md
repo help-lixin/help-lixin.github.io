@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Flume Hello World'
+title: 'Flume NetCat'
 date: 2020-11-11
 author: 李新
 tags: Flume
