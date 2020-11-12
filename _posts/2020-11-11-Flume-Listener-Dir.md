@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Flume SpoolDir'
-date: 2020-11-12
+date: 2020-11-11
 author: 李新
 tags: Flume
 ---
