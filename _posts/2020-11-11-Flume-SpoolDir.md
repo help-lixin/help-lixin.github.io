@@ -9,6 +9,7 @@ tags: Flume
 ### (1). 监控某个目录,并输出结果到文件中
 > 1. 监控目录
 > 2. 输出到某个文件中
+
 ### (2). 创建Flume配置(dir-flume-file.conf)
 ```
 a1.sources = r1
