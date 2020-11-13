@@ -1,13 +1,13 @@
 ---
 layout: post
-title: 'Flume Multiplexing Flow'
+title: 'Flume Replicating Channel Selector'
 date: 2020-11-11
 author: 李新
 tags: Flume
 ---
 
 ### (1). 业务需求
-> Flum1 收集数据 传输给 Flum2 和 Flum3  
+> Flum1 收集数据 传输给 Flum2 和 Flum3,要求:<font color='red'>Flum2和Flum3的数据一模一样.</font>
 
 !["Flume 单数据源多出口"](/assets/flume/imgs/flume-multiplexing-flow.jpg)
 
