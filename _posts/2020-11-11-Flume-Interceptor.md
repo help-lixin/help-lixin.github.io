@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Flume Interceptor'
+title: 'Flume 自定义Interceptor'
 date: 2020-11-11
 author: 李新
 tags: Flume

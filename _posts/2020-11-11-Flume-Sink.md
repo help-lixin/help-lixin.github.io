@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Flume Sink'
+title: 'Flume 自定义Sink'
 date: 2020-11-11
 author: 李新
 tags: Flume
