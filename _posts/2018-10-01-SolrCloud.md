@@ -10,7 +10,7 @@ tags: Solr
 
  > 请自行参考(https://www.lixin.help/2018/10/01/Solr-Tomcat-Integration.html)  
 
-### (2). Tomcat与SolrCloud规划
+### (2). SolrCloud规划
 
 Tomcat名称 | 端口信息 | SOLR-HOME
 - | :-: | :-: |
@@ -19,7 +19,7 @@ apache-tomcat-8.5.54-2 | 7005/<font color='red'>7070</font>/7443   |  solr_home2
 apache-tomcat-8.5.54-3 | 6005/<font color='red'>6060</font>/6443   |  solr_home3
 apache-tomcat-8.5.54-4 | 5005/<font color='red'>5050</font>/5443   |  solr_home4
 
-### (3). Clone单机Solr和Tomcat
+### (3). 克隆单机Solr(Tomcat)
 
 ```
 # 当前工作目录
@@ -48,7 +48,7 @@ lixin-macbook:solr lixin$ cp -rf solr_home solr_home4
 
 > 省略
 
-### (5). 修改所有web.xml
+### (5). 修改所有Tomcat的web.xml
 
 > <font color='red'>apache-tomcat-8.5.54</font>   
 
@@ -94,7 +94,8 @@ lixin-macbook:solr lixin$ cp -rf solr_home solr_home4
 
 > 省略(**发现ZK必须要有三台,否则有节点启动无法提供服务**)  
 
-### (7). 配置所有SOLR-HOME/solr.xml与Tomcat端口关联
+### (7). 配置所有SOLR-HOME/solr.xml
+>  把solr.xml与IP和端口做映射配置  
 
 > <font color='red'>apache-tomcat-8.5.54</font>  
 
@@ -146,7 +147,7 @@ lixin-macbook:solr lixin$ cp -rf solr_home solr_home4
 ```
 ### (9). Tomcat关联Zookeeper
 
-> 修改所有的Tomcat目录下的catalina.sh文件.
+> 修改所有的Tomcat目录下的catalina.sh文件.添加如下内容:  
 
 ```
 JAVA_OPTS="-DzkHost=127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183"
