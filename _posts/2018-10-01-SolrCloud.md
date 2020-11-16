@@ -92,7 +92,7 @@ lixin-macbook:solr lixin$ cp -rf solr_home solr_home4
 
 ### (6). Zookeeper搭建
 
-> 省略(我使用的是单机版)
+> 省略(**发现ZK必须要有三台,否则有节点启动无法提供服务**)  
 
 ### (7). 配置所有SOLR-HOME/solr.xml与Tomcat端口关联
 
