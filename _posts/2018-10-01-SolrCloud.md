@@ -145,7 +145,7 @@ lixin-macbook:solr lixin$ cp -rf solr_home solr_home4
 [zk: localhost:2181(CONNECTED) 14] ls /configs 
 [solrconf]
 ```
-### (9). Tomcat关联Zookeeper
+### (9). Tomcat配置Zookeeper
 
 > 修改所有的Tomcat目录下的catalina.sh文件.添加如下内容:  
 
