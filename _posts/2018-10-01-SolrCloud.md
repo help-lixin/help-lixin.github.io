@@ -224,8 +224,7 @@ lixin-macbook:solr lixin$ ./solr-7.7.3/server/scripts/cloud-scripts/zkcli.sh -zk
 
 !["SolrColud IK分词器测试"](/assets/solr/imgs/solr-ik-analysis.png)
 
-
-### SolrJ操作SolrCloud案例
+### (14). SolrJ操作SolrCloud案例
 
 ```
 package help.lixin.solrj;
@@ -265,3 +264,6 @@ public class SaveOrUpdateTest {
 }
 
 ```
+
+### (15). 查看结果
+!["SolrJ SolrColud Api"](/assets/solr/imgs/solrj-solrcolud-api.jpg)
