@@ -223,3 +223,45 @@ lixin-macbook:solr lixin$ ./solr-7.7.3/server/scripts/cloud-scripts/zkcli.sh -zk
 ### (13). 测试IK分词器
 
 !["SolrColud IK分词器测试"](/assets/solr/imgs/solr-ik-analysis.png)
+
+
+### SolrJ操作SolrCloud案例
+
+```
+package help.lixin.solrj;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.client.solrj.response.UpdateResponse;
+
+import help.lixin.solrj.pojo.Product;
+
+public class SaveOrUpdateTest {
+	public static void main(String[] args) throws IOException, SolrServerException {
+		List<String> zkHost = new ArrayList<String>(3);
+		zkHost.add("127.0.0.1:2181");
+		zkHost.add("127.0.0.1:2182");
+		zkHost.add("127.0.0.1:2183");
+        // 需要注意:必须填两个参数,否则,ZKHost变成了HttpHost
+		CloudSolrClient client = new CloudSolrClient.Builder(zkHost,Optional.empty()).build();
+		client.setDefaultCollection("product");
+		
+		Product product = new Product();
+		product.setPid("999999");
+		product.setName("后台测试");
+		product.setCatalogName("测试");
+		product.setDescription("后台测试描述2222");
+		product.setPicture("test.png");
+		product.setPrice(10.09D);
+		UpdateResponse response = client.addBean(product);
+		client.commit();
+		client.close();
+	}
+}
+
+```
