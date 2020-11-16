@@ -154,18 +154,8 @@ JAVA_OPTS="-DzkHost=127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183"
 ### (10). 创建Collection
 > 添加Collection  
 
-!["添加Collection"](/assets/solr/imgs/solr-add-collection.jpg)
+!["Add Collection"](/assets/solr/imgs/solr-add-collection.jpg)
 
-!["添加Collection结果"](/assets/solr/imgs/solr-add-collection-result.png)
+!["Add Collection Result"](/assets/solr/imgs/solr-add-collection-result.png)
 
-### (11). 
-### (12). 
-### (13). 
-### (14). 
-### (15). 
-### (16). 
-### (17). 
-### (18). 
-### (19).
-### (20).  
-
+!["SolrCloud Graph"](/assets/solr/imgs/solrcloud-graph.png)
