@@ -214,5 +214,30 @@ public class HdfsTest {
 
         System.out.println("copy remote file to local success");
     }
+
+    // 测试文件拷贝之前,先修改权限:  
+    // hdfs dfs -chmod 600 /logs/SogouQ2.txt
+    @Test
+    public void testPermission() throws  Exception {
+        FileSystem fileSystem2 = FileSystem.get(
+                // HDFS URL
+                new URI("hdfs://localhost:9000"),
+                // Configuration
+                new Configuration(),
+                // ********************执行任务时,可以模拟哪个用户去运行*****************
+                "test");
+
+        Path src = new Path("/logs/SogouQ2.txt");
+        // 打开文件并转换成流
+        FSDataInputStream dataInputStream = fileSystem2.open(src);
+        // 抛出如下异常
+        // org.apache.hadoop.security.AccessControlException: Permission denied: user=test, access=READ, inode="/logs/SogouQ2.txt":lixin:supergroup:-rw-------
+        FileOutputStream outputStream = new FileOutputStream(new File("/Users/lixin/IDEAWorkspace/hadoop-example/target/SogouQ4.txt"));
+
+        IOUtils.copy(dataInputStream, outputStream);
+        IOUtils.closeQuietly(dataInputStream);
+        IOUtils.closeQuietly(outputStream);
+        System.out.println("test testPermission copy remote file to local success");
+    }
 }
 ```
