@@ -7,7 +7,7 @@ tags: Canal
 ---
 
 ### (1). Canal Server机器信息
-> 我这里是**伪集群配置**  
+> 我这里是**对Canal Server进行伪集群配置**  
 
 > 可参考(https://github.com/alibaba/canal/wiki/AdminGuide)  
 

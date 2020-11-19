@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Canal Client'
+title: 'Canal Client消费案例'
 date: 2019-10-01
 author: 李新
 tags: Canal
@@ -148,65 +148,6 @@ public class CanalClient {
 // INSERT INTO user(nick,phone,password,email,account) VALUES('王五','12345678','12345678','123@126.com','super-admin');
 
 // UPDATE user SET password = '88888888' WHERE account = 'super-admin';
-// 
-class UserDTO implements Serializable {
-	private static final long serialVersionUID = -7486086785079929643L;
-	private Long id;
-	private String nick;
-	private String phone;
-	private String password;
-	private String email;
-	private String account;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNick() {
-		return nick;
-	}
-
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getAccount() {
-		return account;
-	}
-
-	public void setAccount(String account) {
-		this.account = account;
-	}
-}
-
 ```
 ### (3). 总结
 > 1. 连接到CanalServer
