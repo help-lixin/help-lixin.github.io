@@ -111,7 +111,6 @@ public class CanalStarter {
 ### (2). 总结
 > 1. 创建CanalController.start()方法
 > 2. 创建CanalAdminWithNetty,端口为:11110
-> 3. 留个疑问,为什么启动两个端口:<font color='red'>11112/1111/11110</font>
 
 
 ```
