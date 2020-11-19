@@ -300,7 +300,13 @@ canal.mq.kafka.kerberos.enable = false
 canal.mq.kafka.kerberos.krb5FilePath = "../conf/kerberos/krb5.conf"
 canal.mq.kafka.kerberos.jaasFilePath = "../conf/kerberos/jaas.conf"
 ```
-### (6). 总结
+
+### (6). UML图
+
+!["CanalLauncher流程图"](/assets/canal/imgs/canal-canallauncher-start.jpg)
+
+### (7). 总结
 > 1. CanalLauncher启动时会加载配置文件(CANAL_OPTS="-Dcanal.conf=/Users/lixin/Developer/canal-server/bin/../conf/canal.properties")canal.properties.
 > 2. 创建:CanalStarter
 > 3. 调用:CanalStarter.start方法
+

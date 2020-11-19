@@ -564,7 +564,18 @@ private void initCid(String path) {
     }
 }// end initCid
 ```
-### (3). 总结
+
+### (3). UML图解:CanalController创建过程
+> 由于Mac一直没有找到合适的UML工具,暂时使用(UMLet)  
+
+!["CanalController构造器"](/assets/canal/imgs/canal-controller-initGlobalConfig.jpg)
+!["CanalController构造器"](/assets/canal/imgs/canal-controller-netty-init.jpg)
+!["CanalController构造器"](/assets/canal/imgs/canal-controller-running-monitors.jpg)
+
+CanalController构造器初始化过程UML文件: 
+["CanalController构造器初始化过程UML"](/assets/uml/canal/canal-controller-init.uxf)
+
+### (4). 总结
 ---
 
 > 构造器总结   
