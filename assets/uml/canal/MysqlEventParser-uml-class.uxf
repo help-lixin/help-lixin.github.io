@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>140</x>
+      <y>400</y>
+      <w>380</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>MysqlEventParser
+fontsize=18
+fg=orange
+--
+masterInfo:AuthenticationInfo
+standbyInfo:AuthenticationInfo
+runningInfo:AuthenticationInfo
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>140</x>
+      <y>330</y>
+      <w>380</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>/AbstractMysqlEventParser/
+fontsize=18
+fg=orange
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>140</x>
+      <y>250</y>
+      <w>380</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>/AbstractEventParser/
+fontsize=18
+fg=orange
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>460</x>
+      <y>0</y>
+      <w>140</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>CanalEventParser
+fontsize=15
+fg=blue
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>320</x>
+      <y>370</y>
+      <w>30</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>320</x>
+      <y>290</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>140</x>
+      <y>190</y>
+      <w>380</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>/AbstractCanalLifeCycle/
+fontsize=15
+fg=red
+--
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>320</x>
+      <y>220</y>
+      <w>30</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>220</x>
+      <y>0</y>
+      <w>140</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>CanalLifeCycle
+fontsize=15
+fg=red
+--
+void start()
+void stop()
+boolean isStart()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>300</x>
+      <y>110</y>
+      <w>30</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>60</y>
+      <w>100</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>80.0;10.0;80.0;220.0;10.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>10</y>
+      <w>250</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>570</x>
+      <y>0</y>
+      <w>280</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>CanalEventParser居然没有任何的方法.
+bg=blue
+fontsize=15
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>650</y>
+      <w>270</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>fontsize=15
+AuthenticationInfo
+--
+address:InetSocketAddress
+username:String
+password:String
+defaultDatabaseName:String
+pwdPublicKey:String
+enableDruid:false
+
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>70</x>
+      <y>560</y>
+      <w>250</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>AuthenticationInfo代表:数据库信息.
+它解析如下配置,并转换成该模型:
+  canal.instance.master.address
+  canal.instance.dbUsername
+  canal.instance.dbPassword
+fontsize=15
+bg=red
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

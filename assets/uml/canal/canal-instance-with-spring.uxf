@@ -1,0 +1,51 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><element><id>UMLInterface</id><coordinates><x>540</x><y>3</y><w>120</w><h>130</h></coordinates><panel_attributes>CanalLifeCycle
+fontsize=15
+--
+start()
+stop()
+isStart()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>760</x><y>173</y><w>180</w><h>150</h></coordinates><panel_attributes>/AbstractCanalLifeCycle/
+fontsize=15
+--
+isStart()
+start()
+stop()
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLInterface</id><coordinates><x>200</x><y>123</y><w>360</w><h>240</h></coordinates><panel_attributes>CanalInstance
+fontsize=15
+bg=red
+--
+String getDestination()
+CanalEventParser getEventParser()
+CanalEventSink getEventSink()
+CanalEventStore getEventStore()
+CanalMetaManager getMetaManager()
+CanalAlarmHandler getAlarmHandler()
+boolean subscribeChange(ClientIdentity identity)
+CanalMQConfig getMqConfig()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>370</x><y>73</y><w>200</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>180;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>640</x><y>74</y><w>230</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;210;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>420</x><y>373</y><w>400</w><h>90</h></coordinates><panel_attributes>/AbstractCanalInstance/
+fontsize=15
+bg=blue
+--
+beforeStopEventParser(CanalEventParser eventParser)
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>680</x><y>313</y><w>100</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>80;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>490</x><y>313</y><w>60</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;40;60</additional_attributes></element><element><id>UMLClass</id><coordinates><x>420</x><y>496</y><w>400</w><h>50</h></coordinates><panel_attributes>CanalInstanceWithSpring
+fontsize=15
+bg=blue
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>610</x><y>448</y><w>30</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;50</additional_attributes></element><element><id>UMLNote</id><coordinates><x>30</x><y>369</y><w>370</w><h>170</h></coordinates><panel_attributes>CanalInstance:
+1. 每一个实例(example)对应一个CanalInstance对象.
+2. 从接口定义来看,它聚合了如下类,也就是说具有如下
+类的功能(需要结合Canal架构图):
+   CanalEventParser     -&gt; 事件解析
+   CanalEventSink        -&gt; 事件加工/过滤/分发
+   CanalEventStore      -&gt; 事件存储
+   CalanMetaManager  -&gt; 元数据管理
+bg=pink
+fontsize=15
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>760</x><y>19</y><w>230</w><h>90</h></coordinates><panel_attributes>CanalLifeCycle:
+    定义Canal的生命周期
+AbstractCanalLifeCycle:
+    定义Canal生命周期的实现
+bg=pink
+fontsize=15
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>

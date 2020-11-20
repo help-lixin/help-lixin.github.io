@@ -588,10 +588,7 @@ private void initCid(String path) {
 
 
 ### (4). UML图解:CanalController start过程
-!["CanalController start"](/assets/canal/imgs/canal-controller-start1.jpg)
-!["CanalController start"](/assets/canal/imgs/canal-controller-start2.jpg)
-!["CanalController start"](/assets/canal/imgs/canal-controller-start3.jpg)
-!["CanalController start"](/assets/canal/imgs/canal-controller-start4.jpg)
+!["CanalController start"](/assets/canal/imgs/canal-controller-start.jpg)
 
 ["CanalController.start过程UML文件下载"](/assets/uml/canal/canal-controller-start.uxf)
 
