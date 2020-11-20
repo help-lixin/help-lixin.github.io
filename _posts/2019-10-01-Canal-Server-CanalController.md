@@ -288,14 +288,18 @@ public class CanalController {
                 }
             };
 
+            // ***************************************************
+            // 根据模式(Spring/Manger)创建相应的配置文件监听器
+            // 实际就是定时任务去扫描配置文件.
             instanceConfigMonitors = MigrateMap.makeComputingMap(new Function<InstanceMode, InstanceConfigMonitor>() {
 
                 public InstanceConfigMonitor apply(InstanceMode mode) {
+                    // scanInterval = 5 
                     int scanInterval = Integer.valueOf(getProperty(properties,
                         CanalConstants.CANAL_AUTO_SCAN_INTERVAL,
                         "5"));
 
-                    if (mode.isSpring()) {
+                    if (mode.isSpring()) {// true
                         SpringInstanceConfigMonitor monitor = new SpringInstanceConfigMonitor();
                         monitor.setScanIntervalInSecond(scanInterval);
                         monitor.setDefaultAction(defaultAction);
@@ -506,7 +510,7 @@ public void start() throws Throwable {
     embededCanalServer.start();
 
     // 尝试启动一下非lazy状态的通道
-    // 遍历所有的实例配置信息
+    // 遍历所有的实例("example")配置信息
     // key=example   value:InstanceConfig
     for (Map.Entry<String, InstanceConfig> entry : instanceConfigs.entrySet()) {
         // destination = example
@@ -524,13 +528,19 @@ public void start() throws Throwable {
             }
         }
 
-        if (autoScan) {
+        // 是否开启了配置自动扫描
+        if (autoScan) { //true
+            // instanceConfigMonitors(Map)在CanalController类的(290行)中定义了
+            // 创建配置(SpringInstanceConfigMonitor)监听器(指定监听目录和文件等信息)
+            // 并注册实例(example)对应的动作(action)
             instanceConfigMonitors.get(config.getMode()).register(destination, defaultAction);
         }
     }
 
-    if (autoScan) {
+    if (autoScan) { //true
+        // 获取配置监听器(SpringInstanceConfigMonitor)启动
         instanceConfigMonitors.get(globalInstanceConfig.getMode()).start();
+        // 
         for (InstanceConfigMonitor monitor : instanceConfigMonitors.values()) {
             if (!monitor.isStart()) {
                 monitor.start();
@@ -573,12 +583,17 @@ private void initCid(String path) {
 !["CanalController构造器"](/assets/canal/imgs/canal-controller-netty-init-2.jpg)
 !["CanalController构造器"](/assets/canal/imgs/canal-controller-running-monitors.jpg)
 
-CanalController构造器初始化过程UML文件: 
-["CanalController构造器初始化过程UML"](/assets/uml/canal/canal-controller-init.uxf)
+
+["CanalController构造器初始化过程UML文件下载"](/assets/uml/canal/canal-controller-init.uxf)
 
 
 ### (4). UML图解:CanalController start过程
+!["CanalController start"](/assets/canal/imgs/canal-controller-start1.jpg)
+!["CanalController start"](/assets/canal/imgs/canal-controller-start2.jpg)
+!["CanalController start"](/assets/canal/imgs/canal-controller-start3.jpg)
+!["CanalController start"](/assets/canal/imgs/canal-controller-start4.jpg)
 
+["CanalController.start过程UML文件下载"](/assets/uml/canal/canal-controller-start.uxf)
 
 ### (5). 总结
 ---
