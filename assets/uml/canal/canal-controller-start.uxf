@@ -1,0 +1,88 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLGeneric</id><coordinates><x>10</x><y>0</y><w>100</w><h>30</h></coordinates><panel_attributes>CanalController
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>890</x><y>50</y><w>30</w><h>30</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>50</x><y>80</y><w>430</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+start
+bg=red</panel_attributes><additional_attributes>10;20;410;20</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>40</x><y>60</y><w>20</w><h>220</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>400</x><y>0</y><w>160</w><h>30</h></coordinates><panel_attributes>CanalServerWithEmbedded
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>460</x><y>20</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>460</x><y>60</y><w>20</w><h>230</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>0</x><y>331</y><w>100</w><h>30</h></coordinates><panel_attributes>CanalController
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>40</x><y>351</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>40</x><y>391</y><w>20</w><h>650</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>50</x><y>481</y><w>460</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+isStart
+bg=red</panel_attributes><additional_attributes>10;19;440;20</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>40</x><y>1783</y><w>100</w><h>30</h></coordinates><panel_attributes>CanalController
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>80</x><y>1803</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>80</x><y>1843</y><w>20</w><h>170</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>1863</y><w>240</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+start
+bg=red</panel_attributes><additional_attributes>10;20;220;20</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>40</x><y>1495</y><w>100</w><h>30</h></coordinates><panel_attributes>CanalController
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>80</x><y>1515</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>80</x><y>1555</y><w>20</w><h>170</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>1575</y><w>240</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+start
+bg=red</panel_attributes><additional_attributes>10;20;220;20</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>580</x><y>0</y><w>160</w><h>30</h></coordinates><panel_attributes>PrometheusService
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>660</x><y>20</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>660</x><y>60</y><w>20</w><h>170</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>473</x><y>130</y><w>210</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+loadCanalMetrics()</panel_attributes><additional_attributes>190;20;10;20</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>790</x><y>0</y><w>170</w><h>30</h></coordinates><panel_attributes>Map&lt;String, CanalInstance&gt;
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>872</x><y>60</y><w>20</w><h>210</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>872</x><y>20</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>Relation</id><coordinates><x>472</x><y>230</y><w>420</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+canalInstances = MigrateMap.makeComputingMap(...)</panel_attributes><additional_attributes>400;20;10;20</additional_attributes></element><element><id>UMLNote</id><coordinates><x>72</x><y>570</y><w>640</w><h>170</h></coordinates><panel_attributes>1. CanalController解析配置(canal.destinations=example)
+2. 遍历所有的destinations,判断在:CanalServerWithEmbedded中是否初始化过.
+3. 根据实例名称,获取:ServerRunningMonitor(触发细节)
+  3.1  利用了Google的Map
+  3.2 会延迟触发apply("example")方法
+  3.3 该方法内部会创建:ServerRunningMonitor,并为它设置监听器(ServerRunningListener)
+  3.4 调用ServerRunningMonitor.init(),会委派给:ServerRunningListener.processStart()方法
+4. 返回:ServerRunningMonitor
+
+bg=pink
+fontsize=15
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>40</x><y>20</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>420</x><y>340</y><w>160</w><h>30</h></coordinates><panel_attributes>CanalServerWithEmbedded
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>490</x><y>365</y><w>30</w><h>50</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;30</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>490</x><y>395</y><w>20</w><h>650</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>82</x><y>120</y><w>350</w><h>140</h></coordinates><panel_attributes>CanalServerWithEmbedded:
+1. 通过SPI,获得:PrometheusService(健康管理)
+2. 实例化属性:canalInstances
+    (Map&lt;String, CanalInstance&gt;)
+3. 注意:canalInstances是一个Map,
+   只有在获取时才会触发相应的函数处理.
+
+bg=pink
+fontsize=15
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>655</x><y>335</y><w>150</w><h>30</h></coordinates><panel_attributes>ServerRunningMonitors
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>725</x><y>355</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>730</x><y>395</y><w>20</w><h>650</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>50</x><y>541</y><w>700</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+getRunningMonitor("example")
+bg=red</panel_attributes><additional_attributes>10;19;680;20</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>835</x><y>335</y><w>150</w><h>30</h></coordinates><panel_attributes>MapMaker
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>895</x><y>355</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>900</x><y>395</y><w>20</w><h>650</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>740</x><y>561</y><w>180</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+get("example")
+bg=red</panel_attributes><additional_attributes>10;19;160;20</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>1095</x><y>335</y><w>150</w><h>30</h></coordinates><panel_attributes>ServerRunningMonitor
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1175</x><y>355</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>1180</x><y>395</y><w>20</w><h>650</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>910</x><y>581</y><w>200</w><h>160</h></coordinates><panel_attributes>lt=-&gt;&gt;
+1. apply("example")
+bg=red</panel_attributes><additional_attributes>10;19;80;20;80;140;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>980</x><y>601</y><w>220</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+2. new
+bg=red</panel_attributes><additional_attributes>10;19;200;20</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>1345</x><y>335</y><w>150</w><h>30</h></coordinates><panel_attributes>ServerRunningListener
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1405</x><y>355</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>1410</x><y>395</y><w>20</w><h>650</h></coordinates><panel_attributes>
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1190</x><y>621</y><w>240</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+3. new
+bg=red</panel_attributes><additional_attributes>10;19;220;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1190</x><y>641</y><w>240</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+4. ServerRunningListener
+bg=red</panel_attributes><additional_attributes>220;19;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1190</x><y>661</y><w>170</w><h>70</h></coordinates><panel_attributes>lt=-&gt;&gt;
+5.setListener
+bg=red</panel_attributes><additional_attributes>10;19;80;20;80;50;10;50</additional_attributes></element><element><id>Relation</id><coordinates><x>910</x><y>801</y><w>290</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+8. ServerRunningMonitor
+bg=red</panel_attributes><additional_attributes>270;19;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1190</x><y>731</y><w>130</w><h>90</h></coordinates><panel_attributes>lt=-&gt;&gt;
+6.init
+bg=red</panel_attributes><additional_attributes>10;19;80;20;80;70;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>1260</x><y>781</y><w>170</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+7. processStart
+bg=red</panel_attributes><additional_attributes>10;19;150;20</additional_attributes></element><element><id>Relation</id><coordinates><x>740</x><y>841</y><w>180</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+9. ServerRunningMonitor
+bg=red</panel_attributes><additional_attributes>160;19;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>50</x><y>861</y><w>700</w><h>40</h></coordinates><panel_attributes>lt=-&gt;&gt;
+9. ServerRunningMonitor
+bg=red</panel_attributes><additional_attributes>680;19;10;20</additional_attributes></element><element><id>UMLNote</id><coordinates><x>32</x><y>1100</y><w>1460</w><h>40</h></coordinates><panel_attributes>1. CanalController解析配置(canal.destinations=example)
+2. 遍历所有的destinations,判断在:CanalServerWithEmbedded中
+是否初始化过.
+
+bg=pink
+fontsize=15
+
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>
