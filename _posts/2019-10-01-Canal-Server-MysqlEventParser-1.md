@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Canal Server源码之五(MysqlEventParser)'
+title: 'Canal Server源码之五(MysqlEventParser-1)'
 date: 2019-10-01
 author: 李新
 tags: Canal
