@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>0</x>
+      <y>0</y>
+      <w>500</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes>ErosaConnection
+fontsize=18
+fg=blue
+bg=blue
+--
+void connect()
+void reconnect()
+void disconnect()
+void seek(binlogfilename,binlogPosition,gtid,func) 
+void dump(binlogfilename,binlogPosition,func)
+void dump(timestamp,func)
+
+void dump(gtidSet,func)
+void dump(binlogfilename,binlogPosition,coprocessor)
+void dump(timestamp,coprocessor)
+void dump(gtidSet,coprocessor)
+
+ErosaConnection fork()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>430</y>
+      <w>260</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>MysqlConnection
+fontsize=18
+bg=blue
+--
+connector:MysqlConnector
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>310</y>
+      <w>30</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>430</y>
+      <w>740</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>MysqlConnector
+(基于mysql socket协议的链接实现)
+fontsize=18
+bg=pink
+--
+void connect()
+void reconnect()
+void disconnect()
+MysqlConnector fork()
+void quit()
+// 握手协议
+void negotiate(SocketChannel channel)
+void auth323(SocketChannel channel, byte packetSequenceNumber, byte[] seed)
+byte[] joinAndCreateScrumbleBuff(HandshakeInitializationPacket handshakePacket)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>370</x>
+      <y>450</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>450</x>
+      <y>320</y>
+      <w>490</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>MysqlConnector:
+1. 提供了:connect/reconnect/disconnect/
+    fork/quit 等操作
+2. 在connect时需要与MySQL进行真正的交互(握手/验证)
+bg=red
+fontsize=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>510</x>
+      <y>100</y>
+      <w>380</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>MysqlConnection:
+1. MysqlConnection是ErosaConnection的
+唯一实现类.
+2. 根据mysql信息(ip:port,uname,pwd)创建
+MysqlConnector.
+3. connect/fork/reconnect/disconnect.
+委托给:MysqlConnector处理
+4. dump逻辑在MysqlConnection内部实现.
+bg=red
+fontsize=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
