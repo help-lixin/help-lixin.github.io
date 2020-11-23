@@ -4,7 +4,7 @@
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>310</x>
+      <x>210</x>
       <y>0</y>
       <w>190</w>
       <h>30</h>
@@ -18,7 +18,7 @@ group=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
+      <x>290</x>
       <y>20</y>
       <w>30</w>
       <h>50</h>
@@ -30,7 +30,7 @@ group=1</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>390</x>
+      <x>290</x>
       <y>50</y>
       <w>20</w>
       <h>300</h>
@@ -43,46 +43,7 @@ group=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>80</x>
-      <y>1050</y>
-      <w>30</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=.
-group=11</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLGeneric</id>
-    <coordinates>
-      <x>80</x>
-      <y>1080</y>
-      <w>20</w>
-      <h>190</h>
-    </coordinates>
-    <panel_attributes>
-bg=yellow
-group=11</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLGeneric</id>
-    <coordinates>
-      <x>0</x>
-      <y>1030</y>
-      <w>190</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>_:O1_
-bg=orange
-fontsize=15
-group=11</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>640</x>
+      <x>540</x>
       <y>20</y>
       <w>30</w>
       <h>50</h>
@@ -94,7 +55,7 @@ group=3</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>640</x>
+      <x>540</x>
       <y>50</y>
       <w>20</w>
       <h>310</h>
@@ -107,7 +68,7 @@ group=3</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>560</x>
+      <x>460</x>
       <y>0</y>
       <w>190</w>
       <h>30</h>
@@ -121,7 +82,7 @@ group=3</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>890</x>
+      <x>790</x>
       <y>20</y>
       <w>30</w>
       <h>50</h>
@@ -133,7 +94,7 @@ group=4</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>890</x>
+      <x>790</x>
       <y>50</y>
       <w>20</w>
       <h>320</h>
@@ -146,7 +107,7 @@ group=4</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>810</x>
+      <x>710</x>
       <y>0</y>
       <w>190</w>
       <h>30</h>
@@ -160,7 +121,7 @@ group=4</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>400</x>
+      <x>300</x>
       <y>140</y>
       <w>510</w>
       <h>40</h>
@@ -172,7 +133,7 @@ group=4</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>100</x>
+      <x>0</x>
       <y>580</y>
       <w>290</w>
       <h>50</h>
@@ -187,7 +148,7 @@ fontsize=15
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1120</x>
+      <x>1020</x>
       <y>20</y>
       <w>30</w>
       <h>50</h>
@@ -199,7 +160,7 @@ group=5</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>1120</x>
+      <x>1020</x>
       <y>50</y>
       <w>20</w>
       <h>320</h>
@@ -212,7 +173,7 @@ group=5</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>1040</x>
+      <x>940</x>
       <y>0</y>
       <w>190</w>
       <h>30</h>
@@ -226,7 +187,7 @@ group=5</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>900</x>
+      <x>800</x>
       <y>140</y>
       <w>240</w>
       <h>40</h>
@@ -238,7 +199,7 @@ group=5</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>900</x>
+      <x>800</x>
       <y>200</y>
       <w>240</w>
       <h>40</h>
@@ -250,7 +211,7 @@ group=5</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>400</x>
+      <x>300</x>
       <y>230</y>
       <w>510</w>
       <h>40</h>
@@ -262,7 +223,7 @@ group=5</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
+      <x>290</x>
       <y>560</y>
       <w>30</w>
       <h>50</h>
@@ -274,7 +235,7 @@ group=6</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>390</x>
+      <x>290</x>
       <y>590</y>
       <w>20</w>
       <h>240</h>
@@ -287,7 +248,7 @@ group=6</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>310</x>
+      <x>210</x>
       <y>540</y>
       <w>190</w>
       <h>30</h>
@@ -301,7 +262,7 @@ group=6</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>630</x>
+      <x>530</x>
       <y>560</y>
       <w>30</w>
       <h>50</h>
@@ -313,7 +274,7 @@ group=7</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>630</x>
+      <x>530</x>
       <y>590</y>
       <w>20</w>
       <h>240</h>
@@ -326,7 +287,7 @@ group=7</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>550</x>
+      <x>450</x>
       <y>540</y>
       <w>190</w>
       <h>30</h>
@@ -340,7 +301,7 @@ group=7</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>910</x>
+      <x>810</x>
       <y>560</y>
       <w>30</w>
       <h>50</h>
@@ -352,7 +313,7 @@ group=8</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>910</x>
+      <x>810</x>
       <y>590</y>
       <w>20</w>
       <h>250</h>
@@ -365,7 +326,7 @@ group=8</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>830</x>
+      <x>730</x>
       <y>540</y>
       <w>190</w>
       <h>30</h>
@@ -379,7 +340,7 @@ group=8</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
+      <x>290</x>
       <y>650</y>
       <w>190</w>
       <h>160</h>
@@ -399,7 +360,7 @@ group=8</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
+      <x>340</x>
       <y>670</y>
       <w>210</w>
       <h>40</h>
@@ -411,7 +372,7 @@ group=8</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
+      <x>340</x>
       <y>710</y>
       <w>490</w>
       <h>40</h>
@@ -423,7 +384,7 @@ group=8</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
+      <x>340</x>
       <y>730</y>
       <w>490</w>
       <h>40</h>
@@ -435,7 +396,7 @@ group=8</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
+      <x>340</x>
       <y>760</y>
       <w>210</w>
       <h>40</h>
@@ -447,7 +408,7 @@ group=8</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>160</x>
+      <x>60</x>
       <y>250</y>
       <w>210</w>
       <h>50</h>
@@ -462,7 +423,7 @@ fontsize=15
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>410</x>
+      <x>310</x>
       <y>960</y>
       <w>30</w>
       <h>50</h>
@@ -474,7 +435,7 @@ group=9</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>330</x>
+      <x>230</x>
       <y>940</y>
       <w>190</w>
       <h>30</h>
@@ -488,7 +449,7 @@ group=9</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>410</x>
+      <x>310</x>
       <y>990</y>
       <w>20</w>
       <h>300</h>
@@ -501,7 +462,7 @@ group=9</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>420</x>
+      <x>320</x>
       <y>1040</y>
       <w>350</w>
       <h>60</h>
@@ -515,7 +476,7 @@ group=9</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>750</x>
+      <x>650</x>
       <y>960</y>
       <w>30</w>
       <h>50</h>
@@ -527,7 +488,7 @@ group=10</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>750</x>
+      <x>650</x>
       <y>990</y>
       <w>20</w>
       <h>300</h>
@@ -540,7 +501,7 @@ group=10</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>670</x>
+      <x>570</x>
       <y>940</y>
       <w>190</w>
       <h>30</h>
@@ -554,7 +515,7 @@ group=10</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>760</x>
+      <x>660</x>
       <y>1060</y>
       <w>280</w>
       <h>60</h>
@@ -568,7 +529,7 @@ group=10</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1020</x>
+      <x>920</x>
       <y>960</y>
       <w>30</w>
       <h>50</h>
@@ -580,7 +541,7 @@ group=12</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>1020</x>
+      <x>920</x>
       <y>990</y>
       <w>20</w>
       <h>300</h>
@@ -593,7 +554,7 @@ group=12</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>940</x>
+      <x>840</x>
       <y>940</y>
       <w>190</w>
       <h>30</h>
@@ -607,7 +568,7 @@ group=12</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>760</x>
+      <x>660</x>
       <y>1100</y>
       <w>280</w>
       <h>60</h>
@@ -621,7 +582,7 @@ group=12</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>760</x>
+      <x>660</x>
       <y>1140</y>
       <w>280</w>
       <h>60</h>
@@ -631,5 +592,504 @@ group=12</panel_attributes>
 
 </panel_attributes>
     <additional_attributes>10.0;20.0;260.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1650</x>
+      <y>1600</y>
+      <w>190</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>LogDecoder
+配置日志解码器
+bg=blue
+fontsize=15
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>600</x>
+      <y>1430</y>
+      <w>20</w>
+      <h>530</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=14</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>1400</y>
+      <w>30</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=14</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>520</x>
+      <y>1380</y>
+      <w>190</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>MysqlEventParser
+bg=orange
+fontsize=15
+group=14</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>260</x>
+      <y>1440</y>
+      <w>360</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+1.findStartPosition(ErosaConnection connection)</panel_attributes>
+    <additional_attributes>10.0;20.0;340.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>40</x>
+      <y>1110</y>
+      <w>290</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>AbstractEventParser:
+3.根据现有的:ErosaConnection
+创建出一个新的:MysqlConnection
+这个MysqlConnection用于元数据的管理
+bg=blue
+fontsize=15
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>1490</y>
+      <w>240</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.findStartPositionInternal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes>20.0;10.0;40.0;10.0;40.0;340.0;10.0;340.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1020</x>
+      <y>1430</y>
+      <w>20</w>
+      <h>540</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=15</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>1400</y>
+      <w>30</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=15</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>930</x>
+      <y>1380</y>
+      <w>220</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>FailbackLogPositionManager
+bg=orange
+fontsize=15
+group=15</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>1530</y>
+      <w>410</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.1 getLatestIndexBy("example")</panel_attributes>
+    <additional_attributes>10.0;20.0;390.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>170</x>
+      <y>1380</y>
+      <w>190</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>AbstractEventParser
+bg=orange
+fontsize=15
+group=16</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>250</x>
+      <y>1430</y>
+      <w>20</w>
+      <h>530</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=16</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>250</x>
+      <y>1400</y>
+      <w>30</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=16</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>1550</y>
+      <w>410</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+2.2 return LogPosition</panel_attributes>
+    <additional_attributes>10.0;20.0;390.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>1580</y>
+      <w>380</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.3 findEndPositionWithMasterIdAndTimestamp
+
+
+
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;180.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>1630</y>
+      <w>200</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.3.1 findEndPosition</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;40.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>1680</y>
+      <w>350</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.3.2 findAsPerTimestampInSpecificLogFile
+
+</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;60.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1310</x>
+      <y>1400</y>
+      <w>30</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=17</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1310</x>
+      <y>1430</y>
+      <w>20</w>
+      <h>540</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=17</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1230</x>
+      <y>1380</y>
+      <w>190</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>MysqlConnection
+bg=orange
+fontsize=15
+group=17</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>1710</y>
+      <w>640</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.3.3 seek</panel_attributes>
+    <additional_attributes>10.0;20.0;620.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1320</x>
+      <y>1730</y>
+      <w>210</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.3.4 sendBinlogDump</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;40.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1610</x>
+      <y>1400</y>
+      <w>30</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=18</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1610</x>
+      <y>1430</y>
+      <w>20</w>
+      <h>540</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1530</x>
+      <y>1380</y>
+      <w>190</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>DirectLogFetcher
+bg=orange
+fontsize=15
+group=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1320</x>
+      <y>1800</y>
+      <w>310</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.3.5 new DirectLogFetcher(16384)</panel_attributes>
+    <additional_attributes>10.0;20.0;290.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1320</x>
+      <y>1830</y>
+      <w>310</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+return</panel_attributes>
+    <additional_attributes>10.0;20.0;290.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1320</x>
+      <y>1860</y>
+      <w>310</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.3.6 start(connection.getChannel())</panel_attributes>
+    <additional_attributes>10.0;20.0;290.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1850</x>
+      <y>1400</y>
+      <w>30</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=19</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1850</x>
+      <y>1430</y>
+      <w>20</w>
+      <h>540</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=19</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1770</x>
+      <y>1380</y>
+      <w>190</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>LogDecoder
+bg=orange
+fontsize=15
+group=19</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1320</x>
+      <y>1900</y>
+      <w>550</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.3.7 new LogDecoder</panel_attributes>
+    <additional_attributes>10.0;20.0;530.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1350</x>
+      <y>1680</y>
+      <w>240</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>sendBinlogDump:
+1. 创建dump命令
+2. 发送给channel(mysql master)
+bg=blue
+fontsize=15
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1320</x>
+      <y>1920</y>
+      <w>190</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.3.8 while(decode)</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;40.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>300</x>
+      <y>1530</y>
+      <w>310</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>AbstractEventParser:
+4. 获取上一次的解析到的:
+binlogname和position.
+具体内容,后面再开一篇进行分析,
+先看一个大概
+bg=blue
+fontsize=15
+</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

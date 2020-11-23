@@ -48,16 +48,20 @@ parseThread = new Thread(new Runnable() {
                 logger.warn("---> begin to find start position, it will be long time for reset or first position");
                 // 执行dump前的准备工作
                 // **********************6.MysqlEventParser.findStartPosition*****************************
+                // 获得binlog-name和开始的position
+                // EntryPosition[included=false,journalName=mysql-bin.000020,position=4,serverId=1,gtid=<null>,timestamp=1606112736000]
                 EntryPosition position = findStartPosition(erosaConnection);
+
                 final EntryPosition startPosition = position;
-                if (startPosition == null) {
+                if (startPosition == null) { //false
                     throw new PositionNotFoundException("can't find start position for " + destination);
                 }
 
-                if (!processTableMeta(startPosition)) {
+                if (!processTableMeta(startPosition)) { //false
                     throw new CanalParseException("can't find init table meta for " + destination
                                                     + " with position : " + startPosition);
                 }
+
                 long end = System.currentTimeMillis();
                 logger.warn("---> find start position successfully, {}", startPosition.toString() + " cost : "
                                                                             + (end - start)
@@ -65,6 +69,7 @@ parseThread = new Thread(new Runnable() {
                 // 重新链接，因为在找position过程中可能有状态，需要断开后重建
                 erosaConnection.reconnect();
 
+                // 针对非平行解析的情况下的handler
                 final SinkFunction sinkHandler = new SinkFunction<EVENT>() {
 
                     private LogPosition lastPosition;
@@ -101,19 +106,22 @@ parseThread = new Thread(new Runnable() {
                         }
                     }
 
-                };
+                }; // end sinkHandler
 
                 // 开始dump数据
-                if (parallel) {
+                if (parallel) {  //true并行解析
                     // build stage processor
+                    // 构建MySQL多阶段的协同处理
                     multiStageCoprocessor = buildMultiStageCoprocessor();
-                    if (isGTIDMode() && StringUtils.isNotEmpty(startPosition.getGtid())) {
+
+                    if (isGTIDMode() && StringUtils.isNotEmpty(startPosition.getGtid())) { //false
                         // 判断所属instance是否启用GTID模式，是的话调用ErosaConnection中GTID对应方法dump数据
                         GTIDSet gtidSet = MysqlGTIDSet.parse(startPosition.getGtid());
                         ((MysqlMultiStageCoprocessor) multiStageCoprocessor).setGtidSet(gtidSet);
                         multiStageCoprocessor.start();
                         erosaConnection.dump(gtidSet, multiStageCoprocessor);
                     } else {
+                        // 开启多阶段解析
                         multiStageCoprocessor.start();
                         if (StringUtils.isEmpty(startPosition.getJournalName())
                             && startPosition.getTimestamp() != null) {
@@ -124,7 +132,7 @@ parseThread = new Thread(new Runnable() {
                                 multiStageCoprocessor);
                         }
                     }
-                } else {
+                } else { //串行解析
                     if (isGTIDMode() && StringUtils.isNotEmpty(startPosition.getGtid())) {
                         // 判断所属instance是否启用GTID模式，是的话调用ErosaConnection中GTID对应方法dump数据
                         erosaConnection.dump(MysqlGTIDSet.parse(startPosition.getGtid()), sinkHandler);
@@ -138,7 +146,7 @@ parseThread = new Thread(new Runnable() {
                                 sinkHandler);
                         }
                     }
-                }
+                }//end else
             } catch (TableIdNotFoundException e) {
                 exception = e;
                 // 特殊处理TableIdNotFound异常,出现这样的异常，一种可能就是起始的position是一个事务当中，导致tablemap
@@ -396,6 +404,7 @@ protected void preDump(ErosaConnection connection) {
 ### (6). MysqlEventParser.findStartPosition
 ```
 // 1.findStartPosition
+// 仅仅只是获得binlog名称和开始的position
 protected EntryPosition findStartPosition(ErosaConnection connection) throws IOException {
     if (isGTIDMode()) {  //false,暂时还未配置gtid
         // GTID模式下，CanalLogPositionManager里取最后的gtid，没有则取instanc配置中的
@@ -412,9 +421,9 @@ protected EntryPosition findStartPosition(ErosaConnection connection) throws IOE
         }
     }
 
-    //2.findStartPositionInternal
+    //2. findStartPositionInternal
     EntryPosition startPosition = findStartPositionInternal(connection);
-    if (needTransactionPosition.get()) {
+    if (needTransactionPosition.get()) { //false
         logger.warn("prepare to find last position : {}", startPosition.toString());
         Long preTransactionStartPosition = findTransactionBeginPosition(connection, startPosition);
         if (!preTransactionStartPosition.equals(startPosition.getPosition())) {
@@ -425,6 +434,7 @@ protected EntryPosition findStartPosition(ErosaConnection connection) throws IOE
         }
         needTransactionPosition.compareAndSet(true, false);
     }
+    // startPosition = 4
     return startPosition;
 } //end findStartPosition
 
@@ -451,7 +461,7 @@ protected EntryPosition findStartPositionInternal(ErosaConnection connection) {
 		//		<property name="gtid" value="${canal.instance.master.gtid}" />
 		//	</bean>
 		// </property>
-        // 针对master进行处理
+        // 针对master进行处理,获得master的信息.
         if (masterInfo != null && mysqlConnection.getConnector().getAddress().equals(masterInfo.getAddress())) { //true
             entryPosition = masterPosition;
         } else if (standbyInfo != null
@@ -564,9 +574,9 @@ protected EntryPosition findStartPositionInternal(ErosaConnection connection) {
 // 5.findEndPositionWithMasterIdAndTimestamp
 protected EntryPosition findEndPositionWithMasterIdAndTimestamp(MysqlConnection connection) {
     MysqlConnection mysqlConnection = (MysqlConnection) connection;
-    // 6. findEndPosition
+    // 6. findEndPosition()
     final EntryPosition endPosition = findEndPosition(mysqlConnection);
-    if (tableMetaTSDB != null) {
+    if (tableMetaTSDB != null) { // true
         long startTimestamp = System.currentTimeMillis();
         // 8.
         return findAsPerTimestampInSpecificLogFile(mysqlConnection,
@@ -608,6 +618,7 @@ private EntryPosition findEndPosition(MysqlConnection mysqlConnection) {
     }
 } //end findEndPosition
 
+// 9.
  private EntryPosition findAsPerTimestampInSpecificLogFile   
       (MysqlConnection mysqlConnection,
        // startTimestamp = 当前时间
@@ -627,6 +638,7 @@ private EntryPosition findEndPosition(MysqlConnection mysqlConnection) {
         // 调用mysql,从指定的binlog开始获取
         // 开始遍历文件
         // ******************************************************
+        // 10. 
         mysqlConnection.seek(searchBinlogFile, 4L, endPosition.getGtid(), new SinkFunction<LogEvent>() {
 
             private LogPosition lastPosition;
@@ -634,6 +646,8 @@ private EntryPosition findEndPosition(MysqlConnection mysqlConnection) {
             public boolean sink(LogEvent event) {
                 EntryPosition entryPosition = null;
                 try {
+
+                    
                     CanalEntry.Entry entry = parseAndProfilingIfNecessary(event, true);
                     if (justForPositionTimestamp && logPosition.getPostion() == null && event.getWhen() > 0) {
                         // 初始位点
@@ -703,17 +717,118 @@ private EntryPosition findEndPosition(MysqlConnection mysqlConnection) {
     }
 
     if (logPosition.getPostion() != null) {
+        // 4
         return logPosition.getPostion();
     } else {
         return null;
     }
 }// end findAsPerTimestampInSpecificLogFile
 
+
+
+// 11. 
+// com.alibaba.otter.canal.parse.inbound.mysql.MysqlConnection.seek
+public void seek(String binlogfilename, Long binlogPosition, String gtid, SinkFunction func) throws IOException {
+    // binlogfilename = mysql-bin.000020
+    // binlogPosition = 4
+    // gtid = null
+    // func = com.alibaba.otter.canal.parse.inbound.mysql.MysqlEventParser$2
+    // func 为findAsPerTimestampInSpecificLogFile方法调用seek传递的回调函数
+
+    // updateSettings = set wait_timeout=9999999
+    // 设置超时时间
+    updateSettings();
+    // 加载binlog的checksum=LogEvent.BINLOG_CHECKSUM_ALG_CRC32
+    loadBinlogChecksum();
+
+    // **************************************************************
+    // 12. 发送binlogdump协议
+    //***************************************************************
+    sendBinlogDump(binlogfilename, binlogPosition);
+
+    // 创建日志Fetcher
+    DirectLogFetcher fetcher = new DirectLogFetcher(connector.getReceiveBufferSize());
+    fetcher.start(connector.getChannel());
+
+
+    // 配置日志解码器
+    LogDecoder decoder = new LogDecoder();
+    decoder.handle(LogEvent.ROTATE_EVENT);
+    decoder.handle(LogEvent.FORMAT_DESCRIPTION_EVENT);
+    decoder.handle(LogEvent.QUERY_EVENT);
+    decoder.handle(LogEvent.XID_EVENT);
+
+    // 创建日志上下文
+    LogContext context = new LogContext();
+    // 若entry position存在gtid，则使用传入的gtid作为gtidSet
+    // 拼接的标准,否则同时开启gtid和tsdb时，会导致丢失gtid
+    // 而当源端数据库gtid 有purged时会有如下类似报错
+    // 'errno = 1236, sqlstate = HY000 errmsg = The slave is connecting
+    // using CHANGE MASTER TO MASTER_AUTO_POSITION = 1 ...
+    if (StringUtils.isNotEmpty(gtid)) { // false
+        decoder.handle(LogEvent.GTID_LOG_EVENT);
+        context.setGtidSet(MysqlGTIDSet.parse(gtid));
+    }
+    context.setFormatDescription(new FormatDescriptionLogEvent(4, binlogChecksum));
+
+    // **********************************************************************************
+    // 开始抓取
+    // **********************************************************************************
+    while (fetcher.fetch()) {
+        accumulateReceivedBytes(fetcher.limit());
+        LogEvent event = null;
+        event = decoder.decode(fetcher, context);
+
+        if (event == null) {
+            throw new CanalParseException("parse failed");
+        }
+
+        if (!func.sink(event)) {
+            break;
+        }
+    }
+}// end seek
+
+
+// 12. 发送binlogDump协议
+private void sendBinlogDump(String binlogfilename, Long binlogPosition) throws IOException {
+    // binlogfilename = mysql-bin.000020
+    // binlogPosition = 4
+    
+    
+    // 创建binlogdump协议
+    // 此处用到了命令模式
+    BinlogDumpCommandPacket binlogDumpCmd = new BinlogDumpCommandPacket();
+    binlogDumpCmd.binlogFileName = binlogfilename;
+    binlogDumpCmd.binlogPosition = binlogPosition;
+    // slaveId = 1779502740
+    binlogDumpCmd.slaveServerId = this.slaveId;
+    byte[] cmdBody = binlogDumpCmd.toBytes();
+
+    logger.info("COM_BINLOG_DUMP with position:{}", binlogDumpCmd);
+    // 定义协议头,里面包含:协议体的信息
+    HeaderPacket binlogDumpHeader = new HeaderPacket();
+    // cmdBody.length = 27
+    binlogDumpHeader.setPacketBodyLength(cmdBody.length);
+    // 0
+    binlogDumpHeader.setPacketSequenceNumber((byte) 0x00);
+    // 调用:PacketManager.writePkg方法
+    // 将协议头的内容:binlogDumpHeader.toBytes() 和 协议体的内容:cmdBody
+    // 写到:channel里.
+    PacketManager.writePkg(connector.getChannel(), binlogDumpHeader.toBytes(), cmdBody);
+    connector.setDumping(true);
+}// end sendBinlogDump
+
 ```
-### (7). 
+### (7). UML图
 
-### (8). 
+!["MysqlEventParser dump过程"](/assets/canal/imgs/MysqlEventParser-uml-sequence-thread.jpg)
 
-### (9). 
 
-### (10). 
+### (8). 总结
+> 1. 创建MysqlConnection   
+> 2. 创建心跳   
+> 3. 根据MysqlConnection fork出一个新的MysqlConnection,进行元数据管理   
+> 4. <font color='red'>解析最后一次的binlog和position</font>   
+> 5. <font color='red'>开始解析(在这一章节我不再继续跟下去,因为,后面太复杂了,另再开一章来讲)</font>   
+> 6. 标红的将会另开一篇做详解的剖析 
