@@ -244,6 +244,7 @@ public void start() {
 }
 ```
 ### (9). UML图解
+
 !["MySqlEventParser启动时序图"](/assets/canal/imgs/MysqlEventParser-uml-sequence-start.jpg)
 
 ### (10). 总结
