@@ -283,4 +283,3 @@ private void negotiate(SocketChannel channel) throws IOException {
 ```
 ### (8). 总结
 > MysqlConnector负责创建连接并与MySQL进行握手.
-

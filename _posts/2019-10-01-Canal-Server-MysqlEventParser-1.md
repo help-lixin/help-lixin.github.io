@@ -29,7 +29,6 @@ public void start() throws CanalParseException {
         // masterInfo是从实例(example)的配置文件中读取到的MySQL信息
         runningInfo = masterInfo;
     }
-
     // 调用父类
     super.start();
 }

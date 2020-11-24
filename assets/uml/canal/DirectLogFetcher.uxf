@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>60</y>
+      <w>200</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>LogBuffer
+fontsize=18
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>140</y>
+      <w>210</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>/LogFetcher/
+fontsize=18
+bg=red
+--
+boolean fetch()
+void close()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>110</x>
+      <y>90</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>10</x>
+      <y>270</y>
+      <w>240</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>DirectLogFetcher
+fontsize=18
+bg=red
+--
+channle:SocketChannel
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>110</x>
+      <y>210</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>410</x>
+      <y>390</y>
+      <w>540</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>LogDecoder:
+它主要对buffer里的内容进行解码,最终解码为:LogEvent的子类.
+在解码过程中:不同的LogEvent子类,可能需要记录一些信息.
+所以,把这些信息放在LogContext里
+比如:ROTATE_EVENT会创建:LogPosition并设置到LogContext里
+bg=blue
+fontsize=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>270</y>
+      <w>500</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>LogDecoder
+bg=blue
+fontsize=18
+--
+// 对DirectLogFetcher进行解码
+LogEvent decode(LogBuffer buffer, LogContext context)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>100</y>
+      <w>500</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>LogContext
+bg=blue
+fontsize=18
+--
+logPosition:LogPosition
+gtidSet:GTIDSet
+gtidLogEvent:GtidLogEvent</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>0</x>
+      <y>380</y>
+      <w>340</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>DirectLogFetcher:
+可以把它理解为:Buffer
+它从channel按照MySQL协议读取数据
+(协议头+协议体字节)然后,
+交给:LogDecoder进行解码
+bg=blue
+fontsize=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
