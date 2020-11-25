@@ -7,7 +7,6 @@ tags: Disruptor
 ---
 
 ### (1). Disruptor为消费者配置异常处理
-> 1. 
 
 ### (2). 定义业务模型(User)
 ```
