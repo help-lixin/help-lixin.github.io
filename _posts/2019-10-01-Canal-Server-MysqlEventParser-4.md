@@ -1000,4 +1000,4 @@ public Entry parse(LogEvent logEvent, boolean isSeek) throws CanalParseException
 > 6. 调用解码器(LogDecoder)进行解码.最终解码为:LogEvent对象的子类.在解码过程中,LogContext会记录一些全局信息(LogPosition/GTIDSet/GtidLogEvent...)   
 > 7. 调用Sink函数(SinkFunction)的sink(event)方法,直到该方法返回:false,则跳出第5的轮询.
 > 注意:在sink函数里,会调用AbstractEventParser.parseAndProfilingIfNecessary方法,把LogEvent转换成:CanalEntry.Entry.   
-> <font color='red'>MySQL协议里的事件产生时间只能精确到秒,倘若发生主从切换,根据时间去定位binlog,还是会有一些问题(增/删语句没什么问题,若是用户并发对同一条数据进行更新,而正好这个时候,出现了主从切换,还是会有问题的,当然,也并不是没有解决方案,在所有的表设计时,增加一个乐观锁,对于这种更新的问题,就能解决,但是缺点是:这个要求有点过份了).</font>
+> <font color='red'>MySQL协议里的事件产生时间只能精确到秒,倘若发生主从切换,根据时间去定位binlog,还是会有一些问题(增/删语句没什么问题,若是用户并发对同一条数据进行更新,而正好这个时候,出现了主从切换,还是会有问题的,当然,也并不是没有解决方案,在所有的表设计时,增加一个乐观锁,对于这种更新的问题,就能解决,但是缺点是:对开发有一定的要求,开发需要知道乐观锁为什么而存在,也增加了培训).</font>
