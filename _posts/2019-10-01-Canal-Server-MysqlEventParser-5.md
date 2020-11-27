@@ -281,10 +281,10 @@ private void sendRegisterSlave() throws IOException {
 
 ### (9). 总结
 > 1. 首先判断是否为并行解析(anal.instance.parser.parallel=true)  
-> 2. 构建多阶段解析器类:MysqlMultiStageCoprocessor(SimpleParserStage/DmlParserStage/SinkStoreStage)   
-> 3. 调用:MysqlConnection.dump方法,并传递回调函数为:MysqlMultiStageCoprocessor   
+> 2. <font color='red'>构建多阶段解析器类:MysqlMultiStageCoprocessor(SimpleParserStage/DmlParserStage/SinkStoreStage)</font>   
+> 3. <font color='red'>调用:MysqlConnection.dump方法,并传递回调函数为:MysqlMultiStageCoprocessor</font>   
 > 4. 调用:MysqlConnection.sendRegisterSlave注册slave信息.   
 > 5. 调用:MysqlConnection.sendBinlogDump要求接受dump信息.   
 > 6. 创建:DirectLogFetcher,它主要用于从:MysqlConnection返回流中获取数据.   
 > 7. 如果while(fetch.fetch())为:true,则读取流中的信息,并转换为:LogBuffer.  
-> 8. 回调第(3)步的回调函数:MysqlMultiStageCoprocessor.publish(LogBuffer).  
+> 8. <font color='red'>回调第(3)步的回调函数:MysqlMultiStageCoprocessor.publish(LogBuffer).</font>  
