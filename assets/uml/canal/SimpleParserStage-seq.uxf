@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>0</x>
+      <y>40</y>
+      <w>270</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>MysqlMultiStageCoprocessor$
+SimpleParserStage
+fontsize=18
+bg=orange
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>110</x>
+      <y>80</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>110</x>
+      <y>120</y>
+      <w>20</w>
+      <h>500</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>70</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=2</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>410</x>
+      <y>120</y>
+      <w>20</w>
+      <h>500</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>300</x>
+      <y>50</y>
+      <w>260</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>LogEventConvert
+fontsize=18
+bg=orange
+group=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>70</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=3</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>720</x>
+      <y>120</y>
+      <w>20</w>
+      <h>500</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=3</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>610</x>
+      <y>50</y>
+      <w>260</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>TableMetaCache
+fontsize=18
+bg=orange
+group=3</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1010</x>
+      <y>70</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=4</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1010</x>
+      <y>120</y>
+      <w>20</w>
+      <h>490</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>900</x>
+      <y>30</y>
+      <w>260</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>TableMetaTSDB
+(MemoryTableMeta)
+fontsize=18
+bg=orange
+group=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>120</x>
+      <y>130</y>
+      <w>130</w>
+      <h>500</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+1.onEvent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;480.0;10.0;480.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>170</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2.parseRowsEventForTableMeta</panel_attributes>
+    <additional_attributes>10.0;20.0;260.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>190</y>
+      <w>260</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+3. createPosition
+解析协议头,填充业务到业务模型
+EntryPosition</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;80.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>290</y>
+      <w>320</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+3. getTableMeta()</panel_attributes>
+    <additional_attributes>10.0;20.0;300.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>320</y>
+      <w>300</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+4. find()</panel_attributes>
+    <additional_attributes>10.0;20.0;280.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1330</x>
+      <y>60</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=5</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1330</x>
+      <y>100</y>
+      <w>20</w>
+      <h>520</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1220</x>
+      <y>30</y>
+      <w>260</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>SchemaRepository
+fontsize=18
+bg=orange
+group=5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>350</y>
+      <w>330</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+5. findSchema("test2")</panel_attributes>
+    <additional_attributes>10.0;20.0;310.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>370</y>
+      <w>330</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+6. return Schema</panel_attributes>
+    <additional_attributes>10.0;20.0;310.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>400</y>
+      <w>330</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+7. findTable("user")</panel_attributes>
+    <additional_attributes>10.0;20.0;310.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>420</y>
+      <w>330</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+8. return SchemaObject</panel_attributes>
+    <additional_attributes>10.0;20.0;310.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>450</y>
+      <w>330</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+9. getStatement()</panel_attributes>
+    <additional_attributes>10.0;20.0;310.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>470</y>
+      <w>330</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+10. return SQLStatement</panel_attributes>
+    <additional_attributes>10.0;20.0;310.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>510</y>
+      <w>320</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+11. parse(SQLCreateTableStatement)</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;10.0;50.0;50.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>560</y>
+      <w>300</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+12. return TableMeta</panel_attributes>
+    <additional_attributes>10.0;20.0;280.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1090</x>
+      <y>130</y>
+      <w>210</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>SchemaRepository属于:
+fastsql jar包内容
+bg=blue
+fontsize=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>580</y>
+      <w>320</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+13. return TableMeta</panel_attributes>
+    <additional_attributes>10.0;20.0;300.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>590</y>
+      <w>290</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+14. return TableMeta</panel_attributes>
+    <additional_attributes>10.0;20.0;270.0;20.0</additional_attributes>
+  </element>
+</diagram>

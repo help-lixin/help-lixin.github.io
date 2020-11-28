@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>0</x>
+      <y>0</y>
+      <w>270</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>MysqlMultiStageCoprocessor$
+DmlParserStage
+fontsize=18
+bg=orange
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>110</x>
+      <y>40</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>110</x>
+      <y>80</y>
+      <w>20</w>
+      <h>510</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>40</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=2</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>410</x>
+      <y>80</y>
+      <w>20</w>
+      <h>510</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>300</x>
+      <y>20</y>
+      <w>240</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>LogEventConvert
+fontsize=18
+bg=orange
+group=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>40</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=3</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>720</x>
+      <y>80</y>
+      <w>20</w>
+      <h>510</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=3</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>610</x>
+      <y>20</y>
+      <w>240</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>RowChange.Builder
+fontsize=18
+bg=orange
+group=3</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>980</x>
+      <y>40</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=4</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>980</x>
+      <y>80</y>
+      <w>20</w>
+      <h>510</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>870</x>
+      <y>20</y>
+      <w>240</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>RowData.Builder
+fontsize=18
+bg=orange
+group=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>120</x>
+      <y>90</y>
+      <w>130</w>
+      <h>510</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+1.onEvent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;490.0;10.0;490.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>130</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2. parseRowsEvent</panel_attributes>
+    <additional_attributes>10.0;20.0;260.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>270</y>
+      <w>370</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+5. parseOneRow
+循环解析每一列,并把数据(RowData)添加到:
+RowChange.Builder里
+
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes>10.0;20.0;80.0;20.0;80.0;150.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>160</y>
+      <w>320</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+3. RowChange.newBuilder();</panel_attributes>
+    <additional_attributes>10.0;20.0;300.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>190</y>
+      <w>320</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+4. return RowChange.Builder</panel_attributes>
+    <additional_attributes>10.0;20.0;300.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>330</y>
+      <w>510</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+6. RowData.newBuilder()</panel_attributes>
+    <additional_attributes>10.0;20.0;490.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>360</y>
+      <w>510</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+7. return RowData.Builder</panel_attributes>
+    <additional_attributes>10.0;20.0;490.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>450</y>
+      <w>210</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+
+8.createHeader()</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;30.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>490</y>
+      <w>290</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+9.RowChange.Builder.build()</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;30.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>530</y>
+      <w>200</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+10. createEntry</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;30.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>550</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+11. return Entry</panel_attributes>
+    <additional_attributes>10.0;20.0;260.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>540</x>
+      <y>590</y>
+      <w>290</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>解析报文,转换成业务模型(Entry)
+bg=blue
+fontsize=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
