@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>290</x>
+      <y>60</y>
+      <w>680</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>CanalEventSink
+fontsize=18
+bg=#CCFF99
+fg=#FF6666
+--
+boolean sink(T event, InetSocketAddress remoteAddress, String destination)
+void interrupt()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>370</x>
+      <y>200</y>
+      <w>520</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>/AbstractCanalEventSink/
+fontsize=18
+bg=blue
+--
+filter:CanalEventFilter
+handlers:List&lt;CanalEventDownStreamHandler&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>620</x>
+      <y>150</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>350</y>
+      <w>340</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>EntryEventSink
+fontsize=18
+bg=red
+--
+eventStore:CanalEventStore&lt;Event&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>620</x>
+      <y>280</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>620</x>
+      <y>30</y>
+      <w>390</w>
+      <h>370</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0;370.0;10.0;370.0;350.0;180.0;350.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>60</x>
+      <y>170</y>
+      <w>220</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>CanalEventFilter
+fontsize=18
+fg=blue
+bg=blue
+--
+boolean filter(T event)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>150</y>
+      <w>250</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>230.0;50.0;230.0;10.0;10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>20</x>
+      <y>300</y>
+      <w>300</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>CanalEventDownStreamHandler
+fontsize=18
+bg=blue
+fg=blue
+--
+T before(T events);
+T retry(T events);
+T after(T events)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>270</y>
+      <w>230</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>210.0;10.0;10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>340</x>
+      <y>430</y>
+      <w>530</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>CanalEventSink:
+   定义业务能力的抽象,提供sink方法给:MysqlEventParser使用.
+
+AbstractCanalEventSink:
+  定义可配置的抽象行为,主要实现:
+  数据的过滤(指定是否忽略某些库或表)
+  数据落地之前和之后的钩子函数,这些函数,可改变数据结构.
+  
+
+
+bg=#CCFF99
+fontsize=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
