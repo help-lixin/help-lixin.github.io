@@ -26,8 +26,8 @@ footer:
 # Author 配置博主信息
 author: '李新'
 nickname: '码农'
-bio: '后端开发者，热爱技术&探索源码'
-avatar: '/assets/img/profile.png'
+bio: '热爱技术&喜欢探索源码&人体解剖学&康复训练'
+avatar: '/assets/img/profile.jpg'
 
 # Search
 search: true
