@@ -214,61 +214,6 @@ group=5</panel_attributes>
     <additional_attributes>10.0;20.0;280.0;20.0</additional_attributes>
   </element>
   <element>
-    <id>UMLInterface</id>
-    <coordinates>
-      <x>350</x>
-      <y>1420</y>
-      <w>320</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>MultiStageCoprocessor
-fontsize=18
---
-boolean publish(LogBuffer buffer);
-boolean publish(LogEvent event);</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>280</x>
-      <y>1060</y>
-      <w>530</w>
-      <h>330</h>
-    </coordinates>
-    <panel_attributes>MysqlMultiStageCoprocessor
-fontsize=18
---
-parserThreadCount:int
-ringBufferSize:int
-
-destination:String
-
-parserExecutor:ExecutorService
-stageExecutor:ExecutorService
-
-
-workerPool:WorkerPool&lt;MessageEvent&gt;
-disruptorMsgBuffer:RingBuffer&lt;MessageEvent&gt;
-
-simpleParserStage:BatchEventProcessor&lt;MessageEvent&gt;
-sinkStoreStage:BatchEventProcessor&lt;MessageEvent&gt;
-logContext:LogContext
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>500</x>
-      <y>1380</y>
-      <w>30</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
     <id>Relation</id>
     <coordinates>
       <x>350</x>

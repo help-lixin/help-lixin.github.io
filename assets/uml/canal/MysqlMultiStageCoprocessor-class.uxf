@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>30</x>
+      <y>260</y>
+      <w>320</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>MultiStageCoprocessor
+fontsize=18
+--
+boolean publish(LogBuffer buffer);
+boolean publish(LogEvent event);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>240</y>
+      <w>530</w>
+      <h>330</h>
+    </coordinates>
+    <panel_attributes>MysqlMultiStageCoprocessor
+fontsize=18
+--
+parserThreadCount:int
+ringBufferSize:int
+
+destination:String
+
+parserExecutor:ExecutorService
+stageExecutor:ExecutorService
+
+
+workerPool:WorkerPool&lt;MessageEvent&gt;
+disruptorMsgBuffer:RingBuffer&lt;MessageEvent&gt;
+
+simpleParserStage:BatchEventProcessor&lt;MessageEvent&gt;
+sinkStoreStage:BatchEventProcessor&lt;MessageEvent&gt;
+logContext:LogContext
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>160</y>
+      <w>580</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;110.0;10.0;10.0;560.0;10.0;560.0;80.0</additional_attributes>
+  </element>
+</diagram>

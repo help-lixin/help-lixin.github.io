@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Canal Server源码之七(MysqlConnection)'
+title: 'Canal Server源码之十(MysqlConnection)'
 date: 2019-10-01
 author: 李新
 tags: Canal

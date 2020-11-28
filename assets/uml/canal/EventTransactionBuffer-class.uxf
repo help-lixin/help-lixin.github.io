@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>590</x>
+      <y>90</y>
+      <w>370</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>EventTransactionBuffer
+fontsize=18
+bg=red
+--
+entries:CanalEntry.Entry[]
+flushCallback:TransactionFlushCallback
+--
+add(CanalEntry.Entry entry)
+put(CanalEntry.Entry data)
+flush()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>70</x>
+      <y>70</y>
+      <w>420</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>TransactionFlushCallback
+fontsize=18
+bg=blue
+fg=blue
+--
+void flush(List&lt;CanalEntry.Entry&gt; transaction)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>270</x>
+      <y>10</y>
+      <w>360</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>340.0;80.0;340.0;10.0;10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>380</x>
+      <y>280</y>
+      <w>410</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>EventTransactionBuffer的构造器要求:
+必须要指定一个:TransactionFlushCallback
+bg=blue
+fontsize=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
