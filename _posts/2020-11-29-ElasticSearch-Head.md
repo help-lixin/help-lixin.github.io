@@ -31,9 +31,9 @@ npm cache clean --force
 npm set registry https://registry.npmjs.org/
 ```
 
-### (5). 修改Head插件支持跨域
+### (5). 修改ES配置文件,支持跨域请求
 
-> 修改:elasticsearch.yml
+> 修改:elasticsearch-5.6.16/config/elasticsearch.yml
 
 ```
 # 是否支持跨域
@@ -46,4 +46,6 @@ http.cors.allow-origin: "*"
 ### (6). 启动head插件
 > npm run start
 
-### (7). 访问
+### (7). 访问(http://localhost:9100/)
+
+!["Head UI"](/assets/elasticsearch/imgs/elastic-head-ui.png)
