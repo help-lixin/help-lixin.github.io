@@ -80,7 +80,7 @@ lixin-macbook:bin lixin$ ./elasticsearch
 [2020-11-30T15:55:31,550][INFO ][o.e.e.NodeEnvironment    ] [nHwKUwc] heap size [1.9gb], compressed ordinary object pointers [true]
 [2020-11-30T15:55:31,553][INFO ][o.e.n.Node               ] node name [nHwKUwc] derived from node ID [nHwKUwcXQX2ESX6HuYcTxQ]; set [node.name] to override
 [2020-11-30T15:55:31,553][INFO ][o.e.n.Node               ] version[5.6.17-SNAPSHOT], pid[1644], build[59bb0dc/2020-11-29T11:45:00.475Z], OS[Mac OS X/10.15.7/x86_64], JVM[Oracle Corporation/Java HotSpot(TM) 64-Bit Server VM/1.8.0_251/25.251-b08]
-# 提示JVM参数,如果有本地调试时,需要指定
+# 提示JVM参数,如果有本地调试时,需要知道指定哪些参数.可参考这里. 
 [2020-11-30T15:55:31,553][INFO ][o.e.n.Node               ] JVM arguments [-Xms2g, -Xmx2g, -XX:+UseConcMarkSweepGC, -XX:CMSInitiatingOccupancyFraction=75, -XX:+UseCMSInitiatingOccupancyOnly, -XX:+AlwaysPreTouch, -Xss1m, -Djava.awt.headless=true, -Dfile.encoding=UTF-8, -Djna.nosys=true, -Djdk.io.permissionsUseCanonicalPath=true, -Dio.netty.noUnsafe=true, -Dio.netty.noKeySetOptimization=true, -Dio.netty.recycler.maxCapacityPerThread=0, -Dlog4j.shutdownHookEnabled=false, -Dlog4j2.disable.jmx=true, -Dlog4j.skipJansi=true, -XX:+HeapDumpOnOutOfMemoryError, -Des.path.home=/Users/lixin/Developer/elastic-search/elasticsearch-5.6.16]
 [2020-11-30T15:55:31,554][WARN ][o.e.n.Node               ] version [5.6.17-SNAPSHOT] is a pre-release version of Elasticsearch and is not suitable for production
 [2020-11-30T15:55:32,676][INFO ][o.e.p.PluginsService     ] [nHwKUwc] loaded module [aggs-matrix-stats]
