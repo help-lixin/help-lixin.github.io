@@ -177,4 +177,5 @@ private void doPut(List<Event> data) {
 ### (8). 总结
 > 1. CanalEventStore内部为一个数组.实际上是学习了:Disruptor,通过下标存取数据.   
 > 2. CanalEventStore接受EntryEventSink的请求.   
-> 2. 将Event添加到数组中.   
+> 3. 将Event添加到数组中.   
+> 4. 该类的其它方法,将在后面Canal Client连接时进行讲解. 
