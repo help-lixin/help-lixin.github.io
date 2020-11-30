@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>280</x>
+      <y>0</y>
+      <w>300</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>CanalStoreScavenge
+fontsize=18
+bg=red
+--
+void cleanUntil(Position position)
+void cleanAll()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>370</x>
+      <y>130</y>
+      <w>660</w>
+      <h>430</h>
+    </coordinates>
+    <panel_attributes>CanalEventStore
+fontsize=18
+bg=red
+--
+void put(List&lt;T&gt; data)
+boolean put(List&lt;T&gt; data, long timeout, TimeUnit unit)
+boolean tryPut(List&lt;T&gt; data)
+void put(T data)
+boolean put(T data, long timeout, TimeUnit unit)
+boolean tryPut(T data)
+
+Events&lt;T&gt; get(Position start, int batchSize)
+Events&lt;T&gt; get(Position start, int batchSize, long timeout, TimeUnit unit)
+Events&lt;T&gt; get(Position start, int batchSize, long timeout, TimeUnit unit)
+
+Position getLatestPosition()
+Position getFirstPosition()
+
+void ack(Position position)
+void ack(Position position, Long seqId)
+
+void rollback()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>10</y>
+      <w>290</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;270.0;10.0;270.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>270</x>
+      <y>600</y>
+      <w>300</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>MemoryEventStoreWithBuffer
+fontsize=18
+bg=blue
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>190</y>
+      <w>300</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>/AbstractCanalStoreScavenge/
+fontsize=18
+bg=blue
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>10</y>
+      <w>310</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>290.0;10.0;10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>280</y>
+      <w>160</w>
+      <h>370</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;350.0;140.0;350.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>140</y>
+      <w>560</w>
+      <h>510</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>150.0;10.0;540.0;10.0;540.0;490.0;10.0;490.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>90</x>
+      <y>670</y>
+      <w>830</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>MemoryEventStoreWithBuffer:
+1. 它暂时是CanalEventStore的唯一实现.
+2. 内部持有一个数组来存储数据(Event).
+   通过:putSequence记录,数组最大的写入索引.
+   通过:ackSequence记录,上次读取ack的索引.
+3. 通过这个模型,实际是可以得出一个结论:
+CanalClient针对同一个instance只能有一个线程运行(get/ack),否则,这个值存在并发改的风险.
+bg=red
+fontsize=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

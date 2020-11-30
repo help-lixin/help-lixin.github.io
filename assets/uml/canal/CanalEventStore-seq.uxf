@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>0</x>
+      <y>0</y>
+      <w>270</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>EntryEventSink
+bg=orange
+fontsize=18
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>120</x>
+      <y>20</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>120</x>
+      <y>60</y>
+      <w>20</w>
+      <h>520</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>20</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=.
+group=2</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>540</x>
+      <y>60</y>
+      <w>20</w>
+      <h>520</h>
+    </coordinates>
+    <panel_attributes>
+bg=yellow
+group=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>420</x>
+      <y>0</y>
+      <w>270</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>MemoryEventStoreWithBuffer
+bg=orange
+fontsize=18
+group=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>70</y>
+      <w>140</w>
+      <h>500</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+1.doSink
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;480.0;10.0;480.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>120</y>
+      <w>370</w>
+      <h>420</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+2. do {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+} while (running &amp;&amp; !Thread.interrupted())</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0;70.0;400.0;10.0;400.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>190</y>
+      <w>320</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+3. tryPut</panel_attributes>
+    <additional_attributes>10.0;20.0;300.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>340</y>
+      <w>320</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+5 return true|false</panel_attributes>
+    <additional_attributes>10.0;20.0;300.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>550</x>
+      <y>230</y>
+      <w>140</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+4. doPut</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;100.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>110</x>
+      <y>590</y>
+      <w>500</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>MemoryEventStoreWithBuffer:
+1. 内部持有一个数组,通过元子性的操作记录读写position.
+2. 提供接口:tryPut给:EntryEventSink调用.
+   2.1 检查数组是否还有空位,如果没有空位,直接return false.
+   2.2 添加数据到数组对应的下标.并记录写入的position.
+   
+bg=red
+fontsize=18</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
