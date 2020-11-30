@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Disruptor ProducerType配置'
+title: 'Disruptor 生产者类型配置'
 date: 2019-10-07
 author: 李新
 tags: Disruptor

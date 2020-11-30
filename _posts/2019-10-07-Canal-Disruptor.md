@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Canal中是如何使用Disruptor的'
+title: 'Canal是如何使用Disruptor的'
 date: 2019-10-07
 author: 李新
 tags: Disruptor Canal
