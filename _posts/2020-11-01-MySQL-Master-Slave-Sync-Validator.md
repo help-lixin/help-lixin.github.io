@@ -3,7 +3,7 @@ layout: post
 title: 'MySQL主从同步验证'
 date: 2020-11-01
 author: 李新
-tags: MySQL
+tags: MySQL Canal
 ---
 
 
