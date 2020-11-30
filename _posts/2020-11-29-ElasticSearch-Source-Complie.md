@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ElasticSearch 源码编译(二)'
+title: 'ElasticSearch 源码编译并运行(二)'
 date: 2020-11-29
 author: 李新
 tags: ElasticSearch
@@ -71,7 +71,7 @@ lixin-macbook:bin lixin$ pwd
 /Users/lixin/Developer/elastic-search/elasticsearch-5.6.16/bin
 
 # 启动ES
-lixin-macbook:bin lixin$ ./elasticsearch
+lixin-macbook:bin lixin$ ./elasticsearch -d
 ```
 
 ```

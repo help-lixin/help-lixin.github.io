@@ -15,7 +15,7 @@ tags: ElasticSearch
 npm install -g grunt-cli
 ```
 
-### (3). 安装head
+### (3). 编译head
 ```
 cd  elasticsearch-head
 npm install
@@ -32,7 +32,6 @@ npm set registry https://registry.npmjs.org/
 ```
 
 ### (5). 修改ES配置文件,支持跨域请求
-
 > 修改:elasticsearch-5.6.16/config/elasticsearch.yml
 
 ```
@@ -49,3 +48,6 @@ http.cors.allow-origin: "*"
 ### (7). 访问(http://localhost:9100/)
 
 !["Head UI"](/assets/elasticsearch/imgs/elastic-head-ui.png)
+
+
+!["Head 添加索引库"](/assets/elasticsearch/imgs/elasticsearch-head-add-index.png)
