@@ -138,6 +138,10 @@ public class ComplexQuery {
 		// 排序
 		// prod_price asc,id desc
 		params.addSort("prod_price", SolrQuery.ORDER.desc);
+		
+		// 分页
+		params.setStart(0);
+		params.setRows(20);
 
 		QueryResponse response = client.query(params);
 		List<Product> products = response.getBeans(Product.class);
@@ -150,5 +154,6 @@ public class ComplexQuery {
 		client.close();
 	}
 }
+
 ```
 
