@@ -22,7 +22,7 @@ tags: ElasticSearch
 
 ### (3). Type
 > 在6.0之前,一个Index可以设置多个Type,从6.0开始,Type已经Depercated.
-> 7.0开始,一个Index只能创建一个Type.
+> 7.0开始,一个Index只能创建一个Type(_doc).
 
 ### (4). 映射Mapping(类似于表结构的定义)
 > mapping是对:Index里Document中一个Field进行描述(相当于元数据).
