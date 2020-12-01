@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Solr和Tomcat集成'
+title: 'Solr和Tomcat集成(一)'
 date: 2018-10-01
 author: 李新
 tags: Solr

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Solr 支持MySQL导入(一)'
+title: 'Solr 支持MySQL导入二(1)'
 date: 2018-10-01
 author: 李新
 tags: Solr
@@ -64,9 +64,9 @@ type:         指定域的类型
 indexed:      是否索引
   是:(将分好的词进行索引,索引的目的,就是为了搜索)
   否:不索引，也就是不对该field域进行搜索.
-stored:       是否存储(类似于java中的transient)
-  是:将field域中的内容存储到文档域中,存储的目的,就是为了搜索页面显示取值用的
-  否:不将field域中的内容存储到文档域中,不存储.则搜索页面中没法获取该field域的值.
+stored:       是否存储
+  是:在检索时:在搜索页面,以及查询条件都能显示该Field域的值.   
+  否:在检索时:搜索页面,没法获取该field域的值(仅仅只能当作查询条件来使用).
 required:     是否必须
 multiValued:  是否多值,比如查询数据需要关联多个字段数据,一个Field存储多个值信息,必须将multiValued设置为true.
 ```

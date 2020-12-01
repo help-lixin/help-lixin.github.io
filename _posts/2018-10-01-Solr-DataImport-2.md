@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Solr 支持MySQL导入(二)'
+title: 'Solr 支持MySQL导入二(2)'
 date: 2018-10-01
 author: 李新
 tags: Solr

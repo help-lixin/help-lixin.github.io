@@ -54,7 +54,101 @@ public class DelTest {
 	}
 }
 ```
-### (3). 查询
+### (3). 简单查询
+```
+package help.lixin.solrj;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.params.SolrParams;
+
+import help.lixin.solrj.pojo.Product;
+
+public class SimpleQueryTest {
+	public static void main(String[] args) throws Exception {
+		String url = "http://localhost:8080/solr/core_example";
+		HttpSolrClient client = new HttpSolrClient.Builder(url).build();
+		// 模糊查询(Field):prod_pname的内容
+		SolrParams params = new SolrQuery("prod_pname:测试");
+		QueryResponse response = client.query(params);
+		List<Product> products = response.getBeans(Product.class);
+		Stream.of(products).forEach(p->{
+			System.out.println(p);
+		});
+
+		client.commit();
+		client.close();
+	}
+}
 ```
 
+### (4). 复杂查询
 ```
+package help.lixin.solrj;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.StringUtils;
+
+import help.lixin.solrj.pojo.Product;
+
+public class ComplexQuery {
+
+	public static void main(String[] args) throws Exception {
+		String url = "http://localhost:8080/solr/core_example";
+		HttpSolrClient client = new HttpSolrClient.Builder(url).build();
+
+		// 商品名称(like)
+		String keyWorld = "prod_pname:手机";
+		if (StringUtils.isEmpty(keyWorld)) {
+			keyWorld = "*:*";
+		}
+
+		// 商品类别(fq:equals)
+		String prodCatalogName = "prod_catalog_name:手机饰品";
+
+		// 价格(between)
+		int startPrice = 0;
+		int endPrice = 200;
+
+		// prod_price:[1 TO 100]
+		// prod_price:[1 TO * ]
+		// prod_price:[* TO 100 ]
+		String prodPrice = "prod_price:[" + startPrice + " TO " + endPrice + "]";
+		SolrQuery params = new SolrQuery();
+		// 设置:q
+		params.set("q", keyWorld);
+
+		if (!StringUtils.isEmpty(prodCatalogName)) {
+			params.addFilterQuery(prodCatalogName);
+		}
+
+		if (!StringUtils.isEmpty(prodPrice)) {
+			params.addFilterQuery(prodPrice);
+		}
+
+		// 排序
+		// prod_price asc,id desc
+		params.addSort("prod_price", SolrQuery.ORDER.desc);
+
+		QueryResponse response = client.query(params);
+		List<Product> products = response.getBeans(Product.class);
+		System.err.println(products.size());
+		Stream.of(products).forEach(p -> {
+			System.out.println(p);
+		});
+
+		client.commit();
+		client.close();
+	}
+}
+```
+
