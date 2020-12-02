@@ -32,7 +32,7 @@ tags: Lucene
 ### (5). luke search
 > 对文档进行检索
 
-!["Luke search"](assets/lucene/imgs/luke-search.jpg)
+!["Luke search"](/assets/lucene/imgs/luke-search.jpg)
 
 ### (6). 总结
 当Lucene建立索引后,可能过Luke查看最后的索引内容(数据结构). 
