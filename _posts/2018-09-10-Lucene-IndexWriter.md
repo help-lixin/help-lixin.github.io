@@ -8,7 +8,7 @@ tags: Lucene
 
 
 ### (1). 通过Lucene建立索引
-> 通过Lucene演示,如何建立索引
+> 通过Lucene演示,建立索引
 
 ### (2). pom.xml
 ```
