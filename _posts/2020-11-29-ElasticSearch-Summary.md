@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ElasticSearch术语(一)'
+title: 'ElasticSearch介绍(一)'
 date: 2020-11-29
 author: 李新
 tags: ElasticSearch

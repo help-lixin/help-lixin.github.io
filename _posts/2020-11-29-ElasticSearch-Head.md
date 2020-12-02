@@ -32,7 +32,7 @@ npm set registry https://registry.npmjs.org/
 ```
 
 ### (5). 修改ES配置文件,支持跨域请求
-> 修改:elasticsearch-5.6.16/config/elasticsearch.yml
+> 修改:elasticsearch-7.1.0/config/elasticsearch.yml
 
 ```
 # 是否支持跨域
