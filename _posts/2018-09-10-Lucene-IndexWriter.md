@@ -264,6 +264,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -326,15 +327,70 @@ public class IndexWriterTest {
 	 */
 	private Document buildDocument(Product product) {
 		Document document = new Document();
-		document.add(new TextField("pid", String.valueOf(product.getPid()), Store.YES));
+		/**
+		 * 是否分词:N
+		 * 是否索引:Y
+		 * 是否存储:Y
+		 */
+		
+		document.add(new StringField("pid", String.valueOf(product.getPid()), Store.YES));
+		
+		
+		/**
+		 * 是否分词:Y
+		 * 是否索引:Y
+		 * 是否存储:Y
+		 */
 		document.add(new TextField("pname", String.valueOf(product.getPname()), Store.YES));
-		document.add(new TextField("catalog", String.valueOf(product.getCatalog()), Store.YES));
+		
+		/**
+		 * 是否分词:N
+		 * 是否索引:Y
+		 * 是否存储:Y
+		 */
+		document.add(new StringField("catalog", String.valueOf(product.getCatalog()), Store.YES));
+		
+		/**
+		 * 是否分词:Y
+		 * 是否索引:Y
+		 * 是否存储:Y
+		 */
 		document.add(new TextField("catalogName", String.valueOf(product.getCatalogName()), Store.YES));
-		document.add(new TextField("price", String.valueOf(product.getPrice()), Store.YES));
-		document.add(new TextField("number", String.valueOf(product.getNumber()), Store.YES));
-		document.add(new TextField("description", String.valueOf(product.getDescription()), Store.YES));
-		document.add(new TextField("picture", String.valueOf(product.getPicture()), Store.YES));
-		document.add(new TextField("releaseTime", String.valueOf(product.getReleaseTime().getTime()), Store.YES));
+		
+		/**
+		 * 是否分词:N
+		 * 是否索引:Y
+		 * 是否存储:Y
+		 */
+		document.add(new StringField("price", String.valueOf(product.getPrice()), Store.YES));
+		
+		/**
+		 * 是否分词:N
+		 * 是否索引:Y
+		 * 是否存储:Y
+		 */
+		document.add(new StringField("number", String.valueOf(product.getNumber()), Store.YES));
+		
+		/**
+		 * 是否分词:Y
+		 * 是否索引:Y
+		 * 是否存储:N
+		 */
+		document.add(new TextField("description", String.valueOf(product.getDescription()), Store.NO));
+		
+		/**
+		 * 是否分词:N
+		 * 是否索引:Y
+		 * 是否存储:Y
+		 */
+		document.add(new StringField("picture", String.valueOf(product.getPicture()), Store.YES));
+		
+		/**
+		 * 是否分词:N
+		 * 是否索引:Y
+		 * 是否存储:Y
+		 */
+		document.add(new StringField("releaseTime", String.valueOf(product.getReleaseTime().getTime()), Store.YES));
 		return document;
 	}
 }
