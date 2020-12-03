@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Lucene IndexSearcher搜索(四)'
+title: 'Lucene IndexSearcher简单检索(四)'
 date: 2018-09-10
 author: 李新
 tags: Lucene
