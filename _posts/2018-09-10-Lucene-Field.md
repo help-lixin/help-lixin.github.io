@@ -42,7 +42,7 @@ tags: Lucene
 ```
 
 ### (2). Field常用类型 
-> 参考( https://www.php.cn/java-article-370113.html )
+> 参考( https://blog.csdn.net/alex_xfboy/article/details/83184319 )
 
 ### (3). 总结
 
