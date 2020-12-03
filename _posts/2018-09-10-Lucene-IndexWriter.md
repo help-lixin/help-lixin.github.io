@@ -263,7 +263,11 @@ import java.util.List;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.DoublePoint;
+import org.apache.lucene.document.IntPoint;
+import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
@@ -333,7 +337,8 @@ public class IndexWriterTest {
 		 * 是否存储:Y
 		 */
 		
-		document.add(new StringField("pid", String.valueOf(product.getPid()), Store.YES));
+		document.add(new LongPoint("pid", product.getPid()));
+		document.add(new StoredField("pid", product.getPid()));
 		
 		
 		/**
@@ -341,35 +346,38 @@ public class IndexWriterTest {
 		 * 是否索引:Y
 		 * 是否存储:Y
 		 */
-		document.add(new TextField("pname", String.valueOf(product.getPname()), Store.YES));
+		document.add(new TextField("pname", product.getPname(), Store.YES));
 		
 		/**
 		 * 是否分词:N
 		 * 是否索引:Y
 		 * 是否存储:Y
 		 */
-		document.add(new StringField("catalog", String.valueOf(product.getCatalog()), Store.YES));
+		document.add(new IntPoint("catalog", product.getCatalog()));
+		document.add(new StoredField("catalog", product.getCatalog()));
 		
 		/**
 		 * 是否分词:Y
 		 * 是否索引:Y
 		 * 是否存储:Y
 		 */
-		document.add(new TextField("catalogName", String.valueOf(product.getCatalogName()), Store.YES));
+		document.add(new TextField("catalogName", product.getCatalogName(), Store.YES));
+		
+		/**
+		 * 是否分词:Y(好像没得给配置,Lucene算法规定了的)
+		 * 是否索引:Y
+		 * 是否存储:Y
+		 */
+		document.add(new DoublePoint("price", product.getPrice()));
+		document.add(new StoredField("price", product.getPrice()));
 		
 		/**
 		 * 是否分词:N
 		 * 是否索引:Y
 		 * 是否存储:Y
 		 */
-		document.add(new StringField("price", String.valueOf(product.getPrice()), Store.YES));
-		
-		/**
-		 * 是否分词:N
-		 * 是否索引:Y
-		 * 是否存储:Y
-		 */
-		document.add(new StringField("number", String.valueOf(product.getNumber()), Store.YES));
+		document.add(new IntPoint("number", product.getNumber()));
+		document.add(new StoredField("number", product.getPrice()));
 		
 		/**
 		 * 是否分词:Y
@@ -383,17 +391,19 @@ public class IndexWriterTest {
 		 * 是否索引:Y
 		 * 是否存储:Y
 		 */
-		document.add(new StringField("picture", String.valueOf(product.getPicture()), Store.YES));
+		document.add(new StringField("picture", product.getPicture(), Store.YES));
 		
 		/**
 		 * 是否分词:N
 		 * 是否索引:Y
 		 * 是否存储:Y
 		 */
-		document.add(new StringField("releaseTime", String.valueOf(product.getReleaseTime().getTime()), Store.YES));
+		document.add(new LongPoint("releaseTime", product.getReleaseTime().getTime()));
+		document.add(new StoredField("releaseTime", product.getReleaseTime().getTime()));
 		return document;
 	}
 }
+
 ```
 ### (7). 脚本
 
