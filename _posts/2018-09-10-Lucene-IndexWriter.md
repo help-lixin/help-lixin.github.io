@@ -10,6 +10,9 @@ tags: Lucene
 ### (1). 通过Lucene建立索引
 > 通过Lucene演示,建立索引
 
+["Lucene Deom源码"](/assets/lucene/lucene-demo.zip)
+
+
 ### (2). pom.xml
 > ik自行去github下载并打包      
 > https://github.com/blueshen/ik-analyzer    
