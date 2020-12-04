@@ -11,6 +11,10 @@ tags: Lucene
 > 通过Lucene演示,建立索引
 
 ### (2). pom.xml
+> ik自行去github下载并打包      
+> https://github.com/blueshen/ik-analyzer    
+
+
 ```
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -63,9 +67,9 @@ tags: Lucene
 			<version>5.1.42</version>
 		</dependency>
 		<dependency>
-            <groupId>com.janeluo</groupId>
-            <artifactId>ikanalyzer</artifactId>
-            <version>2012_u6</version>
+            <groupId>org.wltea.ik-analyzer</groupId>
+        	<artifactId>ik-analyzer</artifactId>
+        	<version>8.4.0</version>
         </dependency>
 		<dependency>
 			<groupId>junit</groupId>
