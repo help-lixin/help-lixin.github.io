@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Lucene 高级搜索一(七)'
+title: 'Lucene 高级查询(七)'
 date: 2018-09-10
 author: 李新
 tags: Lucene
