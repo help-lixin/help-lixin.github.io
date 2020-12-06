@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Chrome Debug Protocol--ChromeService(二)'
+title: 'Chrome Debug Protocol--ChromeService.launch(二)'
 date: 2020-12-06
 author: 李新
 tags: CDP
