@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>324</x>
+      <y>0</y>
+      <w>216</w>
+      <h>225</h>
+    </coordinates>
+    <panel_attributes>ChromeDevTools
+fontsize=18
+bg=red
+fg=blue
+--
+DOM getDOM();
+Input getInput();
+Page getPage();
+Console getConsole();
+Debugger getDebugger();
+Profiler getProfiler();
+Runtime getRuntime();
+Browser getBrowser();
+......</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>189</x>
+      <y>261</y>
+      <w>450</w>
+      <h>315</h>
+    </coordinates>
+    <panel_attributes>ChromeDevToolsService
+fontsize=18
+bg=red
+fg=blue
+--
+&lt;T&gt; T invoke(String returnProperty, 
+             Class&lt;T&gt; clazz, 
+             MethodInvocation methodInvocation);
+&lt;T&gt; T invoke(String returnProperty,
+             Class&lt;T&gt; clazz,
+             Class&lt;?&gt;[] returnTypeClasses,
+             MethodInvocation methodInvocation);
+             
+EventListener addEventListener(String domainName, 
+					String eventName, 
+					EventHandler eventHandler, 
+					Class&lt;?&gt; eventType);
+void removeEventListener(EventListener eventListener);
+      </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>414</x>
+      <y>9</y>
+      <w>360</w>
+      <h>288</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>30.0;10.0;380.0;10.0;380.0;300.0;10.0;300.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>297</x>
+      <y>603</y>
+      <w>261</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>/ChromeDevToolsServiceImpl/
+fontsize=18
+fg=blue
+bg=red
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>0</x>
+      <y>270</y>
+      <w>423</w>
+      <h>369</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>450.0;10.0;10.0;10.0;10.0;390.0;330.0;390.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>225</x>
+      <y>711</y>
+      <w>396</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>CommandInvocationHandler
+fontsize=18
+fg=blue
+bg=red
+--
+ChromeDevToolsService:chromeDevToolsService;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>549</x>
+      <y>621</y>
+      <w>216</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;130.0;220.0;130.0;220.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

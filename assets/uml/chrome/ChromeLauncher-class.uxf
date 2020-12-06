@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>210</x>
+      <y>320</y>
+      <w>580</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>ChromeLauncher
+fontsize=15
+bg=red
+--
+ENV_CHROME_PATH:String = "CHROME_PATH";
+TEMP_PREFIX:"cdt-user-data-dir";
+CHROME_BINARIES:String[]={ 
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+};
+
+ProcessLauncher:processLauncher;
+Environment:environment;
+ShutdownHookRegistry:shutdownHookRegistry;
+ChromeLauncherConfiguration:configuration
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>480</x>
+      <y>20</y>
+      <w>380</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>ProcessLauncher
+fontsize=15
+bg=blue
+fg=blue
+--
+Process launch(String program, List&lt;String&gt; args)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>670</x>
+      <y>30</y>
+      <w>220</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>120.0;420.0;200.0;420.0;200.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>20</y>
+      <w>350</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>ChromeLauncherConfiguration
+fontsize=15
+bg=blue
+--
+DEFAULT_STARTUP_WAIT_TIME:int=60;
+DEFAULT_SHUTDOWN_WAIT_TIME:int=60;
+THREAD_JOIN_WAIT_TIME:int=5;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>60</x>
+      <y>20</y>
+      <w>170</w>
+      <h>510</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>150.0;490.0;10.0;490.0;10.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+</diagram>
