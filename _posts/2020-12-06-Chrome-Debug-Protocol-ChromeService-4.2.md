@@ -154,7 +154,7 @@ public static <T> T createProxyFromAbstract(
     ProxyFactory proxyFactory = new ProxyFactory();
     // 设置基于哪个类创建代理工厂(com.github.kklisura.cdt.services.impl.ChromeDevToolsServiceImpl)
     proxyFactory.setSuperclass(clazz);
-    // 过滤掉抽象方法
+    // 只针对抽象方法进行代理.
     proxyFactory.setFilter(method -> Modifier.isAbstract(method.getModifiers()));
     try {
         return (T)
