@@ -116,11 +116,19 @@ public void accept(String message) {
           LOGGER.warn(
               "Received result response with unknown invocation id {}. {}", id, jsonNode.asText());
         }
-      } else {
+      } else {  //报文体中不存在id
+
+        // 那就可能是事件
+        // Network.requestWillBeSent
+        // Network.requestWillBeSentExtraInfo
+        // 
         JsonNode methodNode = jsonNode.get(METHOD_PROPERTY);
+
+        // {"requestId":"9109BD8473893CFB540FBB1B48B77498","loaderId":"9109BD8473893CFB540FBB1B48B77498","documentURL":"http://github.com/","request":{"url":"http://github.com/","method":"GET","headers":{"Upgrade-Insecure-Requests":"1","User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"},"mixedContentType":"none","initialPriority":"VeryHigh","referrerPolicy":"no-referrer-when-downgrade"},"timestamp":8503.432429,"wallTime":1.607327182175508E9,"initiator":{"type":"other"},"type":"Document","frameId":"7B009B704DDF902D64F73CDDD50BE519","hasUserGesture":false}
         JsonNode paramsNode = jsonNode.get(PARAMS_PROPERTY);
 
         if (methodNode != null) {
+          // 调用相应的:
           handleEvent(methodNode.asText(), paramsNode);
         }
       }
@@ -130,8 +138,41 @@ public void accept(String message) {
       LOGGER.error("Failed receiving web socket message!", ex);
     }
 } // end accept
+
+
+private void handleEvent(String name, JsonNode params) {
+    //  根据事件名称(Network.requestWillBeSent),获取到相应的:EventListenerImpl进行处理.
+    Set<EventListenerImpl> listeners = eventNameToHandlersMap.get(name);
+    if (listeners != null) {
+      final Set<EventListener> eventListeners;
+      synchronized (listeners) {
+        eventListeners = new HashSet<>(listeners);
+      }
+
+      if (!eventListeners.isEmpty()) {
+        eventExecutorService.execute(
+            () -> {
+              Object event = null;
+
+              for (EventListenerImpl listener : listeners) {
+                try {
+                  if (event == null) {
+                    event = readJsonObject(listener.getParamType(), params);
+                  }
+
+                  listener.getHandler().onEvent(event);
+                } catch (Exception e) {
+                  LOGGER.error("Error while processing event {}", name, e);
+                }
+              }
+            });
+      }
+    }
+} // end handleEvent
 ```
 ### (6).总结
 > 1. ChromeDevToolsServiceImpl实现了:java.util.function.Consumer.   
 > 2. ChromeDevToolsServiceImpl在创建时,会为:WebSocketService配置业务处理Handler,而这个Handler要求是:Consumer的子类,也就是:ChromeDevToolsServiceImpl它自己.    
-> 3. ChromeDevToolsServiceImpl.accept方法,接受websocket返回数据后,对报文({"id":1,"result":{}})进行解码,根据ID,从Map中获得返回的数据结构(InvocationResult),设置是否成功,和报文体.    
+> 3. <font color='red'>ChromeDevToolsServiceImpl.accept方法,接受websocket返回数据后,对报文进行解码.</font>
+> 4. <font color='red'>如果报文内容包含有:ID,从Map中获得返回的数据结构(InvocationResult),设置是否成功,和报文体.</font>    
+> 5. <font color='red'>如果报文内容不包含有:ID,则有可能是WebSocket发布的Event事件,从缓存中拿到所有的:Event,与WebSocket发布的Event名称进行比较,相同,则invoke(这里典型的:发布订阅模式).</font>    

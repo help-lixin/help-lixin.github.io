@@ -160,9 +160,12 @@ public <T> T invoke(
           return null;
         }
 
+        // 如果有返回类型
         if (returnTypeClasses != null) {
+          
           return readJsonObject(returnTypeClasses, clazz, invocationResult.getResult());
         } else {
+          // 读取(invocationResult.getResult())内容转变成:clazz
           return readJsonObject(clazz, invocationResult.getResult());
         }
       } else {   // 返回失败处理
