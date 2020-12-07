@@ -124,7 +124,12 @@ public <T> T invoke(
       // ***********************************************************
       InvocationResult invocationResult = new InvocationResult(returnProperty);
 
-      // 请求sequence为唯一的标识,防止重复提交
+      // ***********************************************************
+      // 为什么要放到Map里?
+      // 因为:发送报文给websocket后,
+      // websocket返回数据,会包含着请求的ID,此时,根据id取value(InvocationResult),并value进行赋值或操作.   
+      // key:为请求的唯一标识,value为:InvocationResult  
+      // ***********************************************************
       invocationResultMap.put(methodInvocation.getId(), invocationResult);
 
       // 真正与websocket进行交互
@@ -137,7 +142,7 @@ public <T> T invoke(
       boolean hasReceivedResponse =
           invocationResult.waitForResult(configuration.getReadTimeout(), TimeUnit.SECONDS);
 
-      //  请求完成之后,删除sequence
+      //  请求完成之后,删除key(唯一ID)
       invocationResultMap.remove(methodInvocation.getId());
 
       // ********************************************************
