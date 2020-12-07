@@ -13,7 +13,7 @@ tags: CDP
 
 ["CDP 创建Chrome系统进程"](https://www.lixin.help/2020/12/06/Chrome-Debug-Protocol-ProcessLauncher-3.html)
 
-["CDP 创建ChromeTab(1)"](https://www.lixin.help/2020/12/06/Chrome-Debug-Protocol-ChromeService-4.1.html)
+["CDP 创建ChromeTab"](https://www.lixin.help/2020/12/06/Chrome-Debug-Protocol-ChromeService-4.1.html)
 
 ["CDP 创建WebSocket"](https://www.lixin.help/2020/12/06/Chrome-Debug-Protocol-ChromeService-4.2.html)
 
