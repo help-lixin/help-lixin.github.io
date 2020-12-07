@@ -27,5 +27,5 @@ webSocketService.send(OBJECT_MAPPER.writeValueAsString(methodInvocation));
 ```
 
 ### (3). 总结
-> 不管你是否订阅相应的Event,Chrome都会发布Event事件的.只是你不订阅的话,相当于是忽略了这个事件.<font color='red'>需要注意:一个ChromeDevToolsService可以包含N个Event,而事件是全局性的,不是一个请求配置一个事件来着的.</font>    
+> 不管你(websocket client)是否订阅相应的Event,Chrome都会发布Event事件的.只是你不订阅的话,相当于是忽略了这个事件.<font color='red'>需要注意:一个ChromeDevToolsService可以包含N个Event,而事件是全局性的,不是一个请求配置一个事件来着的.</font>    
 > 其实,最后:所有的事情,最终都是走websocket.
