@@ -77,18 +77,4 @@ lixin-macbook:bin lixin$ ./logstash -f /Users/lixin/Developer/elastic-search/wor
 ```
 
 ### (5). kibana检查是否导入成功
-
-```
-GET /movies/_count
-
-# 执行结果
-{
-  "count" : 9743,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  }
-}
-```
+!["kibana查看movies是否导入成功"](/assets/elasticsearch/imgs/logstash-import.jpg)
