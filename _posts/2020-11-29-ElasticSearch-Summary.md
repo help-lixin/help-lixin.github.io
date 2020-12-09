@@ -38,4 +38,3 @@ tags: ElasticSearch
 > 1. 复制,可以理解为备份分片.主要解决负载均衡和高可用问题.   
 > 2. 主分片和备分片不会出现在同一个节点上(防止单点故障),默认情况下一个索引库创建5个分片,每个分片指定:1个副本数.总共是:10分片（5primary+5replica=10个分片）
 > 3. 如果你只有一个节点(Node),那么5个replica都无法分配(unassigned),此时cluster status会变成Yellow. 
-
