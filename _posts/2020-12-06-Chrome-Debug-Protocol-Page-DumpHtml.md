@@ -101,5 +101,5 @@ public class DumpHtmlFromPageExample{
 }
 ```
 ### (2). 结果
-> Page.onLoadEventFired只调用了一次.
-> 在解析到的HTML里,是包含有JS渲染后的内容.
+> Page.onLoadEventFired只调用了一次.     
+> 在解析到的HTML里,是包含有AJAX渲染后的内容.这样就能做到:爬取与解析HTML进行分析.   

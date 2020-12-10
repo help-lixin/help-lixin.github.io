@@ -226,6 +226,7 @@ GET _analyze
 
 ### (4). Stop Analyzer
 > 小写处理,停用词过滤(is,a).   
+
 ```
 # stop
 GET _analyze
@@ -313,6 +314,7 @@ GET _analyze
 
 ### (5). Whitespace Analyzer
 > 按照空格切分,不转小写. 
+
 ```
 # whitespace(按空格划分,不转小写)
 GET _analyze
@@ -413,6 +415,7 @@ GET _analyze
 ```
 ### (6). Keyword Analyzer
 > 不分词,直接将输入当作输出.  
+
 ```
 # keyword(不分词)
 GET _analyze
@@ -436,6 +439,7 @@ GET _analyze
 ```
 ### (7). Patter Analyzer
 > 正则表达式,默认\W+(非字符分隔).  
+
 ```
 # pattern(正则表达式切分,按照非字符分隔)
 GET _analyze
