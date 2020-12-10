@@ -12,7 +12,7 @@ tags: ElasticSearch
 ```
 # 工作目录
 lixin-macbook:bin lixin$ pwd
-/Users/lixin/Developer/elastic-search/logstash-7.1.1/bin
+/Users/lixin/Developer/elastic-search/logstash-7.10.0/bin
 ```
 ### (2). 创建配置文件(logstash.conf)
 > /Users/lixin/Developer/elastic-search/work/logstash.conf
@@ -70,7 +70,7 @@ output {
 ```
 # logstash工作目录
 lixin-macbook:bin lixin$ pwd
-/Users/lixin/Developer/elastic-search/logstash-7.1.1/bin
+/Users/lixin/Developer/elastic-search/logstash-7.10.0/bin
 
 # 导入数据
 lixin-macbook:bin lixin$ ./logstash -f /Users/lixin/Developer/elastic-search/work/logstash.conf
