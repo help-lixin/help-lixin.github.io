@@ -9,11 +9,11 @@ tags: ElasticSearch
 ### (1). URI Search
 > URI Search就是通过URI进行Query.   
 > q       : 指定查询的文本.  
-> df      : 指定查询的字段(不指定会查询所有的字段).
-> sort    : 排序
-> from    : 分页
-> size    : 每页显示数量
-> profile : 查看Query是如何执行的. 
+> df      : 指定查询的字段(不指定会查询所有的字段).    
+> sort    : 排序       
+> from    : 跳过开始的结果数,默认是:0      
+> size    : 结果数,默认是:10   
+> profile : 查看Query是如何执行的.    
 
 ```
 GET /movies/_search?q=Lolita&df=title&sort=year:desc&from=0&size=10
