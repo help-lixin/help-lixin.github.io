@@ -33,7 +33,7 @@ tags: ElasticSearch
 
 ### (3). 创建索引并指定Mapping
 ```
-PUT /blog
+PUT /hobbys
 {
   "settings": {
     "index":{
@@ -50,18 +50,11 @@ PUT /blog
     }
   }
 }
-
-# 创建索引返回结果: 
-{
-  "acknowledged" : true,
-  "shards_acknowledged" : true,
-  "index" : "blog"
-}
 ```
 
 ### (4). 修改索引mappings信息
 ```
-PUT /blog/_mappings
+PUT /hobbys/_mappings
 {
   "properties":{
     "sex":{ "type" : "keyword" }    
@@ -71,11 +64,11 @@ PUT /blog/_mappings
 ### (5). 查看索引信息
 ```
 # 查看索引信息
-GET /blog
+GET /hobbys
 
 # 查看索引信息结果
 {
-  "blog" : {
+  "hobbys" : {
     "aliases" : { },
     "mappings" : {
       "properties" : {
@@ -105,7 +98,7 @@ GET /blog
         "version" : {
           "created" : "7010099"
         },
-        "provided_name" : "blog"
+        "provided_name" : "hobbys"
       }
     }
   }
