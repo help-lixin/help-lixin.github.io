@@ -32,8 +32,10 @@ tags: ElasticSearch
 > <font color='red'>keyword类型:该类型适用于索引结构化的字段</font>,比如:emial地址,商品状态(status),商品类别ID(category_id),标签.如果字段只需要进行过滤,排序,聚合,则应该定义为:keyword,该类型的字段只能通过精确值搜索到.
 
 ### (3). 创建索引并指定Mapping
+> 创建Index并指定Mapping
+
 ```
-PUT /hobbys
+PUT /hobby
 {
   "settings": {
     "index":{
