@@ -199,7 +199,7 @@ private void setup(
 }// end setup
 ```
 ### (4). Spawner.spawnNativeControllers
-> 读取:modules目录,如果有native则创建相应的native.
+> 读取:modules目录,如果有native则创建:Process对象,加载native对象. 
 
 ```
 void spawnNativeControllers(final Environment environment) throws IOException {
@@ -255,5 +255,5 @@ private void start() throws NodeValidationException {
 } // end start
 ```
 ### (6). 总结
-> Bootstrap会加载一些Native进程,然后,初始化:org.elasticsearch.node.Node对象并启动.
+> Bootstrap会加载一些Native进程,然后,初始化:org.elasticsearch.node.Node对象.
 > org.elasticsearch.node.Node留到后面几节分析,里面有大量的逻辑. 
