@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>210</x>
+      <y>410</y>
+      <w>680</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Elasticsearch
+fontsize=18
+bg=red
+--
+main(args:String[]):void
+execute(terminal:Terminal, options:OptionSet):void
+int(daemonize:boolean,pidFile:Path,quiet:boolean,initialEnv:Environment):int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>230</y>
+      <w>480</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>/EnvironmentAwareCommand/
+fontsize=18
+bg=red
+--
+execute(terminal:Terminal, options:OptionSet):void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>240</x>
+      <y>50</y>
+      <w>610</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>/Command/
+fontsize=18
+bg=red
+--
+main( args:String[], terminal:Terminal):int
+mainWithoutErrorHandling(args:String[], terminal:Terminal):void
+execute(terminal:Terminal, options:OptionSet):void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>300</y>
+      <w>30</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>140</y>
+      <w>30</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+</diagram>
