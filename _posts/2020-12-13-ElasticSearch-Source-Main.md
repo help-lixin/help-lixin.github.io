@@ -350,7 +350,9 @@ protected Environment createEnv(
         throw new UserException(ExitCodes.CONFIG, "the system property [es.path.conf] must be set");
     }
 
-    // 解析:elasticsearch.yaml文件.
+    // ****************************************************
+    // 解析:elasticsearch.yaml文件.并将结果保存到:Environment里.
+    // ****************************************************
     return InternalSettingsPreparer.prepareEnvironment(Settings.EMPTY, settings,
             getConfigPath(esPathConf),
             // HOSTNAME is set by elasticsearch-env and elasticsearch-env.bat so it is always available

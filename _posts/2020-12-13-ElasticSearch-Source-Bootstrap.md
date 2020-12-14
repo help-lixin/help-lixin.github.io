@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ElasticSearch 源码入口Bootstrap(二)'
+title: 'ElasticSearch 源码Bootstrap(二)'
 date: 2020-12-13
 author: 李新
 tags: ElasticSearch源码

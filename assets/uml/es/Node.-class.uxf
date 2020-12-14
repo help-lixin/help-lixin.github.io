@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>30</y>
+      <w>260</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>Node
+fontsize=18
+bg=red
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
