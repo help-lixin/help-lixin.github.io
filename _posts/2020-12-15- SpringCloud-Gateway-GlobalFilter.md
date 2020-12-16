@@ -14,9 +14,6 @@ tags: SpringCloudGateway
 package help.lixin.filter;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +44,7 @@ public class CustomerGlobalFilter implements GlobalFilter, Ordered {
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-		// TODO 业务逻辑处
+		// TODO 业务逻辑处理.
 		ServerHttpRequest request = exchange.getRequest();
 		ServerHttpResponse response = exchange.getResponse();
 		// 获得token
@@ -55,24 +52,25 @@ public class CustomerGlobalFilter implements GlobalFilter, Ordered {
 		// 如果获取不到token
 		if (null == token) {
 			logger.warn("token is null");
-			// 设置协议头信息
+			// 设置响应的协议头信息.
 			response.getHeaders().add("Content-Type", "application/json");
 			response.setStatusCode(HttpStatus.UNAUTHORIZED);
 
-			// 创建返回信息
+			// 创建返回信息体
 			Response res = new Response();
 			res.setMsg(HttpStatus.UNAUTHORIZED.getReasonPhrase());
 
 			ObjectMapper objectMapper = new ObjectMapper();
 			String body = "";
 			try {
-				// 将返回信息转换成字符串
+				// 将返回信息体转换成字符串
 				body = objectMapper.writeValueAsString(res);
 			} catch (JsonProcessingException e) {
 			}
 
 			// 将字符串转换成:DataBuffer
 			DataBuffer buffer = response.bufferFactory().wrap(body.getBytes());
+			// 拦截请求,不再继续往下执行.
 			return response.writeWith(Mono.just(buffer));
 		}
 		logger.info("token validate success.");
@@ -81,14 +79,10 @@ public class CustomerGlobalFilter implements GlobalFilter, Ordered {
 
 	public String getToken(ServerHttpRequest request) {
 		String token = null;
-		List<String> headToken = request.getHeaders().get("token");
-		if (null != headToken && !headToken.isEmpty()) {
-			token = headToken.get(0);
-		} else {
-			List<String> paramsToken = request.getQueryParams().get("token");
-			if (null != paramsToken && !paramsToken.isEmpty()) {
-				token = paramsToken.get(0);
-			}
+		// 从协议头里拿到:token
+		token = request.getHeaders().getFirst("token");
+		if (null == token) { // 拿不到的话,再从:params中拿
+			token = request.getQueryParams().getFirst("token");
 		}
 		return token;
 	}
@@ -106,6 +100,7 @@ public class CustomerGlobalFilter implements GlobalFilter, Ordered {
 		}
 	}
 }
+
 ```
 ### (3). 测试
 ```
