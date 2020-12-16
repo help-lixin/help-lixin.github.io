@@ -23,7 +23,7 @@ tags: SpringCloudGateway
 ### (4). Filter
 > Filter是一个标准的过滤器,Spring Cloud Gateway中的Filter分两种类型,分别是:Gateway Filter和Gloabl Filter,过滤器可对request和response进行处理.   
 > Gateway Filter : 网关过滤器,需要通过spring.cloud.routes.filters配置在具体的路由下,只能作用在当前的路由上或者通过spring.cloud.default-filters配置在全局,作用在所有的路由上.   
-> Global Filter: 全局过滤器,不需要在配置文件中配置,作用在所有的路由上,最终通过GatewayFilterAdapter包装成GatewayFilterChain可识的的过滤器,它为请求业务以及路由的URI转换为真实业务服务请求地址的核心过滤器,不需要配置系统初始化时加载,并作用在每个路由上.   
+> Global Filter: 全局过滤器,<font color='red'>不需要在配置文件中配置,</font>作用在所有的路由上,最终通过GatewayFilterAdapter包装成GatewayFilterChain可识的的过滤器,它为请求业务以及路由的URI转换为真实业务服务请求地址的核心过滤器,不需要配置系统初始化时加载,并作用在每个路由上.   
 
 > GatewayFilterFactory的实现子类如下:
 
