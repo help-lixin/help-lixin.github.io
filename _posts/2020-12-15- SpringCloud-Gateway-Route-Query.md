@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway Route Query(三)'
+title: 'Spring Cloud Gateway Route Query(三)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway

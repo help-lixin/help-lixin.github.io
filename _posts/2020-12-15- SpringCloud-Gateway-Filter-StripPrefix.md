@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway Filter StripPrefix(十二)'
+title: 'Spring Cloud Gateway Filter StripPrefix(十二)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway
@@ -9,7 +9,7 @@ tags: SpringCloudGateway
 ### (1). Filter StripPrefixGatewayFilterFactory
 >  StripPrefix网关过滤器工厂采用一个参数StripPrefix,该参数表示在将请求发送给下游之前剥离的路径个数.
 
-### (3). application.yml
+### (2). application.yml
 ```
 #端口
 server:
@@ -36,7 +36,7 @@ spring:
             # 把/test/index/consumer   重写为:  /consumer
             - StripPrefix=2
 ```
-### (4). 测试
+### (3). 测试
 ```
 # 实际处理后的请求是:http://localhost:9000/consumer
 curl http://localhost:9000/test/index/consumer

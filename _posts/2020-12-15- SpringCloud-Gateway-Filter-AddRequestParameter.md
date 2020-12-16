@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway Filter AddRequestParameter(十四)'
+title: 'Spring Cloud Gateway Filter AddRequestParameter(十四)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway
@@ -9,7 +9,7 @@ tags: SpringCloudGateway
 ### (1). Filter AddRequestParameterGatewayFilterFactory
 >  可以在请求发往下游的时候,增加参数
 
-### (3). application.yml
+### (2). application.yml
 ```
 #端口
 server:
@@ -37,7 +37,7 @@ spring:
             # 在下游请示中增加参数: /consumer?token=abc123
             - AddRequestParameter=token,abc123
 ```
-### (4). 测试
+### (3). 测试
 ```
 # 可以在consumer打印URL信息.
 # 最终的请求是:http://localhost:7070/consumer?token=abc123

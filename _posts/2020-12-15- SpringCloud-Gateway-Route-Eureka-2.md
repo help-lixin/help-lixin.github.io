@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway Route结合Eureka-2(九)'
+title: 'Spring Cloud Gateway Route结合Eureka-2(九)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway

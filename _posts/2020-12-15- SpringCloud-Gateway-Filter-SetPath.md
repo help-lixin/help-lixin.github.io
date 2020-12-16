@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway Filter SetPath(十三)'
+title: 'Spring Cloud Gateway Filter SetPath(十三)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway
@@ -9,7 +9,7 @@ tags: SpringCloudGateway
 ### (1). Filter SetPathGatewayFilterFactory
 >  SetPath它允许模板化路径段来操作请求路径的简单写法
 
-### (3). application.yml
+### (2). application.yml
 ```
 #端口
 server:
@@ -35,7 +35,7 @@ spring:
             # 将/api/consumer/Welcome 重写为: /consumer/Welcome
             - SetPath=/consumer/{segment}
 ```
-### (4). 测试
+### (3). 测试
 ```
 # 将/api/consumer/Welcome  重写为: /consumer/Welcome
 curl http://localhost:9000/api/consumer/Welcome

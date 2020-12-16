@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway入门案例(二)'
+title: 'Spring Cloud Gateway入门案例(二)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway

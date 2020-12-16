@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway Filter SetStatus(十五)'
+title: 'Spring Cloud Gateway Filter SetStatus(十五)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway
@@ -9,7 +9,7 @@ tags: SpringCloudGateway
 ### (1). Filter SetStatusGatewayFilterFactory
 >  SetStatus将请求设置成相应的状态码(404/200...)
 
-### (3). application.yml
+### (2). application.yml
 ```
 #端口
 server:
@@ -37,7 +37,7 @@ spring:
             # 更改响应状态为:404
             - SetStatus=404
 ```
-### (4). 测试
+### (3). 测试
 ```
 # 大写的I可以查看响应的协议头信息.
 curl -I http://localhost:9000/api-gateway/consumer

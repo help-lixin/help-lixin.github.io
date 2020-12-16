@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway 概念(一)'
+title: 'Spring Cloud Gateway 概念(一)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway

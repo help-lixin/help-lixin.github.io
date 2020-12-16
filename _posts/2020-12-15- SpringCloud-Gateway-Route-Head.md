@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway Route Head(七)'
+title: 'Spring Cloud Gateway Route Head(七)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway

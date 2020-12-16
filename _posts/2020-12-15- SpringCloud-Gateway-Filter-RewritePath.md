@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway Filter RewritePath(十)'
+title: 'Spring Cloud Gateway Filter RewritePath(十)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway

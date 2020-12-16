@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway Filter PrefixPath(十一)'
+title: 'Spring Cloud Gateway Filter PrefixPath(十一)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway
@@ -9,7 +9,7 @@ tags: SpringCloudGateway
 ### (1). Filter PrefixPathGatewayFilterFactory
 >  PrefixPath为匹配URL添加指定的前缀.
 
-### (3). application.yml
+### (2). application.yml
 ```
 #端口
 server:
@@ -37,7 +37,7 @@ spring:
             # 请求:/hello 会增加前缀变成:/consumer/hello
             - PrefixPath=/consumer
 ```
-### (4). 测试
+### (3). 测试
 ```
 # 访问:http://localhost:9000/
 # 会为这个请求增加前缀:http://localhost:7070/consumer/

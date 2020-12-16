@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SpringCloud Gateway Route Method(四)'
+title: 'Spring Cloud Gateway Route Method(四)'
 date: 2020-12-15
 author: 李新
 tags: SpringCloudGateway
