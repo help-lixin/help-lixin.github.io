@@ -106,3 +106,4 @@ public class KeyResolverConiguration {
 > 8. 从令牌通拿一个令牌,当拿不到的情况下,代表令牌不足,就触发:5,6,7步.    
 > 9. 拿令牌的过程就是对redis进行自减("request_rate_limiter.{/consumer}.tokens")
 > 10. 为什么用Redis+Lua,就是为了解决Redis操作一致性问题.   
+> 11. <font color='red'>缺点:在整个Spring Cloud Gateway进程里,KeyResolver实例只允许有一个,否则,就会抛出异常.</font>
