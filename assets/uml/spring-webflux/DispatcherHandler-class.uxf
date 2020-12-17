@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>60</x>
+      <y>40</y>
+      <w>480</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>WebHandler
+fontsize=18
+bg=red
+--
+handle(exchange:ServerWebExchange)Mono&lt;Void&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>570</x>
+      <y>40</y>
+      <w>600</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>ApplicationContextAware
+fontsize=18
+bg=red
+--
+setApplicationContext(applicationContext:ApplicationContext):void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>420</x>
+      <y>250</y>
+      <w>490</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>DispatcherHandler
+fontsize=18
+bg=red
+--
+handlerMappings:List&lt;HandlerMapping&gt;
+handlerAdapters:List&lt;HandlerAdapter&gt;
+resultHandlers:List&lt;HandlerResultHandler&gt;
+
+
+initStrategies():void
+handle(exchange:ServerWebExchange)Mono&lt;Void&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>0</x>
+      <y>50</y>
+      <w>440</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>290.0;10.0;10.0;10.0;10.0;250.0;420.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>870</x>
+      <y>50</y>
+      <w>380</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;360.0;10.0;360.0;250.0;40.0;250.0</additional_attributes>
+  </element>
+</diagram>

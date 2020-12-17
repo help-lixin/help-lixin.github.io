@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Cloud Gateway FilteringWebHandler Web入口(五)'
+title: 'Spring Cloud Gateway FilteringWebHandler Web入口(七)'
 date: 2020-12-16
 author: 李新
 tags: SpringCloudGateway源码
@@ -50,9 +50,10 @@ public class FilteringWebHandler
 
 	// reactor-netty解析后,最终会调用:handler.
 	public Mono<Void> handle(ServerWebExchange exchange) {
-		
-		// TOOD 这个数据从哪来的?
 		// 获取用户级别的:GatewayFilter
+		// GATEWAY_ROUTE_ATTR是在:
+		// RoutePredicateHandlerMapping.getHandlerInternal
+		// 进行设置的.
 		Route route = exchange.getRequiredAttribute(GATEWAY_ROUTE_ATTR);
 		List<GatewayFilter> gatewayFilters = route.getFilters();
 
