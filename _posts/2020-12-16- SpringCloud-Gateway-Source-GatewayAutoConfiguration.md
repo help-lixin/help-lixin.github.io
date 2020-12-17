@@ -267,6 +267,7 @@ public ForwardPathFilter forwardPathFilter() {
 
 // ******************************************************
 // 通过:FilteringWebHandler,包裹所有的:GlobalFilter.
+// FilteringWebHandler是WebHandler(WebFlux)的实现子类
 // ******************************************************
 @Bean
 public FilteringWebHandler filteringWebHandler(List<GlobalFilter> globalFilters) {
@@ -329,6 +330,6 @@ public RoutePredicateHandlerMapping routePredicateHandlerMapping(
 > 1. 创建多个:GatewayFilterFactory.   
 > 2. 创建多个:RoutePredicateFactory.   
 > 3. 把GatewayFilterFactory和RoutePredicateFactory组合成:RouteDefinitionRouteLocator.   
-> 4. 创建:FilteringWebHandler内部聚合多个:GlobalFilter.    
+> 4. 创建:FilteringWebHandler内部聚合多个:GlobalFilter.<font color='red'>FilteringWebHandler是WebHandler(WebFlux)的子类,与:DispatcherHandler是平级的.</font>    
 > 5. 创建:RoutePredicateHandlerMapping,内部聚合:FilteringWebHandler/RouteDefinitionRouteLocator.    
 > 6. <font color='red'>重点:RoutePredicateHandlerMapping应该是入口了.</font>

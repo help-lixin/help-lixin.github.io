@@ -26,6 +26,13 @@ public interface GatewayFilterFactory<C>
 		return apply(config);
 	}// end apply
 
+    // 获取GatewayFilterFactory实现类的名称,并删除后缀
+    default String name() {
+        // getClass() = RemoveRequestHeaderGatewayFilterFactory
+        // RemoveRequestHeader
+		return NameUtils.normalizeRoutePredicateName(getClass());
+	}// end name
+
 
     // ************************************************
     // 业务需要实现方法.

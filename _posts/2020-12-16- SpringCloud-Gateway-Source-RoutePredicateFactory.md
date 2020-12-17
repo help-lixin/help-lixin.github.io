@@ -14,7 +14,14 @@ tags: SpringCloudGateway源码
 public interface RoutePredicateFactory<C> 
        extends ShortcutConfigurable, Configurable<C> {
 
-    
+	// 获取实现了:RoutePredicateFactory类的名称
+	// 并删除后缀:RoutePredicateFactory
+    default String name() {
+		//  BetweenRoute
+		return NameUtils.normalizeRoutePredicateName(getClass());
+	}
+
+
     Predicate<ServerWebExchange> apply(C config);
 
 }
