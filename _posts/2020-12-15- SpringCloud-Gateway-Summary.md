@@ -19,6 +19,10 @@ tags: SpringCloudGateway
 
 ### (3). Predicate
 > Predicate是JDK8的断言函数,它的输入类型为:org.springframework.web.server.ServerWebExchange.它允许开发者去定义匹配来自于Http Reqeust中的任何信息,比如:Header或参数等.    
+> RoutePredicateFactory的实现子类如下: 
+
+!["RoutePredicateFactory"](/assets/spring-cloud-gateway/imgs/spring-cloud-gateway-route-predicate-factory.jpg)
+
 
 ### (4). Filter
 > Filter是一个标准的过滤器,Spring Cloud Gateway中的Filter分两种类型,分别是:Gateway Filter和Gloabl Filter,过滤器可对request和response进行处理.   

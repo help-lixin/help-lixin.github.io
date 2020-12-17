@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>240</y>
+      <w>350</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>GatewayProperties
+fontsize=18
+bg=red
+--
+routes:List&lt;RouteDefinition&gt;
+defaultFilters:List&lt;FilterDefinition&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>30</y>
+      <w>360</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>RouteDefinition
+fontsize=18
+bg=red
+--
+id:String
+predicates:List&lt;PredicateDefinition&gt;
+filters:List&lt;FilterDefinition&gt;
+uri:URI
+order:int
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>50</y>
+      <w>320</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;190.0;10.0;10.0;300.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>340</y>
+      <w>350</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>FilterDefinition
+fontsize=18
+bg=red
+--
+name:String
+args:Map&lt;String,String&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>320</y>
+      <w>330</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0;310.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>930</x>
+      <y>340</y>
+      <w>350</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>PredicateDefinition
+fontsize=18
+bg=red
+--
+name:String
+args:Map&lt;String,String&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>160</y>
+      <w>30</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>70</y>
+      <w>340</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;320.0;10.0;320.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>390</x>
+      <y>450</y>
+      <w>480</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>从业务模型上来看:
+GatewayProperties包含多个:RouteDefinition.
+GatewayProperties包含多个:FilterDefinition.
+
+RouteDefinition包含多个:PredicateDefinition.
+RouteDefinition包含多个:FilterDefinition.
+
+PredicateDefinition由字符串组成,以"="为分隔,
+然后变成Map
+
+bg=pink
+fontsize=18
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

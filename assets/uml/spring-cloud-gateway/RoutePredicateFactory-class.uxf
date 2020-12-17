@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>280</x>
+      <y>100</y>
+      <w>440</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>RoutePredicateFactory
+fontsize=18
+bg=red
+fg=blue
+--
+apply(config:C):Predicate&lt;ServerWebExchange&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>280</x>
+      <y>380</y>
+      <w>500</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>BetweenRoutePredicateFactory
+fontsize=18
+bg=red
+fg=blue
+--
+apply(config:Config):Predicate&lt;ServerWebExchange&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>320</x>
+      <y>240</y>
+      <w>350</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>/AbstractRoutePredicateFactory/
+fontsize=18
+bg=red
+fg=blue
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>290</y>
+      <w>30</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>500</x>
+      <y>110</y>
+      <w>350</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;330.0;10.0;330.0;160.0;170.0;160.0</additional_attributes>
+  </element>
+</diagram>
