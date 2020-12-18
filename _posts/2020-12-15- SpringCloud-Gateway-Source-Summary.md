@@ -21,3 +21,7 @@ tags: SpringCloudGateway源码
 ["RoutePredicateHandlerMapping"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-RoutePredicateHandlerMapping.html)
 
 ["FilteringWebHandler"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-FilteringWebHandler.html)
+
+["RouteLocator-RefreshRoutesEvent"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-RefreshRoutesEvent.html)
+
+["RouteDefinitionLocator"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-RouteDefinitionLocator.html)
