@@ -6,18 +6,20 @@ author: 李新
 tags: SpringCloudGateway源码
 ---
 
-### (1). FilteringWebHandler类图
-> 1. 从类图上分析,可得出结论:FilteringWebHandler是WebHandler(WebFlux的入口)的实现类.   
-> 2. 所有的:GlobalFilter都会进行适配成:GatewayFilterAdapter(典型的适配模式),而GatewayFilterAdapter,又会被:OrderedGatewayFilter对象包裹.   
-> 3. 从图中能看到:<font color='red'>所有的GlobalFilter实现,其中:ForwardRoutingFilter会调用:HandlerMapping(WebFlux中URL与Handler的映射).</font>    
+### (1). 概述
+> 在前面(第六节),分析了:RoutePredicateHandlerMapping,它主要获取用户配置:Route中的断言(Predicate)对象.调用apply(Exchange).获取符合断言的Route对象.并把这个Route设置到:Exchange中.所以:Gateway是首先执行断言(Predicate).      
+> 这一节,主要讲解:Filter的执行.    
+
+### (2). FilteringWebHandler类图
+> 1. 所有的:GlobalFilter都会进行适配成:GatewayFilterAdapter(典型的适配模式),而GatewayFilterAdapter,又会被:OrderedGatewayFilter对象包裹.   
 
 !["FilteringWebHandler"](/assets/spring-cloud-gateway/imgs/spring-cloud-gateway-filtering-web-handler-class.jpg)
 
-### (2). 
+### (2). FilteringWebHandler
 ```
 public class FilteringWebHandler 
 	    // ***********************************************
-       // WebHandler是WebFlux的入口程序,相当于:DispatcherServlet一样
+       // SimpleHandlerAdapter会回调handler方法.
 	   // ***********************************************
        implements WebHandler {
 
@@ -75,7 +77,6 @@ public class FilteringWebHandler
 }
 ```
 ### (3). 总结
-> 1. FilteringWebHandler是WebHandler的实现类,是Web程序的入口.它负责把GlobalFilter转换成:GatewayFilter.      
+> 1. FilteringWebHandler是WebHandler的实现类,它负责把GlobalFilter转换成:GatewayFilter.      
 > 2. handler在执行时,获得配置的:GatewayFilter和全局GatewayFilterAdapter.调用相应的:filter方法.     
-> 3. <font color='red'>ForwardRoutingFilter是最后一个filter,它最终会调用:HandlerMapping.</font>    
 

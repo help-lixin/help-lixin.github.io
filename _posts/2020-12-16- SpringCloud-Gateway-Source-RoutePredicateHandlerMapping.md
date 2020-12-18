@@ -124,7 +124,35 @@ protected Mono<Route> lookupRoute(ServerWebExchange exchange) {
         });
 }// end lookupRoute
 ```
-### (4). 总结
+
+### (4). DispatcherHandler.invokeHandler
+```
+// Spring WebFlux在调用该方法时,Hnalder为:FilteringWebHandler
+private Mono<HandlerResult> invokeHandler(ServerWebExchange exchange, Object handler) {
+    // handler = org.springframework.cloud.gateway.handler.FilteringWebHandler
+
+    // handlerAdapters = [RequestMappingHandlerAdapter,HandlerFunctionAdapter,SimpleHandlerAdapter]
+    if (this.handlerAdapters != null) {
+        for (HandlerAdapter handlerAdapter : this.handlerAdapters) {
+            if (handlerAdapter.supports(handler)) {  // SimpleHandlerAdapter符合条件
+                return handlerAdapter.handle(exchange, handler);
+            }
+        }
+    }
+    return Mono.error(new IllegalStateException("No HandlerAdapter: " + handler));
+} // end  invokeHandler
+
+
+// SimpleHandlerAdapter
+public class SimpleHandlerAdapter implements HandlerAdapter {
+	@Override
+	public boolean supports(Object handler) {
+        // FilteringWebHandler实现了:WebHandler,所以:返回:true
+		return WebHandler.class.isAssignableFrom(handler.getClass());
+	}// end
+}
+```
+### (5). 总结
 > 1. DispatcherHandler接受所有的请求.       
 > 2. 遍历所有([RouterFunctionMapping, RequestMappingHandlerMapping, RoutePredicateHandlerMapping,SimpleUrlHandlerMapping])的HandlerMapping.此处:RoutePredicateHandlerMapping符合规则.         
 > 3. 调用RoutePredicateHandlerMapping.getHandler方法.       
