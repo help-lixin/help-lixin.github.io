@@ -7,6 +7,9 @@ tags: SpringCloudGateway源码
 ---
 
 ### (1). Spring Cloud Gateway源码目录
+
+["GatewayProperties"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-GatewayProperties.html)
+
 ["GatewayFilterFactory"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-GatewayFilterFactory.html)
 
 ["RoutePredicateFactory"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-RoutePredicateFactory.html)
