@@ -41,17 +41,3 @@ tags: SpringCloudGateway
 ### (5). Spring Cloud Gateway原理图
 
 !["Spring Cloud Gateway原理"](/assets/spring-cloud-gateway/imgs/spring_cloud_gateway_diagram.png)
-
-
-### (6). Spring Cloud Gateway源码目录
-["GatewayFilterFactory"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-GatewayFilterFactory.html)
-
-["RoutePredicateFactory"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-RoutePredicateFactory.html)
-
-["GatewayAutoConfiguration"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-GatewayAutoConfiguration.html)
-
-["RouteDefinitionRouteLocator"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-RouteLocator.html)
-
-["RoutePredicateHandlerMapping"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-RoutePredicateHandlerMapping.html)
-
-["FilteringWebHandler"](https://www.lixin.help/2020/12/16/SpringCloud-Gateway-Source-FilteringWebHandler.html)
