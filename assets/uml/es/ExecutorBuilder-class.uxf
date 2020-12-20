@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>150</x>
+      <y>120</y>
+      <w>720</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>/ExecutorBuilder/
+
+{innerclass
+ExecutorSettings
+--
+nodeName:String
+
+innerclass}
+fontsize=18
+bg=red
+--
+build(setting:ExecutorBuilder.ExecutorSettings,threadContext:ThreadContext)
+:ThreadPool.ExecutorHolder
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>430</y>
+      <w>470</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>AutoQueueAdjustingExecutorBuilder
+fontsize=18
+bg=blue
+--
+sizeSetting:Setting&lt;Integer&gt;
+queueSizeSetting:Setting&lt;Integer&gt;
+minQueueSizeSetting:Setting&lt;Integer&gt;
+maxQueueSizeSetting:Setting&lt;Integer&gt;
+targetedResponseTimeSetting:Setting&lt;TimeValue&gt;
+frameSizeSetting:Setting&lt;Integer&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>430</y>
+      <w>350</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>ScalingExecutorBuilder
+fontsize=18
+bg=blue
+--
+coreSetting:Setting&lt;Integer&gt;
+maxSetting:Setting&lt;Integer&gt;
+keepAliveSetting:Setting&lt;TimeValue&gt; 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>900</x>
+      <y>430</y>
+      <w>410</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>FixedExecutorBuilder
+fontsize=18
+bg=blue
+--
+sizeSetting:Setting&lt;Integer&gt;
+queueSizeSetting:Setting&lt;Integer&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>20</x>
+      <y>110</y>
+      <w>150</w>
+      <h>340</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;10.0;10.0;320.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>300</y>
+      <w>30</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>860</x>
+      <y>120</y>
+      <w>260</w>
+      <h>330</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;240.0;10.0;240.0;310.0</additional_attributes>
+  </element>
+</diagram>

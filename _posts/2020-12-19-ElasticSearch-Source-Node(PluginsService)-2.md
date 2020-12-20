@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ElasticSearch 源码Node(PluginsService)-2(四)'
+title: 'ElasticSearch 源码Node(PluginsService)(四)'
 date: 2020-12-19
 author: 李新
 tags: ElasticSearch源码
@@ -176,7 +176,11 @@ public class PluginsService {
         //     [classname=org.elasticsearch.percolator.PercolatorPlugin]
         // 3. ClassLoader加载这个Class(PercolatorPlugin),PercolatorPlugin必须要是:Plugin的子类.
         //    loader.loadClass(className).asSubclass(Plugin.class);
-        // 4. PercolatorPlugin必须是无参构造器,通过反射创建PercolatorPlugin对象的实例.
+        // 4. 自定义Plugin的构造器只能有三种情况(path:/Users/lixin/Developer/elastic-search/elasticsearch-7.1.0/config目录):
+        //    4.1 PercolatorPlugin(Settings,Path)
+        //    4.2 PercolatorPlugin(Settings)
+        //    4.3 PercolatorPlugin()
+        // 5. 自定义Plugin如果不满足以上情况,则会抛出IllegalStateException异常.
         // ***********************************************************************
         List<Tuple<PluginInfo, Plugin>> loaded = loadBundles(seenBundles);
         pluginsLoaded.addAll(loaded);

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ElasticSearch 源码Node(NodeEnvironment)-1(四)'
+title: 'ElasticSearch 源码Node(NodeEnvironment)(四)'
 date: 2020-12-19
 author: 李新
 tags: ElasticSearch源码
