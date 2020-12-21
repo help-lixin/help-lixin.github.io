@@ -75,7 +75,7 @@ function request(url,callback){
 chrome.runtime.onMessage.addListener(function(message,sender,callback){
     var url = message.url;
     request(url,function(res){
-        if("" != res){
+        if( "" != res){
             callback({body:res});
         }
     }); 
