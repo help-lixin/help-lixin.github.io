@@ -35,6 +35,8 @@ chrome-http/
     },
     "permissions" : [
         "<all_urls>",
+        "webRequestBlocking",
+        "webRequest",
         "proxy"
     ],
     "content_scripts" : [
@@ -57,7 +59,9 @@ chrome.runtime.sendMessage({url:url},function(data){
 });
 ```
 ### (4). background.js 
-> background为后台程序处理.
+> background为后台程序处理.   
+> 注意:chrome.runtime.onMessage.addListener方法中,callback设置返回值只能同步,不能异步,
+> 如果要实现异步,则必须:return true;   
 
 ```
 function request(url,callback){
@@ -71,17 +75,44 @@ function request(url,callback){
    xhr.send();
 }
 
-// 监听事件,发起HTTP请求,然后把结果回调回去.
+// 在请求之前,进行拦截,如果:cancel为:true,则放弃请求,否则,继续往后请求.
+chrome.webRequest.onBeforeRequest.addListener(
+  function(details) {
+    return {cancel: details.url.indexOf("://www.jd.com/") != -1};
+  },
+  {urls: ["<all_urls>"]},
+  ["blocking"]
+);
+
+// 拦截发送协议头信息,添加或删除Header.
+chrome.webRequest.onBeforeSendHeaders.addListener(
+  function(details) {
+    for (var i = 0; i < details.requestHeaders.length; ++i) {
+      if (details.requestHeaders[i].name === 'User-Agent') {
+        details.requestHeaders.splice(i, 1);
+        break;
+      }
+    }
+    return {requestHeaders: details.requestHeaders};
+  },
+  {urls: ["<all_urls>"]},
+  ["blocking", "requestHeaders"]
+);
+
 chrome.runtime.onMessage.addListener(function(message,sender,callback){
     var url = message.url;
     request(url,function(res){
-        if( "" != res){
+        if("" != res){
             callback({body:res});
         }
     }); 
-    // request是异步的情况下,必须要:return true
+    // callback只能在同步的模式下使用,如果要在异步模式下使用,必须要加上这一句:return true
+    // 否则会在sendMessage的回调函数里出现:undefined.
     return true;
 });
 ```
-### (5). 查看效果
+### (5). 查看HTTP效果
 !["Chrome 发起Http请求并返回结果"](/assets/chrome-ext/imgs/chrome-ext-http-result.jpg)
+
+### (6). 查看拦截黑名单效果
+!["Chrome 处理黑名单"](/assets/chrome-ext/imgs/chrome-ext-addEvent-onBeforeRequest.jpg)
