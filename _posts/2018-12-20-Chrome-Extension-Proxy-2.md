@@ -3,7 +3,7 @@ layout: post
 title: 'Chrome Extension Proxy(LittleProxyMitmProxy)'
 date: 2018-12-20
 author: 李新
-tags: Chrome Extension
+tags: Chrome Extension LittleProxy
 ---
 
 ### (1). littleproxy-mitm概述
@@ -22,15 +22,8 @@ tags: Chrome Extension
 ```
 java -jar littleproxy-mitm-1.1.0-shade.jar
 ```
-### (4). 为浏览器配置证书
-> 我以Mac为例:
-> 1. 进入:"钥匙串访问" -> "文件" -> "导入项目"  -> "选择:littleproxy-mitm.pem".   
-> 2. 为证书配置:"始终信任".    
 
-!["导入证书"](/assets/chrome-ext/imgs/chrome-import-cert1.jpg)
-!["始终信息证书"](/assets/chrome-ext/imgs/chrome-import-cert.jpg)
-
-### (5). 通过代理,访问目标网站
+### (4). 通过CURL代理,访问目标网站
 ```
 # 当前所在的目录
 lixin-macbook:littleproxy-mitm-1.1.0 lixin$ pwd
@@ -131,11 +124,18 @@ lixin-macbook:littleproxy-mitm-1.1.0 lixin$ curl --cacert littleproxy-mitm.pem -
 ... ...
 ```
 
-### (6). Chrome访问
+### (5). 给系统添加证书
+> 我以Mac为例:
+> 1. 进入:"钥匙串访问" -> "文件" -> "导入项目"  -> "选择:littleproxy-mitm.pem".   
+> 2. 为证书配置:"始终信任".    
+
+!["导入证书"](/assets/chrome-ext/imgs/chrome-import-cert1.jpg)
+!["始终信息证书"](/assets/chrome-ext/imgs/chrome-import-cert.jpg)
+
+### (6). Chrome和Firefox访问
 > 唯一缺陷:Chrome提示:不安全网站.而Firefox却没有这样的提示.
 
+!["Mac配置全局代理"](/assets/chrome-ext/imgs/mac-global-proxy-setting.jpg)
 !["访问代理的HTTPS网站"](/assets/chrome-ext/imgs/chrome-proxy-https-1.jpg)
 !["访问代理的HTTPS网站"](/assets/chrome-ext/imgs/chrome-proxy-https-2.jpg)
-
-
 !["Firefox访问代理的HTTPS网站"](/assets/chrome-ext/imgs/firefox-proxy-https.jpg)
