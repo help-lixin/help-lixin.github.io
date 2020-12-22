@@ -7,6 +7,8 @@ tags: Chrome Extension
 ---
 
 ### (1). 创建chrome ext(chrome-websocket)
+> https://blog.mn886.net/chenjianhua/show/6b02fa4173ed/index.html 
+
 ```
 lixin-macbook:chrome-ext lixin$ tree chrome-websocket/
 chrome-websocket/
