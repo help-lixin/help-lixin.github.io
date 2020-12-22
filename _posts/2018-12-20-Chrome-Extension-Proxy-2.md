@@ -132,7 +132,10 @@ lixin-macbook:littleproxy-mitm-1.1.0 lixin$ curl --cacert littleproxy-mitm.pem -
 ```
 
 ### (6). Chrome访问
-> 唯一缺陷:Chrome提示:不安全网站.还需要钻研.
+> 唯一缺陷:Chrome提示:不安全网站.而Firefox却没有这样的提示.
 
 !["访问代理的HTTPS网站"](/assets/chrome-ext/imgs/chrome-proxy-https-1.jpg)
 !["访问代理的HTTPS网站"](/assets/chrome-ext/imgs/chrome-proxy-https-2.jpg)
+
+
+!["Firefox访问代理的HTTPS网站"](/assets/chrome-ext/imgs/firefox-proxy-https.jpg)
