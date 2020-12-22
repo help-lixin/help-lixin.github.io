@@ -128,14 +128,14 @@ lixin-macbook:littleproxy-mitm-1.1.0 lixin$ curl --cacert littleproxy-mitm.pem -
 > 我以Mac为例:
 > 1. 进入:"钥匙串访问" -> "文件" -> "导入项目"  -> "选择:littleproxy-mitm.pem".   
 > 2. 为证书配置:"始终信任".    
+> 3. Mac配置代理.    
 
 !["导入证书"](/assets/chrome-ext/imgs/chrome-import-cert1.jpg)
 !["始终信息证书"](/assets/chrome-ext/imgs/chrome-import-cert.jpg)
 
+!["Mac配置全局代理"](/assets/chrome-ext/imgs/mac-global-proxy-setting.jpg)
 ### (6). Chrome和Firefox访问
 > 唯一缺陷:Chrome提示:不安全网站.而Firefox却没有这样的提示.
-
-!["Mac配置全局代理"](/assets/chrome-ext/imgs/mac-global-proxy-setting.jpg)
 !["访问代理的HTTPS网站"](/assets/chrome-ext/imgs/chrome-proxy-https-1.jpg)
 !["访问代理的HTTPS网站"](/assets/chrome-ext/imgs/chrome-proxy-https-2.jpg)
 !["Firefox访问代理的HTTPS网站"](/assets/chrome-ext/imgs/firefox-proxy-https.jpg)
