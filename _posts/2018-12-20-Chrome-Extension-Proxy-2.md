@@ -87,8 +87,8 @@ lixin-macbook:littleproxy-mitm-1.1.0 lixin$ curl --cacert littleproxy-mitm.pem -
 * ALPN, server did not agree to a protocol
 * Server certificate:
 *  subject: CN=www.lixin.help; O=LittleProxy-mitm; OU=LittleProxy-mitm, describe proxy purpose here, since Man-In-The-Middle is bad normally.
-*  start date: Dec 23 09:29:02 2019 GMT
-*  expire date: Nov 28 09:29:02 2120 GMT
+*  start date: Dec 23 09:29:02 2018 GMT
+*  expire date: Nov 28 09:29:02 2018 GMT
 *  subjectAltName: host "www.lixin.help" matched cert's "www.lixin.help"
 *  issuer: CN=LittleProxy-mitm, describe proxy here; O=LittleProxy-mitm; OU=Certificate Authority
 *  SSL certificate verify ok.
@@ -101,15 +101,15 @@ lixin-macbook:littleproxy-mitm-1.1.0 lixin$ curl --cacert littleproxy-mitm.pem -
 < Content-Length: 14729
 < Content-Type: text/html; charset=utf-8
 < Server: GitHub.com
-< Last-Modified: Tue, 22 Dec 2020 07:00:22 GMT
+< Last-Modified: Tue, 22 Dec 2018 07:00:22 GMT
 < Access-Control-Allow-Origin: *
 < ETag: "5fe19986-3989"
-< Expires: Tue, 22 Dec 2020 09:40:22 GMT
+< Expires: Tue, 22 Dec 2018 09:40:22 GMT
 < Cache-Control: max-age=600
 < X-Proxy-Cache: MISS
 < X-GitHub-Request-Id: 5152:786E:A6BE01:B35688:5FE1BCAE
 < Accept-Ranges: bytes
-< Date: Tue, 22 Dec 2020 09:30:22 GMT
+< Date: Tue, 22 Dec 2018 09:30:22 GMT
 < Age: 0
 < X-Served-By: cache-hnd18727-HND
 < X-Cache: MISS
