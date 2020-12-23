@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'EcmaScript6 Babel提前编译'
-date: 2019-04-10
+date: 2020-04-10
 author: 李新
 tags: EcmaScript6
 ---
