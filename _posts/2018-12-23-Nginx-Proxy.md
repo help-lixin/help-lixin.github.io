@@ -46,11 +46,13 @@ tags: Nginx
 
 ```
 ### (7). nginx配置
+> /usr/local/nginx/conf/nginx.conf
+
 ```
-nginx配置
+# nginx配置
 server {  
     resolver 8.8.8.8;
-    listen 18080;
+    listen 8081;
 
     proxy_connect;
     proxy_connect_allow            443 563;
