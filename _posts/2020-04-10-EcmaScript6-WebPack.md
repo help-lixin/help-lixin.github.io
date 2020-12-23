@@ -46,25 +46,19 @@ lixin-macbook:test lixin$ npm init
 ```
 ### (4). 安装webpack和webpack-cli
 ```
-# 安装webpack和webpack-cli
+# 安装webpack和webpack-cli/http-server
 # 建议全局安装这两件插件(npm install webpack webpack-cli -g)  
 lixin-macbook:test lixin$ npm install webpack webpack-cli --save-dev
-
-# 查看项目结构
-lixin-macbook:test lixin$ tree -L 1
-.
-├── node_modules
-├── package-lock.json
-└── package.json
+lixin-macbook:test lixin$ npm install http-server --save-dev
 
 # 查看webpack版本
 lixin-macbook:test lixin$ ./node_modules/.bin/webpack -v
 webpack-cli 4.2.0
 webpack 5.11.0
 ```
-### (5). 创建项目目录(src/dist/html)
+### (5). 创建项目目录(src/dist)
 ```
-lixin-macbook:test lixin$ mkdir src dist html
+lixin-macbook:test lixin$ mkdir src dist
 ```
 ### (6). src用于存放JS文件
 > src/Person.js   
@@ -96,7 +90,7 @@ console.log(person.hello());
 ```
 
 ### (7). 编写html
-> html/demo.html 
+> dist/index.html 
 
 ```
 <!DOCTYPE html>
@@ -105,7 +99,7 @@ console.log(person.hello());
 		<meta charset="utf-8">
 		<title>test</title>
     <!-- 加载js文件 -- >
-		<script type="text/javascript" src="../dist/main.js"></script>
+		<script type="text/javascript" src="main.js"></script>
 	</head>
 	<body>
 	</body>
@@ -114,7 +108,7 @@ console.log(person.hello());
 ### (8). 配置webpack.config.js
 ```
 # 配置webpack.config.js
-lixin-macbook:test lixin$ echo "" >  webpack.config.js
+lixin-macbook:test lixin$ vi webpack.config.js
 module.exports = {
     entry:  __dirname + '/src/index.js', //打包文件入口
     output: {               //打包文件出口
@@ -140,7 +134,6 @@ webpack 5.11.0 compiled successfully in 209 ms
 lixin-macbook:test lixin$ tree -L 1
 .
 ├── dist
-├── html
 ├── node_modules
 ├── package-lock.json
 ├── package.json
@@ -156,18 +149,22 @@ lixin-macbook:test lixin$ tree -L 1
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack",
+    "start": "http-server -p 9090 ./dist"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^5.11.0",
-    "webpack-cli": "^4.2.0"
+    "http-server": "^0.12.3"
   }
 }
 ```
 
 ### (12). 访问
-> 通过Chrome直接打开文件(file:///Users/lixin/Desktop/test/html/demo.html)
+```
+# 通过npm run start运行一个:http-server监听某个目录.
+lixin-macbook:test lixin$ npm run start
+```
+
 !["ES6+WebPack打包"](/assets/js/imgs/es6-webpack.jpg)
 
