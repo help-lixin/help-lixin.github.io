@@ -60,13 +60,23 @@ const axios = require('axios');
 
 export default class HelloWorld {
 	// 定义hello方法
-	hello(url,callback) {
-		axios.get(url)
-		.then(function(response) {
-			callback(response);
-		})
-		.catch(function(error) {
-			console.log(error);
+	hello(url) {
+		return new Promise((resolve,reject)=>{
+			// ajax request
+			axios.get(url)
+			.then((data)=>{
+				let success = {
+					code : data.status,
+					msg : data.data
+				};
+				resolve(success);
+			},(error)=>{
+				let fail = {
+					code : 400,
+					msg : error
+				}
+				reject(fail);
+			})
 		});
 	}
 }
@@ -77,28 +87,26 @@ export default class HelloWorld {
 ```
 import HelloWorld from "./api/HelloWorld.js"
 
-// 注意:此处的url,不需要写全:http://localhost:8000/devApi/hello
 // webpack.config.js配置: proxy.target = http://localhost:8080
 // webpack.config.js配置: proxy.pathRewrite = {'^/devApi':''}
-// 1. webpack-dev-server拦截:/devApi/hello 
+// 1. webpack-dev-server拦截URL请求(/devApi/hello) 
 // 2. 执行正则(proxy.pathRewrite),将:/devApi/hello 替换成: /hello
 // 3. 把/hello拼接在:proxy.target后面,变成:http://localhost:8080/hello
 
 let url = "/devApi/hello";
-let helloWorld = new HelloWorld();	
-// 回调
-let result = helloWorld.hello( url , (res) => {
-	if(res.status == 200){
-		console.log(res.data);
-	}
-});
+let url = "http://localhost:8000/devApi/hello";
 
+let helloWorld = new HelloWorld();	
+helloWorld.hello(url).then(
+	(data)=> { 
+		// 对页面进行渲染.
+	    console.log("success code:" + data.code + " success msg:" + data.msg);
+    },(error)=> {
+	    console.log("error code: " + error.code + " error msg : " + error.msg);
+    });
 ```
 ### (9). webpack.config.js
 > webpack配置跨域代理和JS处理.   
-> 注意:开发在写URL时,不要写前缀.
-> 1. 针对URL(/devApi/hello)会进行替换(/hello).   
-> 2. 给替换的URL(/hello),添加前缀(http://localhost:8080),最后变成:http://localhost:8080/hello    
 
 ```
 module.exports = {
@@ -148,6 +156,7 @@ module.exports = {
 }
 ```
 ### (11). 项目结构如下
+```
 lixin-macbook:Desktop lixin$ tree test-axios 
 
 test-axios
@@ -160,7 +169,7 @@ test-axios
 │   │   └── HelloWorld.js
 │   └── main.js
 └── webpack.config.js
-
+```
 ### (12). 编译/打包/运行
 ```
 # 清除打包文件.
