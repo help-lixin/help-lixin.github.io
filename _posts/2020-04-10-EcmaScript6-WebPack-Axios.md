@@ -3,7 +3,7 @@ layout: post
 title: 'EcmaScript6 + Axios + WebPack + 跨域'
 date: 2020-04-10
 author: 李新
-tags: EcmaScript6
+tags: EcmaScript6 Axios WebPack
 ---
 
 ### (1). 定义工作目录(test-axios)
