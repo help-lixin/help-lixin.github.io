@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'EcmaScript6 + Axios + WebPackDevServer实现跨域'
+title: 'EcmaScript6 + Axios + WebPack + 跨域'
 date: 2020-04-10
 author: 李新
 tags: EcmaScript6
