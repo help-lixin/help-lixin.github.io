@@ -94,15 +94,16 @@ import HelloWorld from "./api/HelloWorld.js"
 // 3. 把/hello拼接在:proxy.target后面,变成:http://localhost:8080/hello
 
 let url = "/devApi/hello";
-let url = "http://localhost:8000/devApi/hello";
+// let url = "http://localhost:8000/devApi/hello";
 
 let helloWorld = new HelloWorld();	
-helloWorld.hello(url).then(
-	(data)=> { 
-		// 对页面进行渲染.
+let result = helloWorld.hello(url).then(
+	(data)=>{
 	    console.log("success code:" + data.code + " success msg:" + data.msg);
-    },(error)=> {
-	    console.log("error code: " + error.code + " error msg : " + error.msg);
+	    // 业务处理,渲染之类的
+	    document.body.innerHTML = data.msg;
+    },(error)=>{
+	     console.log("error code: " + error.code + " error msg : " + error.msg);
     });
 ```
 ### (9). webpack.config.js
