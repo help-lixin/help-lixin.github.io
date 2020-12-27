@@ -71,6 +71,11 @@ MaxClients 500
 
 ViaProxyName "tinyproxy"
 
+# BindSame yes
+
+# 多网卡的情况下,指定发送给上游代理的IP出口.
+# Bind 192.168.1.22
+
 # 权限校验
 BasicAuth admin 123456
 ```
