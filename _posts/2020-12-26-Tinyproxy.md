@@ -3,7 +3,7 @@ layout: post
 title: 'Tinyproxy 正向代理'
 date: 2020-12-20
 author: 李新
-tags: CentOS
+tags: Tinyproxy 正向代理
 ---
 
 ### (1). 下载

@@ -3,7 +3,7 @@ layout: post
 title: 'Nginx 正向代理'
 date: 2018-12-22
 author: 李新
-tags: Nginx
+tags: Nginx  正向代理
 ---
 
 ### (1). 安装依赖库
