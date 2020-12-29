@@ -161,4 +161,4 @@ esac
   501  3085     1   0  3:16下午 ttys001    0:10.72 /Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/bin/java -server -Xms1g -Xmx1g -Xmn256m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -cp .:/Users/lixin/Workspace/spring-example/target/spring-example-1.1/conf:/Users/lixin/Workspace/spring-example/target/spring-example-1.1/lib/*: help.lixin.spring.App
 ```
 ### (4). 项目下载
-!["Maven结合Ant打包zip项目"](/assets/ant/spring-example.zip)
+["Maven结合Ant打包zip项目"](/assets/ant/spring-example.zip)
