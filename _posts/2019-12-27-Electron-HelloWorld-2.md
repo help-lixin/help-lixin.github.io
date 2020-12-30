@@ -72,7 +72,7 @@ function createWindow () {
   mainWindow.webContents.openDevTools()
 }
 
-
+// 当Electron完成初始化时触发
 app.whenReady().then(() => {
   createWindow()
   
@@ -81,6 +81,7 @@ app.whenReady().then(() => {
   })
 })
 
+// 当Electron所有窗口被关闭时触发 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
@@ -136,14 +137,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
 ```
 lixin-macbook:electron-quick-start lixin$ npm run debug
-
 > electron-quick-start@1.0.0 debug /Users/lixin/WorkspaceJS/electron-quick-start
 > electron --inspect=5888 .
-
 Debugger listening on ws://127.0.0.1:5888/0dbd7761-515a-456f-9c52-f5ca733368e4
-For help, see: https://nodejs.org/en/docs/inspector
-(node:2711) electron: The default of contextIsolation is deprecated and will be changing from false to true in a future release of Electr
-on.  See https://github.com/electron/electron/issues/23506 for more information
 ```
 ### (8). vs code 调试
 > launch.json
