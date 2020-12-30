@@ -13,9 +13,6 @@ tags: Guice
 package help.lixin.config;
 
 import com.google.inject.Provider;
-import com.ibiz.sdk.client.factory.OkHttpClientFactory;
-import com.ibiz.sdk.store.PropertiesStore;
-import com.ibiz.sdk.util.HttpsUtils;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -64,9 +61,6 @@ public class SyncOkHttpClientProvider implements Provider<OkHttpClient> {
 package help.lixin.config;
 
 import com.google.inject.Provider;
-import com.ibiz.sdk.client.factory.OkHttpClientFactory;
-import com.ibiz.sdk.store.PropertiesStore;
-import com.ibiz.sdk.util.HttpsUtils;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
