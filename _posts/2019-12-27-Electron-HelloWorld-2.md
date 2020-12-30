@@ -48,7 +48,9 @@ electron-quick-start
   }
 }
 ```
-### (3). 
+### (3). main.js
+> ["Electron API"](https://www.electronjs.org/docs/all)
+
 ```
 
 const {app, BrowserWindow} = require('electron')
@@ -76,6 +78,7 @@ function createWindow () {
 app.whenReady().then(() => {
   createWindow()
   
+  // 当Electron被激活时触发
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
