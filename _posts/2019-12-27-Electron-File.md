@@ -32,13 +32,17 @@ tags: Electron
 ```
 ### (4). renderer.js
 ```
+const fs = require("fs")
+
 document.addEventListener('drop', (e) => {
-	// 阻止默认行为和事件
     e.preventDefault();
     e.stopPropagation();
 
     for (const f of e.dataTransfer.files) {
+      // 读取文件
       console.log('File(s) you dragged here: ', f.path)
+      let conent = fs.readFileSync(f.path)
+      console.log("Content:",conent.toString())
     }
 });
 
@@ -49,6 +53,7 @@ document.addEventListener('dragover', (e) => {
 });
 ```
 ### (5). 测试拖动文件到div(略)
+> 能读取文件内容
 
 ### (6). 运行结果
 !["Electron File操作"](/assets/electron/imgs/electron-file.jpg)
