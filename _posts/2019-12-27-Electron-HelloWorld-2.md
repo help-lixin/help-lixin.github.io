@@ -89,7 +89,7 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 ```
-### (4). preload.js
+### (4). preload.js(页面加载后的事件处理)
 ```
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
@@ -126,7 +126,7 @@ window.addEventListener('DOMContentLoaded', () => {
   </body>
 </html>
 ```
-### (6). renderer.js
+### (6). renderer.js(页面渲染处理)
 ```
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.

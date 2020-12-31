@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Electron Evnet'
+title: 'Electron API事件'
 date: 2019-12-27
 author: 李新
 tags: Electron
