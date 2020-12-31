@@ -6,7 +6,7 @@ author: 李新
 tags: Electron
 ---
 
-### (1). 进程相关API
+### (1). File相关API
 > ["Electron File API"](https://www.electronjs.org/docs/api/file-object)
 
 ### (2). main.js

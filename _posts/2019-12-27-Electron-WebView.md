@@ -6,7 +6,7 @@ author: 李新
 tags: Electron
 ---
 
-### (1). 进程相关API
+### (1). WebView相关API
 > ["Electron WebView API"](https://www.electronjs.org/docs/api/webview-tag)
 
 ### (2). main.js
