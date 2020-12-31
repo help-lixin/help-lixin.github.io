@@ -60,10 +60,19 @@ function createWindow () {
     mainWindow.show();
   });
 
-  mainWindow.webContents.on("dom-ready",()=>{
-    const content = mainWindow.webContents;
-    console.log("page load finish *****************************");
-  });
+  // webContents加载完dom后触发事件
+	mainWindow.webContents.on("dom-ready",(evnet)=>{
+	  // 保存页面到指定路径,该方法不太靠谱.
+	  // 按理来说:JS渲染HTML之后,才应该回调该方法,但是,从现在情况来看
+	  // 该方法是只要DOM渲染完成就回调.所以,我只能5秒后再保存到文件,但是:5秒有时也不够用.
+	  setTimeout(()=>{
+	     const content = mainWindow.webContents;
+	     content.savePage("/Users/lixin/WorkspaceJS/electron-quick-start/open-api.html","HTMLComplete",(error)=>{
+	       if (!error) console.log('Save page successfully')
+	     });
+	     console.log("page load finish *****************************");
+	   },5000);
+	});
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
