@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Koa2 Hello World'
+title: 'Koa2 Hello World(一)'
 date: 2020-04-22
 author: 李新
 tags: Koa2
@@ -24,7 +24,7 @@ lixin-macbook:koa-example lixin$ cnpm install koa --save
 const Koa = require("koa");
 const app = new Koa();
 
-// 配置
+// 配置中间件
 app.use(async (ctx) => {
     ctx.body = "hello world koa2";
 });
