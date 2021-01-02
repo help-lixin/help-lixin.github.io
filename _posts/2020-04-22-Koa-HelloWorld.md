@@ -24,7 +24,7 @@ lixin-macbook:koa-example lixin$ cnpm install koa --save
 const Koa = require("koa");
 const app = new Koa();
 
-// 配置中间件
+// 配置中间件(类似于Java中的Filter)
 app.use(async (ctx) => {
     ctx.body = "hello world koa2";
 });
