@@ -3,7 +3,7 @@ layout: post
 title: 'Eclipse Mat分析内存泄露'
 date: 2020-12-24
 author: 李新
-tags: OOM排查记录
+tags: OOM排查
 ---
 
 ### (1). 问题
