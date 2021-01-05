@@ -18,10 +18,10 @@ lixin-macbook:~ lixin$ docker images |grep nginx
 nginx    1.19.6              ae2feff98a0c   2 weeks ago    133MB
 
 # 创建自己的标签
-lixin-macbook:~ lixin$ docker tag ae2feff98a0c hnlixin520/nginx:1.19.6
+lixin-macbook:~ lixin$ docker tag ae2feff98a0c lixinhelp/nginx:1.19.6
 
 lixin-macbook:~ lixin$ docker images |grep nginx
-hnlixin520/nginx                                     1.19.6              ae2feff98a0c   2 weeks ago    133MB
+lixinhelp/nginx                                     1.19.6              ae2feff98a0c   2 weeks ago    133MB
 nginx                                                1.19.6              ae2feff98a0c   2 weeks ago    133MB
 lixin-macbook:~ lixin$ 
 ```
@@ -31,13 +31,13 @@ lixin-macbook:~ lixin$
 ```
 # 运行nginx镜像
 # 宿主机8080与nginx容器80端口进行映射
-lixin-macbook:~ lixin$ docker run --rm -d  --name nginx -p 8080:80 hnlixin520/nginx:1.19.6 
+lixin-macbook:~ lixin$ docker run --rm -d  --name nginx -p 8080:80 lixinhelp/nginx:1.19.6 
 7637644be69f4b4bd4aca42192dca66fda7b2949c3827a47182e5049f4b5b0ff
 
 # 查看镜像是否运行
 lixin-macbook:~ lixin$ docker ps 
 CONTAINER ID   IMAGE                     COMMAND                  CREATED         STATUS         PORTS                  NAMES
-7637644be69f   hnlixin520/nginx:1.19.6   "/docker-entrypoint.…"   3 seconds ago   Up 2 seconds   0.0.0.0:8080->80/tcp   nginx
+7637644be69f   lixinhelp/nginx:1.19.6   "/docker-entrypoint.…"   3 seconds ago   Up 2 seconds   0.0.0.0:8080->80/tcp   nginx
 
 
 # 查看宿主机上所有开启的端口lixin-macbook:~ lixin$ netstat -AaLlnW
@@ -100,7 +100,7 @@ lixin-macbook:DockerWorkspace lixin$ vi nginx/html/index.html
 
 ```
 # -v 宿主机目录:容器内目录
-lixin-macbook:~ lixin$ docker run -d --rm  --name nginx  -p 8080:80  -v ~/DockerWorkspace/nginx/html:/usr/share/nginx/html hnlixin520/nginx:1.19.6 
+lixin-macbook:~ lixin$ docker run -d --rm  --name nginx  -p 8080:80  -v ~/DockerWorkspace/nginx/html:/usr/share/nginx/html lixinhelp/nginx:1.19.6 
 a05b25cecd28b352739aef9ae43bff39f7dd9548883184f826323c033ad170e8
 
 # 测试访问
@@ -120,7 +120,7 @@ lixin-macbook:DockerWorkspace lixin$ curl  http://localhost:8080
 ```
 # -e 传递环境变量
 # printenv : 打印环境变量
-lixin-macbook:~ lixin$ docker run --rm -e MAIN_CLASS=help.lixin.Application -e JAVA_HOME=~/java/bin hnlixin520/centos7:centos7-net-tools printenv
+lixin-macbook:~ lixin$ docker run --rm -e MAIN_CLASS=help.lixin.Application -e JAVA_HOME=~/java/bin lixinhelp/centos7:centos7-net-tools printenv
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 HOSTNAME=678ee6ec3017
 MAIN_CLASS=help.lixin.Application

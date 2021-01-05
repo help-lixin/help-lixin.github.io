@@ -61,19 +61,19 @@ lixin-macbook:~ lixin$ docker images centos:centos7
 
 ```
 # 给镜像(8652b9f0cb4c)打个标签.
-lixin-macbook:~ lixin$ docker tag 8652b9f0cb4c docker.io/xxxx/centos7:centos7
+lixin-macbook:~ lixin$ docker tag 8652b9f0cb4c docker.io/lixinhelp/centos7:centos7
 
 # 查看所有的镜像信息
 lixin-macbook:~ lixin$ docker images
     REPOSITORY               TAG              IMAGE ID       CREATED       SIZE
-    xxxx/centos7       centos7          8652b9f0cb4c   6 weeks ago   204MB
+    lixinhelp/centos7       centos7          8652b9f0cb4c   6 weeks ago   204MB
     centos                   centos7          8652b9f0cb4c   6 weeks ago   204MB
 ```
 ### (8). 推送镜像到远程仓库
 ```
 # 推送镜像到远程仓库:docker.io
-lixin-macbook:~ lixin$ docker push xxxx/centos7:centos7
-    The push refers to repository [docker.io/xxxx/centos7]
+lixin-macbook:~ lixin$ docker push lixinhelp/centos7:centos7
+    The push refers to repository [docker.io/lixinhelp/centos7]
     174f56854903: Mounted from library/centos 
     centos7: digest: sha256:e4ca2ed0202e76be184e75fb26d14bf974193579039d5573fb2348664deef76e size: 529
 ```
