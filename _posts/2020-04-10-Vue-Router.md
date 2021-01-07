@@ -19,7 +19,7 @@ lixin-macbook:first-vue lixin$ cnpm install vue-router  --save
 > 2. 修改:main.js,声明使用vue-router.   
 > 3. 创建一个组件(Content.vue)   
 > 4. 创建路由文件(router/index.js).  
-> 5. 修改:main.js,引入路由配置文件.<font color='red'>注意:import时指向router目录,即可,不需要指向router/index</font>   
+> 5. 修改:main.js,引入路由配置文件.<font color='red'>注意:import时,如果没有后缀,webpack则认为这是目录</font>   
 > 6. 修改:main.js,配置Vue实例,使用:router信息.  
 > 7. 修改:App.vue,增加<route-view>该组件用于当路由后页面承接的组件.   
 
@@ -30,8 +30,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App'
 
-// 5. 引入路由配置信息(注意:不需要引用到:js文件,我就是在这里出了错)
-import router from './router'
+// 5. 引入路由配置信息(注意:webpack在解析路径时,如果没有后缀就会当成目录解析)
+// 比如: ./router/index  会解析成: ./router/index/index.js
+// 比如: ./router        会解析成: ./router/index.js 
+// import router from './router'
+import router from './router/index.js'
+
 
 // 2. 使用vue-router
 Vue.use(VueRouter);
