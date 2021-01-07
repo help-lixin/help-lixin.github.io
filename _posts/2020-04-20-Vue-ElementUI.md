@@ -103,6 +103,7 @@ new Vue({
 ```
 
 > App.vue
+
 ```
 <template>
   <div id="app">
@@ -123,6 +124,7 @@ export default {
 ```
 
 > Login.vue
+
 ```
 <template>
     <div>
@@ -201,8 +203,8 @@ export default {
 </style>
 ```
 
-
 > Main.vue
+
 ```
 <template>
     <div>
