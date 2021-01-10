@@ -195,7 +195,16 @@ kubeadm join 10.211.55.100:6443 --token r0xuu3.ru4sqfpay7l8616k \
     --discovery-token-ca-cert-hash sha256:fede35b0b8565f919497a38426e59075748b87f26db8f3aeee77e14d4c0a5ba3
 ```
 
-### (9). 部署Kubenets Master(10.211.55.100)
+
+
+### (9). 手动拉取flannel镜像(所有节点执行)
+
+```
+$ docke pull quay.io/coreos/flannel:v0.10.0-amd64
+```
+
+
+### (10). 部署Kubenets Master(10.211.55.100)
 > 拷贝配置文件到用户目录下
 
 ```
@@ -221,7 +230,7 @@ master   NotReady   master   10m   v1.15.0
 
 ["kube-flannel.yml文件下载"](/assets/k8s/kube-flannel.yml)
 
-### (10). coredns Pending状态
+### (11). coredns Pending状态
 
 ```
 # 在Master查看pod状态
@@ -237,7 +246,7 @@ kube-scheduler-master            1/1     Running   0          82s
 ```
 
 
-### (11). coredns Pending状态解决方案
+### (12). coredns Pending状态解决方案
 > 该步骤要在所有的机器上执行
 
 ```
@@ -266,12 +275,6 @@ $ vi /etc/cni/net.d/10-flannel.conflist
 # 重新加载,并重启kubelet
 $ systemctl daemon-reload
 $ systemctl restart kubelet
-```
-
-### (12). node拉取flannel镜像
-
-```
-$ docke pull quay.io/coreos/flannel:v0.10.0-amd64
 ```
 
 ### (13). node节点加入集群
