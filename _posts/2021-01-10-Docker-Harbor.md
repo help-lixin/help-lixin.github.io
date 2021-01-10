@@ -529,3 +529,59 @@ Creating harbor-jobservice ... done
 
 !["Harbor首页"](/assets/docker/imgs/harbor-home.png)
 
+
+### (11). 登录问题一
+> Error response from daemon: Get https://registry.lixin.help/v2/: x509: certificate signed by unknown authority  
+> 
+```
+# 解决方法(我是mac):
+vi ~/.docker/daemon.json
+{
+	"insecure-registries":["registry.lixin.help"]
+}
+```
+
+### (12). 登录问题二
+> Error saving credentials: error storing credentials - err: exit status 1, out: `Unable to obtain authorization for this operation.`    
+ 
+> 我的解决方法是:  
+> 1. 点开 访达(findder) -> 应用程序(applications) -> 实用工具(utilities) ->钥匙串访问(Keychain Access).    
+> 2. 右键点击登录 -> 锁定钥匙串登录,再解锁钥匙串登录就可以了.     
+> 3. 一定要重新开新的命令窗口,去运行docker login.注意:在弹出的解锁钥匙串时要输入mac的密码.      
+
+### (12). 测试上传镜像
+```
+# 登录成功
+lixin-macbook:~ lixin$ docker login registry.lixin.help
+Username: admin
+Password: 
+Login Succeeded
+
+
+# 查看本地镜像
+lixin-macbook:~ root# docker images
+REPOSITORY                                           TAG                                              IMAGE ID       CREATED        SIZE
+lixinhelp/centos                                     centos7                                          e698e1ac21bc   5 days ago     298MB
+nginx                                                laster                                           82f8d4e7d5f1   6 days ago     419MB
+lixinhelp/jdk                                        1.8                                              6aac19cb29fb   6 days ago     559MB
+docker.elastic.co/elasticsearch/elasticsearch-oss    7.1.0-SNAPSHOT                                   b9fe8ab0ff14   5 weeks ago    739MB
+docker.elastic.co/elasticsearch/elasticsearch-full   7.1.0-SNAPSHOT                                   4bd7ffcdc412   5 weeks ago    868MB
+docker.elastic.co/elasticsearch/elasticsearch        7.1.0-SNAPSHOT                                   4bd7ffcdc412   5 weeks ago    868MB
+elasticsearch                                        7.1.0-SNAPSHOT                                   4bd7ffcdc412   5 weeks ago    868MB
+centos                                               centos7                                          8652b9f0cb4c   8 weeks ago    204MB
+docker/desktop-kubernetes                            kubernetes-v1.19.3-cni-v0.8.5-critools-v1.17.0   7f85afe431d8   2 months ago   285MB
+mysql                                                5.7.9                                            ec7e75e5260c   5 years ago    360MB
+
+
+# 给镜像打标签到私有仓库里
+lixin-macbook:~ root# docker tag 6aac19cb29fb registry.lixin.help/library/jdk:1.8
+
+# 推送镜像到私有仓库里
+lixin-macbook:~ lixin$ docker push registry.lixin.help/library/jdk:1.8
+The push refers to repository [registry.lixin.help/library/jdk]
+b60eff4ef88b: Pushed 
+174f56854903: Pushed 
+1.8: digest: sha256:b38153050b5d6deb267520a3d0eca3cb5ec2a655c7cf48ac453587aea0461126 size: 742
+```
+
+!["镜像上传"](/assets/docker/imgs/docker-pull-image-to-harbor.png)
