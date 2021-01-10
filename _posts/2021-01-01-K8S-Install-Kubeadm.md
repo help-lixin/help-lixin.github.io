@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Kubernetes Kubeadmin(二)'
+title: 'Kubernetes Kubeadmin集群搭建(二)'
 date: 2021-01-01
 author: 李新
 tags: K8S
