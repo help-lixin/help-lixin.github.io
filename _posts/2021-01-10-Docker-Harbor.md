@@ -35,8 +35,8 @@ tags: Docker Harbor
 	docker-compose version 1.27.4, build 40524192
 ```
 ### (4). 下载Harbor
-> ["Harbor下载"](https://github.com/goharbor/harbor)
-> 我下载的版本为:harbor-offline-installer-v2.1.2.tgz
+> ["Harbor下载"](https://github.com/goharbor/harbor)    
+> <font color='red'>注意:Harbor镜像仓库存储路径在:/data/registry/docker/registry/v2/repositories/目录下.建议这个目录配置独立的存储空间</font>    
 
 ```
 # 下载
