@@ -532,13 +532,17 @@ Creating harbor-jobservice ... done
 
 ### (11). 登录问题一
 > Error response from daemon: Get https://registry.lixin.help/v2/: x509: certificate signed by unknown authority  
-> 
+
 ```
-# 解决方法(我是mac):
-vi ~/.docker/daemon.json
+# 解决方法:
+# Linux( vi  /etc/docker/daemon.json )
+lixin-macbook:~ lixin$ vi ~/.docker/daemon.json
 {
 	"insecure-registries":["registry.lixin.help"]
 }
+
+# 重启docker(mac下关了docker重新启动)
+# 重启docker Linux(systemctl restart docker) 
 ```
 
 ### (12). 登录问题二
@@ -549,13 +553,23 @@ vi ~/.docker/daemon.json
 > 2. 右键点击登录 -> 锁定钥匙串登录,再解锁钥匙串登录就可以了.     
 > 3. 一定要重新开新的命令窗口,去运行docker login.注意:在弹出的解锁钥匙串时要输入mac的密码.      
 
-### (12). 测试上传镜像
+### (13). 测试上传镜像
+
 ```
-# 登录成功
+# Mac登录成功
 lixin-macbook:~ lixin$ docker login registry.lixin.help
 Username: admin
 Password: 
 Login Succeeded
+
+# Linux登录成功
+# [root@node-2 ~]# docker login registry.lixin.help
+# Username: admin
+# Password:
+# WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+# Configure a credential helper to remove this warning. See
+# https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+# Login Succeeded
 
 
 # 查看本地镜像
@@ -582,6 +596,20 @@ The push refers to repository [registry.lixin.help/library/jdk]
 b60eff4ef88b: Pushed 
 174f56854903: Pushed 
 1.8: digest: sha256:b38153050b5d6deb267520a3d0eca3cb5ec2a655c7cf48ac453587aea0461126 size: 742
+
+
+# 用另一台Linux尝试拉取镜像
+[root@node-2 ~]# docker pull registry.lixin.help/library/jdk:1.8
+1.8: Pulling from library/jdk
+2d473b07cdd5: Pull complete
+999bc67857b8: Pull complete
+Digest: sha256:b38153050b5d6deb267520a3d0eca3cb5ec2a655c7cf48ac453587aea0461126
+Status: Downloaded newer image for registry.lixin.help/library/jdk:1.8
+
+# 查看镜像
+[root@node-2 ~]# docker images|grep jdk
+REPOSITORY                                 TAG        IMAGE ID            CREATED             SIZE
+registry.lixin.help/library/jdk            1.8        6aac19cb29fb        6 days ago          559MB
 ```
 
-!["镜像上传"](/assets/docker/imgs/docker-pull-image-to-harbor.png)
+!["镜像上传结果"](/assets/docker/imgs/docker-pull-image-to-harbor.png)
