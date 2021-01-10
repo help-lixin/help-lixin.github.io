@@ -7,11 +7,11 @@ tags: K8S
 ---
 
 ### (1). K8S架构图
-> ["图片转载于"](https://www.kubernetes.org.cn/kubernetes%e8%ae%be%e8%ae%a1%e6%9e%b6%e6%9e%84)
+> ["图片转载于:https://www.kubernetes.org.cn/kubernetes%e8%ae%be%e8%ae%a1%e6%9e%b6%e6%9e%84"](https://www.kubernetes.org.cn/kubernetes%e8%ae%be%e8%ae%a1%e6%9e%b6%e6%9e%84)
 
 !["K8S架构图"](/assets/k8s/imgs/k8s-architecture.png)
 
-> ["图片转载于"](https://developer.51cto.com/art/201909/602646.htm)
+> ["图片转载于:https://developer.51cto.com/art/201909/602646.htm"](https://developer.51cto.com/art/201909/602646.htm)
 
 !["K8S架构图"](/assets/k8s/imgs/k8s-architecture2.jpeg)
 
