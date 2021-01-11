@@ -38,7 +38,9 @@ camunda-bpm-tomcat-7.14.0
 ```
 
 ### (4). 访问
+> 账号和密码都是(demo/demo)
 ["http://localhost:8080/camunda-welcome/index.html"](http://localhost:8080/camunda-welcome/index.html)
+
 
 !["camunda-welcome"](/assets/camunda/imgs/camunda-welcome.jpg)
 
