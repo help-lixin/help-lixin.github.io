@@ -15,7 +15,7 @@ $ git clone -b 7.14.0    https://github.com/camunda/camunda-bpm-platform.git   c
 $ cd camunda-bpm-platform-7.14.0
 $ mvn clean install -DskipTests -Pdistro
 ```
-### (3). 分发文件
+### (3). 查看分发文件
 ```
 # 查看最后生成二进是路径地址
 lixin-macbook:camunda-bpm-platform-7.14.0 lixin$ ll ./distro/tomcat/distro/target/
@@ -27,10 +27,6 @@ lixin-macbook:camunda-bpm-platform-7.14.0 lixin$ ll ./distro/tomcat/distro/targe
 ```
 lixin-macbook:Desktop lixin$ tree camunda-bpm-tomcat-7.14.0 -L 1
 camunda-bpm-tomcat-7.14.0
-├── LICENSE
-├── LICENSE_BOOK-7.14.0.txt
-├── NOTICE
-├── README.txt
 ├── camunda-h2-dbs
 ├── lib
 ├── server                         # 内部实际是一个tomcat
