@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Kubernetes 部署Java Web 项目实践(五)'
+title: 'Kubernetes 部署Java Web 项目'
 date: 2021-01-01
 author: 李新
 tags: K8S
@@ -101,11 +101,18 @@ hello-world-6b6d6fd479-zn85h   1/1     Running   2          94m
 ### (4). 暴露应用
 
 ```
+# 查看deploy
+[root@master ~]# kubectl get deploy
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+hello-world   2/2     2            2           30h
+
 # 通过export生成service配置文件.
-# hello-world要与pod定义的hello-world相同.
-# --port              : 容器内部通信端口
-# --target-port       : 容器暴露的端口
-# --type=NodePort     : NodePort随机生成端口
+# hello-world要与上面deploy的名称相同
+# --port              : 集群内部容器通信端口
+# --target-port       : 应用程序(Dockerfile)暴露(EXPOSE)的端口
+# --type=NodePort     : NodePort会创建CLUSTER-IP并随机生成端口
+# -o                  : 生成YAML格式的文件
+# --dry-run           : 尝试运行(并不是真正的运行)
 [root@master ~]# kubectl expose deployment hello-world --port=9090 --target-port=9090  --type=NodePort -o yaml --dry-run > hello-world-expose.yml
 
 

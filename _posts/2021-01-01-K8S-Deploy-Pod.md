@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Kubernetes Pod部署多个容器以及通信原理(六)'
+title: 'Kubernetes Pod部署多个容器以及通信原理(五)'
 date: 2021-01-01
 author: 李新
 tags: K8S
