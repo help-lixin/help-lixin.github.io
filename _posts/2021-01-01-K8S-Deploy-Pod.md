@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Kubernetes Pod部署多个容器以及通信原理'
+title: 'Kubernetes Pod部署多个容器以及通信原理(六)'
 date: 2021-01-01
 author: 李新
 tags: K8S
@@ -112,6 +112,8 @@ container-share                2/2     Running   0          47s
 ```
 
 ### (4). 总结
-> 1. K8S在创建Pod时,会先创建一个info容器(/pause).    
-> 2. 在这个Pod内的容器都加入到:info(/pause)这个容器内(--net模式).   
-> 3. 所以,它们可以共享网络命名空间.  
+> K8S在创建Pod时:    
+> 1. 创建一个Infrastructure容器,用于维护整个Pod网络空间.    
+> 2. 创建一个InitContainer容器.    
+> 3. 将业务容器加入到:Infrastructure这个容器内(--net模式).      
+> 4. 所以,它们可以共享网络命名空间.    
