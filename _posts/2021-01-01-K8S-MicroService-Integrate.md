@@ -12,7 +12,7 @@ tags: K8S Spring SpringCloud
 
 ### (2). 方案一
 > OpenRestry(网关) + Redis(注册中心) + 业务微服务:   
-> 1. 业务微服务,不使用K8S的Service功能.   
+> 1. <font color='red'>业务微服务,不使用K8S的Service功能.</font>   
 > 2. 业务微服务启动,向:Redis注册(key=微服务名称  value = podIp:port).  
 > 3. OpenRestry提供Service功能(暴露80/443端口),读取Redis,根据路由规则,发分请求到容器.   
 > 4. 所有一切都是自研,需要注意:Redis之前还要加缓存.但是,问题是:缓存多长时间呢?暂时能考虑的是:监听ETCD变化来刷缓存.     
@@ -36,7 +36,7 @@ tags: K8S Spring SpringCloud
 > Inggress + Service + 业务微服务 
 > 1. 不依赖任何的服务(Zookeeper/Eureka/Nacos...)发现组件,<font color='red'>放弃微服务所提供的服务发现与注册组件</font>.   
 > 2. 所有的业务微服务都使用Service和Ingress(不使用方案二中的:Gateway).   
-> 3. 如果,业务有需求要对网关进行编排,可对Nginx(OpenRestry)进行二次开发.
+> 3. 如果,业务有需求要对网关进行编排,可对Ingress(Go语言基于OpenRestry开发)进行二次开发.
 > 4. 该方案是:K8S默认方案,但是:Node(宿主机上暴露的端口太多了),可自由编程度相比方案一比较低. 
 
 ### (6). 方案五
