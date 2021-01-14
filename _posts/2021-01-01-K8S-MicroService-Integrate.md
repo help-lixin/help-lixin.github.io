@@ -11,12 +11,11 @@ tags: K8S Spring SpringCloud
 > 故提出几套解决方案. 
 
 ### (2). 方案一
-> 约定优于配置:
-> 1. 从开发环境到生产环境,约定好K8S中的Service(domain)名称.    
-> 2. 不依赖任何的服务(Zookeeper/Eureka/Nacos...)发现组件,<font color='red'>放弃微服务所提供的服务发现与注册组件</font>.   
-> 3. 业务端(Java)在写代码时,直接用约定的Service(domain)名称+端口,去调用相应的服务即可.   
-> 4. 缺陷: 需要用service:port才能访问.    
-> 5. 原理:在一个K8S集群内部,容器之间是可以通过:Service(domain)名称,解析到相应的IP的(domain到DNS的解析),该功能由:kube-dns实现.  
+> OpenRestry(网关) + Redis(注册中心) + 业务微服务:   
+> 1. 业务微服务,不使用K8S的Service功能.   
+> 2. 业务微服务启动,向:Redis注册(key=微服务名称  value = podIp:port).  
+> 3. OpenRestry提供Service功能(暴露80/443端口),读取Redis,根据路由规则,发分请求到容器.   
+> 4. 所有一切都是自研,需要注意:Redis之前还要加缓存.但是,问题是:缓存多长时间呢?暂时能考虑的是:监听ETCD变化来刷缓存.     
 
 ### (3). 方案二
 > Ingress + Spring Cloud Gateway + Eureka(Zookeeper/Nacos) + 业务微服务:   
@@ -35,9 +34,10 @@ tags: K8S Spring SpringCloud
 ### (5). 方案四
 > K8S所提供的解决方案:  
 > Inggress + Service + 业务微服务 
-> 2. 不依赖任何的服务(Zookeeper/Eureka/Nacos...)发现组件,<font color='red'>放弃微服务所提供的服务发现与注册组件</font>.   
-> 3. 所有的业务微服务都使用Service和Ingress(不使用方案二中的:Gateway).   
-> 4. 如果,业务有需求要对网关进行编排,可对Nginx进行二次开发(OpenRestry).   
+> 1. 不依赖任何的服务(Zookeeper/Eureka/Nacos...)发现组件,<font color='red'>放弃微服务所提供的服务发现与注册组件</font>.   
+> 2. 所有的业务微服务都使用Service和Ingress(不使用方案二中的:Gateway).   
+> 3. 如果,业务有需求要对网关进行编排,可对Nginx(OpenRestry)进行二次开发.
+> 4. 该方案是:K8S默认方案,但是:Node(宿主机上暴露的端口太多了),可自由编程度相比方案一比较低. 
 
 ### (6). 方案五
 > K8S中Service的网络类型有三种:cluertip,nodeport,loadbanlance,可以选择自研:loadbanlance.   
