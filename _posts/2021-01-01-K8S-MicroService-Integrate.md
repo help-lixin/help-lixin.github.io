@@ -63,7 +63,7 @@ metadata:
   name: test-web
 spec:
   ports:
-  - port: 80            # Service暴露的接口,并不会在宿主机上建立端口监听
+  - port: 80            # Service暴露的端口,在宿主机上是不会有该端口信息的. 
     protocol: TCP
     targetPort: 80      # 容器暴露的端口
   selector:
