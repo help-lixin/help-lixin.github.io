@@ -42,15 +42,17 @@ tags: K8S Spring SpringCloud
 
 ### (6). 方案五
 > 约定优于配置:  
-> Ingress + 网关服务(Service+NodPort) + 业务微服务(Service+ClusterIP)
+> Ingress + 网关服务[NodeJS/Gateway/Zuul](Service+NodPort) + 业务微服务(Service+ClusterIP)
 > 1. 从开发环境到生成环境,提前定义好service名称(domain).   
 > 2. <font color='red'>为业务微服务,创建Service指定网络类型以及参数:ClusterIP/ports.port为80端口,一定要指定为为:80端口,否则就要用域名+端口访问,很是头痛.</font>    
 > 3. 创建网关服务(Gateway/NodeJS/Zuul),并指定Service的网络类型为:NodePort.    
-> 4. Ingress接受所有动态请求,把请求:全部分发给(第三步的)网关服务,网关服务直接转发给业务微服务.    
+> 4. <font color='red'>Ingress接受所有动态请求,把请求:全部分发给(第三步的)网关服务,网关服务直接转发给业务微服务.</font>    
 > 5. 原理: 网关服务和其他服务(业务微服务)都是一个集群之内.k8s提供了kube-dns功能(域名到IP的解析),
 > 所以,网关服务和业务微服之间,可以完全基于域名(service)来访问.    
 
-> 业务微服务Service配置
+
+> 业务微服务Service配置(ClusterIP模式)  
+
 
 ```
 apiVersion: v1
@@ -61,7 +63,7 @@ metadata:
   name: test-web
 spec:
   ports:
-  - port: 80            # Service暴露的接口
+  - port: 80            # Service暴露的接口,并不会在宿主机上建立端口监听
     protocol: TCP
     targetPort: 80      # 容器暴露的端口
   selector:
@@ -69,7 +71,7 @@ spec:
   type: ClusterIP       # 注意:是ClusterIP,这样就不会Node上占用端口
 ```
 
-> 测试
+> 测试验证
 
 ```
 # 应用Service配置之前查看:pods和service
@@ -106,6 +108,7 @@ service/hello-world   NodePort    10.1.232.6   <none>        9090:31355/TCP   2d
 service/kubernetes    ClusterIP   10.1.0.1     <none>        443/TCP          5d5h
 service/test-web      ClusterIP   10.1.121.5   <none>        80/TCP           4s
 
+
 # 在宿主机通过:CLUSTER-IP访问
 [root@master ~]# curl http://10.1.121.5/hello
 Hello World-3.0.0-SNAPSHOT!!!test-hello
@@ -113,12 +116,14 @@ Hello World-3.0.0-SNAPSHOT!!!test-hello
 
 # 进入hello-world容器内部
 # 在hello-world-5f8d77c9f7-589kd容器内部通过:service名称(test-web)来访问.
-[root@master ~]# kubectl  exec -it hello-world-5f8d77c9f7-589kd  /bin/bash
+[root@master ~]# kubectl exec -it hello-world-5f8d77c9f7-589kd  /bin/bash
+
+
 
 #########################################################################
 # ************************************重点*******************************
 # 在容器内部可以直接通过域名访问.那么Java代码直接用域名就好了.
-# 稍微的改动下网关服务.
+# 可能要稍微的改动下网关服务.
 # ************************************重点*******************************
 #########################################################################
 [root@hello-world-5f8d77c9f7-589kd /]# curl http://test-web/hello
@@ -128,6 +133,11 @@ Hello World-3.0.0-SNAPSHOT!!!test-hello
 # 那么宿主机,能域名访问吗?肯下是不行的,因为:宿主机和kube-dns是隔离的
 [root@master ~]# curl http://test-web/hello
 curl: (6) Could not resolve host: test-web; Unknown error
+
+# 验证宿主机是否开启了80端口(我这里都没有查到有监听80端口)
+[root@master ~]# netstat -tlnp|grep 80
+[root@node-1 ~]# netstat -tlnp|grep 80
+[root@node-2 ~]# netstat -tlnp|grep 80
 ```
 
 ### (7). 方案六
