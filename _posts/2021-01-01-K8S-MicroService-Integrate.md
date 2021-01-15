@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Kubernetes 微服务集成(解决方案)'
+title: 'Kubernetes 微服务集成(解决方案)(九)'
 date: 2021-01-01
 author: 李新
 tags: K8S Spring SpringCloud
@@ -117,8 +117,6 @@ Hello World-3.0.0-SNAPSHOT!!!test-hello
 # 进入hello-world容器内部
 # 在hello-world-5f8d77c9f7-589kd容器内部通过:service名称(test-web)来访问.
 [root@master ~]# kubectl exec -it hello-world-5f8d77c9f7-589kd  /bin/bash
-
-
 
 #########################################################################
 # ************************************重点*******************************

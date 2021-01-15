@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Kubernetes 部署Java Web 项目'
+title: 'Kubernetes 部署Java Web 项目(八)'
 date: 2021-01-01
 author: 李新
 tags: K8S
