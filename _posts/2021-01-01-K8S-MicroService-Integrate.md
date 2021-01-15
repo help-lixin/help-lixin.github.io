@@ -44,7 +44,7 @@ tags: K8S Spring SpringCloud
 > 约定优于配置:  
 > Ingress + 网关服务[NodeJS/Gateway/Zuul](Service+NodPort) + 业务微服务(Service+ClusterIP)
 > 1. 从开发环境到生成环境,提前定义好service名称(domain).   
-> 2. <font color='red'>为业务微服务,创建Service指定网络类型以及参数:ClusterIP/ports.port为80端口,一定要指定为为:80端口,否则就要用域名+端口访问,很是头痛.</font>    
+> 2. <font color='red'>为业务微服务,创建Service指定网络类型以及参数:ClusterIP/ports.port为80端口,一定要指定为为:80端口,否则就要用域名+端口访问.</font>    
 > 3. 创建网关服务(Gateway/NodeJS/Zuul),并指定Service的网络类型为:NodePort.    
 > 4. <font color='red'>Ingress接受所有动态请求,把请求:全部分发给(第三步的)网关服务,网关服务直接转发给业务微服务.</font>    
 > 5. 原理: 网关服务和其他服务(业务微服务)都是一个集群之内.k8s提供了kube-dns功能(域名到IP的解析),
