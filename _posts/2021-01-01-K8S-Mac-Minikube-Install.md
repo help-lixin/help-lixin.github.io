@@ -38,8 +38,10 @@ lixin-macbook:Downloads lixin$ kubectl --help
 ### (4). 启动minikube
 ```
 # 启动minikube
+# lixin-macbook:Downloads lixin$ minikube start --docker-env HTTPS_PROXY=${https://registry.docker-cn.com} --registry-mirror=https://registry-mirror.com --vm-driver=hyperkit
+# lixin-macbook:Downloads lixin$ minikube start --registry-mirror=https://registry.docker-cn.com
 # lixin-macbook:Downloads lixin$ minikube start --vm-driver=hyperkit
-lixin-macbook:Downloads lixin$ minikube start --docker-env HTTPS_PROXY=${https://registry.docker-cn.com} --registry-mirror=https://registry-mirror.com --vm-driver=hyperkit
+lixin-macbook:Downloads lixin$ minikube start --registry-mirror=https://registry.docker-cn.com
 😄  Darwin 10.15.7 上的 minikube v1.16.0
 ✨  根据现有的配置文件使用 hyperkit 驱动程序
 👍  Starting control plane node minikube in cluster minikube
@@ -63,4 +65,35 @@ minikube   Ready    control-plane,master   161m   v1.20.0
 ### (6). 关闭minikube
 ```
 lixin-macbook:Downloads lixin$ minikube stop
+```
+### (7). 进入Node节点
+> minikube实际还是一样,在虚拟机里工作(有时下载镜像慢之类,需要自己手工处理),以下是进入虚拟机的方法.
+
+```
+# minikube进入ssh(查看IP)
+lixin-macbook:~ lixin$ minikube ssh
+                         _             _
+            _         _ ( )           ( )
+  ___ ___  (_)  ___  (_)| |/')  _   _ | |_      __
+/' _ ` _ `\| |/' _ `\| || , <  ( ) ( )| '_`\  /'__`\
+| ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
+(_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)
+
+# 查看IP
+$ ip addr
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 26:57:60:ca:c0:b6 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.64.2/24 brd 192.168.64.255 scope global dynamic eth0
+
+# 查看用户名
+$ whoami
+docker
+
+# 通过SSH进入(为什么这样?因为要通过SSH拷贝镜像进虚拟机里)
+# 用户名和密码为:docker/tcuser
+lixin-macbook:~ lixin$ ssh docker@192.168.64.2
+ECDSA key fingerprint is SHA256:4BKtGOWjnZZ0dA0GyWnNMUDJg47jh/kobG1Mnv29hTM.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.64.2' (ECDSA) to the list of known hosts.
+docker@192.168.64.2's password:
 ```
