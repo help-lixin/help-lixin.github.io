@@ -45,6 +45,7 @@ ENTRYPOINT [ "java" , "-jar" , "/opt/service/bin/app.jar" , "--spring.config.loc
 ```
 
 ### (4). eureka-pod-statefulset.yml
+
 ```
 ---
 apiVersion: v1
@@ -56,8 +57,8 @@ metadata:
 spec:
   ports:
     - port: 8761
-      name: eureka
- clusterIP: None
+     # name: eureka
+  clusterIP: None
   selector:
     app: eureka
   # type: NodePort
