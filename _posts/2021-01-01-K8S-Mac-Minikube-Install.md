@@ -187,6 +187,7 @@ lixin-macbook:test lixin$ minikube service  nginx-service
 > 直到下面这个提示,代表ingress插件安装成功.   
 
 ```
+# 添加扩展ingress
 lixin-macbook:~ lixin$ minikube addons enable ingress
 🔎  Verifying ingress addon...
 🌟  启动 'ingress' 插件
