@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Mac环境下通过Minikube安装Kubernetes'
+title: 'Mac Minikube安装Kubernetes与使用'
 date: 2021-01-01
 author: 李新
 tags: K8S
@@ -68,7 +68,7 @@ minikube   Ready    control-plane,master   161m   v1.20.0
 lixin-macbook:Downloads lixin$ minikube stop
 ```
 ### (7). 进入Node节点
-> minikube实际还是一样,在虚拟机里工作(有时下载镜像慢之类,需要自己手工处理),以下是进入虚拟机的方法.
+> minikube实际还是个虚拟机,让k8s在这个虚拟机里工作(有时下载镜像慢之类,需要自己手工处理),以下是进入虚拟机的方法.
 
 ```
 # minikube进入ssh(查看IP)
@@ -99,9 +99,11 @@ Warning: Permanently added '192.168.64.2' (ECDSA) to the list of known hosts.
 docker@192.168.64.2's password:
 ```
 
-### (8). 本地(Mac)Docker客户端指向Minikube(虚拟机)中的Docker
+### (8). 本地(Mac)环境下的Docker客户端(DockerDaemo)指向Minikube(虚拟机)中的Docker
+> 通过这种方式,可以不用进到虚拟机,拷贝镜像之类的,直接可以操作docker,直方便.
+
 ```
-# 未指只前
+# 未指向之前,本地有centos镜像
 lixin-macbook:eureka-server lixin$ docker images
 REPOSITORY                  TAG                                              IMAGE ID       CREATED        SIZE
 lixinhelp/centos            centos7                                          e698e1ac21bc   11 days ago    298MB
@@ -110,19 +112,12 @@ lixinhelp/centos            centos7                                          e69
 lixin-macbook:~ lixin$ eval $(minikube -p minikube docker-env)
 
 # 查询出来的镜像是:Minikube(虚拟机)中的Docker
-# 此时就可以运用:docker build . -t 打包了.
+# 此时就可以运用:docker build . -t 打包了,或者docker load本地磁盘文件之类的.
 lixin-macbook:~ lixin$ docker images
 REPOSITORY                                TAG        IMAGE ID       CREATED         SIZE
 kubernetesui/dashboard                    v2.1.0     9a07b5b4bfac   5 weeks ago     226MB
 k8s.gcr.io/kube-proxy                     v1.20.0    10cc881966cf   5 weeks ago     118MB
-k8s.gcr.io/kube-apiserver                 v1.20.0    ca9843d3b545   5 weeks ago     122MB
-k8s.gcr.io/kube-scheduler                 v1.20.0    3138b6e3d471   5 weeks ago     46.4MB
-k8s.gcr.io/kube-controller-manager        v1.20.0    b9fa1895dcaa   5 weeks ago     116MB
-gcr.io/k8s-minikube/storage-provisioner   v4         85069258b98a   6 weeks ago     29.7MB
-k8s.gcr.io/etcd                           3.4.13-0   0369cf4303ff   4 months ago    253MB
-k8s.gcr.io/coredns                        1.7.0      bfe3a36ebd25   7 months ago    45.2MB
-kubernetesui/metrics-scraper              v1.0.4     86262685d9ab   9 months ago    36.9MB
-k8s.gcr.io/pause                          3.2        80d28bedfe5d   11 months ago   683kB
+... ...
 ```
 
 ### (9). 访问Service(NodePort)暴露的服务
@@ -186,7 +181,7 @@ lixin-macbook:test lixin$ minikube service  nginx-service
 ```
 
 ### (10). 通过Ingress暴露的服务
-> 我这里enable ingress一直都有问题,查看日志是pull镜像失败,我根据错误信息,在Docker Hub下载:    
+> 我这里(minikube addons enable ingress)一直都有问题,查看日志是pull镜像失败,我根据错误信息,在Docker Hub下载:    
 > docker pull siriuszg/nginx-ingress-controller:v0.40.2     
 > 重新打标签即可: us.gcr.io/k8s-artifacts-prod/ingress-nginx/controller:v0.40.2     
 > 直到下面这个提示,代表ingress插件安装成功.   
@@ -260,5 +255,5 @@ lixin-macbook:test lixin$ curl   http://nginx.hello.world
 <html>
 <head>
 <title>Welcome to nginx!</title>
-......
+... ...
 ```
