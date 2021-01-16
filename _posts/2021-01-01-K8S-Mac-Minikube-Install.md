@@ -125,8 +125,7 @@ kubernetesui/metrics-scraper              v1.0.4     86262685d9ab   9 months ago
 k8s.gcr.io/pause                          3.2        80d28bedfe5d   11 months ago   683kB
 ```
 
-### (9). 访问Service(NodePort)
-
+### (9). 访问Service(NodePort)暴露的服务
 
 ```
 # 创建pod
@@ -184,4 +183,82 @@ lixin-macbook:test lixin$ minikube service  nginx-service
 | default   | nginx-service |        9090 | http://192.168.64.3:31224 |
 |-----------|---------------|-------------|---------------------------|
 🎉  正通过默认浏览器打开服务 default/nginx-service...
+```
+
+### (10). 通过Ingress暴露的服务
+> 我这里enable ingress一直都有问题,查看日志是pull镜像失败,我根据错误信息,在Docker Hub下载:    
+> docker pull siriuszg/nginx-ingress-controller:v0.40.2     
+> 重新打标签即可: us.gcr.io/k8s-artifacts-prod/ingress-nginx/controller:v0.40.2     
+> 直到下面这个提示,代表ingress插件安装成功.   
+
+```
+lixin-macbook:~ lixin$ minikube addons enable ingress
+🔎  Verifying ingress addon...
+🌟  启动 'ingress' 插件
+
+# 默认是在:kube-system命名空间下的
+lixin-macbook:~ lixin$ kubectl get pods  -n  kube-system
+NAME                                        READY   STATUS      RESTARTS   AGE
+coredns-74ff55c5b-b2d9k                     1/1     Running     3          5h17m
+etcd-minikube                               1/1     Running     3          5h17m
+ingress-nginx-admission-create-svtxw        0/1     Completed   0          162m
+ingress-nginx-controller-558664778f-wdrkx   1/1     Running     0          162m
+kube-apiserver-minikube                     1/1     Running     3          5h17m
+kube-controller-manager-minikube            1/1     Running     3          5h17m
+kube-proxy-74bhd                            1/1     Running     3          5h17m
+kube-scheduler-minikube                     1/1     Running     3          5h17m
+storage-provisioner                         1/1     Running     6          5h17m
+
+# 创建ingress
+lixin-macbook:test lixin$ cat nginx-ingress.yml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: web
+spec:
+  rules:
+  - host: "nginx.hello.world"
+    http:
+      paths:
+        - backend:
+            serviceName: nginx-service
+            servicePort: 9090
+
+# 发部nginx-ingress.yml配置
+lixin-macbook:test lixin$ kubectl apply -f nginx-ingress.yml
+Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+ingress.extensions/web created
+
+# 查看ingress是否创建成功
+lixin-macbook:test lixin$ kubectl get ingress
+NAME   CLASS    HOSTS               ADDRESS        PORTS   AGE
+web    <none>   nginx.hello.world   192.168.64.3   80      46s
+
+# 查看ingress详细信息
+lixin-macbook:test lixin$ kubectl describe ingress web
+Name:             web
+Namespace:        default
+Address:          192.168.64.3
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+Rules:
+  Host               Path                  Backends
+  ----               ----                 --------
+  nginx.hello.world  nginx-service:9090   172.17.0.3:80)
+
+  
+# 查看虚拟机(minikube)IP
+lixin-macbook:test lixin$ minikube ip
+192.168.64.3
+  
+# 在Mac机器上配置(nginx.hello.world域名与192.168.64.3的关系)
+lixin-macbook:~ lixin$ cat /etc/hosts|grep nginx.hello.world
+192.168.64.3 nginx.hello.world
+
+# 测试访问
+lixin-macbook:test lixin$ curl   http://nginx.hello.world
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+......
 ```
