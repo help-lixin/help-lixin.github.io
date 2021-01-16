@@ -54,6 +54,7 @@ HOSTNAME=test-configmap-pod
 DATA_SOURCE_URL=jdbc:mysql://mysql-0/test
 DATA_SOURCE_USER_PWD=root
 DATA_SOURCE_USER_NAME=root
+... ...
 ```
 ### (5). 查看configmap资源
 ```
