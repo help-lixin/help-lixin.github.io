@@ -119,7 +119,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 5ec5c6eb23ea        busybox:latest      "sh"                3 seconds ago       Up 2 seconds                            linux_4
 a0fa30e016f1        busybox:latest      "sh"                7 seconds ago       Up 7 seconds                            linux_3
 ```
-### (8). 在master节点进入容器
+### (8). 在master节点进入容器,测试
 ```
 # 进入容器内部(linux_1)
 [root@master ~]# docker exec -it linux_1 sh
@@ -136,7 +136,7 @@ a0fa30e016f1        busybox:latest      "sh"                7 seconds ago       
 PING 172.17.2.1 (172.17.2.1): 56 data bytes
 64 bytes from 172.17.2.1: seq=2 ttl=62 time=0.693 ms
 ```
-### (9). 在node-1节点进入容器内部
+### (9). 在node-1节点进入容器内部,测试
 ```
 # 在node-1节点进入容器内部
 [root@node-1 ~]# docker exec -it linux_3 sh
