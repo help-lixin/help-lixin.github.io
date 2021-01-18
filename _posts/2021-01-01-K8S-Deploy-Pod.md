@@ -63,6 +63,9 @@ eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
 
 
 ### (2). 共享磁盘空间
+> emptyDir共享的数据卷,它的生命周期:会随着Pod的启动而创建,Pod的销毁而删除.所以,只适合存储一些临时数据,不适合存储持久数据.  
+
+
 ```
 # 定义共享磁盘空间pod
 [root@master ~]# cat container-share.yml
