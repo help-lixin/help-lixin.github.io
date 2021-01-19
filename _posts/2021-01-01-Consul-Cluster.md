@@ -39,7 +39,8 @@ $ mkdir -p /etc/consul/config && mkdir -p /etc/consul/data
 ```
 ### (4). 创建集群配置文件(/etc/consul/config/consul_config.json) 
 >  Consul要求集群的数量是3或者5台(我这里三台机都安装Consul),为什么是3台或5台?因为它是CP模型.    
->  ["Consul 配置参考文档"](https://www.cnblogs.com/sunsky303/archive/2004/01/13/9209024.html)   
+>  另附:["Consul 配置参考文档"](https://www.cnblogs.com/sunsky303/archive/2004/01/13/9209024.html)   
+
 
 > master集群配置文件(/etc/consul/config/consul_config.json)
 ```
