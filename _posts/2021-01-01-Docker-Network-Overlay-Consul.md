@@ -165,3 +165,7 @@ PING linux_2 (10.0.0.3): 56 data bytes
 PING linux_3 (10.0.0.4): 56 data bytes
 64 bytes from 10.0.0.4: seq=0 ttl=64 time=0.802 ms
 ```
+
+### (9). 查看consul信息
+!["Consul 查看nodes"](/assets/consul/imgs/consul-nodes.png)
+!["Consul 查看分配的网段"](/assets/consul/imgs/consul-subnet.png)
