@@ -7,6 +7,7 @@ tags: Consul
 ---
 
 ### (1). 机器准备
+
 |     IP         | 主机名称     |
 |  ----          |   ----      |
 | 10.211.55.100  |  master     |
@@ -104,9 +105,9 @@ $ mkdir -p /etc/consul/config && mkdir -p /etc/consul/data
 ```
 ### (5). 启动集群
 ```
-[root@master ~]# consul agent  -config-file /etc/consul/config/consul_config.json
-[root@node-1 ~]# consul agent  -config-file /etc/consul/config/consul_config.json
-[root@node-2 ~]# consul agent  -config-file /etc/consul/config/consul_config.json
+[root@master ~]# nohup consul agent  -config-file /etc/consul/config/consul_config.json &
+[root@node-1 ~]# nohup consul agent  -config-file /etc/consul/config/consul_config.json &
+[root@node-2 ~]# nohup consul agent  -config-file /etc/consul/config/consul_config.json &
 ```
 ### (6). 查看集群成员
 ```

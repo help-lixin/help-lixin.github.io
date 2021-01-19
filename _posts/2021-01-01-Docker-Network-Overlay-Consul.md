@@ -15,7 +15,7 @@ tags: Docker
 | 10.211.55.102  | 172.17.0.1/24 |  node-2     |
 
 ### (2). Consul集群搭建(略)
-> 请参考另一篇
+> ["Consul集群搭建"](https://blog.lixin.help/2021/01/01/Consul-Cluster.html)
 
 ### (3). 
 
