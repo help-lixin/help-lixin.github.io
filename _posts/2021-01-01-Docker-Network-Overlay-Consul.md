@@ -61,6 +61,7 @@ $ systemctl restart docker
 NETWORK ID          NAME                DRIVER              SCOPE
 5e17791face0        bridge              bridge              local
 03a05ac31d22        consul-net          overlay             global
+a5ac4002b251        docker_gwbridge     bridge              local
 fdbb0ca2b22c        host                host                local
 1f23aa33de6d        none                null                local
 
@@ -69,6 +70,7 @@ fdbb0ca2b22c        host                host                local
 NETWORK ID          NAME                DRIVER              SCOPE
 010a938724b6        bridge              bridge              local
 03a05ac31d22        consul-net          overlay             global
+e8a52aba83d6        docker_gwbridge     bridge              local
 aa3f0e62d025        host                host                local
 2c8522abc360        none                null                local
 ```
