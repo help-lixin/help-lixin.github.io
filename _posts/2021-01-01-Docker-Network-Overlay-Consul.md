@@ -52,6 +52,9 @@ $ systemctl restart docker
 
 ```
 # 创网络名称(consul-net)
+# 默认分配的子网范围是:10.0.0.2/24
+# 也可以用以下方式在创建网络时,指定子网范围  
+# [root@node-2 ~]# docker network create --driver overlay --subnet 10.20.20.0/24  consul-net
 [root@node-2 ~]# docker network create --driver overlay consul-net
 03a05ac31d22a08f3a6aea72f771311913b268600fb09e0fbe46d7d3538aadf0
 
