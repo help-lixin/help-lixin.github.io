@@ -71,7 +71,8 @@ $ wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/
 $ yum -y install docker-ce-18.06.1.ce-3.el7
 
 # 设置开机启动并运行docker
-$ systemctl enable docker && systemctl start docker
+$ systemctl enable docker 
+$ systemctl start docker
 
 $ docker -v
 	Docker version 18.06.1-ce, build e68fc7a
