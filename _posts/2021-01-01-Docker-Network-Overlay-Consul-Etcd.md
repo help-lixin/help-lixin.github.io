@@ -23,14 +23,12 @@ tags: Docker
 # master
 [root@master ~]# cat /etc/docker/daemon.json
 {
-    // "cluster-store" : "consul://10.211.55.100:8500",
-	"cluster-store" : "etcd://10.211.55.100:2379",
+    "cluster-store" : "consul://10.211.55.100:8500",
     "cluster-advertise" : "10.211.55.100:2376"
 }
 
 # 以下为etcd配置
 {
-    // "cluster-store" : "consul://10.211.55.100:8500",
 	"cluster-store" : "etcd://10.211.55.100:2379",
     "cluster-advertise" : "10.211.55.100:2376"
 }

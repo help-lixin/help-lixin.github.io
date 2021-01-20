@@ -255,7 +255,7 @@ e26d5aa87cda354b8af5c3a66ee4591b978a9282f6ba5853bd24a66199a20a80
 
 ### (15). 容器内部互相ping
 ```
-# 在master节点的linux_1容器内部测试,ping其它服务器
+# 在master节点的linux_1容器内部测试,ping其它服务器(linux_2/linux_3)
 # linux_2
 / # ping 172.20.96.2
 PING 172.20.96.2 (172.20.96.2): 56 data bytes
