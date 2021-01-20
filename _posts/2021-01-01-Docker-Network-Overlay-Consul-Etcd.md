@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Docker 跨主机路由之Overlay(Consul)'
+title: 'Docker 跨主机路由之Overlay(Consul/Etcd)'
 date: 2021-01-01
 author: 李新
 tags: Docker
@@ -14,16 +14,24 @@ tags: Docker
 | 10.211.55.101  | 172.17.0.1/24 |  node-1     |
 | 10.211.55.102  | 172.17.0.1/24 |  node-2     |
 
-### (2). Consul集群搭建(略)
+### (2). Consul/Etcd集群搭建(略)
 > ["Consul集群搭建"](https://blog.lixin.help/2021/01/01/Consul-Cluster.html)
+> ["Etcd集群搭建"](https://blog.lixin.help/2021/01/01/Etcd-Cluster.html)
 
 ### (3). 所有宿主机配置daemon.json
 ```
-
 # master
 [root@master ~]# cat /etc/docker/daemon.json
 {
-    "cluster-store" : "consul://10.211.55.100:8500",
+    // "cluster-store" : "consul://10.211.55.100:8500",
+	"cluster-store" : "etcd://10.211.55.100:2379",
+    "cluster-advertise" : "10.211.55.100:2376"
+}
+
+# 以下为etcd配置
+{
+    // "cluster-store" : "consul://10.211.55.100:8500",
+	"cluster-store" : "etcd://10.211.55.100:2379",
     "cluster-advertise" : "10.211.55.100:2376"
 }
 
@@ -35,20 +43,44 @@ tags: Docker
     "cluster-advertise" : "10.211.55.101:2376"
 }
 
+# 以下为etcd配置
+{
+	"cluster-store" : "etcd://10.211.55.101:2379",
+    "cluster-advertise" : "10.211.55.101:2376"
+}
+
+
 # node-2
 [root@node-2 ~]# cat  /etc/docker/daemon.json
 {
     "cluster-store" : "consul://10.211.55.102:8500",
     "cluster-advertise" : "10.211.55.102:2376"
 }
+
+# 以下为etcd配置
+{
+	"cluster-store" : "etcd://10.211.55.102:2379",
+    "cluster-advertise" : "10.211.55.102:2376"
+}
+
 ```
 ### (4). 所有宿主机重启docker
 ```
 $ systemctl daemon-reload
 $ systemctl restart docker
+
+
+ # 如果是etcd,重启docker后,可以通过该命令查看nodes列表.
+ # consul有提供UI,而etcd没提供相应的UI
+# [root@master ~]# etcdctl ls /docker/nodes
+# /docker/nodes/10.211.55.102:2376
+# /docker/nodes/10.211.55.101:2376
+# /docker/nodes/10.211.55.100:2376
 ```
+
 ### (5). 创建Docker网络
-> 在任意一台机器上创建网络,它们之间会同步网络配置信息.
+> 在任意一台机器上创建网络,它们(宿主机上的docker)之间会同步网络配置信息.  
+> 因为:Docker把配置信息,统一交给:consul/etcd了. 
 
 ```
 # 创网络名称(consul-net)
@@ -105,7 +137,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 0da77b574a5a        busybox:latest      "sh"                10 seconds ago      Up 9 seconds                            linux_3
 ```
 ### (7). 进入容器内部查看IP信息
-> 容器的IP是由consul统一分派.
+> 容器的IP是由consul/etcd统一分配.
 
 ```
 # 在master宿主机上,进入容器(linux_1)

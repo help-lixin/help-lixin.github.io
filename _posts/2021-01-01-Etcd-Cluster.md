@@ -27,13 +27,13 @@ $ setenforce 0
 ### (3). 下载etcd
 ```
 # 下载etcd
-$ wget https://github.com/etcd-io/etcd/releases/download/v3.4.14/etcd-v3.4.14-linux-amd64.tar.gz
+$ wget https://github.com/etcd-io/etcd/releases/download/v3.3.11/etcd-v3.3.11-linux-amd64.tar.gz
 
 # 解压
-$ tar -xvf etcd-v3.4.14-linux-amd64.tar.gz
+$ tar -xvf etcd-v3.3.11-linux-amd64.tar.gz
 
 # 移动etcd*可执行文件到PATH目录下
-$ mv etcd-v3.4.14-linux-amd64/etcd* /usr/local/bin/
+$ mv etcd-v3.3.11-linux-amd64/etcd* /usr/local/bin/
 
 
 # 创建etcd的配置文件目录和数据文件目录
@@ -88,48 +88,22 @@ initial-cluster-state: new
 
 ### (5). 启动etcd集群
 ```
-[root@master ~]# etcd --config-file=/etc/etcd/etcd-cfg.yml
-[root@node-1 ~]# etcd --config-file=/etc/etcd/etcd-cfg.yml
-[root@node-2 ~]# etcd --config-file=/etc/etcd/etcd-cfg.yml
+[root@master ~]# nohup etcd --config-file=/etc/etcd/etcd-cfg.yml & 
+[root@node-1 ~]# nohup etcd --config-file=/etc/etcd/etcd-cfg.yml &
+[root@node-2 ~]# nohup etcd --config-file=/etc/etcd/etcd-cfg.yml & 
 ```
 ### (6). 查看集群成员
 ```
 # 查看集群成员列表
-[root@node-2 ~]# etcdctl --endpoints=10.211.55.100:2379,10.211.55.101:2379,10.211.55.102:2379 member list -w table
-+------------------+---------+--------+---------------------------+-------------------------------------------------+------------+
-|        ID        | STATUS  |  NAME  |        PEER ADDRS         |                  CLIENT ADDRS                   | IS LEARNER |
-+------------------+---------+--------+---------------------------+-------------------------------------------------+------------+
-| 65efecf6e9a81d9c | started | etcd-0 | http://10.211.55.100:2380 | http://10.211.55.100:2379,http://127.0.0.1:2379 |      false |
-| b175d3aa415c26ed | started | etcd-1 | http://10.211.55.101:2380 | http://10.211.55.101:2379,http://127.0.0.1:2379 |      false |
-| c1f2844c0614a5d1 | started | etcd-2 | http://10.211.55.102:2380 | http://10.211.55.102:2379,http://127.0.0.1:2379 |      false |
-+------------------+---------+--------+---------------------------+-------------------------------------------------+------------+
-
+[root@master ~]# etcdctl member list
+65efecf6e9a81d9c: name=etcd-0 peerURLs=http://10.211.55.100:2380 clientURLs=http://10.211.55.100:2379,http://127.0.0.1:2379 isLeader=true
+b175d3aa415c26ed: name=etcd-1 peerURLs=http://10.211.55.101:2380 clientURLs=http://10.211.55.101:2379,http://127.0.0.1:2379 isLeader=false
+c1f2844c0614a5d1: name=etcd-2 peerURLs=http://10.211.55.102:2380 clientURLs=http://10.211.55.102:2379,http://127.0.0.1:2379 isLeader=false
 
 # 查看集群状态
-[root@node-2 ~]# etcdctl --endpoints=10.211.55.100:2379,10.211.55.101:2379,10.211.55.102:2379 --write-out=table endpoint status
-+--------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
-|      ENDPOINT      |        ID        | VERSION | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
-+--------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
-| 10.211.55.100:2379 | 65efecf6e9a81d9c |  3.4.14 |   20 kB |      true |      false |        10 |         15 |                 15 |        |
-| 10.211.55.101:2379 | b175d3aa415c26ed |  3.4.14 |   20 kB |     false |      false |        10 |         15 |                 15 |        |
-| 10.211.55.102:2379 | c1f2844c0614a5d1 |  3.4.14 |   20 kB |     false |      false |        10 |         15 |                 15 |        |
-+--------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
-```
-### (7). 常用操作
-```
-# 增/改
-[root@node-2 ~]# etcdctl --endpoints=10.211.55.100:2379,10.211.55.101:2379,10.211.55.102:2379 put foo "hello world"
-OK
-
-# 查
-[root@node-2 ~]# etcdctl --endpoints=10.211.55.100:2379,10.211.55.101:2379,10.211.55.102:2379 get foo
-foo
-hello world
-
-# 删
-[root@node-2 ~]# etcdctl --endpoints=10.211.55.100:2379,10.211.55.101:2379,10.211.55.102:2379 del foo
-1
-
-# 校验,已经查询不到数据了
-[root@node-2 ~]# etcdctl --endpoints=10.211.55.100:2379,10.211.55.101:2379,10.211.55.102:2379 get foo
+[root@master ~]# etcdctl cluster-health
+member 65efecf6e9a81d9c is healthy: got healthy result from http://10.211.55.100:2379
+member b175d3aa415c26ed is healthy: got healthy result from http://10.211.55.101:2379
+member c1f2844c0614a5d1 is healthy: got healthy result from http://10.211.55.102:2379
+cluster is healthy
 ```
