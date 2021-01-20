@@ -6,14 +6,27 @@ author: 李新
 tags: Docker
 ---
 
-### (0). 参考博客
-["MacVLAN参考博客(https://www.jianshu.com/p/2b8b6c738bf6)"](https://www.jianshu.com/p/2b8b6c738bf6)
-### (1). 环境准备
+### (0). 环境准备
 
 |  宿主IP         | 容器网段       | 主机名称     |
 |  ----          | ----          |   ----      |
 | 10.211.55.100  | 172.17.0.1/24 |  master     |
 | 10.211.55.101  | 172.17.0.1/24 |  node-1     |
+
+
+### (1). 前期准备工作
+```
+# 所有机器关闭防火墙
+$ systemctl stop firewalld
+$ systemctl disable firewalld
+
+# 所有机器关闭selinux
+$ sed -i 's/enforcing/disabled/' /etc/selinux/config 
+$ setenforce 0
+
+# 开启数据包转发功能
+$ echo "1" > /proc/sys/net/ipv4/ip_forward
+```
 
 ### (2). 开启网卡的混杂模式
 > 两台宿主机器上的主网卡都要开启网卡混杂模式:    

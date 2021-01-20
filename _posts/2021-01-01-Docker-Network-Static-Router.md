@@ -6,12 +6,27 @@ author: 李新
 tags: Docker
 ---
 
-### (1). 环境准备
+### (0). 环境准备
 
 |  宿主IP         | 容器网段         | 主机名称     |
 |  ----          | ----            |   ----      |
 | 10.211.55.100  | 172.17.1.254/24 |  master     |
 | 10.211.55.101  | 172.17.2.254/24 |  node-1     |
+
+
+### (1). 前期准备工作
+```
+# 所有机器关闭防火墙
+$ systemctl stop firewalld
+$ systemctl disable firewalld
+
+# 所有机器关闭selinux
+$ sed -i 's/enforcing/disabled/' /etc/selinux/config 
+$ setenforce 0
+
+# 开启数据包转发功能
+$ echo "1" > /proc/sys/net/ipv4/ip_forward
+```
 
 ### (2). 修改master节点docker0的IP地址
 ```
@@ -154,5 +169,12 @@ PING 172.17.1.1 (172.17.1.1): 56 data bytes
 64 bytes from 172.17.1.1: seq=0 ttl=62 time=0.811 ms
 64 bytes from 172.17.1.1: seq=1 ttl=62 time=0.738 ms
 ```
-### (10). 总结
-> 通过配置动态路由,可以让两台宿主机里的容器实现互相通信.  
+
+### (10). 注意事项
+> Linux系统默认是禁用数据包转发的(当主机拥有多于一块网卡时,其中一块网卡收到数据包,根据数据包的目的IP地址将包发往本机另一网卡).   
+> 所以,需要开启数据包转发功能.
+
+```
+# 要求在所有机器上都要执行
+$ echo "1" > /proc/sys/net/ipv4/ip_forward
+```

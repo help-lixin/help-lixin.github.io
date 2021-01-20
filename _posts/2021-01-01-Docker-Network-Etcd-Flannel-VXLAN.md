@@ -1,18 +1,33 @@
 ---
 layout: post
-title: 'Docker 跨主机路由之:Etcd+Flannel'
+title: 'Docker 跨主机路由之:Etcd+Flannel(vxlan)'
 date: 2021-01-01
 author: 李新
 tags: Docker
 ---
 
-### (1).  环境准备
+### (0).  环境准备
 
 |  宿主IP         | 容器网段       | 主机名称     |
 |  ----          | ----          |   ----      |
 | 10.211.55.100  | 172.17.0.1/24 |  master     |
 | 10.211.55.101  | 172.17.0.1/24 |  node-1     |
 | 10.211.55.102  | 172.17.0.1/24 |  node-2     |
+
+
+### (1). 前期准备工作
+```
+# 所有机器关闭防火墙
+$ systemctl stop firewalld
+$ systemctl disable firewalld
+
+# 所有机器关闭selinux
+$ sed -i 's/enforcing/disabled/' /etc/selinux/config 
+$ setenforce 0
+
+# 开启数据包转发功能
+$ echo "1" > /proc/sys/net/ipv4/ip_forward
+```
 
 ### (2). Etcd集群搭建
 > ["Etcd集群搭建"](https://blog.lixin.help/2021/01/01/Etcd-Cluster.html)
@@ -169,7 +184,7 @@ EnvironmentFile=/run/docker_opts.env
 # 2. 在启动命令中添加环境变量
 ExecStart=/usr/bin/dockerd  $DOCKER_OPTS 
 ```
-### (11). 启动docker
+### (11). 重启docker
 ```
 $ systemctl daemon-reload
 $ systemctl restart docker
