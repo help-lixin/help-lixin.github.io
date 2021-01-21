@@ -19,17 +19,18 @@ tags: K8S Spring SpringCloud
 
 ### (3). 方案二
 > Ingress + Spring Cloud Gateway + Eureka(Zookeeper/Nacos) + 业务微服务:   
-> 1. eureka 和 业务微服务,<font color='red'>不使用Service功能(也就是不暴露服务,仅内部访问).</font>      
+> 1. eureka 和 业务微服务,<font color='red'>不使用Service(NodePort)功能(也就是不暴露服务,仅内部访问).</font>      
 > 2. 业务微服务 和 Gateway 都向 eureka注册,这时在注册中心的元数据是:PodIP:port.   
-> 3. Spring Cloud Gateway通过Service(NodePort)暴露出IP和端口.     
+> 3. 而Spring Cloud Gateway通过Service(NodePort)暴露出IP和端口.     
 > 4. Ingress接受请求,全部转发到:Gateway上,再由:Gateway进行分发到业务微服务上.    
-> 5. 注意:eureka注册时,需要稍微注意一些.它必须是有状态的,而且还要是基于域名的.      
-> 6. 优势:不是所有的微服务都要使用Service功能.访方案:占用Node(宿主机)的端口也比较少.  
-> 7. 原理:相当于Gateway往Nginx的upstream中注册,而Gateway和Pod是在同一网段,自然也能相互访问.  
+> 5. 优势:不是所有的微服务都要使用Service(NodPort)功能.访方案:占用Node(宿主机)的端口也比较少,对开发比较透明,在开发环境无须依赖K8S,且学习成本比较低.  
+> 6. 原理:相当于Gateway往Nginx的upstream中注册,而Gateway和Pod是在同一网段,自然也能相互访问.  
 
 ### (4). 方案三
 > Spring提供了:Spring Cloud Kubernetes解决方案(https://spring.io/projects/spring-cloud-kubernetes).   
 > 该组件的原理:把微服注册和服务发现,基于:Kubenetes Service实现了一套,它和Eureka/Zookeeper/Nacos等是平级的.  
+> 优点:与K8S深度结合,是喜是忧无从谈起.  
+> 缺点:开发人员在进行业务开发的时候,过于强依赖K8S的环境.  
 
 ### (5). 方案四
 > K8S所提供的解决方案:  
@@ -37,8 +38,7 @@ tags: K8S Spring SpringCloud
 > 1. 不依赖任何的服务(Zookeeper/Eureka/Nacos...)发现组件,<font color='red'>放弃微服务所提供的服务发现与注册组件</font>.   
 > 2. 所有的业务微服务都使用Service和Ingress(不使用方案二中的:Gateway).   
 > 3. 如果,业务有需求要对网关进行编排,可对Ingress(Go语言基于OpenRestry开发)进行二次开发.     
-> 4. 该方案是:K8S默认方案,但是:Node(宿主机上暴露的端口太多了),可自由编程度相比方案一比较低.    
-
+> 4. 优缺点:该方案是K8S默认方案,但是:Node(宿主机上暴露的端口太多了),可自由编程度相比方案一比较低.    
 
 ### (6). 方案五
 > 约定优于配置:  
@@ -47,9 +47,9 @@ tags: K8S Spring SpringCloud
 > 2. <font color='red'>为业务微服务,创建Service指定网络类型以及参数:ClusterIP/ports.port为80端口,一定要指定为为:80端口,否则就要用域名+端口访问.</font>    
 > 3. 创建网关服务(Gateway/NodeJS/Zuul),并指定Service的网络类型为:NodePort.    
 > 4. <font color='red'>Ingress接受所有动态请求,把请求:全部分发给(第三步的)网关服务,网关服务直接转发给业务微服务.</font>    
-> 5. 原理: 网关服务和其他服务(业务微服务)都是一个集群之内.k8s提供了kube-dns功能(域名到IP的解析),
-> 所以,网关服务和业务微服之间,可以完全基于域名(service)来访问.    
-
+> 5. 原理: 网关服务和其他服务(业务微服务)都是一个集群之内.k8s提供了kube-dns功能(域名到IP的解析),所以,网关服务和业务微服之间,可以完全基于域名(service)来访问.    
+> 6. 优缺点: 从开发环境开始就过度依赖K8S的Service功能以及DNS解析功能.增加开发学习成本.   
+> 7. 具体操作验证步骤如下:   
 
 > 业务微服务Service配置(ClusterIP模式)  
 
