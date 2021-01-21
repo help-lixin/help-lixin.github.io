@@ -10,9 +10,9 @@ tags: K8S
 
 |  IP            | 机器名称   |  部署组件      | 
 |  ----          | ----     | ----           |
-| 10.211.55.100  |  master  | kube-apiserver,kube-controller-manger,kube-scheduler,docker,etcd |
-| 10.211.55.101  |  node-1  | kubelet,kube-proxy,etcd |
-| 10.211.55.102  |  node-2  | kubelet,kube-proxy,etcd |
+| 10.211.55.100  |  master  | kube-apiserver,kube-controller-manger,kube-scheduler,etcd |
+| 10.211.55.101  |  node-1  | kubelet,kube-proxy,docker,etcd |
+| 10.211.55.102  |  node-2  | kubelet,kube-proxy,docker,etcd |
 
 ### (2). 准备工作
 ```

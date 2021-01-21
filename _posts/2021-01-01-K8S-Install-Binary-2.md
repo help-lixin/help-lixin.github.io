@@ -31,7 +31,7 @@ tags: K8S
 }
 
 
-# 2. 创建etcd 证书,提定(ca.pem/cak-key.pem/ca-config.pem)
+# 2. 创建etcd证书(ca.pem/cak-key.pem/ca-config.pem)
 # cfssljson -bare server 指定证书生成的文件名为(server)
 [root@master etcd-cert]# cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=www server-csr.json | cfssljson -bare server
 2021/01/21 13:06:59 [INFO] generate received request
@@ -59,11 +59,6 @@ specifically, section 10.2.3 ("Information Requirements").
 ```
 
 ### (2). 部署Etcd
-> 1. 先在master节点部署好.   
-> 2. 从master同步到其它节点.   
-> 3. 修改其它节点的配置.   
-> 4. 启动etcd测试.  
-
 ```
 # 当前工作目录
 [root@master ~]# pwd
