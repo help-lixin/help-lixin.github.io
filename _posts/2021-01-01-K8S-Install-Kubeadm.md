@@ -27,7 +27,7 @@ kubeadmin join <MASTER:PORT>
 
 ### (3). 集群机器
 
-|  IP            | 角色      |
+|  IP            | 机器名称  |
 |  ----          | ----     |
 | 10.211.55.100  |  Master  |
 | 10.211.55.101  |  Node1   |
@@ -54,7 +54,7 @@ $ vi /etc/fstab
 10.211.55.101   node-1
 10.211.55.102   node-2
 
-# 所有机器将桥接IPV4流量传递到iptables的链:
+# # 把IPV4流量转到到iptables里:
 $ vi /etc/sysctl.d/k8s.conf
 net.bridge.bridge‐nf‐call‐ip6tables = 1
 net.bridge.bridge‐nf‐call‐iptables = 1
