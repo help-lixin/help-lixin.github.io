@@ -9,7 +9,7 @@ tags: K8S K8S安装
 ### (1). 对K8S集群进行测试
 ```
 # 创建pod为nginx
-[root@master ~]# [root@master ~]# kubectl create deployment nginx --image=nginx
+[root@master ~]# kubectl create deployment nginx --image=nginx
 pod/nginx created
 
 # 查看运行的pod

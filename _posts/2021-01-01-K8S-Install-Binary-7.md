@@ -45,6 +45,9 @@ clusterDNS:
 - 10.0.0.2
 clusterDomain: cluster.local.
 failSwapOn: false
+authentication:
+  anonymous:
+    enabled: true
 ```
 ### (5). 通过systemd来管理kubelet(/usr/lib/systemd/system/kubelet.service)
 ```
@@ -179,4 +182,16 @@ node-csr-NMZhSNEKprZdRpkShO84T0TJGglShZp2IxM_jXjMIVM   48m     kubernetes.io/kub
 NAME            STATUS   ROLES    AGE   VERSION
 10.211.55.101   Ready    <none>   37m   v1.19.7
 10.211.55.102   Ready    <none>   11s   v1.19.7
+```
+
+### (14). 在Master节点添加认证的用户
+
+```
+# exec进不了容器
+[root@master ~]# kubectl exec -it dig  -- nslookup kubernetes
+error: unable to upgrade connection: Unauthorized
+
+# 在master节点上,添加认证用户
+[root@master ~]# kubectl create clusterrolebinding system:anonymous --clusterrole=cluster-admin --user=system:anonymous
+	clusterrolebinding.rbac.authorization.k8s.io/system:anonymous created
 ```
