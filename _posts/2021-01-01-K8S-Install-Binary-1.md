@@ -3,7 +3,7 @@ layout: post
 title: 'Kubernetes 二进制安装之集群准备(一)'
 date: 2021-01-01
 author: 李新
-tags: K8S
+tags: K8S  K8S安装
 ---
 
 ### (1). 集群机器

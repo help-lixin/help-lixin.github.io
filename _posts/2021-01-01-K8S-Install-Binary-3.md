@@ -3,7 +3,7 @@ layout: post
 title: 'Kubernetes 二进制安装之Docker安装与配置(三)'
 date: 2021-01-01
 author: 李新
-tags: K8S
+tags: K8S  K8S安装
 ---
 
 ### (1). Docker安装

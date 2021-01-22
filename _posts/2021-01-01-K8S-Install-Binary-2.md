@@ -3,7 +3,7 @@ layout: post
 title: 'Kubernetes 二进制安装之Etcd集群(二)'
 date: 2021-01-01
 author: 李新
-tags: K8S
+tags: K8S  K8S安装
 ---
 
 ### (1). 使用自签CA签发Etcd HTTPS证书
@@ -34,15 +34,6 @@ tags: K8S
 # 2. 创建etcd证书(ca.pem/cak-key.pem/ca-config.pem)
 # cfssljson -bare server 指定证书生成的文件名为(server)
 [root@master etcd-cert]# cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=www server-csr.json | cfssljson -bare server
-2021/01/21 13:06:59 [INFO] generate received request
-2021/01/21 13:06:59 [INFO] received CSR
-2021/01/21 13:06:59 [INFO] generating key: rsa-2048
-2021/01/21 13:07:00 [INFO] encoded CSR
-2021/01/21 13:07:00 [INFO] signed certificate with serial number 30717327017724863631627188621272817141121112328
-2021/01/21 13:07:00 [WARNING] This certificate lacks a "hosts" field. This makes it unsuitable for
-websites. For more information see the Baseline Requirements for the Issuance and Management
-of Publicly-Trusted Certificates, v.1.1.6, from the CA/Browser Forum (https://cabforum.org);
-specifically, section 10.2.3 ("Information Requirements").
 
 # 3. 查看生成的文件
 [root@master etcd-cert]# ll

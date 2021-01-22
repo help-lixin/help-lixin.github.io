@@ -3,7 +3,7 @@ layout: post
 title: 'Kubernetes Kubeadmin集群搭建(二)'
 date: 2021-01-01
 author: 李新
-tags: K8S
+tags: K8S  K8S安装
 ---
 
 ### (1). 安装要求
