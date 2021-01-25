@@ -27,7 +27,7 @@ lixin-macbook:camunda-bpm-platform-7.14.0 lixin$ ll ./distro/tomcat/distro/targe
 ```
 lixin-macbook:Desktop lixin$ tree camunda-bpm-tomcat-7.14.0 -L 1
 camunda-bpm-tomcat-7.14.0
-├── camunda-h2-dbs
+├── camunda-h2-dbs                 # h2数据存储
 ├── lib
 ├── server                         # 内部实际是一个tomcat
 ├── shutdown-camunda.bat
