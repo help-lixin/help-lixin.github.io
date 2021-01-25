@@ -266,3 +266,8 @@ public ProcessEngine buildProcessEngine() {
 }
 ```
  
+ ### (11). 总结
+ > 1. 读取XML文件([camunda.cfg.xml/activiti.cfg.xml , activiti-context.xml]).  
+ > 2. 通过Spring(DefaultListableBeanFactory)加载XML文件.  
+ > 3. 获取Spring容器里的:ProcessEngineConfiguration对象.   
+ > 4. 调用ProcessEngineConfiguration.buildProcessEngine方法,构建出:ProcessEngine对象.  
