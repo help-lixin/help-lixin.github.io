@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Camunda ProcessEngine是如何构建出来的?(二)'
+title: 'Camunda ProcessEngine初始化过程(一)'
 date: 2021-01-25
 author: 李新
 tags: Camunda
@@ -257,7 +257,8 @@ public static ProcessEngineConfiguration createProcessEngineConfigurationFromInp
 ### (10). ProcessEngineConfigurationImpl.buildProcessEngine
 ```
 // 这一部份的内容,我暂时不跟进去了.
-// 反正,理解:ProcessEngine的职责就可以了.
+// 会另开一章,专门分析这一部份
+// 反正,只要理解:ProcessEngine的职责就可以了.它是一个门面模式,会返回与流程实例相关的对象.
 public ProcessEngine buildProcessEngine() {
 	init();
 	processEngine = new ProcessEngineImpl(this);
@@ -270,4 +271,5 @@ public ProcessEngine buildProcessEngine() {
  > 1. 读取XML文件([camunda.cfg.xml/activiti.cfg.xml , activiti-context.xml]).  
  > 2. 通过Spring(DefaultListableBeanFactory)加载XML文件.  
  > 3. 获取Spring容器里的:ProcessEngineConfiguration对象.   
- > 4. 调用ProcessEngineConfiguration.buildProcessEngine方法,构建出:ProcessEngine对象.  
+ > 4. 调用ProcessEngineConfiguration.buildProcessEngine方法,构建出:ProcessEngine对象.这里面的方法我另开一章来分析.    
+ > 5. 在这里,能看到:ProcessEngine运用了23种设计模式中的:门面模式.   
