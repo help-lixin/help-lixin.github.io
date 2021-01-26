@@ -61,7 +61,7 @@ public class ProcessEngineTest {
     
     <bean id="dataSource" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
         <property name="targetDataSource">
-        <!-- 这里也只是利用了Spring产生的DataSource -->
+        <!-- 这里也只是利用了Spring产生的DataSource,生产环境,建议换成专业的DataSource -->
             <bean class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
                 <property name="driverClass" value="com.mysql.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://127.0.0.1:3306/camunda?useUnicode=true"/>
