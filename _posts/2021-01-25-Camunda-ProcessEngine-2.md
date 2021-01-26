@@ -26,7 +26,8 @@ public ProcessEngine buildProcessEngine() {
 > init方法很复杂,我只挑几个重要的点进行分析.   
 > 1. initDataSource(数据源初始化).    
 > 2. initCommandExecutors(命令执行器初始化,典型的:责任链模式和命令模式).   
-> 3. initEventHandlers(事件处理器,典型的:观察者模式)
+> 3. initEventHandlers(事件处理器,典型的:观察者模式).    
+> 4. initDeployers(流程部署/流程解析的入口).   
 
 ```
 protected void init() {
@@ -70,6 +71,9 @@ protected void init() {
 	// ID生成策略
     initIdGenerator();
     initFailedJobCommandFactory();
+	// *******************************************************************
+	// 7. 初始化部署
+	// *******************************************************************
     initDeployers();
     initJobProvider();
     initExternalTaskPriorityProvider();
@@ -381,8 +385,103 @@ protected void initEventHandlers() {
 } // end initEventHandlers
 ```
 
-### (7). CommandExecutor类结构图解
-!["CommandExecutor类结构图解"](/assets/camunda/imgs/CommandExecutor.jpg)
+### (7). ProcessEngineConfigurationImpl.initDeployers
+```
+// domain
+protected List<Deployer> customPreDeployers;
+protected List<Deployer> customPostDeployers;
+protected List<Deployer> deployers;
+protected DeploymentCache deploymentCache;
 
-### (8). EventHandler类结构图解
+protected CacheFactory cacheFactory;
+protected int cacheCapacity = 1000;
+protected boolean enableFetchProcessDefinitionDescription = true;
+
+// methods
+protected void initDeployers() {
+    if (this.deployers == null) {
+	   // 初始化:deployers
+      this.deployers = new ArrayList<>();
+	  
+	  // 前置自定义部署组件
+      if (customPreDeployers != null) {
+        this.deployers.addAll(customPreDeployers);
+      }
+	  
+	  // 默认的部署组件
+      this.deployers.addAll(getDefaultDeployers());
+	  
+	  // 后置自定义部署组件
+      if (customPostDeployers != null) {
+        this.deployers.addAll(customPostDeployers);
+      }
+    }// end if
+	
+	
+    if (deploymentCache == null) { 
+      List<Deployer> deployers = new ArrayList<>();
+      if (customPreDeployers != null) {
+        deployers.addAll(customPreDeployers);
+      }
+      deployers.addAll(getDefaultDeployers());
+      if (customPostDeployers != null) {
+        deployers.addAll(customPostDeployers);
+      }
+	  // 初始化缓存工厂(工厂模式)
+      initCacheFactory();
+      deploymentCache = new DeploymentCache(cacheFactory, cacheCapacity);
+      deploymentCache.setDeployers(deployers);
+    } // end if
+}
+
+protected Collection<? extends Deployer> getDefaultDeployers() {
+    List<Deployer> defaultDeployers = new ArrayList<>();
+
+	// getBpmnDeployer()
+    BpmnDeployer bpmnDeployer = getBpmnDeployer();
+    defaultDeployers.add(bpmnDeployer);
+
+	// 以下是cmmn/dmn了
+    if (isCmmnEnabled()) {
+      CmmnDeployer cmmnDeployer = getCmmnDeployer();
+      defaultDeployers.add(cmmnDeployer);
+    }
+
+    if (isDmnEnabled()) {
+      DecisionRequirementsDefinitionDeployer decisionRequirementsDefinitionDeployer = getDecisionRequirementsDefinitionDeployer();
+      DecisionDefinitionDeployer decisionDefinitionDeployer = getDecisionDefinitionDeployer();
+      // the DecisionRequirementsDefinition cacheDeployer must be before the DecisionDefinitionDeployer
+      defaultDeployers.add(decisionRequirementsDefinitionDeployer);
+      defaultDeployers.add(decisionDefinitionDeployer);
+    }
+
+    return defaultDeployers;
+}// end
+
+protected BpmnDeployer getBpmnDeployer() {
+    BpmnDeployer bpmnDeployer = new BpmnDeployer();
+    bpmnDeployer.setExpressionManager(expressionManager);
+    bpmnDeployer.setIdGenerator(idGenerator);
+    if (bpmnParseFactory == null) {
+      bpmnParseFactory = new DefaultBpmnParseFactory();
+    }
+	// ***************************************************************************
+	// 创建:BpmnParser
+	// ***************************************************************************
+    BpmnParser bpmnParser = new BpmnParser(expressionManager, bpmnParseFactory);
+    if (preParseListeners != null) {
+      bpmnParser.getParseListeners().addAll(preParseListeners);
+    }
+    bpmnParser.getParseListeners().addAll(getDefaultBPMNParseListeners());
+    if (postParseListeners != null) {
+      bpmnParser.getParseListeners().addAll(postParseListeners);
+    }
+    bpmnDeployer.setBpmnParser(bpmnParser);
+    return bpmnDeployer;
+} // end 
+
+```
+### (8). CommandExecutor类结构图解
+!["CommandExecutor类结构图解"](/assets/camunda/imgs/CommandExecutor.jpg)
+### (9). EventHandler类结构图解
 !["EventHandler类结构图解"](/assets/camunda/imgs/EventHandler.jpg)
