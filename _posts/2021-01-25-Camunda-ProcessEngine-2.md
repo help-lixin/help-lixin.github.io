@@ -27,7 +27,7 @@ public ProcessEngine buildProcessEngine() {
 > 1. initDataSource(数据源初始化).    
 > 2. initCommandExecutors(命令执行器初始化,典型的:责任链模式和命令模式).   
 > 3. initEventHandlers(事件处理器,典型的:观察者模式).    
-> 4. initDeployers(流程部署/流程解析的入口).   
+> 4. initDeployers(流程部署/流程解析的入口),这一部份也不会深剖,会另开一篇来分析.   
 
 ```
 protected void init() {
