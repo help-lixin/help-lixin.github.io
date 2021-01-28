@@ -31,16 +31,17 @@ seata-v1.4.0
 ├── codecov.yml
 ├── common                              # 公共模块
 ├── compressor                          # 压缩
-├── config                              # 配置
-├── core
-├── discovery                           # 服务发现
+├── config                              # 配置(可与Nacos/etcd/apollo/zk整合)
+├── core                                # 核心模块
+├── discovery                           # 与注册中心的接入和负载均衡的功能
 ├── distribution                        # 编译后产生的二进制文件
 ├── integration
-├── metrics                             # 监控
+├── metrics                             # 统计模块
 ├── pom.xml
-├── rm                                 
-├── rm-datasource
-├── saga
+├── tm                                  # 对 TM 的实现,提供了全局事务管理,例如:事务的发起,提交,回滚
+├── rm                                  # Resouce Manager
+├── rm-datasource                       # Resouce Mnager与DataSouce的切入
+├── saga                                # saga模块
 ├── script
 ├── seata-spring-boot-starter
 ├── serializer                         # 序列化
@@ -48,9 +49,8 @@ seata-v1.4.0
 ├── spring
 ├── sqlparser
 ├── style
-├── tcc
 ├── test
-└── tm
+└── tcc                                   # Seata 对 TCC 事务模式的实现
 ```
 
 ### (4). Seata模块关系图
