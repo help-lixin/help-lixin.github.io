@@ -34,7 +34,7 @@ seata-v1.4.0
 ├── config                              # 配置(可与Nacos/etcd/apollo/zk整合)
 ├── core                                # 核心模块
 ├── discovery                           # 与注册中心的接入和负载均衡的功能
-├── distribution                        # 编译后产生的二进制文件
+├── distribution                        # 编译后的事务协调器工程(seata-server)
 ├── integration
 ├── metrics                             # 统计模块
 ├── pom.xml

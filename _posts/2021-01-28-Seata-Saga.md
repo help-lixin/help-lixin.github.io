@@ -20,4 +20,4 @@ tags: Seata
 ### (3). 优缺点
 > 优点: 针对一些遗留系统服务,无法提供TCC模式要求的三个接口. 
 > 缺点: 一阶段正向服务和二阶段补偿服务都由业务开发实现,对开发人员,依然是不透明.  
-> 现在暂时只支持:Dubbo/SoftRpc. 
+> 现在暂时只支持:Dubbo/SoftRpc,<font color='red'>不支持Spring Cloud.</font> 
