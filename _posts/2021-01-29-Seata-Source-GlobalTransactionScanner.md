@@ -1,7 +1,7 @@
 ---
 layout: post
-title: 'Seata GlobalTransactionScanner(一)'
-date: 2021-01-28
+title: 'Seata 程序入口-GlobalTransactionScanner(一)'
+date: 2021-01-29
 author: 李新
 tags: Seata源码
 ---
