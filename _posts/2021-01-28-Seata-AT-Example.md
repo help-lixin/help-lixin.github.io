@@ -312,6 +312,7 @@ CREATE TABLE IF NOT EXISTS `lock_table`
 > 4. 拷贝mysql jar包到lib目录下(略)   
 
 > 5. 启动Seata Server.   
+
 ```
 # 可以自行下载,也可以通过我前面编译后产生的(seata-v1.4.0/distribution/target/seata-server-1.4.0.tar.gz).
 lixin-macbook:seata-server-1.4.0 lixin$ ./bin/seata-server.sh -m db
@@ -443,6 +444,7 @@ mysql> select * from account_tbl;
 ```
 ### (10). 再次正常测试
 > 开启account微服务,再次正常测试,因为表(order_tbl)ID是自增的,所以,刚才失败的ID按理应该是要跳过.
+
 ```
 # 发起请求
 $ curl http://localhost:8084/purchase/commit
