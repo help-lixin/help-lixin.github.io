@@ -232,7 +232,7 @@ protected Object[] getAdvicesAndAdvisorsForBean(Class beanClass, String beanName
 ```
 ### (9). 总结
 > GlobalTransactionScanner被Spring容器托管后,会做如下几件事:
-> 1. 初始化TM(事物管理器). 
+> 1. 初始化TM(事务管理器). 
 > 2. 初始化RM(资源管理器). 
 > 3. 扫描Spring容器里所有的Bean,如果Bean上有指定的注解(@GlobalTransactional/@GlobalLock),则,对这个Bean进行AOP代理.   
 > 4. TCC模式下代理的逻辑代码是:TccActionInterceptor.   
