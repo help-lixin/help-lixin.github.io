@@ -6,19 +6,18 @@ author: 李新
 tags: Seata源码
 ---
 
-### (1). 看下TMClient类的结构图
+### (1). 我们看下TMClient类的结构图
 !["TMClient类结构图"](/assets/seata/imgs/seata-TMClient.jpg)
 
 > TM全称为:Transaction Manager,它的作用是向TC(事务协调器),注册全局事务.  
-> 从类(RemotingClient)图上能看出,它的大体职责:    
-> 同步发送消息/异步发送消息/注册消息处理器...
+> 从类(RemotingClient)图上能看出,它的大体职责:同步发送消息/异步发送消息/注册消息处理器...
 
 ### (2). TMClient.init
 ```
 public static void init(String applicationId, String transactionServiceGroup, String accessKey, String secretKey) {
 	// 3. 典型的单例模式: TmNettyRemotingClient.getInstance
 	TmNettyRemotingClient tmNettyRemotingClient = TmNettyRemotingClient.getInstance(applicationId, transactionServiceGroup, accessKey, secretKey);
-	tmNettyRemotingClient.init();
+	// ... ...
 }
 ```
 ### (3). TmNettyRemotingClient.getInstance
@@ -27,10 +26,7 @@ public static TmNettyRemotingClient getInstance(String applicationId, String tra
 	// 4. getInstance
 	// 双重加锁机制创建:TmNettyRemotingClient,然后,设置属性值
 	TmNettyRemotingClient tmRpcClient = getInstance();
-	tmRpcClient.setApplicationId(applicationId);
-	tmRpcClient.setTransactionServiceGroup(transactionServiceGroup);
-	tmRpcClient.setAccessKey(accessKey);
-	tmRpcClient.setSecretKey(secretKey);
+	// ... ...
 	return tmRpcClient;
 }
 ```
@@ -313,4 +309,7 @@ public void process(ChannelHandlerContext ctx, RpcMessage rpcMessage) throws Exc
 }
 ```
 ### (12). 总结
-> TmNettyRemotingClient主要负责与TC(事务协调器进行通信).  
+> TmNettyRemotingClient主要负责与TC(事务协调器进行通信).主要职责为:  
+> 1. 向TC注册全局事务.   
+> 2. 告之TC全局事务的commit或rollback.   
+> 3. 注意:它不参与分支事务的commit或rollback.   
