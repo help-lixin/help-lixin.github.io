@@ -1,9 +1,9 @@
 ---
 layout: post
 title: 'Seata 简介(一)'
-date: 2021-01-28
+date: 2021-02-01
 author: 李新
-tags: Seata
+tags: Seata Seata源码
 ---
 
 ### (1). Seata是什么?
@@ -28,8 +28,18 @@ tags: Seata
 3. 接受TC(事务协调器)的指令,驱动分支事务的commit或rollback指令.   
 
 ### (3). Seata索引目录
+> ["Seata AT模式分析(二)"](/2021/01/28/Seata-AT.html)   
+> ["Seata TCC模式分析(三)"](/2021/01/28/Seata-TCC.html)   
+> ["Seata Saga模式分析(四)"](/2021/01/28/Seata-Saga.html)   
+> ["Seata 源码下载并编译(五)"](/2021/01/28/Seata-Source-Compile.html)   
+> ["Seata AT模式之入门案例(六)"](/2021/01/28/Seata-AT-Example.html)  
 
-["Seata AT模式分析(二)"](/2021-01-28-Seata-AT.md)
 
-
+### (4). Seata源码索引目录
+> ["Seata 程序入口-GlobalTransactionScanner(一)"](/2021/01/29/Seata-Source-GlobalTransactionScanner.html)   
+> ["Seata TMClient(二)"](/2021/01/29/Seata-Source-TMClient.html)       
+> ["Seata RMClient(三)"](/2021/01/29/Seata-Source-RMClient.html)    
+> ["Seata GlobalTransactionalInterceptor(四)"](/2021/01/29/Seata-Source-GlobalTransactionalInterceptor.html)    
+> ["Seata GlobalTransactionalInterceptor(五)"](/2021/01/29/Seata-Source-TransactionalTemplate.html)    
+> ["Seata TransactionalTemplate(六)"](/2021/01/29/Seata-Source-TransactionalTemplate.html)    
 

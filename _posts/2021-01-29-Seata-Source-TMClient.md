@@ -6,7 +6,7 @@ author: 李新
 tags: Seata源码
 ---
 
-### (1). 我们看下TMClient类的结构图
+### (1). 先看下TMClient类的结构图
 !["TMClient类结构图"](/assets/seata/imgs/seata-TMClient.jpg)
 
 > TM全称为:Transaction Manager,它的作用是向TC(事务协调器),注册全局事务.  

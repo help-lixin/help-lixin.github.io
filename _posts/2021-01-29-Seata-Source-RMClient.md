@@ -6,7 +6,7 @@ author: 李新
 tags: Seata源码
 ---
 
-### (1). 我们看下RMClient类的结构图
+### (1). 先看下RMClient类的结构图
 !["RMClient类结构图"](/assets/seata/imgs/seata-RMClient.jpg)
 
 > RM全称为:Resource Mangaer,它主要与TC进行通信,它的职责是:  
