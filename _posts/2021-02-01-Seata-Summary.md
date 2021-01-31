@@ -42,4 +42,5 @@ tags: Seata Seata源码
 > ["Seata GlobalTransactionalInterceptor(四)"](/2021/01/29/Seata-Source-GlobalTransactionalInterceptor.html)    
 > ["Seata GlobalTransactionalInterceptor(五)"](/2021/01/29/Seata-Source-TransactionalTemplate.html)    
 > ["Seata TransactionalTemplate(六)"](/2021/01/29/Seata-Source-TransactionalTemplate.html)    
+> ["Seata GlobalTransaction(七)"](/2021/01/29/Seata-Source-GlobalTransaction.html)    
 

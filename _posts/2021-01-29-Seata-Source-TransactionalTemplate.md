@@ -96,7 +96,12 @@ public Object execute(TransactionalExecutor business) throws Throwable {
 		// ***********************************************************************
 		// 1.3 If null, create new transaction with role 'GlobalTransactionRole.Launcher'.
 		if (tx == null) {
-			// 创建:DefaultGlobalTransaction
+			// 此时全局事务xid还不存在的.
+			// 创建:DefaultGlobalTransaction 内部持有一个对象:DefaultTransactionManager
+			// 通过SPI获取到的DefaultTransactionManager
+			// DefaultGlobalTransaction() {
+			// this(null, GlobalStatus.UnKnown, GlobalTransactionRole.Launcher);
+			// }
 			tx = GlobalTransactionContext.createNew();
 		}
 
