@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Seata TransactionManager(八)'
+title: 'Seata 全局事务处理之TransactionManager(八)'
 date: 2021-01-29
 author: 李新
 tags: Seata源码
@@ -115,3 +115,4 @@ public class DefaultTransactionManager implements TransactionManager {
 > 2. 向TC发送指令(begin),产生xid.   
 > 3. 执行业务逻辑代码.    
 > 4. 向TC发送指令(commit/rollback).   
+> 5. 留一个疑问?分析了这么久,都只是分析到全局事务的处理,那么分支事务是如何做的呢?哈哈哈,且跟着我继续往下走.  

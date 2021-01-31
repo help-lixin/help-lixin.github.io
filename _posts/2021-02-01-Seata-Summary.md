@@ -35,12 +35,18 @@ tags: Seata Seata源码
 > ["Seata AT模式之入门案例(六)"](/2021/01/28/Seata-AT-Example.html)  
 
 
-### (4). Seata源码索引目录
-> ["Seata 程序入口-GlobalTransactionScanner(一)"](/2021/01/29/Seata-Source-GlobalTransactionScanner.html)   
+### (4). Seata源码之全局事务处理索引目录
+> ["Seata GlobalTransactionScanner(一)"](/2021/01/29/Seata-Source-GlobalTransactionScanner.html)   
 > ["Seata TMClient(二)"](/2021/01/29/Seata-Source-TMClient.html)       
 > ["Seata RMClient(三)"](/2021/01/29/Seata-Source-RMClient.html)    
-> ["Seata GlobalTransactionalInterceptor(四)"](/2021/01/29/Seata-Source-GlobalTransactionalInterceptor.html)    
-> ["Seata GlobalTransactionalInterceptor(五)"](/2021/01/29/Seata-Source-TransactionalTemplate.html)    
-> ["Seata TransactionalTemplate(六)"](/2021/01/29/Seata-Source-TransactionalTemplate.html)    
-> ["Seata GlobalTransaction(七)"](/2021/01/29/Seata-Source-GlobalTransaction.html)    
+> ["Seata 全局事务处理之GlobalTransactionalInterceptor(四)"](/2021/01/29/Seata-Source-GlobalTransactionalInterceptor.html)    
+> ["Seata 全局事务处理之GlobalTransactionalInterceptor(五)"](/2021/01/29/Seata-Source-TransactionalTemplate.html)    
+> ["Seata 全局事务处理之TransactionalTemplate(六)"](/2021/01/29/Seata-Source-TransactionalTemplate.html)    
+> ["Seata 全局事务处理之GlobalTransaction(七)"](/2021/01/29/Seata-Source-GlobalTransaction.html)    
+> ["Seata 全局事务处理之TransactionManager(八)"](/2021/01/29/Seata-Source-TransactionManager.html)
+
+### (5). Seata源码之分支事务处理索引目录
+
+
+
 

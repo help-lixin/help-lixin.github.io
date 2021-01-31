@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Seata GlobalTransaction(七)'
+title: 'Seata  全局事务处理之GlobalTransaction(七)'
 date: 2021-01-29
 author: 李新
 tags: Seata源码

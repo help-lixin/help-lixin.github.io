@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Seata GlobalTransactionalInterceptor(四)'
+title: 'Seata  全局事务处理之GlobalTransactionalInterceptor(四)'
 date: 2021-01-29
 author: 李新
 tags: Seata源码
