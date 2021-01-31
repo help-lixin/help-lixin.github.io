@@ -19,7 +19,7 @@ public class DefaultTransactionManager implements TransactionManager {
         throws TransactionException {
 			
 	    // 创建:GlobalBeginRequest它属于:AbstractMessage的子类
-		// 在前面有分析过:AbstractMessage是Seata在Netty上自定义的协议栈
+		// 在前面有分析过:AbstractMessage是Seata在Netty上基于ProtoBuf自定义的协议栈
         GlobalBeginRequest request = new GlobalBeginRequest();
 		// 如果注解有指定名称就用注解上的名称,否则,就是方法签名了
         request.setTransactionName(name);
@@ -38,7 +38,7 @@ public class DefaultTransactionManager implements TransactionManager {
     @Override
     public GlobalStatus commit(String xid) throws TransactionException {
 		// 创建:GlobalCommitRequest它属于:AbstractMessage的子类
-		// 在前面有分析过:AbstractMessage是Seata在Netty上自定义的协议栈
+		// 在前面有分析过:AbstractMessage是Seata在Netty上基于ProtoBuf自定义的协议栈
         GlobalCommitRequest globalCommit = new GlobalCommitRequest();
         globalCommit.setXid(xid);
 		
@@ -52,7 +52,7 @@ public class DefaultTransactionManager implements TransactionManager {
     @Override
     public GlobalStatus rollback(String xid) throws TransactionException {
 		// 创建:GlobalRollbackRequest它属于:AbstractMessage的子类
-		// 在前面有分析过:AbstractMessage是Seata在Netty上自定义的协议栈
+		// 在前面有分析过:AbstractMessage是Seata在Netty上基于ProtoBuf自定义的协议栈
         GlobalRollbackRequest globalRollback = new GlobalRollbackRequest();
         globalRollback.setXid(xid);
 		
@@ -66,7 +66,7 @@ public class DefaultTransactionManager implements TransactionManager {
     @Override
     public GlobalStatus getStatus(String xid) throws TransactionException {
 		// 创建:GlobalStatusRequest它属于:AbstractMessage的子类
-		// 在前面有分析过:AbstractMessage是Seata在Netty上自定义的协议栈
+		// 在前面有分析过:AbstractMessage是Seata在Netty上基于ProtoBuf自定义的协议栈
         GlobalStatusRequest queryGlobalStatus = new GlobalStatusRequest();
         queryGlobalStatus.setXid(xid);
 		
@@ -80,7 +80,7 @@ public class DefaultTransactionManager implements TransactionManager {
     @Override
     public GlobalStatus globalReport(String xid, GlobalStatus globalStatus) throws TransactionException {
 		// 创建:GlobalReportRequest它属于:AbstractMessage的子类
-		// 在前面有分析过:AbstractMessage是Seata在Netty上自定义的协议栈
+		// 在前面有分析过:AbstractMessage是Seata在Netty上基于ProtoBuf自定义的协议栈
         GlobalReportRequest globalReport = new GlobalReportRequest();
         globalReport.setXid(xid);
         globalReport.setGlobalStatus(globalStatus);
