@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Seata AT(2PC)模式之入门案例(六)'
+title: 'Seata AT模式之入门案例(六)'
 date: 2021-01-28
 author: 李新
 tags: Seata
@@ -18,7 +18,7 @@ $ mvn clean install -DskipTests
 ### (2). 导入springcloud-eureka-seata到工程
 !["springcloud-eureka-seata技术架构图"](/assets/seata/imgs/seata-at-demo-architecture.png)
 
-!["springcloud-eureka-seata项止调用链路图"](/assets/seata/imgs/seata-﻿springcloud-eureka-sequence.jpg)
+!["springcloud-eureka-seata项目调用链路图"](/assets/seata/imgs/seata-﻿springcloud-eureka-sequence.jpg)
 
 ```
 # 查看:springcloud-eureka-seata项目目录
