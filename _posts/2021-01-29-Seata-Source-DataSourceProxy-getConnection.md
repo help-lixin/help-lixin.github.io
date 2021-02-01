@@ -18,7 +18,7 @@ tags: Seata源码
 > 2. 断点在:AbstractConnectionProxy.prepareStatement
 
 ### (3). ConnectionProxy.getConnection
-> 首先业务端(JdbcTemplate/MyBatis/Hibernate...)会获得一个Connection.  
+> 首先业务端(JdbcTemplate/MyBatis/Hibernate)会获得一个Connection.  
 
 ```
 public ConnectionProxy getConnection() throws SQLException {
@@ -27,7 +27,8 @@ public ConnectionProxy getConnection() throws SQLException {
 }
 ```
 ### (4). AbstractConnectionProxy.prepareStatement
-> 再次,业务端(JdbcTemplate/MyBatis/Hibernate...)会调用:Connection.prepareStatement方法.
+> 再次,业务端(JdbcTemplate/MyBatis/Hibernate)会调用:Connection.prepareStatement方法.
+
 
 ```
 public PreparedStatement prepareStatement(String sql) throws SQLException {
