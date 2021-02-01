@@ -45,7 +45,9 @@ tags: Seata Seata源码
 > ["Seata 全局事务处理之TransactionManager(八)"](/2021/01/29/Seata-Source-TransactionManager.html)
 
 ### (5). Seata源码之分支事务处理
-
+> ["Seata 分支事务处理之DataSourceProxy(一)"](/2021/01/29/Seata-Source-DataSourceProxy-new.html)
+> ["Seata 分支事务处理之ResourceManager(二)"](/2021/01/29/Seata-Source-ResourceManager.html)
+> ["Seata 分支事务处理之DataSourceProxy(三)"](/2021/01/29/Seata-Source-DataSourceProxy-getConnection.html)
 
 
 
