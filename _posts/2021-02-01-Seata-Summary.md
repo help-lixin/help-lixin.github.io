@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Seata 简介与索引大纲(一)'
+title: 'Seata 简介(一)'
 date: 2021-02-01
 author: 李新
 tags: Seata Seata源码
