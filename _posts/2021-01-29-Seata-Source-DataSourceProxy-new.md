@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Seata 分支事务处理之DataSourceProxy(一)'
+title: 'Seata 分支事务处理之DataSourceProxy初始化(一)'
 date: 2021-01-29
 author: 李新
 tags: Seata源码

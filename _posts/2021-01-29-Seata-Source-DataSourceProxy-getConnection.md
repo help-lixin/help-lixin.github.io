@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Seata 分支事务处理之DataSourceProxy(三)'
+title: 'Seata 分支事务处理之DataSourceProxy获取连接(三)'
 date: 2021-01-29
 author: 李新
 tags: Seata源码
@@ -23,6 +23,10 @@ tags: Seata源码
 ```
 public ConnectionProxy getConnection() throws SQLException {
 	Connection targetConnection = targetDataSource.getConnection();
+	// **********************************************************************
+	// 获取一个Connection时都是new出一个:ConnectionProxy
+	// 所以ConnectionProxy内的属性(ConnectionContext)都是实例级的,不存在冲突
+	// **********************************************************************
 	return new ConnectionProxy(this, targetConnection);
 }
 ```
