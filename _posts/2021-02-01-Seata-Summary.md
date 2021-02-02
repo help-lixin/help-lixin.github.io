@@ -34,7 +34,7 @@ tags: Seata Seata源码
 > ["Seata 源码下载并编译(五)"](/2021/01/28/Seata-Source-Compile.html)   
 > ["Seata AT模式之入门案例(六)"](/2021/01/28/Seata-AT-Example.html)  
 
-### (4). Seata源码之全局事务处理
+### (4). Seata源码(全局事务处理)
 > ["Seata GlobalTransactionScanner(一)"](/2021/01/29/Seata-Source-GlobalTransactionScanner.html)   
 > ["Seata TMClient(二)"](/2021/01/29/Seata-Source-TMClient.html)       
 > ["Seata RMClient(三)"](/2021/01/29/Seata-Source-RMClient.html)    
@@ -44,7 +44,7 @@ tags: Seata Seata源码
 > ["Seata 全局事务处理之GlobalTransaction(七)"](/2021/01/29/Seata-Source-GlobalTransaction.html)    
 > ["Seata 全局事务处理之TransactionManager(八)"](/2021/01/29/Seata-Source-TransactionManager.html)
 
-### (5). Seata源码之分支事务处理
+### (5). Seata源码(分支事务处理)
 > ["Seata 分支事务处理之DataSourceProxy初始化(一)"](/2021/01/29/Seata-Source-DataSourceProxy-new.html)    
 > ["Seata 分支事务处理之ResourceManager(二)"](/2021/01/29/Seata-Source-ResourceManager.html)    
 > ["Seata 分支事务处理之DataSourceProxy获取连接(三)"](/2021/01/29/Seata-Source-DataSourceProxy-getConnection.html)    
