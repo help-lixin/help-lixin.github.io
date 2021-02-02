@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Seata 分支事务处理之ConnectionProxy提交/回滚事务详解(四)'
+title: 'Seata 分支事务处理之ConnectionProxy提交/回滚事务详解(五)'
 date: 2021-01-29
 author: 李新
 tags: Seata源码
@@ -59,8 +59,7 @@ private void processGlobalTransactionCommit() throws SQLException {
 		// *************************************************************
 		recognizeLockKeyConflictException(e, context.buildLockKeys());
 	}
-	
-	
+		
 	try {
 		// 把undo_log刷盘
 		UndoLogManagerFactory.getUndoLogManager(this.getDbType()).flushUndoLogs(this);
@@ -80,6 +79,7 @@ private void processGlobalTransactionCommit() throws SQLException {
 	
 	if (IS_REPORT_SUCCESS_ENABLE) { // 默认值是:false
 		// 当开启了汇报情况下,才会向TC汇报正常.
+		// 这样设计的意思是:Seata(TC)默认认为是成功的,只有失败才会向TC汇报.
 		// 6. ConnectionProxy.report
 		report(true);
 	}
@@ -149,5 +149,7 @@ private void report(boolean commitDone) throws SQLException {
 ```
 ### (7). 总结
 > ConnectionProxy.commit方法的主要职责:  
-> 1. 获取全局锁(注册分支事事)
-> 2. 提交本地事务. 
+> 1. 向TC获取全局锁(注册分支事事)   
+> 2. 提交本地事务.   
+> 3. 失败的情况下,进行rollback,并向TC汇报失败.   
+> 4. 那什么时候?进行第二阶段的全局:commit/rollback呢?答案就在:RmNettyRemotingClient.registerProcessor方法里.   

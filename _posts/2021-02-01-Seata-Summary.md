@@ -49,7 +49,7 @@ tags: Seata Seata源码
 > ["Seata 分支事务处理之ResourceManager(二)"](/2021/01/29/Seata-Source-ResourceManager.html)    
 > ["Seata 分支事务处理之DataSourceProxy获取连接(三)"](/2021/01/29/Seata-Source-DataSourceProxy-getConnection.html)    
 > ["Seata 分支事务处理之Executor(四)"](/2021/01/29/Seata-Source-UpdateExecutor.html)    
-> ["Seata 分支事务处理之Executor(四)"](/2021/01/29/Seata-Source-UpdateExecutor.html)    
+> ["Seata 分支事务处理之ConnectionProxy提交/回滚事务详解(五)"](/2021/01/29/Seata-Source-ConnectionProxy-commit.html)    
 
 
 
