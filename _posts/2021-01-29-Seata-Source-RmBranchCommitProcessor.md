@@ -10,7 +10,7 @@ tags: Seata源码
 > 这一节,主要分析:TC通知所有的参与者(RM),进行commit.   
 
 ### (2). RmBranchCommitProcessor
-> RmNettyRemotingClient在初始化时(registerProcessor),是有指定code与RemotingProcessor的映射关系的.   
+> RmNettyRemotingClient在初始化时(registerProcessor),是有指定code与RemotingProcessor的映射关系的.在TC有事件时,会触发回调.   
 > TYPE_BRANCH_COMMIT(3) ==> RmBranchCommitProcessor   
 
 ### (3). 要先聊一下:DefaultRMHandler
