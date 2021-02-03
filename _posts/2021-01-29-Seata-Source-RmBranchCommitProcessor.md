@@ -10,7 +10,7 @@ tags: Seata源码
 > 这一节,主要分析:TC通知所有的参与者(RM),进行commit.   
 
 ### (2). RmBranchCommitProcessor
-> RmNettyRemotingClient在初始化时(registerProcessor),是有指定对应code的RemotingProcessor.   
+> RmNettyRemotingClient在初始化时(registerProcessor),是有指定code与RemotingProcessor的映射关系的.   
 > TYPE_BRANCH_COMMIT(3) ==> RmBranchCommitProcessor   
 
 ### (3). 要先聊一下:DefaultRMHandler
@@ -447,6 +447,8 @@ protected static String toBatchDeleteUndoLogSql(int xidSize, int branchIdSize) {
 	return sqlBuilder.toString();
 } // end toBatchDeleteUndoLogSql
 ```
+### (12). RmBranchCommitProcessor执行流程图解
+!["RmBranchCommitProcessor执行流程图解"](/assets/seata/imgs/seata-RmBranchCommitProcessor-Sequence-Diagram.jpg)
 ### (13). 总结
 > AT模式下的第二阶段(commit)的分析的内容还是比较多的.  
 > 通过源码分析,AT模式下commit只要入队列(offer)成功了,就直接告之TC成功了.   

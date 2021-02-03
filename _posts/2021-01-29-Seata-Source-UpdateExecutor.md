@@ -1,15 +1,16 @@
 ---
 layout: post
-title: 'Seata 分支事务处理之Executor(四)'
+title: 'Seata 分支事务处理之UpdateExecutor(四)'
 date: 2021-01-29
 author: 李新
 tags: Seata源码
 ---
 
-### (1). 先看下Executor的类图
+### (1). 看下Executor类的实现
 !["Seata Executor"](/assets/seata/imgs/seata-Executor.jpg)
-### (2). 先看下UpdateExecutor的类图
-> 从前面分析到,我的SQL语句(update storage_tbl set count = count - ? where commodity_code = ?),所以,在这里只跟踪:UpdateExecutor
+
+### (2). 看下UpdateExecutor类的继承图
+> 从前面分析到,我的SQL语句(为Update),所以,在这里只跟踪:UpdateExecutor
 
 !["Seata UpdateExecutor类图"](/assets/seata/imgs/seata-Executor-Class-Diagram.jpg)
 
