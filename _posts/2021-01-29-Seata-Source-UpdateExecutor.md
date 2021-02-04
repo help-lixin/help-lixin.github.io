@@ -3,7 +3,7 @@ layout: post
 title: 'Seata 分支事务处理之UpdateExecutor(四)'
 date: 2021-01-29
 author: 李新
-tags: Seata源码
+tags: Seata-AT源码
 ---
 
 ### (1). 看下Executor类的实现

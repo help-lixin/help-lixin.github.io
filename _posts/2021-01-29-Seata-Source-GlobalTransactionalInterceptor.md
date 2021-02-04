@@ -3,7 +3,7 @@ layout: post
 title: 'Seata  全局事务处理之GlobalTransactionalInterceptor(四)'
 date: 2021-01-29
 author: 李新
-tags: Seata源码
+tags: Seata-AT源码
 ---
 
 ### (1). 先聊一下Spring

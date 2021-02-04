@@ -3,7 +3,7 @@ layout: post
 title: 'Seata  GlobalTransactionScanner(一)'
 date: 2021-01-29
 author: 李新
-tags: Seata源码
+tags: Seata-AT源码 Seata-TCC源码
 ---
 ### (1). spring-cloud-alibaba-seata-2.1.0.RELEASE(spring.factories)
 > 查看seata是如何与Spring Boot结合的(找到入口文件):    
@@ -235,5 +235,3 @@ protected Object[] getAdvicesAndAdvisorsForBean(Class beanClass, String beanName
 > 1. 初始化TM(事务管理器). 
 > 2. 初始化RM(资源管理器). 
 > 3. 扫描Spring容器里所有的Bean,如果Bean上有指定的注解(@GlobalTransactional/@GlobalLock),则,对这个Bean进行AOP代理.   
-> 4. TCC模式下代理的逻辑代码是:TccActionInterceptor.   
-> 5. AT模式下代理的逻辑工码是:GlobalTransactionalInterceptor.
