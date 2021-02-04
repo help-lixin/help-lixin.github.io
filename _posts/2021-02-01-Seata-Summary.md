@@ -59,11 +59,11 @@ tags: Seata Seata源码
 ### (6). Seata TCC源码(全局事务处理)
 > ["Seata  TCC 全局事务之GlobalTransactionScanner(一)"](/2021/01/29/Seata-Source-TCC-GlobalTransactionScanner.html)    
 > ["Seata  TCC全局事务之TCCBeanParserUtils(二)"](/2021/01/29/Seata-Source-TCC-TCCBeanParserUtils.html)    
-> 余下TCC全局事务内容与AT事务内容是一样的,主要是针对:    
+> 余下TCC全局事务内容与AT事务内容是一样的,主要职责如下:    
 > 1. 针对方法上拥有注解:@GlobalTransactional和@GlobalTransactional进行代码增强.  
 > 2. 向TC注册全局事务:begin(DefaultTransactionManager.begin).   
 > 3. 执行业务代码.  
-> 4. 通知TC注册全局事务:commit/rollback(DefaultTransactionManager.commit/rollback).   
+> 4. 通知TC全局事务:commit/rollback(DefaultTransactionManager.commit/rollback).   
 
 
 ### (6). Seata TCC源码(分支事务处理)
