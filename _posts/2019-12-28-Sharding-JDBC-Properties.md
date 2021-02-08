@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Sharding-JDBC Hello World'
+title: 'Sharding-JDBC Properties配置(一)'
 date: 2019-12-28
 author: 李新
 tags: Sharding-JDBC
@@ -235,9 +235,8 @@ public interface OrderMapper {
 
 ```
 server.port=56081
-spring.application.name=sharding-jdbc-simple-demo
+spring.application.name=sharding-jdbc-demo
 
-# server.servlet.context-path=/sharding-jdbc-simple-demo
 spring.http.encoding.enabled=true
 spring.http.encoding.charset=UTF-8
 spring.http.encoding.force=true
