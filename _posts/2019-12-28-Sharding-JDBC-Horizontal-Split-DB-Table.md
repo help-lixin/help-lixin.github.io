@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Sharding-JDBC Java配置(二)'
+title: 'Sharding-JDBC 水平分库分表(三)'
 date: 2019-12-28
 author: 李新
 tags: Sharding-JDBC
@@ -18,8 +18,6 @@ sharding-jdbc-demo
 │   │   │       └── lixin
 │   │   │           └── shardingjdbc
 │   │   │               ├── App.java
-│   │   │               ├── config
-│   │   │               │   └── ShardingJdbcConfig.java
 │   │   │               └── mapper
 │   │   │                   └── OrderMapper.java
 │   │   └── resources
@@ -233,10 +231,8 @@ public interface OrderMapper {
 }
 ```
 ### (5). application.properties
-> 配置项都有解析,后面会进行源码分析.
-
 ```
-server.port=56081
+server.port=8080
 spring.application.name=sharding-jdbc-demo
 
 spring.http.encoding.enabled=true
@@ -253,96 +249,71 @@ logging.level.org.springframework.web=info
 logging.level.com.itheima.dbsharding =debug
 logging.level.druid.sql=debug
 
-# 用java配置时,一定要配置这个
-# 禁止Spring Boot自动加载sharding-jdbc
-#spring.shardingsphere.enabled=false
+#配置数据源的名称(多个之间用逗号分隔).
+spring.shardingsphere.datasource.names=d1,d2
+
+# 水平分库案例
+# 创建两个MySQL实例,并创建两个库(order_db)
+# 在d1和d2表结构都一样.
+
+# 数据源名称:d1对应的详细信息
+# 3306
+spring.shardingsphere.datasource.d1.type=com.alibaba.druid.pool.DruidDataSource
+spring.shardingsphere.datasource.d1.driver-class-name=com.mysql.jdbc.Driver
+spring.shardingsphere.datasource.d1.url=jdbc:mysql://localhost:3306/order_db?useUnicode=true
+spring.shardingsphere.datasource.d1.username=root
+spring.shardingsphere.datasource.d1.password=123456
+
+# 数据源名称:d2对应的详细信息
+# 3307
+spring.shardingsphere.datasource.d2.type=com.alibaba.druid.pool.DruidDataSource
+spring.shardingsphere.datasource.d2.driver-class-name=com.mysql.jdbc.Driver
+spring.shardingsphere.datasource.d2.url=jdbc:mysql://localhost:3307/order_db?useUnicode=true
+spring.shardingsphere.datasource.d2.username=root
+spring.shardingsphere.datasource.d2.password=123456
+
+############################################逻辑表配置项开始####################################################
+# org.apache.shardingsphere.shardingjdbc.spring.boot.sharding.SpringBootShardingRuleConfigurationProperties
+# org.apache.shardingsphere.core.yaml.config.sharding.YamlShardingRuleConfiguration
+
+# 指定逻辑表:t_order的数据节点:[d1/d2].t_order_1,d1.t_order_2
+spring.shardingsphere.sharding.tables.t_order.actual-data-nodes=d$->{1..2}.t_order_$->{1..2}
+
+# 分库实际要做的是找到对应上面的数据源名称
+spring.shardingsphere.sharding.tables.t_order.database-strategy.inline.sharding-column=user_id
+spring.shardingsphere.sharding.tables.t_order.database-strategy.inline.algorithm-expression=d$->{user_id % 2 + 1}
+
+
+# 指定逻辑表t_order表的主键(order_id)生成策略为:雪花算法.
+# org.apache.shardingsphere.core.yaml.config.sharding.YamlKeyGeneratorConfiguration
+spring.shardingsphere.sharding.tables.t_order.key-generator.column=order_id
+spring.shardingsphere.sharding.tables.t_order.key-generator.type=SNOWFLAKE
+
+# 分表实际要做的找到真实的表名称(t_order_1/t_order2)
+# 指定t_order表的分片策略，分片策略包括分片键和分片算法
+# org.apache.shardingsphere.core.yaml.config.sharding.YamlShardingStrategyConfiguration
+spring.shardingsphere.sharding.tables.t_order.table-strategy.inline.sharding-column=order_id
+spring.shardingsphere.sharding.tables.t_order.table-strategy.inline.algorithm-expression=t_order_$->{order_id % 2 + 1}
+############################################逻辑表配置项结束####################################################
+
+# 打开sharding-jdbc的日志.
+spring.shardingsphere.props.sql.show=true
 ```
-
-### (6). ShardingJdbcConfig
-```
-package help.lixin.shardingjdbc.config;
-
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
-import org.apache.shardingsphere.api.config.sharding.KeyGeneratorConfiguration;
-import org.apache.shardingsphere.api.config.sharding.ShardingRuleConfiguration;
-import org.apache.shardingsphere.api.config.sharding.TableRuleConfiguration;
-import org.apache.shardingsphere.api.config.sharding.strategy.InlineShardingStrategyConfiguration;
-import org.apache.shardingsphere.shardingjdbc.api.ShardingDataSourceFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import com.alibaba.druid.pool.DruidDataSource;
-
-
-/**
- * 当Sharding-jdbc的JAR包加载到Spring环境时,会被自动加载.而报错(java.lang.IllegalArgumentException: Data sources cannot be empty.) <br/>
- * 有两种配置方式:<br/>
- * 方式一:  spring.shardingsphere.enabled=false   <br/>  
- * 方式二:   @SpringBootApplication(exclude = org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration.class)  <br/>
- * @author lixin
- */
-@Configuration
-public class ShardingJdbcConfig {
-	// 定义数据源
-	private Map<String, DataSource> createDataSourceMap() {
-		DruidDataSource dataSource1 = new DruidDataSource();
-		dataSource1.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource1.setUrl("jdbc:mysql://localhost:3306/order_db?useUnicode=true");
-		dataSource1.setUsername("root");
-		dataSource1.setPassword("123456");
-		Map<String, DataSource> result = new HashMap<>();
-		result.put("d1", dataSource1);
-		return result;
-	}
-
-	// 定义主键生成策略
-	private static KeyGeneratorConfiguration getKeyGeneratorConfiguration() {
-		KeyGeneratorConfiguration result = new KeyGeneratorConfiguration("SNOWFLAKE", "order_id");
-		return result;
-	}
-
-	// 定义t_order表的分片策略
-	private TableRuleConfiguration getOrderTableRuleConfiguration() {
-		TableRuleConfiguration result = new TableRuleConfiguration("t_order", "d1.t_order_$->{1..2}");
-		result.setTableShardingStrategyConfig(
-				new InlineShardingStrategyConfiguration("order_id", "t_order_$->{order_id % 2 + 1}"));
-		result.setKeyGeneratorConfig(getKeyGeneratorConfiguration());
-		return result;
-	}
-
-	// 定义sharding-Jdbc数据源
-	@Bean
-	public DataSource getShardingDataSource() throws SQLException {
-		ShardingRuleConfiguration shardingRuleConfig = new ShardingRuleConfiguration();
-		shardingRuleConfig.getTableRuleConfigs().add(getOrderTableRuleConfiguration());
-		Properties properties = new Properties();
-		properties.put("sql.show", "true");
-		return ShardingDataSourceFactory.createDataSource(createDataSourceMap(), shardingRuleConfig, properties);
-	}
-}
-```
-### (7). App
+### (6). App
 ```
 package help.lixin.shardingjdbc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-// 禁止自动加载sharding-jdbc
-@SpringBootApplication(exclude = org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration.class)
+@SpringBootApplication
 public class App {
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}
 }
 ```
-### (8). OrderTest
+### (7). OrderTest
 ```
 package help.lixin.shardingjdbc;
 
@@ -369,56 +340,104 @@ public class OrderTest {
 
 	@Test
 	public void batchSave() {
-		for (long i = 1; i < 11; i++) {
-			orderMapper.insertOrder(i, new BigDecimal(20.5 + i), "SUCCESS");
+		// 测试d2.t_order插入数据
+		for (long i = 1; i < 20; i++) {
+			// user_id = 1
+			orderMapper.insertOrder(1L, new BigDecimal(20.5 + i), "SUCCESS");
+		}
+		
+		// 测试d1.t_order插入数据
+		for (long i = 1; i < 20; i++) {
+			// user_id = 2
+			orderMapper.insertOrder(2L, new BigDecimal(20.5 + i), "SUCCESS");
 		}
 	}
 	
-	
+
+	// 由于是分库和分表的策略,而分库策略order_id不在SQL语句中,所以,会所有的库和表都进行Query然后合并.	
+	// 笛卡尔查询
 	@SuppressWarnings({ "deprecation", "rawtypes" })
 	@Test
 	public void query() {
-		// 尝试跨多个表的查询
 		List<Long> ids = new ArrayList<Long>();
-		ids.add(565225137922637824L);
-		ids.add(565225139432587265L);
-		ids.add(565225139524861952L);
-		ids.add(565225139612942337L);
-		
-		// select *  from t_order t  where t.order_id in   (   ?   ,  ?   ,  ?   ,  ?   )
-		// select *  from t_order_1 t  where t.order_id in   (   ?   ,  ?   ,  ?   ,  ?   ) ::: [565225137922637824, 565225139432587265, 565225139524861952, 565225139612942337]
-		// select *  from t_order_2 t  where t.order_id in   (   ?   ,  ?   ,  ?   ,  ?   ) ::: [565225137922637824, 565225139432587265, 565225139524861952, 565225139612942337]
+		ids.add(565586106691616768L);
+		ids.add(565586106611924993L);
+		ids.add(565586058801053696L);
+		ids.add(565586091139137537L);
 		List<Map> results = orderMapper.selectOrderbyIds(ids);
 		Assert.assertNotNull(results);
 	}
 }
 ```
-### (9). 查看表信息
+### (8). 查看表信息
 ```
-mysql> SELECT * FROM  t_order_1;
+// 3306机器
+mysql> select * from t_order_1;
 +--------------------+-------+---------+---------+
 | order_id           | price | user_id | status  |
 +--------------------+-------+---------+---------+
-| 565225137922637824 | 21.50 |       1 | SUCCESS |
-| 565225139524861952 | 23.50 |       3 | SUCCESS |
-| 565225139701022720 | 25.50 |       5 | SUCCESS |
-| 565225139881377792 | 27.50 |       7 | SUCCESS |
-| 565225140095287296 | 29.50 |       9 | SUCCESS |
+| 565586106691616768 | 22.50 |       2 | SUCCESS |
+| 565586106901331968 | 24.50 |       2 | SUCCESS |
+| 565586107043938304 | 26.50 |       2 | SUCCESS |
+| 565586107236876288 | 28.50 |       2 | SUCCESS |
+| 565586107421425664 | 30.50 |       2 | SUCCESS |
+| 565586107568226304 | 32.50 |       2 | SUCCESS |
+| 565586107706638336 | 34.50 |       2 | SUCCESS |
+| 565586107836661760 | 36.50 |       2 | SUCCESS |
+| 565586107987656704 | 38.50 |       2 | SUCCESS |
 +--------------------+-------+---------+---------+
-5 rows in set (0.00 sec)
+9 rows in set (0.00 sec)
 
-
-mysql> SELECT * FROM  t_order_2;
+mysql> select * from t_order_2;
 +--------------------+-------+---------+---------+
 | order_id           | price | user_id | status  |
 +--------------------+-------+---------+---------+
-| 565225139432587265 | 22.50 |       2 | SUCCESS |
-| 565225139612942337 | 24.50 |       4 | SUCCESS |
-| 565225139801686017 | 26.50 |       6 | SUCCESS |
-| 565225139982041089 | 28.50 |       8 | SUCCESS |
-| 565225140191756289 | 30.50 |      10 | SUCCESS |
+| 565586106611924993 | 21.50 |       2 | SUCCESS |
+| 565586106804862977 | 23.50 |       2 | SUCCESS |
+| 565586106976829441 | 25.50 |       2 | SUCCESS |
+| 565586107152990209 | 27.50 |       2 | SUCCESS |
+| 565586107329150977 | 29.50 |       2 | SUCCESS |
+| 565586107509506049 | 31.50 |       2 | SUCCESS |
+| 565586107635335169 | 33.50 |       2 | SUCCESS |
+| 565586107773747201 | 35.50 |       2 | SUCCESS |
+| 565586107907964929 | 37.50 |       2 | SUCCESS |
+| 565586108063154177 | 39.50 |       2 | SUCCESS |
 +--------------------+-------+---------+---------+
-5 rows in set (0.00 sec)
+10 rows in set (0.00 sec)
+
+// 3307机器
+mysql> select * from t_order_1;
++--------------------+-------+---------+---------+
+| order_id           | price | user_id | status  |
++--------------------+-------+---------+---------+
+| 565586058801053696 | 21.50 |       1 | SUCCESS |
+| 565586091193663488 | 23.50 |       1 | SUCCESS |
+| 565586091365629952 | 25.50 |       1 | SUCCESS |
+| 565586091508236288 | 27.50 |       1 | SUCCESS |
+| 565586091604705280 | 29.50 |       1 | SUCCESS |
+| 565586091692785664 | 31.50 |       1 | SUCCESS |
+| 565586091785060352 | 33.50 |       1 | SUCCESS |
+| 565586091868946432 | 35.50 |       1 | SUCCESS |
+| 565586091936055296 | 37.50 |       1 | SUCCESS |
+| 565586092007358464 | 39.50 |       1 | SUCCESS |
++--------------------+-------+---------+---------+
+10 rows in set (0.00 sec)
+
+mysql> select * from t_order_2;
++--------------------+-------+---------+---------+
+| order_id           | price | user_id | status  |
++--------------------+-------+---------+---------+
+| 565586091139137537 | 22.50 |       1 | SUCCESS |
+| 565586091285938177 | 24.50 |       1 | SUCCESS |
+| 565586091432738817 | 26.50 |       1 | SUCCESS |
+| 565586091566956545 | 28.50 |       1 | SUCCESS |
+| 565586091650842625 | 30.50 |       1 | SUCCESS |
+| 565586091726340097 | 32.50 |       1 | SUCCESS |
+| 565586091835392001 | 34.50 |       1 | SUCCESS |
+| 565586091902500865 | 36.50 |       1 | SUCCESS |
+| 565586091969609729 | 38.50 |       1 | SUCCESS |
++--------------------+-------+---------+---------+
+9 rows in set (0.01 sec)
 ```
-### (10). 总结
-> 如果用java配置时,要稍微注意一点,要禁止Spring Boot自动加载配置.
+### (9). 总结
+> 在编写algorithm-expression表达式时,要特别小心一点,我在这上面踩坑很久.   

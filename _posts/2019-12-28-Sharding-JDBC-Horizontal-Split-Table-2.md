@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Sharding-JDBC Properties配置(一)'
+title: 'Sharding-JDBC 水平分表之Java配置(二)'
 date: 2019-12-28
 author: 李新
 tags: Sharding-JDBC
@@ -18,6 +18,8 @@ sharding-jdbc-demo
 │   │   │       └── lixin
 │   │   │           └── shardingjdbc
 │   │   │               ├── App.java
+│   │   │               ├── config
+│   │   │               │   └── ShardingJdbcConfig.java
 │   │   │               └── mapper
 │   │   │                   └── OrderMapper.java
 │   │   └── resources
@@ -231,7 +233,6 @@ public interface OrderMapper {
 }
 ```
 ### (5). application.properties
-> 配置项都有解析,后面会进行源码分析.
 
 ```
 server.port=56081
@@ -251,59 +252,96 @@ logging.level.org.springframework.web=info
 logging.level.com.itheima.dbsharding =debug
 logging.level.druid.sql=debug
 
-#配置数据源的名称(多个之间用逗号分隔).
-spring.shardingsphere.datasource.names=d1
-
-# 数据源名称:d1对应的详细信息
-spring.shardingsphere.datasource.d1.type=com.alibaba.druid.pool.DruidDataSource
-spring.shardingsphere.datasource.d1.driver-class-name=com.mysql.jdbc.Driver
-spring.shardingsphere.datasource.d1.url=jdbc:mysql://localhost:3306/order_db?useUnicode=true
-spring.shardingsphere.datasource.d1.username=root
-spring.shardingsphere.datasource.d1.password=123456
-
-############################################逻辑表配置项开始####################################################
-# org.apache.shardingsphere.shardingjdbc.spring.boot.sharding.SpringBootShardingRuleConfigurationProperties
-# org.apache.shardingsphere.core.yaml.config.sharding.YamlShardingRuleConfiguration
-
-
-# 指定逻辑表:t_order的数据节点:d1.t_order_1,d1.t_order_2
-# org.apache.shardingsphere.core.yaml.config.sharding.YamlTableRuleConfiguration
-# 执行原理:
-# 1. harding-jdbc会根据逻辑表名称(t_order),找到配置对应的值(d1.t_order_$->{1..2}).  
-# 2. 这样,就能找到d1数据源.
-# 3. 根据d1数据源,可以找到真实的表名(t_order_1/t_order_2).
-spring.shardingsphere.sharding.tables.t_order.actual-data-nodes=d1.t_order_$->{1..2}
-
-
-# 指定逻辑表t_order表的主键(order_id)生成策略为:雪花算法.
-# org.apache.shardingsphere.core.yaml.config.sharding.YamlKeyGeneratorConfiguration
-spring.shardingsphere.sharding.tables.t_order.key-generator.column=order_id
-spring.shardingsphere.sharding.tables.t_order.key-generator.type=SNOWFLAKE
-
-# 指定t_order表的分片策略，分片策略包括分片键和分片算法
-# org.apache.shardingsphere.core.yaml.config.sharding.YamlShardingStrategyConfiguration
-spring.shardingsphere.sharding.tables.t_order.table-strategy.inline.sharding-column=order_id
-spring.shardingsphere.sharding.tables.t_order.table-strategy.inline.algorithm-expression=t_order_$->{order_id % 2 + 1}
-############################################逻辑表配置项结束####################################################
-
-# 打开sharding-jdbc的日志.
-spring.shardingsphere.props.sql.show=true
+# 用java配置时,一定要配置这个
+# 禁止Spring Boot自动加载sharding-jdbc
+#spring.shardingsphere.enabled=false
 ```
-### (6). App
+
+### (6). ShardingJdbcConfig
+```
+package help.lixin.shardingjdbc.config;
+
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
+import org.apache.shardingsphere.api.config.sharding.KeyGeneratorConfiguration;
+import org.apache.shardingsphere.api.config.sharding.ShardingRuleConfiguration;
+import org.apache.shardingsphere.api.config.sharding.TableRuleConfiguration;
+import org.apache.shardingsphere.api.config.sharding.strategy.InlineShardingStrategyConfiguration;
+import org.apache.shardingsphere.shardingjdbc.api.ShardingDataSourceFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.alibaba.druid.pool.DruidDataSource;
+
+
+/**
+ * 当Sharding-jdbc的JAR包加载到Spring环境时,会被自动加载.而报错(java.lang.IllegalArgumentException: Data sources cannot be empty.) <br/>
+ * 有两种配置方式:<br/>
+ * 方式一:  spring.shardingsphere.enabled=false   <br/>  
+ * 方式二:   @SpringBootApplication(exclude = org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration.class)  <br/>
+ * @author lixin
+ */
+@Configuration
+public class ShardingJdbcConfig {
+	// 定义数据源
+	private Map<String, DataSource> createDataSourceMap() {
+		DruidDataSource dataSource1 = new DruidDataSource();
+		dataSource1.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource1.setUrl("jdbc:mysql://localhost:3306/order_db?useUnicode=true");
+		dataSource1.setUsername("root");
+		dataSource1.setPassword("123456");
+		Map<String, DataSource> result = new HashMap<>();
+		result.put("d1", dataSource1);
+		return result;
+	}
+
+	// 定义主键生成策略
+	private static KeyGeneratorConfiguration getKeyGeneratorConfiguration() {
+		KeyGeneratorConfiguration result = new KeyGeneratorConfiguration("SNOWFLAKE", "order_id");
+		return result;
+	}
+
+	// 定义t_order表的分片策略
+	private TableRuleConfiguration getOrderTableRuleConfiguration() {
+		TableRuleConfiguration result = new TableRuleConfiguration("t_order", "d1.t_order_$->{1..2}");
+		result.setTableShardingStrategyConfig(
+				new InlineShardingStrategyConfiguration("order_id", "t_order_$->{order_id % 2 + 1}"));
+		result.setKeyGeneratorConfig(getKeyGeneratorConfiguration());
+		return result;
+	}
+
+	// 定义sharding-Jdbc数据源
+	@Bean
+	public DataSource getShardingDataSource() throws SQLException {
+		ShardingRuleConfiguration shardingRuleConfig = new ShardingRuleConfiguration();
+		shardingRuleConfig.getTableRuleConfigs().add(getOrderTableRuleConfiguration());
+		Properties properties = new Properties();
+		properties.put("sql.show", "true");
+		return ShardingDataSourceFactory.createDataSource(createDataSourceMap(), shardingRuleConfig, properties);
+	}
+}
+```
+### (7). App
 ```
 package help.lixin.shardingjdbc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+// 禁止自动加载sharding-jdbc
+@SpringBootApplication(exclude = org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration.class)
 public class App {
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}
 }
 ```
-### (7). OrderTest
+### (8). OrderTest
 ```
 package help.lixin.shardingjdbc;
 
@@ -354,7 +392,7 @@ public class OrderTest {
 	}
 }
 ```
-### (8). 查看表信息
+### (9). 查看表信息
 ```
 mysql> SELECT * FROM  t_order_1;
 +--------------------+-------+---------+---------+
@@ -381,5 +419,5 @@ mysql> SELECT * FROM  t_order_2;
 +--------------------+-------+---------+---------+
 5 rows in set (0.00 sec)
 ```
-### (9). 总结
-> Sharding-JDBC会对逻辑表进行解析,然后,把SQL语句转换成真实表的SQL语句,并进行:并行查询与合并,然后,返回结果集.
+### (10). 总结
+> 如果用java配置时,要稍微注意一点,要禁止Spring Boot自动加载配置.
