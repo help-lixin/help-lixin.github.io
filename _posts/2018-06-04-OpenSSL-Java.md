@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Java配合OpenSSL'
+title: 'Java使用OpenSSL生成RSA进行加密和解密'
 date: 2018-06-04
 author: 李新
 tags: OpenSSL
