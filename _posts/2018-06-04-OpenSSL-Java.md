@@ -21,8 +21,6 @@ lixin-macbook:~ lixin$ cd ~/Desktop/
 lixin-macbook:Desktop lixin$ mkdir rsa
 lixin-macbook:Desktop lixin$ cd rsa/
 
-
-
 # 生成私钥
 # -out rsa_private_key.pem    :  将生成的私钥保存至指定的文件中.
 # numbits                     : 指定生成私钥的大小,默认是2048.
