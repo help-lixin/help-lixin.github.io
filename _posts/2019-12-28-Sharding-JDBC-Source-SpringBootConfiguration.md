@@ -30,59 +30,33 @@ logging.level.com.itheima.dbsharding =debug
 logging.level.druid.sql=debug
 
 #配置数据源的名称(多个之间用逗号分隔).
-spring.shardingsphere.datasource.names=d1,d2,s1,s2
+spring.shardingsphere.datasource.names=d1,d2
 
-############################################Master配置####################################################
 # 水平分库案例,在d1和d2表结构都一样.
 # 数据源名称:d1对应的详细信息
 spring.shardingsphere.datasource.d1.type=com.alibaba.druid.pool.DruidDataSource
 spring.shardingsphere.datasource.d1.driver-class-name=com.mysql.jdbc.Driver
-spring.shardingsphere.datasource.d1.url=jdbc:mysql://localhost:3307/order_db_1?useUnicode=true
+spring.shardingsphere.datasource.d1.url=jdbc:mysql://localhost:3306/order_db?useUnicode=true
 spring.shardingsphere.datasource.d1.username=root
 spring.shardingsphere.datasource.d1.password=123456
 
 # 数据源名称:d2对应的详细信息
 spring.shardingsphere.datasource.d2.type=com.alibaba.druid.pool.DruidDataSource
 spring.shardingsphere.datasource.d2.driver-class-name=com.mysql.jdbc.Driver
-spring.shardingsphere.datasource.d2.url=jdbc:mysql://localhost:3307/order_db_2?useUnicode=true
+spring.shardingsphere.datasource.d2.url=jdbc:mysql://localhost:3307/order_db?useUnicode=true
 spring.shardingsphere.datasource.d2.username=root
 spring.shardingsphere.datasource.d2.password=123456
-
-############################################Slave配置####################################################
-
-spring.shardingsphere.datasource.s1.type=com.alibaba.druid.pool.DruidDataSource
-spring.shardingsphere.datasource.s1.driver-class-name=com.mysql.jdbc.Driver
-spring.shardingsphere.datasource.s1.url=jdbc:mysql://localhost:3308/order_db_1?useUnicode=true
-spring.shardingsphere.datasource.s1.username=root
-spring.shardingsphere.datasource.s1.password=123456
-
-# 数据源名称:d2对应的详细信息
-spring.shardingsphere.datasource.s2.type=com.alibaba.druid.pool.DruidDataSource
-spring.shardingsphere.datasource.s2.driver-class-name=com.mysql.jdbc.Driver
-spring.shardingsphere.datasource.s2.url=jdbc:mysql://localhost:3308/order_db_2?useUnicode=true
-spring.shardingsphere.datasource.s2.username=root
-spring.shardingsphere.datasource.s2.password=123456
 
 ############################################逻辑表配置项开始####################################################
 # org.apache.shardingsphere.shardingjdbc.spring.boot.sharding.SpringBootShardingRuleConfigurationProperties
 # org.apache.shardingsphere.core.yaml.config.sharding.YamlShardingRuleConfiguration
 
-# 主从配置
-# 配置ds1的master为:d1,slave为:s1
-# org.apache.shardingsphere.core.yaml.config.masterslave.YamlMasterSlaveRuleConfiguration
-spring.shardingsphere.sharding.master‐slave‐rules.ds1.master‐data‐source‐name=d1
-spring.shardingsphere.sharding.master‐slave‐rules.ds1.slave‐data‐source‐names=s1
-
-# 配置ds2的master为:d2,slave为:s2
-spring.shardingsphere.sharding.master‐slave‐rules.ds2.master‐data‐source‐name=d2
-spring.shardingsphere.sharding.master‐slave‐rules.ds2.slave‐data‐source‐names=s2
-
 # 指定逻辑表:t_order的数据节点:[d1/d2].t_order_1,d1.t_order_2
-spring.shardingsphere.sharding.tables.t_order.actual-data-nodes=ds$->{1..2}.t_order_$->{1..2}
+spring.shardingsphere.sharding.tables.t_order.actual-data-nodes=d$->{1..2}.t_order_$->{1..2}
 
 # 分库实际要做的是找到对应上面的数据源名称
 spring.shardingsphere.sharding.tables.t_order.database-strategy.inline.sharding-column=user_id
-spring.shardingsphere.sharding.tables.t_order.database-strategy.inline.algorithm-expression=ds$->{user_id % 2 + 1}
+spring.shardingsphere.sharding.tables.t_order.database-strategy.inline.algorithm-expression=d$->{user_id % 2 + 1}
 
 
 # 指定逻辑表t_order表的主键(order_id)生成策略为:雪花算法.
