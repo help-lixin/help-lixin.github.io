@@ -192,7 +192,7 @@ public final class ShardingKeyGeneratorServiceLoader
 > 自定义ShardingKeyGenerator步骤如下:  
 > 1. 自定义ShardingKeyGenerator(例如:CustomerShardingKeyGenerator).需要实现:ShardingKeyGenerator接口.  
 > 2. 例如:CustomerShardingKeyGenerator.getType() == SNOWFLAKE_NEW.  
-> 3. 向Sharind-JDBC注册(NewInstanceServiceLoader.register)你自定义的:CustomerShardingKeyGenerator.  
+> 3. 配置SPI信息:/META-INF/services/org.apache.shardingsphere.spi.keygen.ShardingKeyGenerator(help.lixin.CustomerShardingKeyGenerator).   
 > 4. 定义配置(spring.shardingsphere.sharding.tables.t_order.key-generator.type=SNOWFLAKE_NEW).   
 
 ```
@@ -215,9 +215,7 @@ public abstract class TypeBasedSPIServiceLoader<T extends TypeBasedSPI> {
 	private Collection<T> loadTypeBasedServices(final String type) {
 		// 4. 加载:ShardingKeyGenerator的所有实现,并获取实例中:getType() == SNOWFLAKE的ShardingKeyGenerator对象
 		return Collections2.filter(
-			// 2. 加载:ShardingKeyGenerator的所有实现类(需要手工先注册),并进行实例化.
-			// 注意:
-			//    你要调用:NewInstanceServiceLoader.register(XXXShardingKeyGenerator.class)
+			// 2. 加载:ShardingKeyGenerator的所有实现类,并进行实例化.
 			NewInstanceServiceLoader.newServiceInstances(classType), 
 			// 3. 所有:ShardingKeyGenerator的实现类,都要实现:getType()方法
 			input -> type.equalsIgnoreCase(input.getType()));
