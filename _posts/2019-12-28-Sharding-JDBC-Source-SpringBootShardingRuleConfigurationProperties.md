@@ -8,8 +8,10 @@ tags: Sharding-JDBC源码
 
 ### (1). 概述
 > 在前面剖析了:SpringBootConfiguration在初始化时,会读取配置项(spring.shardingsphere.datasource.names),并构建DataSource.   
-> 在这里,主要剖析Sharding-JDBC的配置项
+> 在这里,主要剖析Sharding-JDBC的规则配置项
 ### (2). 看下SpringBootShardingRuleConfigurationProperties类结构图
+> 通过UML分析,能看到典型的策略模式.
+
 !["SpringBootShardingRuleConfigurationProperties"](/assets/sharding-jdbc/imgs/Sharding-JDBC-SpringBootShardingRuleConfigurationProperties-Class-Diagram.jpg)
 
 ### (3). YamlTableRuleConfiguration

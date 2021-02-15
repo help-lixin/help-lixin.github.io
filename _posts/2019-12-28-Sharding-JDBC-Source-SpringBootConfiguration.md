@@ -77,7 +77,7 @@ spring.shardingsphere.props.sql.show=true
 ### (3). SpringBootConfiguration.shardingDataSource
 > 1. 初始化真实的DataSource.  
 > 2. 创建事务AOP.  
-> 3. 创建ShardingDataSource,代理多个:DataSource.   
+> 3. 通过ShardingDataSourceFactory(典型工厂模式)工厂类,创建:ShardingDataSource,代理多个:DataSource.   
 
 ```
 package org.apache.shardingsphere.shardingjdbc.spring.boot;
