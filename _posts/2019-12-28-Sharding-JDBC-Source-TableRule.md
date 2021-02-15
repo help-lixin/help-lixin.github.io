@@ -12,7 +12,7 @@ tags: Sharding-JDBC源码
 > 剖析完:TableRule的内容后,就能找到答案了.   
 
 ### (2). TableRule类结构图
-> 依然,参考上一小节剖析的UML图.   
+> 仍然,参考上一小节剖析的UML图.   
 
 !["TableRule类结构图"](/assets/sharding-jdbc/imgs/ShardingRule-Class-Diagram.jpg)
 
@@ -39,16 +39,15 @@ public ShardingRule(final ShardingRuleConfiguration shardingRuleConfig, final Co
 private Collection<TableRule> createTableRules(final ShardingRuleConfiguration shardingRuleConfig) {
 	// 4.1 遍历:shardingRuleConfig.getTableRuleConfigs()
 	return shardingRuleConfig.getTableRuleConfigs()
-	                         .stream()
-							 // 把TableRuleConfiguration转换成:TableRule
-							 .map(each -> new TableRule(each, shardingDataSourceNames, getDefaultGenerateKeyColumn(shardingRuleConfig)))
-							 .collect(Collectors.toList());
+		 .stream()
+		 // 把TableRuleConfiguration转换成:TableRule
+		 .map(each -> new TableRule(each, shardingDataSourceNames, getDefaultGenerateKeyColumn(shardingRuleConfig)))
+		 .collect(Collectors.toList());
 }
 ```
 ### (5). TableRule
 > 从上面分析,不难看出:TableRule是在:ShardingRule.createTableRules创建的.   
-> 分析TableRule,这一步很重要,主要是分析:TableRule对:ShardingStrategy/ShardingKeyGenerator有没有提供相应的Hook,以供我们使用.   
-
+> 这里主要是分析:TableRule对:ShardingStrategy/ShardingKeyGenerator有没有提供相应的扩展点,以供我们使用.   
 
 ```
 public TableRule(final TableRuleConfiguration tableRuleConfig, final ShardingDataSourceNames shardingDataSourceNames, final String defaultGenerateKeyColumn) {
@@ -85,7 +84,7 @@ public TableRule(final TableRuleConfiguration tableRuleConfig, final ShardingDat
 }
 ```
 ### (6). ShardingStrategyFactory.newInstance
-> 到这一步,大概清楚了,Shardind-JDBC对分库(分表)策略进行了归类,从现在的代码上来看,它只支持这几类的策略,也就是说:你只能基于这几种进行业务的扩展.    
+> Shardind-JDBC对分库(分表)策略进行了归类,从现在的代码上来看,它只支持这几类的策略,也就是说:你只能基于这几种进行业务的扩展.    
 
 ```
 public static ShardingStrategy newInstance(final ShardingStrategyConfiguration shardingStrategyConfig) {
@@ -110,33 +109,32 @@ public static ShardingStrategy newInstance(final ShardingStrategyConfiguration s
 }
 ```
 ### (7). ShardingStrategy分片策略详解
-> StandardShardingStrategy:   
+> <color='red'>StandardShardingStrategy</color>:   
 > StandardShardingStrategy标准分片策略,提供对SQL语句中的=,IN和BETWEEN AND的分片操作支持.   
 > StandardShardingStrategy只支持单分片键,提供PreciseShardingAlgorithm和RangeShardingAlgorithm两个分片算法.   
 > PreciseShardingAlgorithm是必选的,用于处理=和IN的分片.     
 > RangeShardingAlgorithm是可选的,用于处理BETWEEN AND分片,如果不配置RangeShardingAlgorithm,SQL中的BETWEEN AND将按照全库路由处理.    
 
-> ComplexShardingStrategy:    
+> <color='red'>ComplexShardingStrategy</color>:    
 > 复合分片策略,提供对SQL语句中的=,IN和BETWEEN AND的分片操作支持.    
 > ComplexShardingStrategy支持多分片键,由于多分片键之间的关系复杂,因此Sharding-JDBC并未做过多的封装,而是直接将分片键值组合以及分片操作符交于算法接口,完全由应用开发者实现,提供最大的灵活度.   
 
-> InlineShardingStrategy:  
+> <color='red'>InlineShardingStrategy</color>:  
 > Inline表达式分片策略,使用Groovy的Inline表达式,提供对SQL语句中的=和IN的分片操作支持. 
 > InlineShardingStrategy只支持单分片键,对于简单的分片算法,可以通过简单的配置使用,从而避免繁琐的Java代码开发,如:t_user${user_id % 8},表示t_user表按照user_id按8取模分成8个表,表名称为t_user_0到t_user_7.  
 
-> HintShardingStrategy:   
+> <color='red'>HintShardingStrategy</color>:   
 > 通过Hint而非SQL解析的方式分片的策略
 
-> NoneShardingStrategy:   
+> <color='red'>NoneShardingStrategy</color>:   
 > 不分片的策略
 
 ### (8). ShardingAlgorithm类结构图
 !["ShardingAlgorithm类结构图"](/assets/sharding-jdbc/imgs/ShardingAlgorithm.jpg)
 
 ### (9). 如何自定义分片策略呢
-> 那么,如何自定义分片策略呢?  
 > 从代码我们分的出,newInstance是不提供扩展点给我们用的.但是.相应的ShardingStrategy的实现类,是可以支持我们对算法(ShardingAlgorithm)自由配置的.
-> 1. 自定义一个ShardingAlgorithm(例如:CustomerComplexKeysShardingAlgorithm),需要实现:ShardingAlgorithm的子接口之一.      
+> 1. 自定义一个ShardingAlgorithm(例如:CustomerComplexKeysShardingAlgorithm),需要实现:ShardingAlgorithm的子接口.      
 > 2. 将ShardingStrategy与ShardingAlgorithm过行绑定(注意:InlineShardingStrategy不支持该功能).   
 > 3. 下面的代码以:YamlComplexShardingStrategyConfiguration为例,进行分析.      
 
@@ -158,19 +156,7 @@ public final class YamlComplexShardingStrategyConfiguration
 // **************************************// ShardingStrategyConfigurationYamlSwapper**************************************
 // 2. help.lixin.CustomerComplexKeysShardingAlgorithm加载时机.
 public ShardingStrategyConfiguration swap(final YamlShardingStrategyConfiguration yamlConfiguration) {
-	int shardingStrategyConfigCount = 0;
-	ShardingStrategyConfiguration result = null;
-	if (null != yamlConfiguration.getStandard()) {
-		shardingStrategyConfigCount++;
-		if (null == yamlConfiguration.getStandard().getRangeAlgorithmClassName()) {
-			result = new StandardShardingStrategyConfiguration(yamlConfiguration.getStandard().getShardingColumn(),
-					ShardingAlgorithmFactory.newInstance(yamlConfiguration.getStandard().getPreciseAlgorithmClassName(), PreciseShardingAlgorithm.class));
-		} else {
-			result = new StandardShardingStrategyConfiguration(yamlConfiguration.getStandard().getShardingColumn(),
-					ShardingAlgorithmFactory.newInstance(yamlConfiguration.getStandard().getPreciseAlgorithmClassName(), PreciseShardingAlgorithm.class),
-					ShardingAlgorithmFactory.newInstance(yamlConfiguration.getStandard().getRangeAlgorithmClassName(), RangeShardingAlgorithm.class));
-		}
-	}
+	// ... ...
 	if (null != yamlConfiguration.getComplex()) {
 		shardingStrategyConfigCount++;
 		result = new ComplexShardingStrategyConfiguration(
@@ -181,18 +167,7 @@ public ShardingStrategyConfiguration swap(final YamlShardingStrategyConfiguratio
 				// *****************************************************************
 				ShardingAlgorithmFactory.newInstance(yamlConfiguration.getComplex().getAlgorithmClassName(),ComplexKeysShardingAlgorithm.class));
 	}
-	if (null != yamlConfiguration.getInline()) {
-		shardingStrategyConfigCount++;
-		result = new InlineShardingStrategyConfiguration(yamlConfiguration.getInline().getShardingColumn(), yamlConfiguration.getInline().getAlgorithmExpression());
-	}
-	if (null != yamlConfiguration.getHint()) {
-		shardingStrategyConfigCount++;
-		result = new HintShardingStrategyConfiguration(ShardingAlgorithmFactory.newInstance(yamlConfiguration.getHint().getAlgorithmClassName(), HintShardingAlgorithm.class));
-	}
-	if (null != yamlConfiguration.getNone()) {
-		shardingStrategyConfigCount++;
-		result = new NoneShardingStrategyConfiguration();
-	}
+	// ... ...
 	Preconditions.checkArgument(shardingStrategyConfigCount <= 1, "Only allowed 0 or 1 sharding strategy configuration.");
 	return result;
 }
@@ -201,21 +176,19 @@ public ShardingStrategyConfiguration swap(final YamlShardingStrategyConfiguratio
 ```
 public final class ShardingKeyGeneratorServiceLoader 
             extends TypeBasedSPIServiceLoader<ShardingKeyGenerator> {
-    
     static {
-		// 1. 注册
+		// 1. 告之SPI,加载:ShardingKeyGenerator类
         NewInstanceServiceLoader.register(ShardingKeyGenerator.class);
     }
     
     public ShardingKeyGeneratorServiceLoader() {
-		// 2. 要加载的类型为:ShardingKeyGenerator
+		// 2. 定义要加载的类型为:ShardingKeyGenerator
         super(ShardingKeyGenerator.class);
     }
 } //end ShardingKeyGeneratorServiceLoader
 ```
 ### (11). ShardingKeyGeneratorServiceLoader.newService
-> 通过对:ShardingKeyGeneratorServiceLoader.newService进行分析.  
-> Sharding-JDBC提供了扩展点,允许自定义:ShardingKeyGenerator.   
+> 通过对:ShardingKeyGeneratorServiceLoader.newService进行分析.Sharding-JDBC提供了扩展点,允许自定义:ShardingKeyGenerator.   
 > 自定义ShardingKeyGenerator步骤如下:  
 > 1. 自定义ShardingKeyGenerator(例如:CustomerShardingKeyGenerator).需要实现:ShardingKeyGenerator接口.  
 > 2. 例如:CustomerShardingKeyGenerator.getType() == SNOWFLAKE_NEW.  
