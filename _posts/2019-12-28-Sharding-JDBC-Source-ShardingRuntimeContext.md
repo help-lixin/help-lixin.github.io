@@ -8,6 +8,7 @@ tags: Sharding-JDBC源码
 
 ### (1). 概述
 > 在这里,主要对:ShardingRuntimeContext类的职责进行了解.
+
 ### (2). 看下ShardingRuntimeContext的类图
 !["ShardingRuntimeContext类图"](/assets/sharding-jdbc/imgs/ShardingRuntimeContext.jpg)
 
