@@ -8,7 +8,7 @@ tags: Sharding-JDBC源码
 
 ### (1). 概述
 > 在这里,要对:TableRule进行一个详细的剖析,为什么呢?因为:这个类承载着太多的业务.    
-> 比如:我想自定义主键生成策略应该要怎么办?我想要自定义分表分库策略怎么办?     
+> 比如:我想自定义主键生成策略,想要自定义分表分库策略怎么办?     
 > 剖析完:TableRule的内容后,就能找到答案了.   
 
 ### (2). TableRule类结构图
@@ -177,7 +177,7 @@ public ShardingStrategyConfiguration swap(final YamlShardingStrategyConfiguratio
 public final class ShardingKeyGeneratorServiceLoader 
             extends TypeBasedSPIServiceLoader<ShardingKeyGenerator> {
     static {
-		// 1. 告之SPI,加载:ShardingKeyGenerator类
+		// 1. 通过SPI,加载:ShardingKeyGenerator的所有实现
         NewInstanceServiceLoader.register(ShardingKeyGenerator.class);
     }
     
