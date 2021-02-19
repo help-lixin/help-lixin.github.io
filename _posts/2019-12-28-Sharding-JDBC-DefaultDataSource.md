@@ -290,6 +290,11 @@ spring.shardingsphere.sharding.tables.t_order.actual-data-nodes=d$->{1..2}.t_ord
 spring.shardingsphere.sharding.tables.t_order.database-strategy.inline.sharding-column=user_id
 spring.shardingsphere.sharding.tables.t_order.database-strategy.inline.algorithm-expression=d$->{user_id % 2 + 1}
 
+# 设置默认的分库策略,访配置等同于上面两行配置
+# spring.shardingsphere.sharding.default-table-strategy.inline.sharding-column=order_id
+# spring.shardingsphere.sharding.default-table-strategy.inline.algorithm-expression=t_order_$->{order_id % 2 + 1}
+
+
 # 注意一点,如果自己在SQL语句中,有指定主键,则配置的ID生成策略就会无效了.
 # 指定逻辑表t_order表的主键(order_id)生成策略为:雪花算法.
 # org.apache.shardingsphere.core.yaml.config.sharding.YamlKeyGeneratorConfiguration
@@ -301,6 +306,11 @@ spring.shardingsphere.sharding.tables.t_order.key-generator.type=SNOWFLAKE
 # org.apache.shardingsphere.core.yaml.config.sharding.YamlShardingStrategyConfiguration
 spring.shardingsphere.sharding.tables.t_order.table-strategy.inline.sharding-column=order_id
 spring.shardingsphere.sharding.tables.t_order.table-strategy.inline.algorithm-expression=t_order_$->{order_id % 2 + 1}
+
+
+# 设置默认的分表策略,访配置等同于上面两行配置
+# spring.shardingsphere.sharding.default-table-strategy.inline.sharding-column=order_id
+# spring.shardingsphere.sharding.default-table-strategy.inline.algorithm-expression=t_order_$->{order_id % 2 + 1}
 
 
 # 指定主键生成策略为:雪花算法.
