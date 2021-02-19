@@ -358,4 +358,6 @@ DELIMITER ;
     slave的时间为: 201122 17:30:53
 
 > <font color='red'>事件类型(Write_rows)和内容是相同的</font>   
-> 总结:虽然binlog名称和position不同,但是,时间(**时间只精确到了秒**)和事件类型却是相同的.
+> 总结:   
+> 虽然binlog名称和position不同,但是,时间(**时间只精确到了秒**)和事件类型却是相同的.   
+> 另外,主从复制是有模式可供选择的,当模式为:row时,master批量更新/删除时,slave收到的binlog实际是:数据触发更改后的最新行来着.我说这句话的意思是:master与slave断开后,在这种(row)模式下,slave后退回放binlog,也不会造成数据的不一致. 
