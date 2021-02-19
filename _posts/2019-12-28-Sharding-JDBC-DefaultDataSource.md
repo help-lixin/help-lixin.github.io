@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Sharding-JDBC 默认分库分表策略(七)'
+title: 'Sharding-JDBC 默认数据源(七)'
 date: 2019-12-28
 author: 李新
 tags: Sharding-JDBC
