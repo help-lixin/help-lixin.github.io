@@ -11,7 +11,7 @@ tags: XXL-Job源码
 > 所以:XxlJobSpringExecutor类的入口在:afterSingletonsInstantiated方法上.
 
 ### (2). 看下XxlJobSpringExecutor类结构图
-!["XxlJobSpringExecutor类结构图"]("/assets/xxl-job/imgs/XxlJobExecutor-Class-Diagram.jpg")
+!["XxlJobSpringExecutor类结构图"](/assets/xxl-job/imgs/XxlJobExecutor-Class-Diagram.jpg)
 
 ### (3). XxlJobSpringExecutor.afterSingletonsInstantiated
 ```
