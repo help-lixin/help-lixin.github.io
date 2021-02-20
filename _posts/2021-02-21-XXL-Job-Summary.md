@@ -21,3 +21,5 @@ tags: XXL-Job源码
 > app : 应用程序,接受:xxl-job-admin分配的任务.  
 
 ### (4). XXL-Job源码目录
+> ["XXL-Job XxlJobConfig(二)"](/2021/02/21/XXL-Job-XxlJobConfig.html)    
+> ["XXL-Job XxlJobSpringExecutor(三)"](/2021/02/21/XXL-Job-XxlJobSpringExecutor.html)    
