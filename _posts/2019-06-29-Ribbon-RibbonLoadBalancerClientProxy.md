@@ -34,6 +34,11 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerRequest;
 import org.springframework.cloud.netflix.ribbon.RibbonLoadBalancerClient;
+import org.springframework.cloud.netflix.ribbon.RibbonLoadBalancerClient.RibbonServer;
+
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.loadbalancer.Server;
+import com.netflix.niws.loadbalancer.DiscoveryEnabledServer;
 
 public class RibbonLoadBalancerClientProxy implements LoadBalancerClient {
 
@@ -57,30 +62,36 @@ public class RibbonLoadBalancerClientProxy implements LoadBalancerClient {
 
 	@Override
 	public ServiceInstance choose(String serviceId) {
-		// ... ...
-		// 业务逻辑(从ThreadLocal获取信息,如果符合直接返回,不再走:ribbonLoadBalancerClient的逻辑了)
 		return ribbonLoadBalancerClient.choose(serviceId);
 	}
 
 	@Override
 	public <T> T execute(String serviceId, LoadBalancerRequest<T> request) throws IOException {
-		// ... ...
-		// 业务逻辑(从ThreadLocal获取信息,如果符合直接返回,不再走:ribbonLoadBalancerClient的逻辑了)
-		return ribbonLoadBalancerClient.execute(serviceId, request);
+		// TODO 
+		// 1. 从ThreadLocal中获得用户定义的serviceId与IP:Port的关系.
+		// 2. serviceId进行比较相同的话,直接构建:RibbonServer
+		// 3. serviceId不同的话,直接放过.
+		InstanceInfo instanceInfo = InstanceInfo.Builder.newBuilder() 
+				// serviceId
+				.setAppName("test-provider")
+				.build();
+		Server server = new DiscoveryEnabledServer(instanceInfo, false);
+		server.setHost("127.0.0.1");
+		server.setPort(8081);
+		server.setSchemea("http");
+		
+		RibbonServer ribbonServer = new RibbonServer(serviceId, server, false, null);
+		return this.execute(serviceId, ribbonServer, request);
 	}
 
 	@Override
 	public <T> T execute(String serviceId, ServiceInstance serviceInstance, LoadBalancerRequest<T> request)
 			throws IOException {
-		// ... ...
-		// 业务逻辑(从ThreadLocal获取信息,如果符合直接返回,不再走:ribbonLoadBalancerClient的逻辑了)
 		return ribbonLoadBalancerClient.execute(serviceId, serviceInstance, request);
 	}
 
 	@Override
 	public URI reconstructURI(ServiceInstance instance, URI original) {
-		// ... ...
-		// 业务逻辑(从ThreadLocal获取信息,如果符合直接返回,不再走:ribbonLoadBalancerClient的逻辑了)
 		return ribbonLoadBalancerClient.reconstructURI(instance, original);
 	}
 }
