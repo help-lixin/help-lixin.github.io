@@ -280,5 +280,4 @@ public static class AutoConfiguredMapperScannerRegistrar
 > 2. 创建SqlSessionFactory.  
 > 3. 创建SqlSessionTemplate.  
 > 4. 创建MapperScannerConfigurer,它主要负责把*Mapper.java进行动态代理(与*Mapper.xml进行关联).   
-> 5. MapperScannerConfigurer类属于MyBatis与Spring的整合,在这里我不剖析了,因为五年前就看完了MyBatis的源码.   
-> 6. LanguageDriver功能,留到以后再进行剖析.  
+> 5. MapperScannerConfigurer类属于MyBatis与Spring的整合,在这里我不剖析了.   
