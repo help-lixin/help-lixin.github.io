@@ -9,9 +9,9 @@ tags: XXL-Job源码
 ### (1). 概述
 > 在xxl-job-admin可以查看远程job执行日志,那么这一部份是怎么实现的呢?
 
-### (2). XxlJobLogger
+### (2). XxlJobLogger打印日志
 ```
-// xxl-job要求打印日志,必须要通过这个类来进行
+// xxl-job要求打印日志,要求通过这个类来进行输出.
 XxlJobLogger.log("XXL-JOB, Hello World.");
 ```
 ### (3). XxlJobLogger.log
