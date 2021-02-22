@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Ribbon服务提供者Hello World'
+title: 'Ribbon服务消费者Hello World'
 date: 2019-06-29
 author: 李新
 tags: Ribbon
