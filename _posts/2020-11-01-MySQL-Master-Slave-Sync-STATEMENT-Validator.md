@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'MySQL主从同步(STATEMENT模式),剖析Binlog内容(二)'
+title: 'MySQL主从同步(STATEMENT模式),剖析Binlog内容(三)'
 date: 2020-11-01
 author: 李新
 tags: MySQL Canal
