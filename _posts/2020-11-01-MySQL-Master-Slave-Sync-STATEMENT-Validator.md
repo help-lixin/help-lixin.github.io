@@ -475,4 +475,4 @@ UPDATE t_user SET name='xinli' , version=version+1 WHERE age=25
 > 在STATEMENT模式下,对binlog进行测试结论:  
 > 1. 在STATEMENT模式下,UPDATE/DELETE在binlog中的格式是:SQL语句+参数+执行上下文信息.然后,slave执行SQL语句.    
 > 2. 从上面的结论得出:在STATEMENT模式下,binlog+position回退的情况下,会出现脏数据的可能性.   
-> 3. 解决方案是:version字段,不能用上下文中的,需要开发先做Query,并当成参数传递. 
+> 3. 解决方案是:version字段,不能用上下文中的,需要先做Query,并当成参数传递,同时,DELETE语句不允许存在.   
