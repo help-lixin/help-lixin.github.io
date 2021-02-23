@@ -7,7 +7,7 @@ tags: MySQL Canal
 ---
 
 ### (1). 需求
-> 在binlog_format模式为:ROW模式下测试,对slave进行回退,查看是否会靠成脏数据的可能性.  
+> 在binlog_format模式为:ROW模式下测试,对slave binlog进行回退,查看是否会靠成脏数据的可能性.  
 
 ### (2). 步骤
 > 1. 创建一张表,插入几条数据.    
