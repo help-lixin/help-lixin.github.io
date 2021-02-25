@@ -117,7 +117,60 @@ public class HelloService implements IHelloService {
 	}
 }
 ```
-### (6). WebMvcTest
+
+### (6). LogFilter
+```
+package help.lixin.test.filter;
+
+import java.io.IOException;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+public class LogFilter implements Filter {
+
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		System.out.println("**********************LogFilter start******************************");
+		chain.doFilter(request, response);
+		System.out.println("**********************LogFilter end******************************");
+	}
+}
+```
+
+### (7). TestConfig
+```
+package help.lixin.test;
+
+import javax.servlet.Filter;
+
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import help.lixin.test.filter.LogFilter;
+
+@Configuration
+public class TestConfig {
+	
+	@Bean
+	public Filter logFilter() {
+		return new LogFilter();
+	}
+	
+	@Bean
+    public FilterRegistrationBean filterRegistrationBean(Filter logFilter){
+        FilterRegistrationBean bean = new FilterRegistrationBean();
+        bean.setFilter(logFilter);
+        bean.addUrlPatterns("/*");
+        return bean;
+    }
+}
+```
+### (8). WebMvcTest
 ```
 package help.lixin.test;
 
@@ -153,7 +206,7 @@ import help.lixin.test.service.IHelloService;
 @EnableWebMvc
 @RunWith(SpringRunner.class)
 // 配置仅仅针对哪个类进行测试
-@SpringBootTest(classes = { HelloController.class })
+@SpringBootTest(classes = { HelloController.class ,TestConfig.class })
 @AutoConfigureMockMvc
 public class WebMvcTest {
 
