@@ -9,27 +9,12 @@ tags: Zipkin
 ### (1). Zipkin是什么?
 > Zipkin是Twitter的一个开源项目,允许开发者收集各个服务上的监控数据,并提供查询接口.
 
-### (2). Zipkin架构图
-!["zipkin architecture"](/assets/zipkin/imgs/zipkin-architecture.png)
+### (2). zipkin案例步骤
+> 1. 启动zipkin server.    
+> 2. 编写并运行HelloWorldTest.  
+> 3. zipkin server(UI界面)查看结果.   
 
-> Instrumented server(Reporter):可以理解为agent,它和业务进程捆绑在一起.    
-> Transport:传输层.     
-> Collector:收集器(可以理解为Controller).  
-> Store:存储层(MySQL/ES/...).    
-> API: 提供接口给外部(UI)访问.   
-> 总结:Reporter通过Transport向Collector(Zipkin Server)汇报数据,然后,Store存储.而API+UI负责做展现.  
-
-### (3). ZipKin与Java整合
-> 1. 通过zipkin(zipkin-reporter/zipkin-sender-okhttp3),向zipkin server汇报数据.   
-> 2. 通过barve(brave),向zipkin server汇报数据.   
-> 3. 通过spring-cloud-starter-sleuth,向zipkin server汇报数据.   
-> spring-cloud-starter-sleuth对barve进行了整合.而brave又对zipkin进行了API的包装和简洁.   
-
-### (4). 研究步骤
-> 1. brave.   
-> 2. spring-cloud-starter-sleuth.   
-> 3. 原因:先了解了API,对于:spring-cloud-starter-sleuth只是一个整合而已.  
-### (5). HelloWorldTest
+### (3). HelloWorldTest
 ```
 package help.lixin.zipkin;
 
@@ -79,9 +64,5 @@ public class HelloWorldTest {
 	}
 }
 ```
-### (6). zipkin类图和执行流程图
-!["brave类图"](/assets/zipkin/imgs/zipkin-Class-Diagram.jpg)
-!["brave执行流程图"](/assets/zipkin/imgs/zipkin-Sequence-Diagram.jpg)
-
 ### (7). 总结
-> 从执行流程图来看,好像也没什么好讲的啦!就是那么so easy. 
+> 内部是如何实现的,下一小节再详细分析.
