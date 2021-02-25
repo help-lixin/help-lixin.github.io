@@ -61,7 +61,7 @@ public class HelloWorldTest {
 		
 		// 创建跨度
 		Span span = tracer.newTrace()
-				//tag 用来存放业务数据,方便在UI进行检索.
+				//tag 用来存放业务数据,方便进行检索
 				.tag("request-id", UUID.randomUUID().toString())
 				.name("brave-span")
 				.start();

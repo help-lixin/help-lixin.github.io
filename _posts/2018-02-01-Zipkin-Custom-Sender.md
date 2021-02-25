@@ -123,7 +123,58 @@ public class CustomSender extends Sender {
 	}
 }
 ```
-### (3). 向zipkin-server汇报跨度信息
+
+### (3). HelloWorldTest
+
+```
+package help.lixin.zipkin;
+
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import brave.Span;
+import brave.Tracer;
+import brave.Tracing;
+import brave.sampler.Sampler;
+import zipkin2.reporter.AsyncReporter;
+import zipkin2.reporter.okhttp3.OkHttpSender;
+
+public class HelloWorldTest {
+	public static void main(String[] args) throws Exception {
+		// *****************************************
+		// 自定义Sender
+		// *****************************************
+		CustomSender sender = new CustomSender();
+		AsyncReporter reporter = AsyncReporter.create(sender);
+
+		Tracing tracing = Tracing.newBuilder()
+				.localServiceName("brave-service")
+				.spanReporter(reporter)
+				.sampler(Sampler.ALWAYS_SAMPLE)
+				.build();
+		
+		// 创建一个trace
+		Tracer tracer = tracing.tracer();
+		Span span = tracer.newTrace()
+				//tag 用来存放业务数据,方便进行检索
+				.tag("request-id", UUID.randomUUID().toString())
+				.name("brave-span")
+				.start();
+		
+		// 业务处理
+		TimeUnit.MILLISECONDS.sleep(10);
+		
+		span.finish();
+		
+		tracing.close();
+		reporter.close();
+		sender.close();
+	}
+}
+
+```
+
+### (4). 向zipkin-server汇报跨度信息
 ```
 // 产生的跨度信息如下:
 [
@@ -145,5 +196,5 @@ public class CustomSender extends Sender {
 ```
 !["通过Rest API向zipkin-server汇报数据"](/assets/zipkin/imgs/zipkin-rest-report-data.jpg)
 
-### (4). zipkin-server验证结果
+### (5). zipkin-server验证结果
 !["zipkin-server"](/assets/zipkin/imgs/zipkin-ui.jpg)
