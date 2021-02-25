@@ -1,13 +1,13 @@
 ---
 layout: post
-title: 'Zipkin spring-cloud-starter-sleuth(四)'
+title: 'Zipkin spring-cloud-starter-sleuth整合(四)'
 date: 2018-02-01
 author: 李新
 tags: Zipkin
 ---
 
 ### (1). 概述
-> spring-cloud-starter-sleuth对brave进行了整合,把依赖加进来,增加配置即可实现跨度汇报.  
+> spring-cloud-starter-sleuth对brave进行了整合,把依赖加进来,增加配置即可:实现跨度汇报.  
 
 ### (2). 在Spring中基本都是规定了,我们要找到相应的EnableAutoConfiguration
 ```
@@ -129,7 +129,8 @@ public class TraceAutoConfiguration {
 	// **************************************************************
 	// 看到这个类,我相信你应该能看懂了.
 	// 要注意:Sampler,否则你会发现半天都不进行汇报逻辑.
-	// 那么到这时候,你肯定会好奇,那Reporter来自于哪?Reporter有kafka/rest等等,你只要增加相应的JAR包进来,并配置即可.
+	// 那么到这时候,你肯定会好奇,那Reporter来自于哪?
+	// 只要增加spring-cloud-starter-zipkin依赖进来,并配置即会启用相应的Reporter实现类.
 	// 当然,你也可以自定义:Reporter,我这里自定义了一个测试.
 	// **************************************************************
 	@Bean
@@ -354,5 +355,5 @@ public class ProviderApplication {
 ```
 ### (6). 总结
 > spring-cloud-starter-sleuth对brave进行了整合,只要把依赖加入就可以实现数据汇报了.   
-> Reporter的实现在相应的jar包里(kafka/rest...).   
-> 自己实现:Reporter要注意一点,这个方法是同步的,建议用异步(AsyncReporter$BoundedAsyncReporter)和自定义Sender结合.  
+> Reporter的实现在相应的jar包里(spring-cloud-starter-zipkin).   
+> 也可以自己实现:Reporter要注意一点,这个方法是同步的,建议用异步(AsyncReporter$BoundedAsyncReporter)和自定义Sender结合.  
