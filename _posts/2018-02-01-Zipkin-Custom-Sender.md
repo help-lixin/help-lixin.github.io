@@ -13,7 +13,7 @@ tags: Zipkin
 > 2. 读取log/rocket-mq/redis中的数据.  
 > 3. 向zipkin-server提交跨度数据.   
 
-### (2). 自定义CustomSender写日志
+### (2). 自定义CustomSender(写日志)
 ```
 package help.lixin.zipkin;
 

@@ -5,6 +5,7 @@ date: 2018-02-01
 author: 李新
 tags: Zipkin
 ---
+
 ### (1). 先看下Zipkin架构图
 !["zipkin architecture"](/assets/zipkin/imgs/zipkin-architecture.png)
 
@@ -13,13 +14,13 @@ tags: Zipkin
 > Collector:收集器(可以理解为Controller).  
 > Store:存储层(MySQL/ES/...).    
 > API: 提供接口给外部(UI)访问.   
-> 总结:Reporter通过Transport向Collector(Zipkin Server)汇报数据,然后,Store存储.而API+UI负责做展现.  
+> <font color='red'>总结:Reporter通过Transport向Collector(Zipkin Server)汇报数据,然后,Store存储.而API+UI负责做展现.</font>  
 
 ### (3). ZipKin与Java整合
-> 1. 通过zipkin(zipkin-reporter/zipkin-sender-okhttp3),向zipkin server汇报数据.   
-> 2. 通过barve(brave),向zipkin server汇报数据.   
-> 3. 通过spring-cloud-starter-sleuth,向zipkin server汇报数据.   
-> spring-cloud-starter-sleuth对barve进行了整合.而brave又对zipkin进行了API的包装和简洁.   
+> 1. 方案一:zipkin(zipkin-reporter/zipkin-sender-okhttp3),向zipkin server汇报数据.   
+> 2. 方案二:barve(brave),向zipkin server汇报数据.   
+> 3. 方案三:spring-cloud-starter-sleuth,向zipkin server汇报数据.   
+> 4. 这三个方案的关系是什么呢?spring-cloud-starter-sleuth对barve进行了整合.而brave又对zipkin进行了API的包装.   
 
 ### (4). 研究步骤
 > 1. brave.   
