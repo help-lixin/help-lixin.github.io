@@ -25,10 +25,6 @@ public class WebMvcEndpointManagementContextConfiguration {
 	// 当容器中,不存在这个Bean时,这个配置才会生效,所以,你自己写一个Bean就好了,就能让这里的逻辑失效.
 	// *************************************************************
 	@ConditionalOnMissingBean
-	// *************************************************************
-	// 你可能有这样的需求:想对endpoint进行鉴权.那么怎么做呢?
-	// 你可以写重这部份的逻辑.
-	// *************************************************************
 	// WebMvcEndpointHandlerMapping XXXHandlerMapping属于Spring MVC中的一部份.
 	public WebMvcEndpointHandlerMapping webEndpointServletHandlerMapping(
 			WebEndpointsSupplier webEndpointsSupplier,
