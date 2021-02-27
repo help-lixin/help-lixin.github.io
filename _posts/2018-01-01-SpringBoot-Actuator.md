@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Boot Actuator'
+title: 'Spring Boot Actuator(HelloWorld)'
 date: 2018-01-01
 author: 李新
 tags: SpringBoot
