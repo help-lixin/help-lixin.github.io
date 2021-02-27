@@ -7,7 +7,7 @@ tags: SpringBoot
 ---
 
 ### (1). 概述
-> Endpoint实际是在SpringMVC的基础上封装出来的一套MVC.
+> Endpoint实际是有一套自己的注解,然后,把这套注解转换成业务模型,并向SpringMVC靠扰.  
 
 ### (2). WebMvcEndpointManagementContextConfiguration
 ```
