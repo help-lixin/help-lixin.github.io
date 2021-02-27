@@ -67,7 +67,8 @@ Empty set (0.00 sec)
             They aren't used to compute the changeSet MD5Sum, so you can update them whenever you want without causing
             problems.
         </comment>
-        <createTable tableName="person">
+		<!-- 表名称是变量 -->
+        <createTable tableName="${person}">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -79,7 +80,7 @@ Empty set (0.00 sec)
     </changeSet>
     <changeSet id="2" author="nvoxland">
         <comment>Add a username column so we can use "person" for authentication</comment>
-        <addColumn tableName="person">
+        <addColumn tableName="${person}">
             <column name="usernae" type="varchar(8)"/>
         </addColumn>
     </changeSet>
@@ -106,6 +107,10 @@ public class LiquibaseTest {
 	public static void main(String[] args) throws Exception {
 		String contexts = "test, context-b";
 		String changeLogFile = "root.changelog.xml";
+		// ****************************************************
+		// 向Liquibase传递表名称(key:逻辑表名称  value:真实表名称)
+		// ****************************************************
+		System.getProperties().put("person", "t_person");
 		ResourceAccessor resourceAccessor = new CommandLineResourceAccessor(
 				Thread.currentThread().getContextClassLoader());
 		Database database = buildDatabase();
@@ -155,12 +160,12 @@ mysql> SHOW TABLES;
 +-----------------------+
 | DATABASECHANGELOG     |
 | DATABASECHANGELOGLOCK |
-| person                |
+| t_person              |
 +-----------------------+
 3 rows in set (0.00 sec)
 
 
-mysql> DESC person;
+mysql> DESC t_person;
 +-----------+-------------+------+-----+---------+----------------+
 | Field     | Type        | Null | Key | Default | Extra          |
 +-----------+-------------+------+-----+---------+----------------+
@@ -171,7 +176,45 @@ mysql> DESC person;
 +-----------+-------------+------+-----+---------+----------------+
 4 rows in set (0.00 sec)
 ```
+
 ### (7). 总结
 > Liquibase帮我们建了好了表,我这里只使用XML的方式,后面对源剖析,也是以XML为主.  
 > 可能就有人会说了,对于分表分库,应该要怎么做呢?比如:sharding-jdbc定义的虚拟表,要如何生成真实的表呢?  
 > Shardin-jdbc会对逻辑表转换成真实表,获取这些信息表的信息,以及对应的DataSource.然后封装成Database即可,后面我会写出部份引导代码.    
+
+### (8). sharding-jdbc结合伪代码
+
+> Sharding-jdbc与Liquibase结合,如何获取真实的数据源和DataSource.
+
+```
+DataSource shadowDataSource = (DataSource) ctx.getBean("shardingDataSource");
+
+if (shadowDataSource instanceof ShardingDataSource) {
+	ShardingDataSource shardingDataSource = (ShardingDataSource) shadowDataSource;
+
+	// 所有的数据源集合.
+	Map<String, DataSource> dataSourceMap = shardingDataSource.getDataSourceMap();
+
+	// 上下文中获得配置信息.
+	ShardingRuntimeContext shardingRuntimeContext = shardingDataSource.getRuntimeContext();
+	ShardingRule shardingRule = shardingRuntimeContext.getRule();
+	Collection<TableRule> tableRules = shardingRule.getTableRules();
+	for (TableRule tableRule : tableRules) {
+		// 逻辑表名称
+		String logicTable = tableRule.getLogicTable();
+		List<DataNode> dataNodes = tableRule.getActualDataNodes();
+		dataNodes.forEach(dataNode -> {
+			String tableName = dataNode.getTableName();
+			String dataSourceName = dataNode.getDataSourceName();
+			String formatLine = String.format("logicTable:[%s],dataSource:[%s],tableNmae:[%s]", logicTable,
+					dataSourceName, tableName);
+					
+			// logicTable:[t_order],dataSource:[d1],tableNmae:[t_order_1]
+			// logicTable:[t_order],dataSource:[d1],tableNmae:[t_order_2]
+			// logicTable:[t_order],dataSource:[d2],tableNmae:[t_order_1]
+			// logicTable:[t_order],dataSource:[d2],tableNmae:[t_order_2]
+			System.out.println(formatLine);
+		});
+	}
+}
+```
