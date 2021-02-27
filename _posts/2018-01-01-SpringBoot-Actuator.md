@@ -7,7 +7,10 @@ tags: SpringBoot
 ---
 
 ### (1). Spring Boot Actuator是什么?
->  它是监控系统健康情况的工具.
+>  SpringBoot的Endpoint主要是用来监控应用服务的运行状况,并集成在Mvc中提供查看接口.
+>  内置了一些Endpoint比如:HealthEndpoint会监控dist和db的状况,MetricsEndpoint则会监控内存和gc的状况.
+
+
 ### (2). 添加依赖
 ```
 <dependencyManagement>
@@ -54,6 +57,7 @@ tags: SpringBoot
 ```
 
 ### (3). spring-boot-actuator-autoconfigure-2.1.0.RELEASE.jar/META-INF/spring.factories
+
 ```
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.springframework.boot.actuate.autoconfigure.amqp.RabbitHealthIndicatorAutoConfiguration,\
