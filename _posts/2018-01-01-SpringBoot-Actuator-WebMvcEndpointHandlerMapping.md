@@ -7,6 +7,7 @@ tags: SpringBoot
 ---
 
 ### (1). 概述
+> 如果我们期望针对:Endpoint的请求都进行鉴权,该如何设计呢?   
 > Endpoint实际是有一套自己的注解,然后,把这套注解转换成业务模型,并向SpringMVC靠扰.  
 
 ### (2). WebMvcEndpointManagementContextConfiguration
