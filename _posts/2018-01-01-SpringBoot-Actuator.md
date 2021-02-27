@@ -362,8 +362,44 @@ public class ThreadDumpEndpoint {
 }// end ThreadDumpEndpoint
 
 ```
-### (8). 总结
-> spring.factories定义了大量的AutoConfiguration(Endpoint).若自定义Endpotin有两个很重要的步骤:    
-> 1. @ConditionalOnEnabledEndpoint   
-> 2. @Endpoint(id = "xxxx")   
-> 3. @ReadOperation/@WriteOperation  
+
+### (8). 自定义Endpoint
+```
+@Endpoint(id = "customBeaNames", enableByDefault = true)
+//@WebEndpoint(id = "customBeaNames")
+public class BeanNamesEndpoint implements ApplicationContextAware {
+	private ApplicationContext applicationContext;
+
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.applicationContext = applicationContext;
+	}
+
+	@ReadOperation
+	public List<String> beanNames(@Nullable String beanName) {
+		System.out.println(beanName);
+		List<String> list = new ArrayList<String>();
+		list.addAll(Arrays.asList(applicationContext.getBeanDefinitionNames()));
+		return list;
+	}
+} // end BeanNamesEndpoint
+
+
+@Configuration
+public class BeanNamesEndpointConfig {
+	
+	@Bean
+	public BeanNamesEndpoint beanNamesEndpoint() {
+		return new BeanNamesEndpoint();
+	}
+}// end BeanNamesEndpointConfig
+ 
+
+// application.properties
+management.endpoints.web.exposure.include=customBeaNames
+management.endpoints.web.exposure.include=*
+```
+
+### (9). 总结
+> actuator声明了一些注解,这些注解可以像理解SpringMVC一样:  
+> 1. @Endpoint/@WebEndpoint/@JmxEndpoint可以理解为:@RestController.      
+> 2. @ReadOperation/@WriteOperation/@DeleteOperation可以理解为:@GetMapping/@PostMapping/@DeleteMapping.      
