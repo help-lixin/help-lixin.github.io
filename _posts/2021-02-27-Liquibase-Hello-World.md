@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Liquibase 简介(一)'
+title: 'Liquibase Hello World(二)'
 date: 2021-02-27
 author: 李新
 tags: Liquibase
@@ -110,12 +110,16 @@ public class LiquibaseTest {
 		// ****************************************************
 		// 向Liquibase传递表名称(key:逻辑表名称  value:真实表名称)
 		// ****************************************************
-		System.getProperties().put("person", "t_person");
+		// System.getProperties().put("person", "t_person");
 		ResourceAccessor resourceAccessor = new CommandLineResourceAccessor(
 				Thread.currentThread().getContextClassLoader());
 		Database database = buildDatabase();
 		Liquibase liquibase = new Liquibase(changeLogFile, resourceAccessor, database);
 		try {
+			// ****************************************************
+			// 向Liquibase传递表名称(key:逻辑表名称  value:真实表名称)
+			// ****************************************************
+			liquibase.setChangeLogParameter("person", "t_person");
 			liquibase.update(contexts);
 			System.out.println("");
 		} catch (LiquibaseException e) {
