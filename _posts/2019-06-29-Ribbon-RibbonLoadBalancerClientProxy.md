@@ -3,7 +3,7 @@ layout: post
 title: 'Ribbon 扩展RibbonLoadBalancerClient'
 date: 2019-06-29
 author: 李新
-tags: Ribbon
+tags: Ribbon  解决方案
 ---
 
 ### (1). 需求

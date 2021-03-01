@@ -3,7 +3,7 @@ layout: post
 title: 'Kubernetes 微服务集成(解决方案)(九)'
 date: 2021-01-01
 author: 李新
-tags: K8S Spring SpringCloud
+tags: K8S Spring SpringCloud  解决方案
 ---
 
 ### (1). K8S与微服务集成
