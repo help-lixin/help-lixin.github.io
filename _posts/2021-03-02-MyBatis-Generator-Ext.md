@@ -8,10 +8,10 @@ tags: MyBatis 解决方案
 
 ### (1). 概述
 > 随着企业标准化的需求,开发期望,浏览数据库,选择表,可以一键生成整个项目工程.   
-> MyBatis Generator可以一键生成:XXMapper.xml/XXMapper.java/XXXDomain.java...  
+> MyBatis Generator可以一键生成:XXMapper.xml/XXMapper.java/XXXDomain.java,
 > 但,还不太符合开发的要求,开发期望的是生成整个工程项目,包括:pom.xml/Controller/Service/Mapper...  
 > 那么,能否对:MyBatis Generator进行扩展,来实现这个功能呢?  
-> 看了源码之后,尝试去实现,才敢肯定的说:是可以的!  
+> 答案:是可以的!  
 
 ### (2). 我先说下MyBatis Generator原理
 > 其实,这样的功能,也可以完全自己做,用模板引擎来套就好了,没看源码之前,我也以为是用模板引擎来做的,看过MyBatis的源码后,才发现,人家不是那么做的.     
