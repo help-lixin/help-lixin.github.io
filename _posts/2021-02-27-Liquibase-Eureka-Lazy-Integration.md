@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Liquibase Erueka整合(四)'
+title: 'Liquibase Erueka延迟注册(四)'
 date: 2021-02-27
 author: 李新
 tags: Liquibase 解决方案

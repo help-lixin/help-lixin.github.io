@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Liquibase Sharding-jdbc整合(三)'
+title: 'Liquibase Sharding-jdbc整合实现物理表的创建(三)'
 date: 2021-02-27
 author: 李新
 tags: Liquibase 解决方案
