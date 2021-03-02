@@ -1,167 +1,156 @@
 ---
 layout: post
-title: 'ElasticSearch 父子文档(十六)'
+title: 'ElasticSearch 父子文档[订单/订单详细](十七)'
 date: 2020-11-29
 author: 李新
 tags: ElasticSearch
 ---
 
-### (1). 概述
-> 当使用嵌套对象时,每次更新数据时,都会触发整个文档重新建立索引,所以,在ES中提供了父子对象.   
-> 父文档和子文档是两个独立的文档.  
-> 更新父文档无需重新索引子文档,子文档被添加,更新,删除也不会影响父文档和其它子文档.   
-
-### (2). 设置父子关系的mapping
-> relations用来声明Parent/Child关系.     
-> type:"join",指明join类型.   
-> "blog" : "comment",Parent为blog,Child为comment.   
-
+### (1). 创建Mappings
 ```
-# 创建Mappings
-PUT /my_blogs
-{
-  "mappings": {
-    "properties": {
-      "blog_comments_relation" : {
-        "type": "join",
-        "relations" :{
-          "blog" : "comment"
-        }
-      },
-      "conent" : {
-        "type" : "text"
-      },
-      "title" : {
-        "type" : "keyword"
-      }
-    }
-  }
+DELETE /order
+
+
+PUT /order
+{   
+  "mappings" : {
+  		"properties" : {
+  			"order" : {
+  				"properties" : {
+  					"order_id"     : { "type" : "integer" },
+  					"order_status" : { "type" : "integer" },
+  					"merchant_id"  : { "type" : "integer" },
+  					"user_id"      : { "type" : "integer" }
+  				}
+  			},
+  			"order_detail" : {
+  				"properties" : {
+  					"order_detail_id"   : { "type" : "integer" },
+  					"order_id"          : { "type" : "integer" },
+  					"goods_id"          : { "type" : "integer" },
+  					"order_detail_name" : { "type" : "text" }
+  				}
+  			},
+  			"relation" : {
+  				"type": "join",
+  				"relations" : {
+  					"order": [ "order_detail" ]
+  				}
+  			}	
+  		}
+	}
 }
 ```
-### (3). 创建父子文档
+### (2). 添加父子文档
+> 注意:父子文档的ID不能相同,否则,会覆盖文档的.
+
 ```
-# 创建父文档
-PUT /my_blogs/_doc/blog1
-{
-  "title" : "Learning ElasticSearch",
-  "conent" : "learning ELK@geektime",
-  "blog_comments_relation" : {
-    "name" : "blog"
-  }
-}
 
-
-# 创建父文档
-PUT /my_blogs/_doc/blog2
+# 添加父文档
+PUT /order/_doc/1
 {
-  "title" : "Learning Hadoop",
-  "conent" : "learning Hadoop",
-  "blog_comments_relation" : {
-    "name" : "blog"
+  "order_id": 1,
+  "order_status" : 0,
+  "merchant_id" : 8888,
+  "user_id" : 6666,
+  "relation":{
+    "name" : "order"
   }
 }
 
-
-# 创建子文档
-# 通过routing指定父文档ID,使得子文档和父文档保存在同一分片.
-# 创建子文档时,必须指定它的:父文档ID
-PUT /my_blogs/_doc/comment1?routing=blog1
+PUT /order/_doc/2
 {
-  "comment" : "I am learning ELK",
-  "username" : "Jack",
-  "blog_comments_relation" : {
-    "name" : "comment",
-    "parent" : "blog1"
+  "order_id": 2,
+  "order_status" : 1,
+  "merchant_id" : 9999,
+  "user_id" : 6666,
+  "relation":{
+    "name" : "order"
+  }
+}
+
+# 添加子文档
+PUT /order/_doc/11?routing=1
+{
+  "order_detail_id" : 11,
+  "order_id" : 1,
+  "goods_id" : 11111,
+  "order_detail_name" : "Hadoop Book",
+  "relation":{
+    "name" : "order_detail",
+    "parent": 1
   }
 }
 
 
-# 创建子文档
-PUT /my_blogs/_doc/comment2?routing=blog2
+PUT /order/_doc/22?routing=2
 {
-  "comment" : "I like Hadoop...",
-  "username" : "Jack",
-  "blog_comments_relation" : {
-    "name" : "comment",
-    "parent" : "blog2"
+  "order_detail_id" : 22,
+  "order_id" : 2,
+  "goods_id" : 22222,
+  "order_detail_name" : "HBase Book",
+  "relation":{
+    "name" : "order_detail",
+    "parent": 2
   }
 }
 ```
-### (4). 检索
+### (3). 检索文档
 ```
-
-
-# 检索所有父子文档
-POST /my_blogs/_search
+# 检索所有的父子文档
+POST /order/_search
 {
 }
 
 
-# 检索父文档
-GET /my_blogs/_doc/blog2
+# 根据id查找文档
+# id只要唯一就好了.
+GET /order/_doc/1
+GET /order/_doc/2
 
+GET /order/_doc/11
+GET /order/_doc/22
 
-# 根据父文档id,返回文档信息
-GET /my_blogs/_search
+# 根据parent_id检索,返回子文档信息
+GET /order/_search
 {
   "query": {
     "parent_id" : {
-      "type" : "comment",
-      "id" : "blog2"
+      "type" : "order_detail",
+      "id" : 1
     }
   }
 }
 
-# Hash Child查询,返回父文档信息
-GET /my_blogs/_search
+
+# 检索子文档,返回父文档信息
+GET /order/_search
 {
   "query": {
     "has_child": {
-      "type": "comment",
+      "type": "order_detail",
       "query": {
         "match": {
-          "username": "Jack"
+          "goods_id": 11111
         }
       }
     }
   }
 }
 
+
 # 根据父文档进行检索,返回子文档信息
-GET /my_blogs/_search
+GET /order/_search
 {
   "query": {
     "has_parent": {
-      "parent_type": "blog",
+      "parent_type": "order",
       "query": {
         "match": {
-          "title": "Learning Hadoop"
+          "order_status": 1
         }
       }
     }
   }
 }
-
-
-
-# 检索子文档(需要提父ID的路由)
-GET /my_blogs/_doc/comment1?routing=blog1
 ```
-### (5). 更新子文档
-```
-# 更新子文档
-PUT /my_blogs/_doc/comment1?routing=blog1
-{
-  "comment" : "I am learning ELK--1",
-  "username" : "Jack",
-  "blog_comments_relation" : {
-    "name" : "comment",
-    "parent" : "blog1"
-  }
-}
-```
-### (6). 总结
-> 嵌套对象优缺点:   
-> 优点:嵌套对象文档存储在一起,读取性能高,缺点:更新嵌套的子文档时,需要更新整个文档.比较适合:子文档偶尔更新,并以以查询为主.   
-> 父子文档优缺点:   
-> 优点:父子文档可以独立更新,缺点:需要额外的内存维护关系,读取性能相对差一点,适用场景:子文档更新频繁.   
