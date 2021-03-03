@@ -7,14 +7,13 @@ tags: MyBatis 解决方案
 ---
 
 ### (1). 概述
-> 随着企业标准化的需求,开发期望,浏览数据库,选择表,可以一键生成整个项目工程.   
+> 随着企业标准化的需求,开发期望:可以一键生成整个项目工程.   
 > MyBatis Generator可以一键生成:XXMapper.xml/XXMapper.java/XXXDomain.java,
-> 但,还不太符合开发的要求,开发期望的是生成整个工程项目,包括:pom.xml/Controller/Service/Mapper...  
+> 但,还不太符合开发的要求,开发期望能生成更多的内容,包括:pom.xml/Controller/Service/Mapper...  
 > 那么,能否对:MyBatis Generator进行扩展,来实现这个功能呢?  
 > 答案:是可以的!  
 
 ### (2). 我先说下MyBatis Generator原理
-> 其实,这样的功能,也可以完全自己做,用模板引擎来套就好了,没看源码之前,我也以为是用模板引擎来做的,看过MyBatis的源码后,才发现,人家不是那么做的.     
 > MyBatis的开发人员,在这方面设计还是不错的,人家早就留出了接口给我们做扩展.      
 > 以下几个接口和类是扩展的重点类:  
 > 1. org.mybatis.generator.api.Plugin     
@@ -23,15 +22,20 @@ tags: MyBatis 解决方案
 > 4. org.mybatis.generator.api.JavaFormatter   
 
 ### (3). 实现步骤
-> 1. 实现Plugin接口(一般是继续它的适配类:PluginAdapter)典型适配模式的责任链模式.  
+> 1. 实现Plugin接口(一般是继承它的适配类:PluginAdapter).  
 > 2. 重写contextGenerateAdditionalJavaFiles和contextGenerateAdditionalXmlFiles方法.  
 > 3. 顾名思意,这两个方法就是生成java文件和xml文件的.   
 > 4. 这两个方法要求返回的是:GeneratedJavaFile/GeneratedXmlFile,我这里只介绍:GeneratedJavaFile   
-> 5. GeneratedJavaFile的构造器,需要一个重要的对象:CompilationUnit,这个对象就是:承载着我们要产生Java文件的对象.  
+> 5. GeneratedJavaFile的构造器,需要一个重要的对象:CompilationUnit,这个对象就是:承载着我们要产生Java文件的对象(数据载体).  
 > 6. 在xml中配置启用插件
 > 7. 我这里只给出大概代码和思路,不会粘出所有的代码的.  
 
-### (4). 扩展Plugin
+
+### (4). 看下CompilationUnit类图
+> 看完CompilationUnit的类图,你就懂为什么我说它是Java类的数据的载体了(描述Java文件结构的类).    
+!["CompilationUnit类图解"](/assets/mybatis/imgs/MyBatisGenerator-CompilationUnit.jpg)  
+
+### (5). 扩展Plugin
 ```
 public class ServicePlugin extends PluginAdapter {
 	public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles(IntrospectedTable introspectedTable) {
@@ -108,7 +112,7 @@ public class ServicePlugin extends PluginAdapter {
 	}// end buildInterface
 }
 ```
-### (5). 配置xml(generatorConfig.xml)
+### (6). 配置xml(generatorConfig.xml)
 ```
 <!DOCTYPE generatorConfiguration PUBLIC
  "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
@@ -134,7 +138,7 @@ public class ServicePlugin extends PluginAdapter {
   </context>
 </generatorConfiguration>
 ```
-### (6). 运行测试
+### (7). 运行测试
 ```
 package help.lixin.framework.codegen;
 
@@ -162,5 +166,5 @@ public class App {
 	}
 }
 ```
-### (7). 总结
+### (8). 总结
 > 通过对Plugin进行扩展,就可以做到不需要改动MyBatis.即可轻巧的实现代码生成.   
