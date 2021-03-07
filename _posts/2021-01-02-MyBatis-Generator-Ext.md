@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'MyBatis Generator 扩展'
-date: 2021-02-27
+date: 2021-01-02
 author: 李新
 tags: MyBatis 解决方案
 ---
