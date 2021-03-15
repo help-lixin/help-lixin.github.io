@@ -7,7 +7,7 @@ tags: DDD
 ---
 
 ### (1). 引子
-> DDD的战略设计知识,来源于:极客时间<DDD实战课>和https://www.cnblogs.com/sheng-jie/p/6931646.html
+> DDD的战略设计知识,来源于:极客时间<DDD实战课>和https://www.cnblogs.com/sheng-jie/p/6931646.html   
 > DDD的战术设计知识来源于:https://github.com/citerus/dddsample-core.git    
 ### (2). 划分核心域/通用域/支撑域的意义?
 > 企业在IT系统建设过程中,由于预算和资源有限,对不同类型的子域应有不同的关注度和资源投入策略,记住好钢要用在刀刃上.  
