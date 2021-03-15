@@ -6,7 +6,7 @@ author: 李新
 tags: DDD
 ---
 
-### (1). 引子
+### (1). 引言
 > DDD的战略设计知识,来源于:极客时间<DDD实战课>和(https://www.cnblogs.com/sheng-jie/p/6931646.html)            
 > DDD的战术设计知识来源于:https://github.com/citerus/dddsample-core.git    
 ### (2). 划分核心域/通用域/支撑域的意义?
