@@ -7,7 +7,7 @@ tags: DDD
 ---
 
 ### (1). 引子
-> DDD的战略设计知识,来源于:极客时间<DDD实战课>和https://www.cnblogs.com/sheng-jie/p/6931646.html   
+> DDD的战略设计知识,来源于:极客时间<DDD实战课>和(https://www.cnblogs.com/sheng-jie/p/6931646.html)            
 > DDD的战术设计知识来源于:https://github.com/citerus/dddsample-core.git    
 ### (2). 什么是限界上下文
 > 限界上下文可以拆分为两个词:限界和上下文.  

@@ -7,7 +7,7 @@ tags: DDD
 ---
 
 ### (1). 引子
-> DDD的战略设计知识,来源于:极客时间<DDD实战课>和https://www.cnblogs.com/sheng-jie/p/6931646.html   
+> DDD的战略设计知识,来源于:极客时间<DDD实战课>和(https://www.cnblogs.com/sheng-jie/p/6931646.html)            
 > DDD的战术设计知识来源于:https://github.com/citerus/dddsample-core.git    
 ### (2). DDD中的实体
 > DDD中要求实体是唯一的且可持续变化的.意思是说在实体的生命周期内,无论其如何变化,其仍旧是同一个实体.唯一性由唯一的身份标识来决定的.可变性也正反映了实体本身的状态和行为.  
