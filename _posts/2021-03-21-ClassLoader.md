@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '独立租户部署Saas,成本节约方案'
+title: '独立租户部署ERP系统,成本节约解决方案'
 date: 2021-03-21
 author: 李新
 tags:  解决方案
