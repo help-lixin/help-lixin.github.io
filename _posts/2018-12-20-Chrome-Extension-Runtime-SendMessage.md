@@ -3,7 +3,7 @@ layout: post
 title: 'Chrome Extension background与popup通信'
 date: 2018-12-20
 author: 李新
-tags: Chrome Extension
+tags: ChromeExtension
 ---
 
 ### (1). 创建chrome ext(chrome-hello3)

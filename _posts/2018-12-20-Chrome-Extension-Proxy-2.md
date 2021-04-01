@@ -3,7 +3,7 @@ layout: post
 title: 'Chrome Extension Proxy(LittleProxyMitmProxy)'
 date: 2018-12-20
 author: 李新
-tags: Chrome Extension LittleProxy
+tags: ChromeExtension LittleProxy
 ---
 
 ### (1). littleproxy-mitm概述
