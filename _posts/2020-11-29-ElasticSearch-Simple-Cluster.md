@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ElasticSearch单机集群运行(四)'
+title: 'ElasticSearch 单机伪集群运行(四)'
 date: 2020-11-29
 author: 李新
 tags: ElasticSearch

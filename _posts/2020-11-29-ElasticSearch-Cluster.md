@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ElasticSearch 集群搭建(十八)'
+title: 'ElasticSearch 集群搭建(十九)'
 date: 2020-11-29
 author: 李新
 tags: ElasticSearch
