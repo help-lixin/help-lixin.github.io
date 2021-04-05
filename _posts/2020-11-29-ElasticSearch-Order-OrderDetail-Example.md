@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ElasticSearch 父子文档[订单/订单详细](十七)'
+title: 'ElasticSearch 订单与订单详细真实案例(十七)'
 date: 2020-11-29
 author: 李新
 tags: ElasticSearch
