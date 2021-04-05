@@ -367,3 +367,4 @@ POST /my_movies/_search
 > 在ES中Nested数据类型是允许对象数组中的对象被独立索引.  
 > 使用nested和properties关键字,将所有的actors索引到多个分隔的文档.  
 > Nested文档会被保存在两个在Lucene内部,在查询时做join处理.  
+> Nested文档优点:文档存储在一起,因此读取性能高,缺点:更新父或者子文档时,需要对整个文档进行更新.适合,读多写少情况.  
