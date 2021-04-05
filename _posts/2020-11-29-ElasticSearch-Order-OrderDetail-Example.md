@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ElasticSearch 订单与订单详细真实案例(十七)'
+title: 'ElasticSearch 订单与订单详细真实案例(十八)'
 date: 2020-11-29
 author: 李新
 tags: ElasticSearch
