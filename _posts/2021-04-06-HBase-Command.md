@@ -14,10 +14,6 @@ tags:  HBase
 # 创建表(user),并指定列簇:info
 hbase(main):011:0> create 'user','info'
 0 row(s) in 1.4630 seconds
-
-=> Hbase::Table - user
-
-
 ```
 ### (2). 查看所有的表
 
@@ -27,8 +23,6 @@ hbase(main):012:0> list
 TABLE
 user
 1 row(s) in 0.0140 seconds
-
-=> ["user"]
 ```
 ### (3). 查看表属性
 ```
