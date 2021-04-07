@@ -266,6 +266,8 @@ vi ~/.bash_profile
 source ~/.bash_profile    
 ```
 ### (13). 启动集群
+> 启动时,如果要输入密码,请把密钥权限修改为:600(chmod 600 ~/.ssh/id_rsa*)  
+
 ```
 # 工作目录 
 lixin-macbook:hadoop lixin$ pwd
