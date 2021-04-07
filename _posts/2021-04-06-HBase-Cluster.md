@@ -46,4 +46,5 @@ testTable
 1 row(s) in 0.0150 seconds
 => ["testTable"]
 ```
-### (5). 总结
+### (5). HBase Dashboard
+!["HBase WebUI界面"](/assets/hbase/imgs/hbase-web-ui.jpg)
