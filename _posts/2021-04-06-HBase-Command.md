@@ -118,6 +118,7 @@ COLUMN                          CELL
 ```
 ### (7). 删除单元络数据
 ```
+# UPDATE user SET name=NULL WHERE id = 1;
 # 删除表(user),rowkey=1下列簇为info:name的数据.
 hbase(main):016:0> delete 'user','1','info:name'
 0 row(s) in 0.1220 seconds
@@ -129,19 +130,106 @@ COLUMN                          CELL
  info:sex                       timestamp=1617782922475, value=\xE7\x94\xB7
 2 row(s) in 0.0340 seconds
 
-
-
+# 在HBase里删除记录,并不是真正的删除了数据,而是打了一个标记(DeleteColumn)
+# 然后,HBase再定期的去清理这些被删除的记录.
+# 通过scan扫描出:DeleteColumn的列.
+hbase(main):020:0> scan 'user',{RAW=>true,VERSIONS=>5}
+ROW                             COLUMN+CELL
+ 1                              column=info:name, timestamp=1617784279842, type=DeleteColumn
+ 1                              column=info:name, timestamp=1617782950726, value=\xE5\xBC\xA0\xE4\xB8\x89\xE4\xB8\xB0
+ 1                              column=info:name, timestamp=1617782922404, value=\xE5\xBC\xA0\xE4\xB8\x89
+ 1                              column=info:pwd, timestamp=1617782922531, value=123
+ 1                              column=info:sex, timestamp=1617782922475, value=\xE7\x94\xB7
+ 2                              column=info:name, timestamp=1617782922597, value=\xE6\x9D\x8E\xE5\x9B\x9B
+ 2                              column=info:pwd, timestamp=1617782923256, value=321
+ 2                              column=info:sex, timestamp=1617782922666, value=\xE7\x94\xB7
 ```
 ### (8). 删除整行数据
-```
+> delete只能删除单元格的数据,我们能否把整行给删除呢?
 
 ```
-### (9). 
+# 删除整行前,查看下数据分布(rowkey=[1,2])
+hbase(main):021:0> scan 'user'
+ROW                             COLUMN+CELL
+ 1                              column=info:pwd, timestamp=1617782922531, value=123
+ 1                              column=info:sex, timestamp=1617782922475, value=\xE7\x94\xB7
+ 2                              column=info:name, timestamp=1617782922597, value=\xE6\x9D\x8E\xE5\x9B\x9B
+ 2                              column=info:pwd, timestamp=1617782923256, value=321
+ 2                              column=info:sex, timestamp=1617782922666, value=\xE7\x94\xB7
+2 row(s) in 0.0140 seconds
 
-### (10). 
+# DELETE user WHERE id = 1;
+# 删除表(user)中rowkey=1的数据
+hbase(main):022:0> deleteall 'user','1'
+0 row(s) in 0.0270 seconds
 
-### (11). 
+# 验证结果
+hbase(main):023:0> scan 'user'
+ROW                             COLUMN+CELL
+ 2                              column=info:name, timestamp=1617782922597, value=\xE6\x9D\x8E\xE5\x9B\x9B
+ 2                              column=info:pwd, timestamp=1617782923256, value=321
+ 2                              column=info:sex, timestamp=1617782922666, value=\xE7\x94\xB7
+1 row(s) in 0.0170 seconds
+```
+### (9). 停(启用)用表
+> 在HBase里对表的结构进行调整时,都需要先停用表,然后,更改,再启用.   
+> 停用表这个过程视工作情况而定,当停用表时,HBase要通知所有的RegionServer下线这张表. 
 
+```
+# 停用表
+hbase(main):024:0> disable 'user'
+0 row(s) in 2.3600 seconds
+
+# 查看表信息
+hbase(main):028:0> describe 'user'
+Table user is DISABLED   # 停用状态
+user
+COLUMN FAMILIES DESCRIPTION
+{NAME => 'info', BLOOMFILTER => 'ROW', VERSIONS => '5', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_
+ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65
+536', REPLICATION_SCOPE => '0'}
+
+# 在停用状态下,进行检索会提示:user is disabled.
+hbase(main):032:0> scan 'user'
+ROW                             COLUMN+CELL
+ERROR: user is disabled.
+
+# 启用表
+hbase(main):029:0> enable 'user'
+0 row(s) in 1.2670 seconds
+
+# 查看表信处
+hbase(main):030:0> describe 'user'
+Table user is ENABLED  # 启用状态
+user
+COLUMN FAMILIES DESCRIPTION
+{NAME => 'info', BLOOMFILTER => 'ROW', VERSIONS => '5', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_
+ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65
+536', REPLICATION_SCOPE => '0'}
+```
+### (10). 删除表
+```
+# 查看user表的信息
+hbase(main):033:0> describe 'user'
+Table user is DISABLED   # 禁用状态
+user
+COLUMN FAMILIES DESCRIPTION
+{NAME => 'info', BLOOMFILTER => 'ROW', VERSIONS => '5', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_
+ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65
+536', REPLICATION_SCOPE => '0'}
+1 row(s) in 0.0320 seconds
+
+# 删除表(user)
+hbase(main):034:0> drop 'user'
+0 row(s) in 1.2810 seconds
+
+# 查看所有的表
+hbase(main):035:0> list
+TABLE
+0 row(s) in 0.0180 seconds
+```
+### (11). 总结
+> 在这里我只列出开发需要的一些命令,运维方面的命令,暂时不学习,因为,核心是要找到WAL功能的扩展点.  
 ### (12). 
 
 ### (13). 
