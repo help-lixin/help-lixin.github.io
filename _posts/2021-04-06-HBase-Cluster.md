@@ -7,7 +7,7 @@ tags:  HBase
 ---
 
 ### (1). 概述
-> Hadoop的安装,请翻看前面的内容,在这里我用的:Hbase-1.2.6(与Hadoop-2.7.5对应).
+> Hadoop的安装,请翻看前面的内容,在这里我用的:Hbase-1.4.13(与Hadoop-2.7.5对应).
 
 ### (2). 配置conf/hbase-site.xml
 ```
@@ -37,7 +37,7 @@ drwxr-xr-x   - lixin supergroup          0 2021-04-06 20:17 /hbase
 
 # 创建库
 lixin-macbook:bin lixin$ pwd
-/Users/lixin/Developer/hbase-1.2.6/bin
+/Users/lixin/Developer/hbase-1.4.13/bin
 lixin-macbook:bin lixin$ ./hbase shell
 hbase(main):005:0> create 'testTable','testFamily'
 hbase(main):007:0> list

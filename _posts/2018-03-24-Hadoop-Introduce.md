@@ -12,3 +12,7 @@ tags: Hadoop
 >   分布式文件系统(GFS),可用于处理海量网页的存储.  
 >   分布式计算框架MapReduce,可用于处理海量网页的索引计算问题.   
 > Nuth的开发人员完成了相应的开源实现HDFS和MapReduce,并从Nuth中分离出独立的Hadoop项目.   
+
+### (2). Hadoop和HBase对应的版本
+!["hadoop与hbase版本对应关系"](/assets/hadoop/imgs/hadoop-hbase.png)
+

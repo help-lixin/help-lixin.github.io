@@ -23,16 +23,16 @@ tags:  HBase源码 解决方案
 > 我原本的想法是对:HBase Indexer进行扩展,抽象出一层:存储引擎层,但是,发现代码里严重依赖:Solr,所以,就抽出HBase Index对Event的解析层,同步到Solr的代码自己写.  
 ### (5). 步骤
 > 1. 从git上clone一份Lily HBase Indexer源码.  
-> 2. 修改pom.xml,升级hadoop(2.7.5)和hbase(1.2.6).   
+> 2. 修改pom.xml,升级hadoop(2.7.5)和hbase(1.4.13).   
 > 3. 抽出hbase-sep项目,自行扩展.  
 ### (6). 项目结构
 !["HBase Sep项目结构"](/assets/hbase/imgs/HBase-sep.png)
 ### (7). 集成步骤
 ```
 # 1. 把hbase-sep-api-1.6-SNAPSHOT.jar和hbase-sep-impl-1.6-SNAPSHOT.jar拷贝到HBase/lib目录下
-cp hbase-sep-api/target/hbase-sep-api-1.6-SNAPSHOT.jar     /Users/lixin/Developer/hbase-1.2.6/lib/
-cp hbase-sep-tools/target/hbase-sep-tools-1.6-SNAPSHOT.jar /Users/lixin/Developer/hbase-1.2.6/lib/
-cp hbase-sep-impl/target/hbase-sep-impl-1.6-SNAPSHOT.jar   /Users/lixin/Developer/hbase-1.2.6/lib/
+cp hbase-sep-api/target/hbase-sep-api-1.6-SNAPSHOT.jar     /Users/lixin/Developer/hbase-1.4.13/lib/
+cp hbase-sep-tools/target/hbase-sep-tools-1.6-SNAPSHOT.jar /Users/lixin/Developer/hbase-1.4.13/lib/
+cp hbase-sep-impl/target/hbase-sep-impl-1.6-SNAPSHOT.jar   /Users/lixin/Developer/hbase-1.4.13/lib/
 
 #  配置HBase/conf/hbase-site.xml
 <configuration>
