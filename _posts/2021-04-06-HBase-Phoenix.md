@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'HBase + Phoenix安装(四)'
+title: 'HBase + Phoenix搭配(四)'
 date: 2021-04-26
 author: 李新
 tags:  HBase Phoenix
