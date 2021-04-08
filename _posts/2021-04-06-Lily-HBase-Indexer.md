@@ -254,5 +254,5 @@ COLUMN                          CELL
 
 !["HBase Indexer监听结果"](/assets/hbase/imgs/HBase-Index-Console.png)
 
-### (9). 更新后的HBase Indexer项目(我fork的分支,然后,更新了依赖的信息)
-!["HBase Indexer"](https://github.com/help-lixin/hbase-indexer.git)
+### (9). HBase Indexer项目(我fork的分支,然后,更新了依赖的信息)
+["HBase Indexer"](https://github.com/help-lixin/hbase-indexer.git)
