@@ -36,7 +36,7 @@ cp hbase-sep-api/target/hbase-sep-api-1.6-SNAPSHOT.jar     /Users/lixin/Develope
 cp hbase-sep-tools/target/hbase-sep-tools-1.6-SNAPSHOT.jar /Users/lixin/Developer/hbase-1.4.13/lib/
 cp hbase-sep-impl/target/hbase-sep-impl-1.6-SNAPSHOT.jar   /Users/lixin/Developer/hbase-1.4.13/lib/
 
-#  配置HBase/conf/hbase-site.xml
+# 2. 配置HBase/conf/hbase-site.xml
 <configuration>
 	<!-- 开启集群模式 -->
 	<property>
