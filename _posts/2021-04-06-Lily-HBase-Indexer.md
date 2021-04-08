@@ -27,7 +27,9 @@ tags:  HBase源码 解决方案
 > 3. 抽出hbase-sep项目,自行扩展.  
 ### (6). 项目结构
 !["HBase Sep项目结构"](/assets/hbase/imgs/HBase-sep.png)
+
 ### (7). 集成步骤
+
 ```
 # 1. 把hbase-sep-api-1.6-SNAPSHOT.jar和hbase-sep-impl-1.6-SNAPSHOT.jar拷贝到HBase/lib目录下
 cp hbase-sep-api/target/hbase-sep-api-1.6-SNAPSHOT.jar     /Users/lixin/Developer/hbase-1.4.13/lib/
