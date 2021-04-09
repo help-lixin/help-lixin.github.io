@@ -1,7 +1,7 @@
 ---
 layout: post
-title: 'Prometheus 安装'
-date: 2021-04-26
+title: 'Prometheus 安装入门'
+date: 2021-04-09
 author: 李新
 tags:  Prometheus 运维监控
 ---
