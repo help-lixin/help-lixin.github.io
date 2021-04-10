@@ -8,6 +8,7 @@ tags:  Prometheus 运维监控
 
 ### (0). 前言
 > 需要搞压测,自然,少不了有一套实时监控工具,让运维帮忙搭建一下,结果,只用了10分钟就给我搭建完成.不得不促使我学习Prometheus+Grafana.  
+
 ### (1). Prometheus是什么?
 > Prometheus是最近几年开始流行的一个新兴监控告警工具,特别是kubernetes的流行带动了Prometheus的应用. 
 
@@ -150,11 +151,13 @@ scrape_configs:
         instance: node-1
 ```
 
-### (8). 重启prometheus
+### (9). 重启prometheus
+> 可否动态添加:scrape_config?稍微看了下:prometheus文档,可以支持对目录的扫描,或者consul,这样即可实现热部署,不可能每次都添加配置文件,然后重启.  
+
 ```
 [root@prometheus ~]# systemctl daemon-reload
 [root@prometheus ~]# systemctl restart prometheus
 [root@prometheus ~]# systemctl status prometheus
 ```
-### (9). 查看结果
+### (10). 查看结果
 !["Prometheus 安装结果"](/assets/prometheus/imgs/prometheus-status.png)
