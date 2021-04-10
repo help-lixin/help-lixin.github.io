@@ -1,11 +1,13 @@
 ---
 layout: post
 title: 'Prometheus 安装入门'
-date: 2021-04-09
+date: 2021-02-05
 author: 李新
 tags:  Prometheus 运维监控
 ---
 
+### (0). 前言
+> 需要搞压测,自然,少不了有一套实时监控工具,让运维帮忙搭建一下,结果,只用了10分钟就给我搭建完成.不得不促使我学习Prometheus.  
 ### (1). Prometheus是什么?
 > Prometheus是最近几年开始流行的一个新兴监控告警工具,特别是kubernetes的流行带动了Prometheus的应用. 
 
