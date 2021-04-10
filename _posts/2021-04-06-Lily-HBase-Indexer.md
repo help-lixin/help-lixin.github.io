@@ -13,9 +13,9 @@ tags:  HBase源码 解决方案
 !["Lily HBase Indexer架构图"](/assets/hbase/imgs/HBase-Indexer.png)
 ### (3). 为什么选择Replication而不选择Coprocessor来实现HBase Indexer？ 
 > 1）HBase Replication的处理是由RegionServer开启独立的线程去处理的,处理方式是并行且异步的,依靠这种机制来实现HBase Indexer并不会给HBase带来入侵式的代码,而且不会影响写入性能.而通过Coprocessor来实现的话会给RegionServer带来入侵式代码,以及阻碍HBase的正常操作.  
-> 2）虽然选择Replication机制只能实现近实时的索引同步,但是这种实现方式具备很高的灵活性和可扩展性,最重要的是它对HBase集群的使用是几乎没有侵占性的,不会影响HBase集群的写性能. 
-> 3）你可以理解成:HBase Replication的处理方式,其实和MySQL Binlog同步是一样的.  
-> 4）原理是什么?当执行增/删/改时,RegionServer会包装成Event,以推送的方式发送给:Hbase Indexer.   
+> 2）虽然选择Replication机制只能实现近实时的索引同步,但是这种实现方式具备很高的灵活性和可扩展性,最重要的是它对HBase集群的使用是几乎没有侵占性的,不会影响HBase集群的写性能.    
+> 3）你可以理解成:HBase Replication的处理方式,其实和MySQL Binlog同步是一样的.     
+> 4）原理是什么?当执行增/删/改时,RegionServer会包装成Event,以推送的方式发送给:Hbase Indexer.     
 > 5）推送模式下,如何保证消可靠性?HBase Indexer在消费时,是会向ZK提交commit的.  
 ### (4). Lily HBase Indexer有什么不足?
 > Lily HBase Indexer源码,而且,已经多年不维护了,而且,目前只支持Solr(这是我认为的严重不足点).
