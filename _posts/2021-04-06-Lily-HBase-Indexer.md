@@ -18,26 +18,31 @@ tags:  HBase源码 解决方案
 > 4）原理是什么?当执行增/删/改时,RegionServer会包装成Event,以推送的方式发送给:Hbase Indexer.     
 > 5）推送模式下,如何保证消可靠性?HBase Indexer在消费时,是会向ZK提交commit的.  
 ### (4). Lily HBase Indexer有什么不足?
-> Lily HBase Indexer源码,而且,已经多年不维护了,而且,目前只支持Solr(这是我认为的严重不足点).
-> 其实,站在架构的角度来说:不论HBase同步数据到任何存储设备,应该抽象出一层存储引擎层,而具体的实现是什么其实不太重要,但是在存储层,Lily HBase Indexer把代码写死了.  
+> Lily HBase Indexer的源码,已经多年不维护了,而且,目前只支持Solr(这是我认为的严重不足点).
+> 还有,站在架构的角度来说:不论HBase同步数据到任何存储设备,应该抽象出一层存储引擎层,而具体的实现是什么,可以随业务的变化而变化,但是Lily HBase Indexer把代码写死了.  
 > 我原本的想法是对:HBase Indexer进行扩展,抽象出一层:存储引擎层,但是,发现代码里严重依赖:Solr,所以,就抽出HBase Index对Event的解析层,同步到Solr的代码自己写.  
-### (5). 步骤
-> 1. 从git上clone一份Lily HBase Indexer源码.  
-> 2. 修改pom.xml,升级hadoop(2.7.5)和hbase(1.4.13).   
-> 3. 抽出hbase-sep项目,自行扩展.  
-
+### (5). 实验步骤
+> 1. 拷贝hbase-sep*.jar到HBase/lib目录下.  
+> 2. 配置HBase(hbase-site.xml).  
+> 3. 重新启动HBase.   
+> 4. 通过API(DemoSchema)创建表和列簇.  
+> 6. 启动HBase WAL消费类(LoggingConsumer).   
+> 7. 通过API(DemoIngester),新增数据.  
+> 8. 验证LoggingConsumer是否消费消息,模拟:LoggingConsumer关闭,再开启.  
 ### (6). 项目结构
-
 !["HBase Sep项目结构"](/assets/hbase/imgs/HBase-sep.png)
 
-### (7). 集成步骤
+### (7). 拷贝hbase-sep*.jar到HBase/lib目录下.  
 
 ```
 # 1. 把hbase-sep-api-1.6-SNAPSHOT.jar和hbase-sep-impl-1.6-SNAPSHOT.jar拷贝到HBase/lib目录下
 cp hbase-sep-api/target/hbase-sep-api-1.6-SNAPSHOT.jar     /Users/lixin/Developer/hbase-1.4.13/lib/
 cp hbase-sep-tools/target/hbase-sep-tools-1.6-SNAPSHOT.jar /Users/lixin/Developer/hbase-1.4.13/lib/
 cp hbase-sep-impl/target/hbase-sep-impl-1.6-SNAPSHOT.jar   /Users/lixin/Developer/hbase-1.4.13/lib/
+```
 
+### (8). 配置HBase(hbase-site.xml).  
+```
 # 2. 配置HBase/conf/hbase-site.xml
 <configuration>
 	<!-- 开启集群模式 -->
@@ -75,9 +80,11 @@ cp hbase-sep-impl/target/hbase-sep-impl-1.6-SNAPSHOT.jar   /Users/lixin/Develope
 	   <value>com.ngdata.sep.impl.SepReplicationSource</value>
 	</property>
 </configuration>
+```
+### (9). 重新启动HBase(略)  
 
-# 3. 启动HBase
-
+### (10). 通过API(DemoSchema)创建表和列簇. 
+```
 # 4. 创建表和列簇(*注意:在列簇上要开启复制模式*)
 public class DemoSchema {
     public static void main(String[] args) throws Exception {
@@ -102,7 +109,9 @@ public class DemoSchema {
         admin.close();
     }
 }
-
+```
+### (11).  启动HBase WAL消费类(LoggingConsumer).   
+```
 # 5. 运行,HBase Index等待触发事件.
 public class LoggingConsumer {
     public static void main(String[] args) throws Exception {
@@ -148,9 +157,10 @@ public class LoggingConsumer {
         }
     }
 }
-
-
-# 6. 增加数据,看是否会触发上面的代码.
+```
+### (12). 通过API(DemoIngester),新增数据. 
+```
+# 6. 增加数据,看是否会触发上面(LoggingConsumer)的代码.
 public class DemoIngester {
     private List<String> names;
     private List<String> domains;
@@ -229,7 +239,7 @@ public class DemoIngester {
     }
 }
 ```
-### (8). 验证结果
+### (13). 验证
 ```
 # 1. 查看表结构
 hbase(main):010:0> describe 'sep-user-demo'
@@ -256,5 +266,5 @@ COLUMN                          CELL
 
 !["HBase Indexer监听结果"](/assets/hbase/imgs/HBase-Index-Console.png)
 
-### (9). HBase Indexer项目(我fork的分支,然后,更新了依赖的信息)
+### (14). HBase Indexer项目(我fork的分支,然后,更新了依赖的信息)
 ["HBase Indexer"](https://github.com/help-lixin/hbase-indexer.git)
