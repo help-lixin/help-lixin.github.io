@@ -18,7 +18,7 @@ tags:  HBase源码 解决方案
 > 4）原理是什么?当执行增/删/改时,RegionServer会包装成Event,以推送的方式发送给:Hbase Indexer.     
 > 5）推送模式下,如何保证消可靠性?HBase Indexer在消费时,是会向ZK提交commit的.  
 ### (4). Lily HBase Indexer有什么不足?
-> Lily HBase Indexer的源码,已经多年不维护了,而且,目前只支持Solr(这是我认为的严重不足点).
+> Lily HBase Indexer的源码,已经多年不维护了,而且,目前只支持Solr.
 > 还有,站在架构的角度来说:不论HBase同步数据到任何存储设备,应该抽象出一层存储引擎层,而具体的实现是什么,可以随业务的变化而变化,但是Lily HBase Indexer把代码写死了.  
 > 我原本的想法是对:HBase Indexer进行扩展,抽象出一层:存储引擎层,但是,发现代码里严重依赖:Solr,所以,就抽出HBase Index对Event的解析层,同步到Solr的代码自己写.  
 ### (5). 实验步骤
