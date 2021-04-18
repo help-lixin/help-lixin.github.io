@@ -100,7 +100,7 @@ public class AlterDesignApp extends AbstractSampleApp
 	{
 		// 1. 填充数据
 		fill();
-		// 2. 导出
+		// 2. 导出PDF
 		pdf();
 	}
 	
@@ -127,7 +127,7 @@ public class AlterDesignApp extends AbstractSampleApp
 		rectangle.setForecolor(new Color((int)(16000000 * Math.random())));
 		rectangle.setBackcolor(new Color((int)(16000000 * Math.random())));
 
-		// 5. 设置第一页的文档字体大小和字体为斜体
+		// 5. 设置第一页的文档字体大小和文本斜体.
 		JRStyle style = jasperReport.getStyles()[0];
 		style.setFontSize(16f);
 		style.setItalic(Boolean.TRUE);
