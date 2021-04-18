@@ -154,7 +154,8 @@ public class AlterDesignApp extends AbstractSampleApp
 
 !["JasperSoft Studio CE查看alterdesign"](/assets/jasper-report/imgs/jasper-report-alterdesign-demo.jpg)
 
+### (6). 生成PDF效果图
 !["JasperSoft生成PDF效果"](/assets/jasper-report/imgs/jasper-report-alterdesign-pdf.jpg)
 
-### (6). 总结
+### (7). 总结
 > 在这一小节,拿了一个简单的案例来进行说明,下一小节开始,将重点放在:JasperSoft Studio CE,以及JasperSoft的业务模型(xml即业务模型)上.  
