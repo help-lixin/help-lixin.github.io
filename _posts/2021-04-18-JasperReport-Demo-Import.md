@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'JasperReport 源码(demo)导入(二)'
+title: 'JasperReport 源码(demo)导入Eclipse(二)'
 date: 2021-04-18
 author: 李新
 tags:  JasperReport

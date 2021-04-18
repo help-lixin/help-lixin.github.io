@@ -18,6 +18,6 @@ tags:  JasperReport
 > ["JasperSoft Studio CE下载地址"](https://community.jaspersoft.com/community-download)   
 
 ### (3). JasperReport索引目录
-> ["JasperReport 源码(map)导入(二)"](/2021/04/18/JasperReport-Demo-Import.html)     
+> ["JasperReport 源码(map)导入Eclipse(二)"](/2021/04/18/JasperReport-Demo-Import.html)     
 > ["JasperReport 生命周期(三)"](/2021/04/18/JasperReport-Life-Cycle.html)     
-> ["JasperReport 源码案例(Map)深入(四)"](/2021/04/18/JasperReport-Map.html)     
+> ["JasperReport 源码案例(Map)学习(四)"](/2021/04/18/JasperReport-Map.html)     
