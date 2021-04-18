@@ -7,9 +7,9 @@ tags:  JasperReport
 ---
 
 ### (1). 前言
-> 前面的map案例太复杂了,在这里选一个简单的案例(alterdesign),顺例可以对:JasperSoft Studio CE有一个简单的了解.
+> 前面的map案例太复杂了,在这里选一个简单的案例(alterdesign),顺便可以对:JasperSoft Studio CE有一个简单的了解.
 
-### (2). 先看下工程目录
+### (2). 先看下(alterdesign)工程目录
 ```
 lixin-macbook:alterdesign lixin$ tree
 .
@@ -153,6 +153,8 @@ public class AlterDesignApp extends AbstractSampleApp
 ### (5). JasperSoft Studio CE查看效果
 
 !["JasperSoft Studio CE查看alterdesign"](/assets/jasper-report/imgs/jasper-report-alterdesign-demo.jpg)
+
+!["JasperSoft生成PDF效果"](/assets/jasper-report/imgs/jasper-report-alterdesign-pdf.jpg)
 
 ### (6). 总结
 > 在这一小节,拿了一个简单的案例来进行说明,下一小节开始,将重点放在:JasperSoft Studio CE,以及JasperSoft的业务模型(xml即业务模型)上.  
