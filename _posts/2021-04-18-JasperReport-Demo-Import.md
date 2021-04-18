@@ -129,7 +129,7 @@ lixin-macbook:jasperreports lixin$ tree -L 4
 ```
 ### (4). JasperReport工程导入(由于是maven工程,忽略导入过程)
 
-### (5). demo工程导入(ant)
+### (5). demo(ant)工程导入(以map为例).
 !["demo工程导入(ant)一"](/assets/jasper-report/imgs/jasper-report-import-1.png)  
 !["demo工程导入(ant)二"](/assets/jasper-report/imgs/jasper-report-import-2.png)  
 !["demo工程导入(ant)三"](/assets/jasper-report/imgs/jasper-report-import-3.png)  
