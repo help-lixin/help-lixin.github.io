@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 public class JrxmlCompile {
 	public static void main(String[] args) throws Exception{
 		// 1. 编译jrxml->jasper(会在同级目录产生一个.jasper文件).
+		//  *.jrxml --> *.jasper
 		JasperCompileManager.compileReportToFile("/Users/lixin/GitRepository/jasperreports/jasperreports/demo/samples/map/reports/MapReport.jrxml");
 		JasperCompileManager.compileReportToFile("/Users/lixin/GitRepository/jasperreports/jasperreports/demo/samples/map/reports/MapReport1.jrxml");
 		JasperCompileManager.compileReportToFile("/Users/lixin/GitRepository/jasperreports/jasperreports/demo/samples/map/reports/MapReport2.jrxml");
@@ -91,6 +92,7 @@ public class MapAppTest {
 	// 1. 填充数据
 	public void fill() throws JRException {
 		long start = System.currentTimeMillis();
+		// *.jasper -->  *.jrprint
 		JasperFillManager.fillReportToFile("reports/MapReport.jasper", null, new JREmptyDataSource(5));
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
@@ -98,6 +100,7 @@ public class MapAppTest {
     // 2. 导出成pdf
 	public void pdf() throws JRException {
 		long start = System.currentTimeMillis();
+		// *.jrprint --> *.pdf
 		JasperExportManager.exportReportToPdfFile("reports/MapReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
