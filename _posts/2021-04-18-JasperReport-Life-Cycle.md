@@ -17,11 +17,11 @@ tags:  JasperReport
 > JasperReport已经封装了一个dtd,只要按照规定的格式写这个xml文件,那么jasperReport就可以将其解析最终生成报表,但是jasperReport所解析的不是我们常见的.xml文件,而是.jrxml文件,其实跟xml是一样的,只是后缀不一样. 
 
 ### (4). Compile(编译阶段)
-> 在这一步中JRXML被编译为二进制对象称为Jasper文件(*.jasper),做此编译是出于性能方面的考虑(后面,我会解剖jasper的内容).
-> 解析完成后JasperReport就开始编译.jrxml文件,将其编译成.jasper文件,因为JasperReport只可以对*.jasper文件进行填充数据和转换,这步操作就跟我们java中将java文件编译成class文件是一样的.  
+> 在这一步中JRXML被编译为二进制对象称为Jasper文件(.jasper),做此编译是出于性能方面的考虑(后面,我会解剖jasper的内容).
+> 解析完成后JasperReport就开始编译.jrxml文件,将其编译成.jasper文件,因为JasperReport只可以对.jasper文件进行填充数据和转换,这步操作就跟我们java中将java文件编译成class文件是一样的.  
 
 ### (5). Execute Phase(执行阶段)
-> 使用以JRXML文件编译为可执行的二进制文件(即.Jasper文件)结合数据进行执行,填充报表数据(即:<color ='red'>模板 + 数据</color>).
+> 使用以JRXML文件编译为可执行的二进制文件(即.Jasper文件)结合数据进行执行,填充报表数据(即:模板 + 数据).
 > 这一步才是JasperReport的核心所在,它会根据你在xml里面写好的查询语句来查询指定是数据库(也可以控制在后台编写查询语句,参数,数据库).  
 > 在报表填充完后,会再生成一个.jrprint格式的文件(读取jasper文件进行填充,然后生成一个jrprint文件) 
 
