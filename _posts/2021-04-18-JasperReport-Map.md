@@ -1,13 +1,13 @@
 ---
 layout: post
-title: 'JasperReport 源码案例(Map)深入(四)'
+title: 'JasperReport 源码案例(Map)学习(四)'
 date: 2021-04-18
 author: 李新
 tags:  JasperReport
 ---
 
 ### (1). 前言
-> 这一小节,主要对前面导入工程的Map进行深入冲剖析.
+> 这一小节,主要对前面导入的Map工程(JasperReport提供的案例工程),进行一个学习.  
 
 ### (2). 目的
 > 我们先不要在乎jrxml和jasper是啥?先把官方的案例跑通并理解,通过这样的方式,可以增加你对这个框架的入门,否则,在门外徘徊太久,你会放弃.  
@@ -109,3 +109,6 @@ public class MapAppTest {
 
 ### (7). 总结
 > 从生产的报表结果来看:这个案例还是比较复杂的(用到了:自定义数据源读取CSV等).但是,代码能跑通,增加入门的信心.  
+> 通过这个案例,主要是能让你明白:JasperReport的生命周期 
+
+!["jasper-report生命周期"](/assets/jasper-report/imgs/jasper-report-life-cycle.jpg)
