@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'HBase架构详解(六)'
+title: 'HBase内部结构详解(六)'
 date: 2021-04-06
 author: 李新
 tags:  HBase
