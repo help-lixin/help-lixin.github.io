@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'JavaCC 介绍(一)'
+title: 'JavaCC 安装(一)'
 date: 2021-04-11
 author: 李新
 tags:  JavaCC
