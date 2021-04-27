@@ -22,3 +22,9 @@ tags:  JasperReport
 > ["JasperReport 生命周期(三)"](/2021/04/18/JasperReport-Life-Cycle.html)     
 > ["JasperReport 源码案例(Map)学习(四)"](/2021/04/18/JasperReport-Map.html)     
 > ["JasperReport 简单案例:alterdesign学习(五)"](/2021/04/18/JasperReport-alterdesign.html)    
+
+### (4). JasperReport总结
+> JasperReport的缺点是什么?   
+> 1. 生命周期过于复杂.    
+> 2. JasperReport框架太重了(需要设计/编译/执行/导出,不太理解为什么这样设计?).     
+> 3. 在我的视角里,无非不过就是抽象成三个内容(选择数据源/执行业务逻辑/选择输出模板).      
