@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Hadoop介绍(由来)'
+title: 'Hadoop介绍(一)'
 date: 2018-03-24
 author: 李新
 tags: Hadoop

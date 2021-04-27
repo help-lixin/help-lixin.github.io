@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Apache Hadoop伪集群'
+title: 'Apache Hadoop伪集群(二)'
 date: 2018-03-24
 author: 李新
 tags: Hadoop

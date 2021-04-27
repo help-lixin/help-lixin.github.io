@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Hadoop MapReduce'
+title: 'Hadoop MapReduce(五)'
 date: 2018-03-24
 author: 李新
 tags: Hadoop

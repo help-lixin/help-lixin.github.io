@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Hadoop HDFS'
+title: 'Hadoop HDFS(三)'
 date: 2018-03-24
 author: 李新
 tags: Hadoop
