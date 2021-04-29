@@ -132,7 +132,7 @@ public class ResultSetUtil {
     }
 }
 ```
-### (5). 查看控制台
+### (5). 查看控制台(验证结果)
 ```
 # SELECT * FROM es.books WHERE _MAP['price'] > 10 offset 0 fetch next 3 rows only
 # Calcite针对ES的分页还有一些独特.
