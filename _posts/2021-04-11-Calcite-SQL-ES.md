@@ -12,7 +12,7 @@ tags:  Calcite
 ### (2). 在ES中建立索引库(books)
 > 请参考这篇文章
 
-!["books索引"](2020/11/29/ElasticSearch-Operator.html)
+["books索引"](2020/11/29/ElasticSearch-Operator.html)
 
 ### (3). ElasticDemo
 
