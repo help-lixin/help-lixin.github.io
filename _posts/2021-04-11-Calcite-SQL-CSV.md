@@ -93,5 +93,24 @@ empno=110,name=John,deptno=40,gender=M,city=Vancouver,empid=2,age=0,slacker=fals
 empno=120,name=Wilma,deptno=20,gender=F,city=,empid=1,age=5,slacker=false,manager=true,joinDate=2005-09-07
 empno=130,name=Alice,deptno=40,gender=F,city=Vancouver,empid=2,age=0,slacker=false,manager=true,joinDate=2007-01-01
 ```
-### (6). 总结
+
+### (6). pom.xml
+```
+<dependency>
+	<groupId>org.apache.calcite</groupId>
+	<artifactId>calcite-core</artifactId>
+	<version>1.26.0</version>
+</dependency>
+<dependency>
+	<groupId>org.apache.calcite</groupId>
+	<artifactId>calcite-linq4j</artifactId>
+	<version>1.26.0</version>
+</dependency>
+<dependency>
+	<groupId>org.apache.calcite</groupId>
+	<artifactId>calcite-file</artifactId>
+	<version>1.26.0</version>
+</dependency>
+```
+### (7). 总结
 > 通过SQL,能直接读取CSV,是不是感觉很神奇?至于原理,后面会分析源码得出结论.  
