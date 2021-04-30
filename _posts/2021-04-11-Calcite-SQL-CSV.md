@@ -1,13 +1,13 @@
 ---
 layout: post
-title: 'Calcite 通过SQL读取CSV案例入门(一)'
+title: 'Calcite 通过SQL读取CSV案例入门(二)'
 date: 2021-04-11
 author: 李新
 tags:  Calcite
 ---
 
-### (1). Calcite是什么?
-> Apache Calcite是一款开源SQL解析工具,可以将各种SQL语句解析成抽象语法术AST(Abstract Syntax Tree),之后通过操作AST就可以把SQL中所要表达的算法与关系体现在具体代码之中.  
+### (1). 前言
+> 在这里,以官网CSV为案例,进行一个简单的入门.  
 
 ### (2). 以CSV文件为案例
 > 在classpath下创建:EMPS.csv,内容如下:
