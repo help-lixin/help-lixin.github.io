@@ -23,8 +23,8 @@ tags:  Calcite
 > 拿csv格式的数据来说:假设csv数据的每一行数据和Table中的每一行一一对应,那么在关系化的过程中,必须将csv中每个字段的类型及一些元数据定义清晰,比如:字段是int类型还是long类型,主键是哪个字段,外键是哪个字段等.calcite提供了几乎所有已存在的字段类型. 
 
 ### (4). 学习目录
-> ["Calcite 通过SQL读取CSV案例入门(一)"](/2021/04/11/Calcite-SQL-CSV.html)
-> ["Calcite 通过SQL读取CSV案例入门(二)"](/2021/04/11/Calcite-SQL-ES.html)
+> ["Calcite 通过SQL读取CSV案例入门(二)"](/2021/04/11/Calcite-SQL-CSV.html)
+> ["Calcite 通过SQL读取CSV案例入门(三)"](/2021/04/11/Calcite-SQL-ES.html)
 
 ### (5). 
 
