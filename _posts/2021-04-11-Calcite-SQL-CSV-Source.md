@@ -290,10 +290,14 @@ public class CsvEnumerator<E> implements Enumerator<E> {
 	          return false;
 	        } // end 读取EOF或Stream的情况下
 			
+			
 	        if (filterValues != null) {  // 5.7 需要在读取时就过滤的数据
 			  //  遍历读取的CSV一行数据(10,"Sales")
 	          for (int i = 0; i < strings.length; i++) {  
 				// 判断是否为要过滤的列
+				// *********************************************************************
+				// 这也是 WHERE deptno = 1 OR name = 'xxx'不走索引的原理
+				// *********************************************************************
 				// filterValues=[null,"Marketing"]
 				//              DEPTNO:int,NAME:string
 	            String filterValue = filterValues.get(i);
@@ -320,5 +324,5 @@ public class CsvEnumerator<E> implements Enumerator<E> {
 ### (7). 总结
 
 > 总体来说,对CSV的解析有了一个大体的入门,也可以参数上面的方式,自定义Schema和Table.    
-> 谓词下推确实是能有效解决数据的返回,但是,对IO的操作呢?实际仍然是一行一行的读取,所以,这也是为什么要有索引的存在了.     
-> 对Calcite的使用:还是要尽可能的Hold住场景,它比较适合那些:索引在ES,数据在HBase.因为,这些数据源充当了索引.又而者说它适合于OLAP的场景,非实时的场景.        
+> <font color='red'>谓词下推确实是能有效解决数据的返回,但是,对IO的操作呢?实际仍然是一行一行的读取,所以,这也是为什么要有索引的存在了.</font>       
+> <font color='red'>对Calcite的使用:还是要尽可能的Hold住场景,它比较适合那些:索引在ES,数据在HBase.因为,这些数据源充当了索引.又而者说它适合于OLAP的场景,非实时的场景.</font>        
