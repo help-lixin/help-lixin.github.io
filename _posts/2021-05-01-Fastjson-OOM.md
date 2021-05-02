@@ -338,6 +338,7 @@ Exception in thread "RMI TCP Connection(idle)" java.lang.OutOfMemoryError: Java 
 
 
 ### (9). jconsole监控OOM
+> 当箭头是呈向上的驱势时,代表着存在OOM.  
 
 !["jconsole 监控 oom"](/assets/oom/imgs/jconsole-oom.jpg)
 
