@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Apache HttpClient使用不当,产生OOM'
+title: 'Apache HttpClient OOM'
 date: 2020-12-24
 author: 李新
 tags: OOM排查

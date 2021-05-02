@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Fastjson 使用不当产生,OOM'
+title: 'Fastjson OOM'
 date: 2021-05-01
 author: 李新
 tags:  OOM排查
