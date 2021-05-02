@@ -8,7 +8,7 @@ tags:  Calcite
 
 ### (1). Calcite是什么?
 > Apache Calcite是一款开源SQL解析工具,可以将各种SQL语句解析成抽象语法术AST(Abstract Syntax Tree),之后通过操作AST就可以把SQL中所要表达的算法与关系体现在具体代码之中.    
-> 说大白话一点就是:Calcite是一个可以将*结构化的数据*,通过SQL进行检索.  
+> 说大白话一点就是:Calcite是一个可以将结构化的数据,通过SQL进行检索.  
 > 在Calcite的接口中,Schema和Table是数据关系化中最重要的两个接口.    
 > Schema是对:Database的抽象,以兼容已经存在的各类数据库.    
 > Table是对:表/视图/流的抽象,以兼容数据的各种场景.   
