@@ -9,7 +9,7 @@ tags:  OOM排查
 ### (1). 前言
 > 1. 业务知识如下:  
 > 2. HelloController提供http服务,给client调用.
-> 3. ConsumerTest通过OKHttp调用(HelloController),并解析返回内容. 
+> 3. ClientTest通过OKHttp调用(HelloController),并解析返回内容. 
 
 ### (2). HelloController
 
@@ -187,7 +187,7 @@ public class Result<T> implements Serializable {
 	}
 }
 ```
-### (4). ConsumerTest
+### (4). ClientTest
 ```
 package help.lixin.samples;
 
@@ -209,7 +209,7 @@ import okhttp3.Response;
  * @author lixin
  *
  */
-public class ConsumerTest {
+public class ClientTest {
 	public static void main(String[] args) throws Exception {
 		OkHttpClient client = new OkHttpClient();
 		for (;;) {
@@ -277,7 +277,6 @@ public class ConsumerTest {
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<!-- <version>2.2.4</version> -->
 		</dependency>
 		
 		<dependency>
@@ -288,7 +287,7 @@ public class ConsumerTest {
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.70</version>
+			<version>1.2.76</version>
 		</dependency>
 				
 		<dependency>
