@@ -336,9 +336,48 @@ Exception in thread "RMI TCP Connection(idle)" java.lang.OutOfMemoryError: Java 
 !["eclipse mat oom"](/assets/oom/imgs/eclipse-mat-5.jpg)
 !["eclipse mat oom"](/assets/oom/imgs/eclipse-mat-6.png)
 
-### (9). 总结
+
+### (9). Bug位置(ParserConfig.getDeserializer)
+```
+public class ParserConfig {
+	// 存放:Type与反序列化的关系.
+	private final IdentityHashMap<Type, ObjectDeserializer> deserializers         = new IdentityHashMap<Type, ObjectDeserializer>();
+
+	
+	public ObjectDeserializer getDeserializer(Type type) {
+		// ... ... 
+		} else {
+			// 1. 根据clazz创建相应的:BeanDeserializer(JavaBeanDeserializer)
+			deserializer = createJavaBeanDeserializer(clazz, type);
+		}
+		
+		// 2. 缓存
+		putDeserializer(type, deserializer);
+	} // end getDeserializer
+
+
+	public void putDeserializer(Type type, ObjectDeserializer deserializer) {
+		// 
+		Type mixin = JSON.getMixInAnnotations(type);
+		if (mixin != null) {
+			IdentityHashMap<Type, ObjectDeserializer> mixInClasses = this.mixInDeserializers.get(type);
+			if (mixInClasses == null) {
+				//多线程下可能会重复创建，但不影响正确性
+				mixInClasses = new IdentityHashMap<Type, ObjectDeserializer>(4);
+				this.mixInDeserializers.put(type, mixInClasses);
+			}
+			mixInClasses.put(mixin, deserializer);
+		} else {
+			// *************************************************************************************
+			// bug位置,每次都会map里添加新的数据,所以:deserializers会一直增长.
+			// *************************************************************************************
+			this.deserializers.put(type, deserializer);
+		}
+	} // end putDeserializer
+}
+```
+### (10). 总结
 > 结合支配树上的信息,以及源码,得出以下结论:    
 > 1. com.alibaba.fastjson.util.IdentityHashMap属于com.alibaba.fastjson.parser.ParserConfig的成员变量.    
 > 2. com.alibaba.fastjson.util.IdentityHashMap为什么那么多Entry实例(1187个实例),总共占据了:3.41M.  
 > 3. 稍微敏感一点,com.alibaba.fastjson.util.IdentityHashMap$Entry为什么会存在Gson对Type的扩展?   
-> 4. FastJson的源码不想看,但是,从总体上来说是属于反序列化的问题,所以,改成FastJson对Type的扩展,即可解决.  
