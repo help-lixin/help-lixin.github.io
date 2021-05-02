@@ -385,5 +385,4 @@ public class ParserConfig {
 > 结合支配树上的信息,以及源码,得出以下结论:    
 > 1. IdentityHashMap属于ParserConfig(单例)的成员变量.    
 > 2. IdentityHashMap为什么那么多Entry实例(1187个实例),总共占据了:3.41M.  
-> 3. 造成OOM的原因是:  
-> <font color='red'>FastJson遇到到Type,时会创建一个:JavaObjectDeserializer,并通过Map保存它俩的关系,FastJson希望,下次遇到这个Type时,可以通过Map找到:JavaObjectDeserializer,结果,Map是在不断的增长.既然,Map有类似于Cache的功能,为什么不设计成(SoftReference/WeakReference).</font>   
+> 3. 造成OOM的原因是:<font color='red'>FastJson遇到到Type,时会创建一个:JavaObjectDeserializer,并通过Map保存它俩的关系,FastJson希望,下次遇到这个Type时,可以通过Map找到:JavaObjectDeserializer,结果,Map是在不断的增长.既然,Map有类似于Cache的功能,为什么不设计成(SoftReference/WeakReference).</font>   
