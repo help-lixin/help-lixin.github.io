@@ -328,7 +328,7 @@ Exception in thread "RMI TCP Connection(idle)" java.lang.OutOfMemoryError: Java 
 !["jvisualvm oom "](/assets/oom/imgs/jvisualvm_oom_2.png)
 !["jvisualvm oom"](/assets/oom/imgs/jvisualvm_oom_3.png)
 
-### (8). eclipse mat查看OOM
+### (8). eclipse mat排查OOM
 !["eclipse mat setting"](/assets/oom/imgs/eclipse-mat-1.png)
 !["eclipse mat oom"](/assets/oom/imgs/eclipse-mat-2.png)
 !["eclipse mat oom"](/assets/oom/imgs/eclipse-mat-3.png)
@@ -337,7 +337,11 @@ Exception in thread "RMI TCP Connection(idle)" java.lang.OutOfMemoryError: Java 
 !["eclipse mat oom"](/assets/oom/imgs/eclipse-mat-6.png)
 
 
-### (9). Bug位置(ParserConfig.getDeserializer)
+### (9). jconsole监控OOM
+
+!["jconsole 监控 oom"](/assets/oom/imgs/jconsole-oom.jpg)
+
+### (10). Bug位置(ParserConfig.getDeserializer)
 ```
 public class ParserConfig {
 	// 存放:Type与反序列化的关系.
@@ -376,8 +380,9 @@ public class ParserConfig {
 	} // end putDeserializer
 }
 ```
-### (10). 总结
+### (11). 总结
 > 结合支配树上的信息,以及源码,得出以下结论:    
-> 1. com.alibaba.fastjson.util.IdentityHashMap属于com.alibaba.fastjson.parser.ParserConfig(单例)的成员变量.    
-> 2. com.alibaba.fastjson.util.IdentityHashMap为什么那么多Entry实例(1187个实例),总共占据了:3.41M.  
-> 3. 稍微敏感一点,com.alibaba.fastjson.util.IdentityHashMap$Entry为什么会存在Gson对Type的扩展?   
+> 1. IdentityHashMap属于ParserConfig(单例)的成员变量.    
+> 2. IdentityHashMap为什么那么多Entry实例(1187个实例),总共占据了:3.41M.  
+> 3. 造成OOM的原因是:  
+> <font color='red'>FastJson遇到到Type,时会创建一个:JavaObjectDeserializer,并通过Map保存它俩的关系,FastJson希望,下次遇到这个Type时,可以通过Map找到:JavaObjectDeserializer,结果,Map是在不断的增长.既然,Map有类似于Cache的功能,为什么不设计成(SoftReference/WeakReference).</font>   
