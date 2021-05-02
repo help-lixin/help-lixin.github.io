@@ -3,7 +3,7 @@ layout: post
 title: 'Fastjson OOM'
 date: 2021-05-01
 author: 李新
-tags:  OOM排查
+tags:  OOM
 ---
 
 ### (1). 前言
@@ -378,6 +378,6 @@ public class ParserConfig {
 ```
 ### (10). 总结
 > 结合支配树上的信息,以及源码,得出以下结论:    
-> 1. com.alibaba.fastjson.util.IdentityHashMap属于com.alibaba.fastjson.parser.ParserConfig的成员变量.    
+> 1. com.alibaba.fastjson.util.IdentityHashMap属于com.alibaba.fastjson.parser.ParserConfig(单例)的成员变量.    
 > 2. com.alibaba.fastjson.util.IdentityHashMap为什么那么多Entry实例(1187个实例),总共占据了:3.41M.  
 > 3. 稍微敏感一点,com.alibaba.fastjson.util.IdentityHashMap$Entry为什么会存在Gson对Type的扩展?   

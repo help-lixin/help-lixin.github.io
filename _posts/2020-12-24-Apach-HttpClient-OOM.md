@@ -3,7 +3,7 @@ layout: post
 title: 'Apache HttpClient OOM'
 date: 2020-12-24
 author: 李新
-tags: OOM排查
+tags: OOM
 ---
 
 ### (1). 问题
