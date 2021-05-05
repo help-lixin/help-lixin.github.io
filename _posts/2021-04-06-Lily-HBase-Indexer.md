@@ -7,7 +7,7 @@ tags:  HBase源码 解决方案
 ---
 
 ### (1). Lily HBase Indexer是什么?
-> Lily HBase Indexer是由NGDATA公司开发,用于近实时的同步:HBase的数据到Solor中.   
+> Lily HBase Indexer是由NGDATA公司开发,用于近实时的同步:HBase的数据到Solr中.   
 > 当HBase执行写入/更新/删除操作时,Indexer通过HBase的Replication功能,把这些操作抽象成一系列的Event,并用来保证写入Solr中的Hbase索引数据的一致性. 
 ### (2). Lily HBase Indexer流程图
 !["Lily HBase Indexer架构图"](/assets/hbase/imgs/HBase-Indexer.png)

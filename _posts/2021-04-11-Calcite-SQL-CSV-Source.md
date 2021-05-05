@@ -7,7 +7,7 @@ tags:  Calcite
 ---
 
 ### (1). 概述
-> 在这一小节,通过部析Calcite通过SQL检索CSV的过程
+> 在这一小节,部析Calcite是如何通过SQL检索CSV的过程.
 
 ### (2). CsvTest
 

@@ -38,7 +38,7 @@ public class ElasticDemo {
 		// 1.构建ElasticsearchSchema对象,在Calcite中,不同数据源对应不同Schema,比如:CsvSchema、DruidSchema、ElasticsearchSchema等
 		RestClient restClient = RestClient.builder(new HttpHost("localhost", 9200)).build();
 		// 指定索引库
-		ElasticsearchSchema elasticsearchSchema = new ElasticsearchSchema(restClient, new ObjectMapper(), "books");
+		ElasticsearchSchema elasticsearchSchema = new ElasticsearchSchema(restClient, new ObjectMapper(), null);
 
 		// 2.构建Connection
 		// 2.1 设置连接参数
