@@ -25,13 +25,22 @@ tags:  Servicecomb-Pack
 > 注意:失败时是由omega向alpha进行汇报即可,但是,补偿操作(compensate)是由:alpha向所有的:omega发出的指令.   
 
 > Saga处理流程图:    
+> Saga成功处理流程图:
 !["Saga成功处理流程图"](/assets/servicecomb-pack/imgs/saga-successful_scenario.png)    
+
+> Saga失败处理流程图   
 !["Saga失败处理流程图"](/assets/servicecomb-pack/imgs/saga-exception_scenario.png)    
+
+> Saga超时处理流程图   
 !["Saga超时处理流程图"](/assets/servicecomb-pack/imgs/saga-timeout_scenario.png)   
 
 
 > TCC处理流程图:  
+
+>TCC 正常处理流程图   
 !["TCC 正常处理流程图"](/assets/servicecomb-pack/imgs/successful_scenario_TCC.png)   
+
+> TCC 异常处理流程图
 !["TCC 异常处理流程图"](/assets/servicecomb-pack/imgs/exception_scenario_TCC.png)    
 ### (5). Servicecomb Pack学习目录
 > ["Servicecomb Pack之Saga+Docker环境搭建(二)"](/2021/05/04/Servicecomb-Saga-Docker.html)   
