@@ -22,7 +22,7 @@ tags:  Servicecomb-Pack
 !["ServiceComb Pack 架构"](/assets/servicecomb-pack/imgs/ServiceComb-Pack-Architecture.png)
 
 ### (4). Servicecomb Pack处理流程图
-> 注意:失败时是由omega向alpha进行汇报即可,但是,补偿操作(compensate)是由:alpha向所有的:omega发出的指令.   
+> <font color='red'>注意:失败时是由omega向alpha进行汇报即可,但是,补偿操作(compensate)是由:alpha向所有的:omega发出的指令.</font>   
 
 > Saga成功处理流程图:
 !["Saga成功处理流程图"](/assets/servicecomb-pack/imgs/saga-successful_scenario.png)    
