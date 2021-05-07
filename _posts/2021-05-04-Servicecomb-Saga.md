@@ -52,35 +52,52 @@ spring:
 > SOURCE /Users/lixin/GitRepository/servicecomb-pack-0.6.0/alpha/alpha-server/src/main/resources/schema-mysql.sql
 ```
 ### (3). alpha-server启动
-> alpha-server启动,并指定环境变量(java -Dspring.profiles.active=mysql -jar alpha-server.jar).
+```
+alpha-server启动,并指定环境变量(java -Dspring.profiles.active=mysql -jar alpha-server.jar).
+```
 
 !["AlphaApplication启动,并指定环境变量"](/assets/servicecomb-pack/imgs/AlphaApplication.jpg)
 
 ### (4). hotel
-> /Users/lixin/GitRepository/servicecomb-pack-0.6.0/demo/saga-spring-demo/hotel      
-> hotel启动,并指定环境变量(java -Dserver.port=8081  -Dalpha.cluster.address=localhost:8080 -jar hotel.jar )
+```
+# /Users/lixin/GitRepository/servicecomb-pack-0.6.0/demo/saga-spring-demo/hotel      
+# hotel启动,并指定环境变量(java -Dserver.port=8081  -Dalpha.cluster.address=localhost:8080 -jar hotel.jar )
+```
 
 !["hotel启动,并指定环境变量"](/assets/servicecomb-pack/imgs/hotel.jpg)
 
 ### (5). car 
-> /Users/lixin/GitRepository/servicecomb-pack-0.6.0/demo/saga-spring-demo/car     
-> car启动,并指定环境变量(java -Dserver.port=8082  -Dalpha.cluster.address=localhost:8080 -jar car.jar )
+```
+# /Users/lixin/GitRepository/servicecomb-pack-0.6.0/demo/saga-spring-demo/car     
+# car启动,并指定环境变量(java -Dserver.port=8082  -Dalpha.cluster.address=localhost:8080 -jar car.jar )
+```
 
 !["car启动,并指定环境变量"](/assets/servicecomb-pack/imgs/car.jpg)
 
 ### (6). booking
-> /Users/lixin/GitRepository/servicecomb-pack-0.6.0/demo/saga-spring-demo/booking    
-> booking启动,并指定环境变量(java -Dserver.port=8083  -Dalpha.cluster.address=localhost:8080 -Dhotel.service.address=http://localhost:8081  -Dcar.service.address=http://localhost:8082  -jar booking.jar )
+```
+# /Users/lixin/GitRepository/servicecomb-pack-0.6.0/demo/saga-spring-demo/booking    
+# booking启动,并指定环境变量(java -Dserver.port=8083  -Dalpha.cluster.address=localhost:8080 -Dhotel.service.address=http://localhost:8081  -Dcar.service.address=http://localhost:8082  -jar booking.jar )
+```
 
 !["booking启动,并指定环境变量"](/assets/servicecomb-pack/imgs/booking.jpg)
 
 ### (7). 测试验证
 ```
-# 模拟预订车辆和酒店房间
+# 模拟正常:预订2间酒店房间和2车辆
 lixin-macbook:5.1.49 lixin$ curl -X POST http://localhost:8083/booking/test/2/2
 test booking 2 rooms and 2 cars OK
 
-# 查看服务状态
+# 查看成功状态
+lixin-macbook:5.1.49 lixin$ curl http://localhost:8081/bookings
+[{"id":1,"name":"test","amount":2,"confirmed":true,"cancelled":false}]
+
+
+# 模拟失败:预订3间酒店房间和2车辆
+lixin-macbook:5.1.49 lixin$ curl -X POST http://localhost:8083/booking/test/3/2
+{"timestamp":"2021-05-07T12:12:55.817+0000","status":500,"error":"Internal Server Error","message":"500 ","path":"/booking/test/3/2"}
+
+# 查看成功状态
 lixin-macbook:5.1.49 lixin$ curl http://localhost:8081/bookings
 [{"id":1,"name":"test","amount":2,"confirmed":true,"cancelled":false}]
 ```
