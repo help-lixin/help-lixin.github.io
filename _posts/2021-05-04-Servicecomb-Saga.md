@@ -47,9 +47,9 @@ spring:
         ddl-generation: none
 
 # 4. 进入MySQL,创建:saga库和表
-CREATE DATABASE saga;
-USE saga;
-SOURCE /Users/lixin/GitRepository/servicecomb-pack-0.6.0/alpha/alpha-server/src/main/resources/schema-mysql.sql
+> CREATE DATABASE saga;
+> USE saga;
+> SOURCE /Users/lixin/GitRepository/servicecomb-pack-0.6.0/alpha/alpha-server/src/main/resources/schema-mysql.sql
 ```
 ### (3). alpha-server启动
 > alpha-server启动,并指定环境变量(java -Dspring.profiles.active=mysql -jar alpha-server.jar).
