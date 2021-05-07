@@ -9,8 +9,7 @@ tags:  Servicecomb-Pack
 ### (1). 源码构建
 > 稍微吐槽下,官方提供的Servicecomb Pack案例,是依赖:Docker的.  
 > 这样做有优势,可以利用docker快速启动项目(不必理会Pass层的依赖,比如:postgres/mysql...),缺点,不知道真正能快速启动的人有多少,毕竟,不是谁都会Docker的.   
-
-> ["Saga Spring Demo"](https://github.com/help-lixin/servicecomb-pack/blob/master/demo/saga-spring-demo/README.md)   
+> ["Saga Spring Demo官网详细介绍"](https://github.com/help-lixin/servicecomb-pack/blob/master/demo/saga-spring-demo/README.md)   
 
 ```
 # clone源码后所在目录
@@ -41,7 +40,9 @@ Creating saga-spring-demo_booking_1  ... done
 !["Servicecomb Pack Saga Docker"](/assets/servicecomb-pack/imgs/saga-spring-demo.jpg)
 
 ### (5). 测试
-> 业务知识了解:用户(test),会向网站(booking)发起请求,订2辆台(car)和2间房(hotel).   
+> 业务知识:用户(test),向网站(booking)发起请求,订2辆台(car)和2间房(hotel).   
+
+!["Saga案例"](/assets/servicecomb-pack/imgs/Servicecomb-Pack-Saga-Demo.jpg)
 
 ```
 # 模拟订车和订房服务.
@@ -53,4 +54,4 @@ lixin-macbook:~ lixin$ curl http://localhost:8081/bookings
 [{"id":1,"name":"test","amount":2,"confirmed":true,"cancelled":false}]
 ```
 ### (6). 总结
-> 
+> Demo是跑起来了,后续会对源码进行一个深度的剖析.   
