@@ -7,7 +7,7 @@ tags:  Servicecomb-Pack
 ---
 
 ### (1). 为什么要研究Servicecomb Pack
-> 阿里开源了一套分布式事务解决方案(Seata),通过阅读完源码后,发现:阿里针对分布式事务的着重点是在AT模式,而TCC和Saga支持不足.  
+> 阿里开源了一套分布式事务解决方案(Seata),通过阅读完源码后,发现:阿里针对分布式事务的着重点是在AT模式,而TCC和Saga支持没有AT模式那么多.  
 > 所以,才会想看下:Servicecomb Pack,是否有对这些不足进行解决(<font color='red'>TCC模式下的幂等/悬空/...</font>).       
 
 ### (2). Servicecomb Pack是什么?
@@ -22,7 +22,7 @@ tags:  Servicecomb-Pack
 !["ServiceComb Pack 架构"](/assets/servicecomb-pack/imgs/ServiceComb-Pack-Architecture.png)
 
 ### (4). Servicecomb Pack处理流程图
-> <font color='red'>注意:失败时是由omega向alpha进行汇报即可,但是,补偿操作(compensate)是由:alpha向所有的:omega发出的指令.</font>   
+> <font color='red'>注意:失败时是由omega向alpha进行汇报即可,但是,补偿操作(compensate)是由:alpha向所有的:omega发出的指令(感觉和Seata一样).</font>   
 
 > Saga成功处理流程图:
 !["Saga成功处理流程图"](/assets/servicecomb-pack/imgs/saga-successful_scenario.png)    
