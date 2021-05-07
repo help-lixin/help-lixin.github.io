@@ -1,57 +1,88 @@
 ---
 layout: post
-title: 'Servicecomb Pack Saga入门(二)'
+title: 'Servicecomb Pack Saga+Local入门(三)'
 date: 2021-05-04
 author: 李新
 tags:  Servicecomb-Pack
 ---
 
-### (1). 源码构建
-> 稍微吐槽下,官方提供的Servicecomb Pack案例,是依赖:Docker的.  
-> 这样做有优势,可以利用docker快速启动项目(不必理会Pass层的依赖,比如:postgres/mysql...),缺点,不知道真正能快速启动的人有多少,毕竟,不是谁都会Docker的.   
-> ["Saga Spring Demo官网详细介绍"](https://github.com/help-lixin/servicecomb-pack/blob/master/demo/saga-spring-demo/README.md)   
+### (1). 前言
+> 前面,通过Docker+Servicecomb Pack,实现简单的入门,但是,要想实现远程调试,部署到Docker没有本地那么方便,在这一小节,还是上面的项目,只是,不再用Docker运行,方便后续进行Debug.  
 
+### (2). alpha-server改造
 ```
-# clone源码后所在目录
-lixin-macbook:servicecomb-pack-0.6.0 lixin$ pwd
-/Users/lixin/GitRepository/servicecomb-pack-0.6.0
+# 更换成mysql(/Users/lixin/GitRepository/servicecomb-pack-0.6.0/alpha/alpha-server/pom.xml)
+# 1. 添加mysql驱动
+<dependency>
+  <groupId>mysql</groupId>
+  <artifactId>mysql-connector-java</artifactId>
+  <version>5.1.49</version>
+</dependency> 
+ 
+ 
+# 2. 禁用postgresql
+<!--
+ <dependency>
+   <groupId>org.postgresql</groupId>
+   <artifactId>postgresql</artifactId>
+   <scope>runtime</scope>
+ </dependency>
+-->
 
-# 编译打包,并构建docker镜像
-lixin-macbook:servicecomb-pack-0.6.0 lixin$ mvn clean install -DskipTests -Pdocker -Pdemo
-```
-### (2). 为sh添加可执行
-```
-lixin-macbook:servicecomb-pack-0.6.0 lixin$ cd ./demo/saga-spring-demo/
-lixin-macbook:saga-spring-demo lixin$ chmod 755 saga-demo.sh 
-```
-### (3). 启动saga案例
-```
-lixin-macbook:saga-spring-demo lixin$ ./saga-demo.sh up
-Starting saga-demo:0.6.0
-Creating network "saga-spring-demo_default" with the default driver
-Creating saga-spring-demo_database_1 ... done
-Creating saga-spring-demo_alpha_1    ... done
-Creating saga-spring-demo_hotel_1    ... done
-Creating saga-spring-demo_car_1      ... done
-Creating saga-spring-demo_booking_1  ... done
-... ...
-```
-### (4). 查看docker启动的容器
-!["Servicecomb Pack Saga Docker"](/assets/servicecomb-pack/imgs/saga-spring-demo.jpg)
 
-### (5). 测试
-> 业务知识:用户(test),向网站(booking)发起请求,订2辆台(car)和2间房(hotel).   
+# 3. 配置application.yml(/Users/lixin/GitRepository/servicecomb-pack-0.6.0/alpha/alpha-server/src/main/resources/application.yaml)
+#    配置:driverClassName/username/password/url
+spring:
+  profiles: mysql
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/saga?useSSL=false
+    platform: mysql
+    continue-on-error: false
+  jpa:
+    properties:
+      eclipselink:
+        ddl-generation: none
 
-!["Saga案例"](/assets/servicecomb-pack/imgs/Servicecomb-Pack-Saga-Demo.jpg)
-
+# 4. 进入MySQL,创建:saga库和表
+CREATE DATABASE saga;
+USE saga;
+SOURCE /Users/lixin/GitRepository/servicecomb-pack-0.6.0/alpha/alpha-server/src/main/resources/schema-mysql.sql
 ```
-# 模拟订车和订房服务.
-lixin-macbook:~ lixin$ curl -X POST http://localhost:8083/booking/test/2/2
+### (3). alpha-server启动
+> alpha-server启动,并指定环境变量(java -Dspring.profiles.active=mysql -jar alpha-server.jar).
+
+!["AlphaApplication启动,并指定环境变量"](/assets/servicecomb-pack/imgs/AlphaApplication.jpg)
+
+### (4). hotel
+> /Users/lixin/GitRepository/servicecomb-pack-0.6.0/demo/saga-spring-demo/hotel      
+> hotel启动,并指定环境变量(java -Dserver.port=8081  -Dalpha.cluster.address=localhost:8080 -jar hotel.jar )
+
+!["hotel启动,并指定环境变量"](/assets/servicecomb-pack/imgs/hotel.jpg)
+
+### (5). car 
+> /Users/lixin/GitRepository/servicecomb-pack-0.6.0/demo/saga-spring-demo/car     
+> car启动,并指定环境变量(java -Dserver.port=8082  -Dalpha.cluster.address=localhost:8080 -jar car.jar )
+
+!["car启动,并指定环境变量"](/assets/servicecomb-pack/imgs/car.jpg)
+
+### (6). booking
+> /Users/lixin/GitRepository/servicecomb-pack-0.6.0/demo/saga-spring-demo/booking    
+> booking启动,并指定环境变量(java -Dserver.port=8083  -Dalpha.cluster.address=localhost:8080 -Dhotel.service.address=http://localhost:8081  -Dcar.service.address=http://localhost:8082  -jar booking.jar )
+
+!["booking启动,并指定环境变量"](/assets/servicecomb-pack/imgs/booking.jpg)
+
+### (7). 测试验证
+```
+# 模拟预订车辆和酒店房间
+lixin-macbook:5.1.49 lixin$ curl -X POST http://localhost:8083/booking/test/2/2
 test booking 2 rooms and 2 cars OK
 
-# 查看服务状态.
-lixin-macbook:~ lixin$ curl http://localhost:8081/bookings
+# 查看服务状态
+lixin-macbook:5.1.49 lixin$ curl http://localhost:8081/bookings
 [{"id":1,"name":"test","amount":2,"confirmed":true,"cancelled":false}]
 ```
-### (6). 总结
-> Demo是跑起来了,后续会对源码进行一个深度的剖析.   
+### (8).  总结
+> 后续会基于这个案例的基础上,对Saga进行深入的源码探索.  
