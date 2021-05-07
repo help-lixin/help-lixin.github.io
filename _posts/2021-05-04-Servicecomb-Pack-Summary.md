@@ -8,8 +8,8 @@ tags:  Servicecomb-Pack
 
 ### (1). 为什么要研究Servicecomb Pack
 > 阿里开源了一套分布式事务解决方案(Seata),AT模式有着它的优点.  
-> 但是,有些场景下TCC和Saga模式会更加的适合,Seta虽然有TCC和Saga的解决方案,可是,看源码后,明显能感觉到阿里着重点是在AT模式,TCC和Saga支持较少.  
-> 所以,才会好奇看下:Servicecomb Pack.    
+> 但是,有些场景下TCC和Saga模式会更加的适合,阿里的Seta虽然有TCC和Saga的解决方案,可是,看源码后,明显能感觉到阿里针对分布式事务的着重点是在AT模式,而TCC和Saga支持不足.  
+> 所以,才会想看下:Servicecomb Pack,是否有对这些不足进行解决(TCC模式下的幂等/悬空/...).       
 
 ### (2). Servicecomb Pack是什么?
 > Apache ServiceComb Pack 是由华为开源的一个微服务应用的"数据最终一致性解决方案"(分布式事务解决方案).      
