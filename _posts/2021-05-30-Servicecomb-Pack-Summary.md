@@ -22,9 +22,19 @@ tags:  Servicecomb-Pack
 > 在命名上,不太理解:alpha和omega,不过无所谓了,分布式事务的思想,反正都差不多,只是命名上的差异而已.   
 
 !["ServiceComb Pack 架构"](/assets/servicecomb-pack/imgs/ServiceComb-Pack-Architecture.png)
-### (4). Servicecomb Pack学习目录
+
+### (4). Servicecomb Pack处理流程图
+> Saga处理流程图:     
+!["Saga成功处理流程图"](/assets/servicecomb-pack/imgs/saga-successful_scenario.png)    
+!["Saga失败处理流程图"](/assets/servicecomb-pack/imgs/saga-exception_scenario.png)    
+!["Saga超时处理流程图"](/assets/servicecomb-pack/imgs/saga-timeout_scenario.png)   
+
+> TCC处理流程图:  
+!["TCC 正常处理流程图"](/assets/servicecomb-pack/imgs/successful_scenario_TCC.png)   
+!["TCC 异常处理流程图"](/assets/servicecomb-pack/imgs/exception_scenario_TCC.png)    
+### (5). Servicecomb Pack学习目录
 > ["Servicecomb Pack之Saga+Docker环境搭建(二)"](/2021/05/04/Servicecomb-Saga-Docker.html)   
 >["Servicecomb Pack之Saga本地环境搭建入门(三)"](/2021/05/04/Servicecomb-Saga.html)  
 
-### (5). Servicecomb Pack缺点
+### (6). Servicecomb Pack缺点
 > Servicecomb Pack的文档少得有点可怜,很多东西要靠自己摸索.
