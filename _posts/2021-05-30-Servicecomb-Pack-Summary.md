@@ -21,7 +21,10 @@ tags:  Servicecomb-Pack
 
 !["ServiceComb Pack 架构"](/assets/servicecomb-pack/imgs/ServiceComb-Pack-Architecture.png)
 
-### (4). Servicecomb Pack处理流程图
+### (4). Servicecomb Pack 内部模块架构图
+!["Servicecomb Pack 内部模块架构图"](/assets/servicecomb-pack/imgs/image-pack-system-archecture.png)
+
+### (5). Servicecomb Pack处理流程图
 > <font color='red'>注意:失败时是由omega向alpha进行汇报即可,但是,补偿操作(compensate)是由:alpha向所有的:omega发出的指令(感觉和Seata一样).</font>   
 
 > Saga成功处理流程图:
@@ -40,9 +43,9 @@ tags:  Servicecomb-Pack
 > TCC 异常处理流程图
 !["TCC 异常处理流程图"](/assets/servicecomb-pack/imgs/exception_scenario_TCC.png)    
 
-### (5). Servicecomb Pack学习目录
+### (6). Servicecomb Pack学习目录
 > ["Servicecomb Pack之Saga+Docker环境搭建(二)"](/2021/05/04/Servicecomb-Saga-Docker.html)   
 > ["Servicecomb Pack之Saga本地环境搭建(三)"](/2021/05/04/Servicecomb-Saga.html)  
 
-### (6). Servicecomb Pack缺点
+### (7). Servicecomb Pack缺点
 > Servicecomb Pack的文档少得有点可怜,很多东西要靠自己摸索. 
