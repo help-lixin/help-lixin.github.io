@@ -18,7 +18,7 @@ tags:  Servicecomb-Pack
 !["Servicecomb Pack 内部模块架构图"](/assets/servicecomb-pack/imgs/image-pack-system-archecture.png)
 
 ### (3). 如何跟踪?如何入手?
-> 1. ["参考入门手册"](https://github.com/help-lixin/servicecomb-pack/blob/master/docs/user_guide.md).  
+> 1. ["先阅读参考入门手册"](https://github.com/help-lixin/servicecomb-pack/blob/master/docs/user_guide.md).  
 > 2. 既然Servicecomb Pack深度拥抱了Spring,自然,是要从它与Spring(EnableAutoConfiguration)的切入点跟踪.      
 > 3. 所以,切入点模块为:omega-spring-starter.
 
