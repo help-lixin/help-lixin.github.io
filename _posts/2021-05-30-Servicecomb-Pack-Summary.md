@@ -46,9 +46,10 @@ tags:  Servicecomb-Pack
 ### (6). Servicecomb Pack学习目录
 > ["Servicecomb Pack之Saga+Docker环境搭建(二)"](/2021/05/04/Servicecomb-Saga-Docker.html)   
 > ["Servicecomb Pack之Saga本地环境搭建(三)"](/2021/05/04/Servicecomb-Saga.html)  
-> ["Servicecomb Pack之全局事务@SagaStart(四)"](/2021/05/04/Servicecomb-Saga-SagaStart.html)     
-> ["Servicecomb Pack之全局事务是如何传播的(五)"](/2021/05/04/Servicecomb-Saga-Propagation.html)  
-
+> ["Servicecomb Pack之微服务下分布式事务案例(四)"](/2021/05/04/Servicecomb-Saga-Booking.html)    
+> ["Servicecomb Pack之全局事务@SagaStart(五)"](/2021/05/04/Servicecomb-Saga-SagaStart.html)     
+> ["Servicecomb Pack之全局事务是如何传播的(六)"](/2021/05/04/Servicecomb-Saga-Propagation.html)  
+> ["Servicecomb Pack之分支事务@Compensable(七)"](/2021/05/04/Servicecomb-Saga-Compensable.html)    
 
 ### (7). Servicecomb Pack缺点
 > Servicecomb Pack的文档少得有点可怜,很多东西要靠自己摸索. 

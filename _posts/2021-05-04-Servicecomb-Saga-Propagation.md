@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Servicecomb Pack之全局事务是如何传播的(五)'
+title: 'Servicecomb Pack之全局事务是如何传播的(六)'
 date: 2021-05-04
 author: 李新
 tags:  Servicecomb-Pack
