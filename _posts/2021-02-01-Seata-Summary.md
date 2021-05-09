@@ -34,8 +34,6 @@ tags: Seata Seata-TCC源码 Seata-AT源码
 > ["Seata 源码下载并编译(五)"](/2021/01/28/Seata-Source-Compile.html)   
 > ["Seata AT模式之入门案例(六)"](/2021/01/28/Seata-AT-Example.html)  
 
-
-
 ### (4). Seata AT源码(全局事务处理)
 > ["Seata GlobalTransactionScanner(一)"](/2021/01/29/Seata-Source-GlobalTransactionScanner.html)   
 > ["Seata TMClient(二)"](/2021/01/29/Seata-Source-TMClient.html)       

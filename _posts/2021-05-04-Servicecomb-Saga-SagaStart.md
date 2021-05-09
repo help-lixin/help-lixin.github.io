@@ -12,14 +12,14 @@ tags:  Servicecomb-Pack
 > 所以,<font color='red'>一个好的框架,它的分层模型决定了设计者对事物高层的次抽象(以及职能划分).</font> 
 
 ### (2). Servicecomb Pack 内部模块架构图
-> 这张图虽然画的有点粗了点,但是,它所表达的含义已经非常清楚了的.  
+> 这张图虽然画的有点粗了点,但是,并不妨碍我们对Servicecomb Pack的了解.   
 > 事务注解模块(Transaction Annotation),事务拦截器模块(Transaction Interceptor),事务上下文模块(Transaction Context),事务回调模块(Transaction Callback),事务执行器模块(Transaction Executor),事务传输模块(Transaction Transport)...
 
 !["Servicecomb Pack 内部模块架构图"](/assets/servicecomb-pack/imgs/image-pack-system-archecture.png)
 
-### (3). 如何跟踪?如何入手?
+### (3). 如何入手?
 > 1. ["先阅读参考入门手册"](https://github.com/help-lixin/servicecomb-pack/blob/master/docs/user_guide.md).  
-> 2. 既然Servicecomb Pack深度拥抱了Spring,自然,是要从它与Spring(EnableAutoConfiguration)的切入点跟踪.      
+> 2. 既然:Servicecomb Pack深度拥抱了Spring,自然,是要从它与Spring(EnableAutoConfiguration)的切入点跟踪.      
 > 3. 所以,切入点模块为:omega-spring-starter.
 
 ```
