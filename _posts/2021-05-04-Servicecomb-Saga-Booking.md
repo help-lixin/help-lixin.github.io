@@ -529,6 +529,5 @@ car.service.address=http://localhost:8082
 </dependencies>
 ```
 ### (6). 总结
-> 在要开启分布式事务的最外层,只要加入一个注解(@SagaStart)即可.  
-> 在所有的分支事务里,也只要加入一个注解(@Compensable(compensationMethod = "xxx")),并配置补偿的方法名称(方法签名要事务的方法签名保持一致).   
-> 原理:在后面会进行剖析.
+> 1. 在要开启分布式事务的最外层,只要加入一个注解(@SagaStart)即可.  
+> 2. 在分支事务里,只需加入一个注解(@Compensable(compensationMethod = "xxx")),并配置补偿的方法名称(方法签名要事务的方法签名保持一致).   
