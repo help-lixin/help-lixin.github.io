@@ -26,8 +26,8 @@ omega-transport
 ```
 ### (2). 如何入手?
 > 查看omega-transport-resttemplate工程信息,我们知道,这是一个Spring Boot的工程,Spring Boot在启动时,会通过SPI加载:spring.factories里的内容,并实例化配置的类.     
-> RestTemplateConfig用于传播全局事务ID到分支事务里.  
-> WebConfig用于从Http协议头,获取全局事务ID,绑定到当前线程里.  
+> <font color='red'>RestTemplateConfig用于传播全局事务ID到分支事务里.</font>  
+> <font color='red'>WebConfig用于从Http协议头,获取全局事务ID,绑定到当前线程里.</font>  
 
 !["omega-transport-resttemplate"](/assets/servicecomb-pack/imgs/saga-omega-transport-resttemplate.png)
 
@@ -52,7 +52,7 @@ public class RestTemplateConfig {
 }
 ```
 ### (4). TransactionClientHttpRequestInterceptor
-> 拦截RestTemplate的所有请求,当线程上下文中存在全局事务ID(globalTxId),则,把全局事务ID(globalTxId)和本地事务ID(localTxId),添加到HTTP协议头里.(通过这种方式进行事务ID的传播).   
+> 拦截RestTemplate的所有请求,当线程上下文中存在全局事务ID(globalTxId),则,把全局事务ID(globalTxId)和本地事务ID(localTxId),添加到HTTP协议头里.   
 
 ```
 class TransactionClientHttpRequestInterceptor implements org.springframework.http.client.ClientHttpRequestInterceptor {
@@ -171,5 +171,5 @@ class TransactionHandlerInterceptor implements org.springframework.web.servlet.H
 }
 ```
 ### (7). 总结
-> TransactionClientHttpRequestInterceptor负责把全局事务和本地事务,传播(添加HTTP协议头)到分支事务里.  
-> TransactionHandlerInterceptor负责从HTTP协议头里取出,上面传递的全局事务和本地事务,绑定到当前线程上下文里.  
+> <font color='red'>TransactionClientHttpRequestInterceptor负责把全局事务和本地事务,传播(添加HTTP协议头)到分支事务里.</font>  
+> <font color='red'>TransactionHandlerInterceptor负责从HTTP协议头里取出,上面传递的全局事务和本地事务,绑定到当前线程上下文里.</font>  
