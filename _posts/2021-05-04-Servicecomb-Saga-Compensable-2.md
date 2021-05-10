@@ -13,8 +13,7 @@ tags:  Servicecomb-Pack
 > 当调用目标类(业务)出现异常时,会调用:CompensableInterceptor.onError方法,向Alpha发布TxAbortedEvent事件.    
 > 可是在这里,仅仅是发布了一件事件(TxAbortedEvent),那补偿操作是怎么做的呢?  
 > 通过框架图,就能看出来:<font color='red'>补偿操作是由:Alpha收到事件后,调用Omega而触发的补偿.</font>     
-> 怎么跟踪?   
-> <font color='red'>让分支事务抛出异常,在分支事务的补偿处打上断点,查看整个调用链即可(寻找:Netty Handler的入口).</font>  
+> 怎么跟踪?<font color='red'>让分支事务抛出异常,在分支事务的补偿处打上断点,查看整个调用链即可(寻找:Netty Handler的入口).</font>  
 
 !["CompensationMessageHandler为补偿操作入口"](/assets/servicecomb-pack/imgs/CompensationMessageHandler.jpg)
 ### (3). CompensationMessageHandler初始化
