@@ -137,7 +137,7 @@ public class CallbackContext {
       }
       LOG.info("Callback transaction with global tx id [{}], local tx id [{}]", globalTxId, localTxId);
     } catch (IllegalAccessException | InvocationTargetException e) {  // ****************只处理,这两类异常?*****************
-	  // 这段逻辑,仅在AKKA时,才有效果,AKKA后面再研究.
+	  // 这段逻辑,仅在AKKA时,才有效果,AKKA后面再研究,Akka是0.5版本引入的,难道在0.5版本之前,补偿重试功能一直是有Bug的吗?
 	  if (omegaContext.getAlphaMetas().isAkkaEnabled()) { // false
         sender.send(
             new TxCompensateAckFailedEvent(omegaContext.globalTxId(), omegaContext.localTxId(),
