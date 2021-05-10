@@ -136,6 +136,7 @@ class CarBookingService {
 	// *************************************************************************
 	@Compensable(compensationMethod = "cancel")
 	void order(CarBooking booking) {
+		// 订车的数量大于10的情况下,整个分布式事务要求rollback
 		if (booking.getAmount() > 10) {
 			throw new IllegalArgumentException("can not order the cars large than ten");
 		}
@@ -299,6 +300,7 @@ class HotelBookingService {
   // *************************************************************************
   @Compensable(compensationMethod = "cancel")
   void order(HotelBooking booking) {
+	 // 当订酒店的数量大于2的时候,整个分布式事务会rollback
     if (booking.getAmount() > 2) {
       throw new IllegalArgumentException("can not order the rooms large than two");
     }
@@ -380,7 +382,7 @@ public class BookingController {
       throw new Exception("The cars order quantity must be greater than 0");
     }
 
-    // 租车
+    // 1. 租车
     template.postForEntity(
         carServiceUrl + "/order/{name}/{cars}",
         null, String.class, name, cars);
@@ -391,7 +393,7 @@ public class BookingController {
       throw new Exception("The rooms order quantity must be greater than 0");
     }
 
-    // 订酒店
+    // 2. 订酒店
     template.postForEntity(
         hotelServiceUrl + "/order/{name}/{rooms}",
         null, String.class, name, rooms);
