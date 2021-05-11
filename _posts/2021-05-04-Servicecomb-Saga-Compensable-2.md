@@ -180,4 +180,4 @@ public class CallbackContext {
 ### (6). 总结
 > 通过上面的分析,能得到结论:    
 > 1. 补偿方法是由Alpha触发Omega去执行的.  
-> 2. <font color='red'>从上面的代码分析来看,补偿方法内部不能有异常,并且,补偿方法只执行了一次,没有重试的效果,按理来说:是不应该的,先留个疑问吧!</font>      
+> 2. <font color='red'>ServiceComb Pack还存在严重的Bug,不能用于生产环境.</font>      
