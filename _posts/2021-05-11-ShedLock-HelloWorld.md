@@ -130,7 +130,20 @@ spring.datasource.username=root
 spring.datasource.password=123456
 spring.datasource.url=jdbc:mysql://127.0.0.1:3306/shedlock?useSSL=false
 ```
-### (4). ShedLockConfig
+
+### (4). mysql创建数据库和表
+
+```
+mysql> create database shedlock;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use shedlock;
+Database changed
+
+mysql> CREATE TABLE shedlock(name VARCHAR(64) NOT NULL, lock_until TIMESTAMP(3) NOT NULL, locked_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3), locked_by VARCHAR(255) NOT NULL, PRIMARY KEY (name));
+```
+
+### (5). ShedLockConfig
 ```
 package help.lixin.samples.config;
 
@@ -160,7 +173,7 @@ public class ShedLockConfig {
 }
 
 ```
-### (5). HelloWorldTask
+### (6). HelloWorldTask
 ```
 package help.lixin.samples.tasks;
 
@@ -185,7 +198,7 @@ public class HelloWorldTask {
 }
 
 ```
-### (6). ProviderApplication
+### (7). ProviderApplication
 ```
 package help.lixin.samples;
 
@@ -207,7 +220,7 @@ public class ProviderApplication {
 	}
 }
 ```
-### (7). 运行查看控制台
+### (8). 运行查看控制台
 ```
 # 1. 测试不添加分布式锁(不加注解@SchedulerLock)的情况下(每5秒会执行一次).
 [Tue May 11 15:49:45 CST 2021] Hello World job run...
@@ -224,6 +237,6 @@ public class ProviderApplication {
 [Tue May 11 15:52:25 CST 2021] Hello World job run...
 [Tue May 11 15:52:45 CST 2021] Hello World job run...
 ```
-### (8). 总结
+### (9). 总结
 > 有人肯定会想问:明明是个分布式锁,非要跟定时任务绑在一起,这个框架,能不能做到,不和定时任务绑定呢?  
 > 答案是:可以的,因为:shedlock-spring是对shedlock-core的二次封装,以适应于定时任务场景而已.后面的小节,我会对ShedLock源码剖析.
