@@ -217,7 +217,7 @@ public class ProviderApplication {
 
 
 # 2. 测试添加分布锁(增加注解@SchedulerLock)的情况下
-#    虽然,定时任务是每隔5秒执生次,但是,分布式锁定义的是:每隔20秒会执行一次.
+#    虽然,定时任务是每隔5秒执行一次,但是,分布式锁定义的是:每次任务要锁住20秒.
 #    所以,定时任务加锁失败的情况下,是直接跳过的.
 [Tue May 11 15:51:35 CST 2021] Hello World job run...
 [Tue May 11 15:52:00 CST 2021] Hello World job run...
@@ -226,5 +226,4 @@ public class ProviderApplication {
 ```
 ### (8). 总结
 > 有人肯定会想问:明明是个分布式锁,非要跟定时任务绑在一起,这个框架,能不能做到,不和定时任务绑定呢?  
-> 答案是:可以的,因为:shedlock-spring是对shedlock-core的二次封装.  
-> 后面的小节,我会对ShedLock源码剖析.
+> 答案是:可以的,因为:shedlock-spring是对shedlock-core的二次封装,以适应于定时任务场景而已.后面的小节,我会对ShedLock源码剖析.
