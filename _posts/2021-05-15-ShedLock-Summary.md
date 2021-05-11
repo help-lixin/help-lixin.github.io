@@ -21,4 +21,4 @@ tags:  ShedLock
 > 6. <font color='red'>ShedLock的业务模型,其实,做得还是挺好的,针对分布式锁提供者(MySQL/Redis...),可以自由切换.</font>  
 
 ### (3). 学习目录
-> ["ShedLock 入门程序(二)"](/2021/05/11/ShedLock-Summary.html)   
+> ["ShedLock 入门程序(二)"](/2021/05/11/ShedLock-HelloWorld.html)   
