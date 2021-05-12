@@ -13,8 +13,7 @@ tags:  ShedLock
 
 ### (2). 为什么要用ShedLock
 > 其实,自己做分布锁的框架也是可行的,但是,已经有开源的了,不论是节约时间,还是,成本来说,建议用开源的.
-> <font color='red'>ShedLock的业务模型,做得还是挺好的,针对分布式锁提供者(MySQL/Redis...),可以自由切换.</font>  
-> 只是,我会比较好奇是否存在Bug(比如:Redis做锁),期待后面的源码探索.   
+> <font color='red'>ShedLock的业务模型,做得还是挺好的,针对分布式锁提供者(MySQL/Redis...),可以自由切换,</font>只是,我会比较好奇是否存在Bug(比如:Redis做锁),期待后面的源码探索.   
 
 ### (3). 学习目录
 > ["ShedLock 入门程序(二)"](/2021/05/11/ShedLock-HelloWorld.html)   
