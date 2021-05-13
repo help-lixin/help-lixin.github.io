@@ -23,8 +23,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.redisson.Redisson;
-import org.redisson.api.RAtomicLong;
-import org.redisson.api.RKeys;
 import org.redisson.api.RLock;
 import org.redisson.api.RRateLimiter;
 import org.redisson.api.RateIntervalUnit;
@@ -33,7 +31,7 @@ import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 import org.redisson.config.TransportMode;
 
-public class AllTest {
+public class RateLimiterTest {
 
 	private static RedissonClient client = null;
 
@@ -41,8 +39,6 @@ public class AllTest {
 	public static void init() {
 		Config config = new Config();
 		config.setTransportMode(TransportMode.NIO);
-		// 监控狗,每隔10秒续租一次
-		config.setLockWatchdogTimeout(10000);
 		config.useSingleServer().setAddress("redis://127.0.0.1:6379");
 		client = Redisson.create(config);
 	} // end init
@@ -120,8 +116,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.redisson.Redisson;
-import org.redisson.api.RAtomicLong;
-import org.redisson.api.RKeys;
 import org.redisson.api.RLock;
 import org.redisson.api.RRateLimiter;
 import org.redisson.api.RateIntervalUnit;
@@ -130,7 +124,7 @@ import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 import org.redisson.config.TransportMode;
 
-public class AllTest {
+public class LockTest {
 
 	private static RedissonClient client = null;
 
