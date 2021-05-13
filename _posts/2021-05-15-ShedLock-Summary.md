@@ -17,3 +17,7 @@ tags:  ShedLock
 
 ### (3). 学习目录
 > ["ShedLock 入门程序(二)"](/2021/05/11/ShedLock-HelloWorld.html)   
+> ["ShedLock Redis分布式加锁源码(三)"](/2021/05/11/ShedLock-RedisLockProvider.html)    
+
+### (4). 总结
+> 对Redis分布式锁进行了源码剖析,有点失望,在释放锁时,并不安全(ShedLock研究到此结束).   
