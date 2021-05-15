@@ -109,4 +109,4 @@ end;
 return nil;
 ```
 ### (5). 总结
-> RedissonLock是通过Redis+Lua来实现分布式锁的,而且,还实现了重入锁.但是,RedissonLock是一个非公平锁,公平锁有排除功能,后面会继续进行解剖. 
+> RedissonLock是通过Redis+Lua来实现分布式锁的,而且,还实现了重入锁.但是,RedissonLock是一个非公平锁,公平锁有排队功能,后面会继续进行解剖. 
