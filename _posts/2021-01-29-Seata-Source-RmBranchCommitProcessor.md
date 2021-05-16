@@ -448,7 +448,7 @@ protected static String toBatchDeleteUndoLogSql(int xidSize, int branchIdSize) {
 } // end toBatchDeleteUndoLogSql
 ```
 ### (12). RmBranchCommitProcessor执行流程图解
-!["RmBranchCommitProcessor执行流程图解"](/assets/seata/imgs/seata-RmBranchCommitProcessor-Sequence-Diagram.jpg)
+!["RmBranchCommitProcessor执行流程图解"](/assets/seata/imgs/seata-RmBranchCommitProcessor-Sequence.jpg.jpg)
 ### (13). 总结
 > AT模式下的第二阶段(commit)的分析的内容还是比较多的.  
 > 通过源码分析,AT模式下commit只要入队列(offer)成功了,就直接告之TC成功了.   
