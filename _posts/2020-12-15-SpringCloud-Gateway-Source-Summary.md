@@ -17,5 +17,4 @@ tags: SpringCloudGateway源码
 > 8. Route动态更新: ["RouteLocator-RefreshRoutesEvent"](/2020/12/16/SpringCloud-Gateway-Source-RefreshRoutesEvent.html)
 > 9. RouteDefinition动态更新: ["RouteDefinitionLocator"](/2020/12/16/SpringCloud-Gateway-Source-RouteDefinitionLocator.html)   
 > 10. Redis分布式限流: ["RedisRateLimiter"](/2020/12/16/SpringCloud-Gateway-Source-RedisRateLimiter.html)       
-> 11. 自定义协议头: ["Spring Cloud Gateway RemoveResponseHeaderGatewayFilterFactory(十一)"](/2020/12/16/SpringCloud-Gateway-Source-RemoveResponseHeaderGatewayFilterFactory.html)   
-
+> 11. 自定义协议头: ["Spring Cloud Gateway RemoveResponseHeaderGatewayFilterFactory(十一)"](/2020/12/16/SpringCloud-Gateway-Source-RemoveResponseHeader.html)   

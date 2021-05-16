@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Cloud Gateway RemoveResponseHeaderGatewayFilterFactory(十一)'
+title: 'Spring Cloud Gateway RemoveResponseHeader(十一)'
 date: 2020-12-16
 author: 李新
 tags: SpringCloudGateway源码
