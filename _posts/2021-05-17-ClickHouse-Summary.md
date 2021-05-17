@@ -11,5 +11,5 @@ tags:  ClickHouse
 
 ### (2). ClickHouse学习目录
 > [Docker 安装 ClickHouse(二)](/2021/05/16/ClickHouse-Docker-Install.html)      
-> ["ClickHouse Memory表引擎(三)"](/2021/05/16/ClickHouse-Memory-Engine.html)   
+> ["ClickHouse 基本数据类型(三)"](/2021/05/16/ClickHouse-DataType.html)   
 > 
