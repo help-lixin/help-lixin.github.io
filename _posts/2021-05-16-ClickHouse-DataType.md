@@ -9,7 +9,7 @@ tags:  ClickHouse
 ### (1). ClickHouse支持的数据类型
 ["ClickHouse支持的数据类型参考"](https://clickhouse.tech/docs/en/sql-reference/data-types)
 
-### (2). ClickHouse Memory案例
+### (2). ClickHouse数据类型案例
 > 需要注意:    
 > 1. ClickHouser的数据类型名称的大小写都必须与定义对应(Int32不能写成INT32).    
 > 2. ClickHouse的引擎名称也要遵循大小写(Memory不能写成:memory).  
@@ -48,5 +48,13 @@ SELECT *
 FROM t_users 
 WHERE sex = 'M';
 
+
+# 6. Tuple检索
+SELECT 
+  id,
+  name , 
+  phone.1  as phone_addr,
+  phone.2  as phone_num
+FROM t_users WHERE phone.1 = '湖南';
 
 ```
