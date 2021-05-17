@@ -83,4 +83,11 @@ Ok.
 │ wordShingleMinHashCaseInsensitiveUTF8       │            0 │                0 │                          │
 │ wordShingleMinHashCaseInsensitive           │            0 │                0 │                          │
 
+
+# 3. 查看当前所在的数据库
+9e40ca366829 :) SELECT currentDatabase();
+
+┌─currentDatabase()─┐
+│ system            │
+└───────────────────┘
 ```

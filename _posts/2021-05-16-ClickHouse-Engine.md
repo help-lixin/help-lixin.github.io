@@ -57,20 +57,31 @@ tags:  ClickHouse
 - View
 - Memory
 - Buffer
-### (3). 
 
-### (4). 
+### (3). ClickHouse支持的数据类型
+["ClickHouse支持的数据类型"](https://clickhouse.tech/docs/zh/sql-reference/data-types/)
 
-### (5). 
+### (4). ClickHouse Memory案例
+> 需要注意:
+> 1. ClickHouser的数据类型名称的大小写都必须与定义对应(Int32不能写成INT32).    
+> 2. ClickHouse的引擎名称也要遵循大小写(Memory不能写成:memory).  
+> 3. ClickHouse插入数据时,只能是单引号,不能写成双引号.  
 
-### (6). 
+```
+# 1. 创建库
+CREATE DATABASE IF NOT EXISTS test;
+USE test;
 
-### (7). 
+# 2. 创建表
+CREATE TABLE t_users(
+   id Int32,
+   name   String,
+   age  UInt8
+) ENGINE = Memory();
 
-### (8). 
-
-### (9). 
-
-### (10). 
-
-### (11). 
+# 3. 插入数据
+INSERT INTO t_users(id,name,age) VALUES(1,'张三',20);
+INSERT INTO t_users(id,name,age) VALUES(2,'李四',21);
+INSERT INTO t_users(id,name,age) VALUES(3,'王五',22);
+INSERT INTO t_users(id,name,age) VALUES(4,'赵六',23);
+```
