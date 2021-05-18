@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ClickHouse 物化视图(四)'
+title: 'ClickHouse 物化视图(六)'
 date: 2021-05-16
 author: 李新
 tags:  ClickHouse
