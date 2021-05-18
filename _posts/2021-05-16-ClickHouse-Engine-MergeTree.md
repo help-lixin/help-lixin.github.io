@@ -105,7 +105,7 @@ path:      /var/lib/clickhouse/store/c80/c802bf15-1c3a-4391-b507-9a7ffea952e1/20
 partition: 202105                     # 对应的分区
 ```
 
-### (5). 复制分区数据
+### (5). 复制(加载)分区数据
 ```
 # 1. 创建2020-04的分区表
 CREATE TABLE IF NOT EXISTS t_order_2020_04 (
