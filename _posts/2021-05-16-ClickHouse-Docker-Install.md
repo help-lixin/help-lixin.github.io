@@ -91,3 +91,46 @@ Ok.
 │ system            │
 └───────────────────┘
 ```
+
+### (6). clickhouse非交互测试
+
+```
+# 1. 以交互式的方式进入clickhouse
+root@9e40ca366829:/# clickhouse-client  -m
+ClickHouse client version 21.3.5.42 (official build).
+Connecting to localhost:9000 as user default.
+Connected to ClickHouse server version 21.3.5 revision 54447.
+
+# 2. 创建库
+9e40ca366829 :) CREATE DATABASE test5;
+Ok.
+
+9e40ca366829 :) USE test5;
+Ok.
+
+# 3. 创建表
+9e40ca366829 :) CREATE TABLE t_test(id Int8,name String,age UInt8,gender String)ENGINE=Log;
+Ok.
+
+
+##################################################################
+# 4. 在clickhouse机器上,创建csv文件.
+root@9e40ca366829:~# cat test.csv
+1,张三,20,M
+2,李四,21,F
+3,赵六,22,M
+4,王五,23,F
+
+# 支持导入的数所格式: https://clickhouse.tech/docs/en/interfaces/formats/#formats
+# 5. 以非交互的方式,导入数据
+root@9e40ca366829:~# clickhouse-client   --format_csv_delimiter="," -n -q "USE test5;INSERT INTO t_test FORMAT CSV" < /var/lib/clickhouse/test.csv
+
+# 6. 验证数据
+# -n : 允许多Statement执行
+# -q : 指定SQL语句
+root@9e40ca366829:~# clickhouse-client -n -q "USE test5;SELECT * FROM t_test;"
+1	张三	  20	M
+2	李四	  21	F
+3	赵六	  22	M
+4	王五	  23	F
+```
