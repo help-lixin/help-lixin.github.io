@@ -337,10 +337,5 @@ root@9e40ca366829:/var/lib/clickhouse/data/test4/t_order/202105_1_5_1# ll
 -rw-r-----  1 root       root         4 May 19 08:33 partition.dat
 -rw-r-----  1 root       root         8 May 19 08:33 primary.idx
 ```
-### (12). 
+### (12). 总结
 
-### (13). 
-
-### (14). 
-
-### (15). 
