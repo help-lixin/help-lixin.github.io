@@ -19,10 +19,13 @@ tags:  ClickHouse
 ### (3). ZK集群(略)
 
 ### (4). RPM包下载
-> 需要下载:clickhouse-client/clickhouse-common-static/clickhouse-server/clickhouse-server-common.   
+> 需要下载:    
+> clickhouse-client     
+> clickhouse-common-static    
+> clickhouse-server     
+> clickhouse-server-common     
 
-["RPM包下载"](https://packagecloud.io/Altinity/clickhouse)  
-
+["https://packagecloud.io/Altinity/clickhouse"](https://packagecloud.io/Altinity/clickhouse)  
 ### (5). 安装
 ```
 # 1. 查看下载的RPM包
@@ -46,15 +49,15 @@ Create user clickhouse.clickhouse with datadir /var/lib/clickhouse
 
 ```
 ### (6). 配置
-> 1. 去掉注释(listen_host),不限制IP地址可访问.  
+> 去掉注释(listen_host),不限制IP地址可访问.  
 
 ```
 # 1. 开启:<listen_host>,不限制IP地址.
 # 配置:/etc/clickhouse-server/config.xml
-	<listen_host>::</listen_host>
+<listen_host>::</listen_host>
 ```
 
-> 2. 要注意:replica的值要在整个集群内唯一.
+> 要注意:replica的值要在整个集群内唯一.    
 
 ```
 # 2. 创建/etc/metrika.xml文件
