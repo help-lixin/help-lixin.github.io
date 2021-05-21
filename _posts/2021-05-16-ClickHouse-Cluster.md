@@ -49,7 +49,7 @@ Create user clickhouse.clickhouse with datadir /var/lib/clickhouse
 
 ```
 ### (6). 配置
-> 去掉注释(listen_host),不限制IP地址可访问.  
+> <font color='red'>去掉注释(listen_host),不限制IP地址可访问.</font>    
 
 ```
 # 1. 开启:<listen_host>,不限制IP地址.
@@ -57,7 +57,7 @@ Create user clickhouse.clickhouse with datadir /var/lib/clickhouse
 <listen_host>::</listen_host>
 ```
 
-> 要注意:replica的值要在整个集群内唯一.    
+> <font color='red'>要注意:replica的值要在整个集群内唯一.</font>    
 
 ```
 # 2. 创建/etc/metrika.xml文件
