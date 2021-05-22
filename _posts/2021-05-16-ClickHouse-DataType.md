@@ -9,12 +9,26 @@ tags:  ClickHouse
 ### (1). ClickHouse支持的数据类型
 ["ClickHouse支持的数据类型参考"](https://clickhouse.tech/docs/en/sql-reference/data-types)
 
-### (2). ClickHouse基本数据类型
 > 需要注意:    
 > 1. ClickHouser的数据类型名称的大小写都必须与定义对应(Int32不能写成INT32).    
 > 2. ClickHouse的引擎名称也要遵循大小写(Memory不能写成:memory).  
 > 3. ClickHouse插入数据时,只能是单引号,不能写成双引号.  
 
+
+|  MySQL       | ClickHouse              |
+|  ----        | ----                    |
+| byte         | Int8                    |
+| short        | Int16                   |
+| int          | Int32                   |
+| long         | Int64                   |
+| varchar      | String                  |
+| timestamp    | DateTime                |
+| float        | Float32                 |
+| double       | Float64                 |
+| decimal      | decimal                 |
+| boolean      | 无                       |
+
+### (2). ClickHouse基本数据类型
 ```
 # 1. 创建库
 CREATE DATABASE IF NOT EXISTS test;
