@@ -71,5 +71,5 @@ drwxr-x--- 11 root       root       352 May 22 07:56 8_2_2_0/
 drwxr-x--- 11 root       root       352 May 22 07:56 9_3_3_0/
 ```
 ### (3). 总结
-> 通过:ReplacingMergeTree实际是可以对数据进行更新的.   
+> 通过:ReplacingMergeTree实际是可以对数据进行更新的,更新的条件是:数据在同一个区,并且,是根据主键进行更新.     
 > 从这么多次的INSERT和目录对比来看,ClickHouse比较适合于批量的插入数据,而不是,单行单行的插入(因为:单行数据会产生一个目录).   

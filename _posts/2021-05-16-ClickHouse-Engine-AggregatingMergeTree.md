@@ -43,5 +43,5 @@ SELECT emp_id,name,sumMerge(salary) FROM emp GROUP BY emp_id,name;
 └────────┴───────┴──────────────────┘
 ```
 ### (3). 总结
-> 通过测试:AggregatingMergeTree是根据主键进行汇总的,AggregatingMergeTree适合需要进行汇总的表.   
+> 通过测试:AggregatingMergeTree是根据"主键(排序键)"进行汇总的,AggregatingMergeTree适合需要进行汇总的表.   
 > 业务场景:每秒QPS,报表...
