@@ -7,6 +7,11 @@ tags:  ClickHouse
 ---
 
 ### (1). TinyLog 表引擎测试
+> 仅适用于:读多,少写的场景.   
+> 1. 存在磁盘中.     
+> 2. 不支持索引.      
+> 3. 不支持并发控制.   
+
 ```
 # 1. 创建库
 CREATE DATABASE test2;

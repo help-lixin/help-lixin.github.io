@@ -26,7 +26,7 @@ tags:  ClickHouse
 | float        | Float32                 |
 | double       | Float64                 |
 | decimal      | decimal                 |
-| boolean      | 无                       |
+
 
 ### (2). ClickHouse基本数据类型
 ```
