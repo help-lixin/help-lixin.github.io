@@ -7,7 +7,7 @@ tags:  ClickHouse
 ---
 
 ### (1). ReplacingMergeTree介绍
-> 该引擎与MergeTree的不同之处在于它会删除排序键值相同的重复项.  
+> 该引擎与MergeTree的不同之处在于<font color='red'>它会删除排序键值相同的重复项.</font>  
 
 ### (2). 测试
 ```
