@@ -10,6 +10,8 @@ tags:  ClickHouse
 > AggregatingMergeTree是通过预先定义的聚合函数计算数据并通过二进制的格式存入表内.   
 
 ### (2). 测试
+> ["https://clickhouse.tech/docs/en/sql-reference/aggregate-functions/"](https://clickhouse.tech/docs/en/sql-reference/aggregate-functions/)  
+
 ```
 # 1. 创建库
 CREATE DATABASE test1;
