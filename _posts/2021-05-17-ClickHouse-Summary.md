@@ -18,3 +18,5 @@ tags:  ClickHouse
 + ["ClickHouse 物化视图(六)"](/2021/05/16/ClickHouse-View.html)     
 + ["ClickHouse ReplacingMergeTree表引擎(七)"](/2021/05/16/ClickHouse-Engine-ReplacingMergeTree.html)   
 + ["ClickHouse AggregatingMergeTree表引擎(八)"](/2021/05/16/ClickHouse-Engine-AggregatingMergeTree.html)    
++ ["ClickHouse CollapsingMergeTree表引擎(九)"](/2021/05/16/ClickHouse-Engine-CollapsingMergeTree.html)    
++ 
