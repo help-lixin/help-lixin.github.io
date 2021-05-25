@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'MongoDB 复制集搭建(二)'
+title: 'MongoDB 主从节点搭建(二)'
 date: 2021-05-24
 author: 李新
 tags:  MongoDB
