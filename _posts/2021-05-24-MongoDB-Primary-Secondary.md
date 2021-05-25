@@ -16,7 +16,6 @@ tags:  MongoDB
 
 ### (2). 下载mongodb
 ```
-# 三台机器都要执行
 # 1. 当前工作目录
 [root@clickhouse-N soft]# pwd
 /opt/soft
