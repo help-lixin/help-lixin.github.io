@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'MongoDB 分片集群搭建(三)'
+title: 'MongoDB 集群搭建(三)'
 date: 2021-05-24
 author: 李新
 tags:  MongoDB
@@ -10,12 +10,14 @@ tags:  MongoDB
 
 |  机器名称          | IP            | 角色                  |
 |  ----            | ----           | ----                 |
-|  clickhouse-1    | 10.211.55.100  | Mongs/Config(P/S)   |
+|  clickhouse-1    | 10.211.55.100  | Mongs/Config(P/S*2)  |
 |  clickhouse-2    | 10.211.55.101  | Replica Set(P/S/A)   |
 |  clickhouse-3    | 10.211.55.102  | Replica Set(P/S/A)   |
 
 ### (2). Replica Set搭建
-> 由于我的机器有限,所以,在clickhouse-2和clickhouse-3搭建Replica Set(Primary/Secondary/Arbiter).  
+> 由于我的机器有限,所以:  
+> 1. 在clickhouse-2和clickhouse-3搭建Replica Set(Primary/Secondary/Arbiter).    
+> 2. 在clickhouse-1上搭建:Config(Primary/Secondary * 2) 以及 2个Mongs.   
 
 ```
 # 1. 查看当前所在目录
@@ -503,19 +505,19 @@ config-server:PRIMARY> rs.conf();
 ```
 systemLog:
     destination: file
-	# 需要注意这个配置:/27017/27018
+	# 需要注意这个配置:27017/27018
     path: "/opt/soft/mongos/{xxxx}/logs/mongodb.log"
     logAppend: true
 processManagement:
     fork: true
-	# 需要注意这个配置:/27017/27018
+	# 需要注意这个配置:27017/27018
     pidFilePath: "/opt/soft/mongos/{xxxx}/logs/mongodb.pid"
 net:
     bindIp: 0.0.0.0
-    port: {xxxx}   # 需要注意这个配置:/27017/27018
+    port: {xxxx}   # 需要注意这个配置:27017/27018
 sharding:
     # 指定配置节点副本集
-    configDB:config-server/10.211.55.100:27027,10.211.55.100:27028,10.211.55.100:27029
+    configDB: config-server/10.211.55.100:27027,10.211.55.100:27028,10.211.55.100:27029
 ```
 ### (16). 配置启动脚本
 ```
@@ -537,14 +539,16 @@ nohup /opt/soft/mongos/bin/mongos -f /opt/soft/mongos/27017/conf/mongos.conf  > 
 ```
 # 1. 启动mongs
 [root@clickhouse-1 soft]# ./mongos/start-27017.sh
+[root@clickhouse-1 soft]# ./mongos/start-27018.sh
 
 # 2. 检查启动是否成功
-[root@clickhouse-1 soft]# lsof -i tcp:27017
-COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
-mongos  12068 root   12u  IPv4  64952      0t0  TCP *:27017 (LISTEN)
+[root@clickhouse-1 ~]# netstat -tlnp|grep 2701
+tcp        0      0 0.0.0.0:27017           0.0.0.0:*               LISTEN      3298/mongos
+tcp        0      0 0.0.0.0:27018           0.0.0.0:*               LISTEN      13915/mongos
 ```
 ### (18). mongs添加Shard
 ```
+# 进入mongs里.
 [root@clickhouse-1 soft]# ./mongos/bin/mongo --host 10.211.55.100 --port 27017
 MongoDB shell version v4.4.6
 # 1. 添加第一个副本集(shard-rs02)
@@ -594,7 +598,7 @@ mongos> sh.enableSharding('test1');
 }
 
 # 2. 集合分片配置(hash)
-#  对test库下的users集合进行分片,分片的规则是根据性别进行hash
+#  对test1库下的users集合进行分片,分片的规则是根据性别进行hash
 mongos> sh.shardCollection("test1.users",{"name":"hashed"});
 {
         "collectionsharded" : "test1.users",
@@ -611,21 +615,22 @@ mongos> sh.shardCollection("test1.users",{"name":"hashed"});
 }
 
 # 3. 集合分片配置(range)
-#  对test库下的orders集合进行分片,分片的规则是根据商户id进行范围分片. 
-# mongos> sh.shardCollection("test2.orders",{"merchant_id":1});
-# {
-#        "collectionsharded" : "test2.orders",
-#        "collectionUUID" : UUID("ec749771-b613-4c1a-92c2-89863179e69c"),
-#        "ok" : 1,
-#        "operationTime" : Timestamp(1622015775, 13),
-#        "$clusterTime" : {
-#                "clusterTime" : Timestamp(1622015775, 13),
-#                "signature" : {
-#                        "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
-#                        "keyId" : NumberLong(0)
-#                }
-#        }
-# }
+#  对test2库下的orders集合进行分片,分片的规则是根据商户id进行范围分片. 
+mongos> sh.enableSharding('test2');
+mongos> sh.shardCollection("test2.orders",{"merchant_id":1});
+ {
+        "collectionsharded" : "test2.orders",
+        "collectionUUID" : UUID("ec749771-b613-4c1a-92c2-89863179e69c"),
+        "ok" : 1,
+        "operationTime" : Timestamp(1622015775, 13),
+        "$clusterTime" : {
+                "clusterTime" : Timestamp(1622015775, 13),
+                "signature" : {
+                        "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+                        "keyId" : NumberLong(0)
+                }
+        }
+ }
 
 # 4. 查看分片详细信息
 mongos> sh.status();
@@ -662,7 +667,7 @@ mongos> sh.status();
         {  "_id" : "test",  "primary" : "shard-rs03",  "partitioned" : true,  "version" : {  "uuid" : UUID("1118b681-706c-4b15-a6c0-a222f5c28e1c"),  "lastMod" : 1 } }
         {  "_id" : "test1",  "primary" : "shard-rs03",  "partitioned" : true,  "version" : {  "uuid" : UUID("c85b8bea-bcb8-409b-b969-8c7f4ed8a1c4"),  "lastMod" : 1 } }
                 test1.users
-                        shard key: { "name" : "hashed" }   # test1.users.name进行hashed路由
+                        shard key: { "name" : "hashed" }  # 根据:test1.users.name字段进行hash分库
                         unique: false
                         balancing: true
                         chunks:
@@ -672,9 +677,18 @@ mongos> sh.status();
                         { "name" : NumberLong("-4611686018427387902") } -->> { "name" : NumberLong(0) } on : shard-rs02 Timestamp(1, 1)
                         { "name" : NumberLong(0) } -->> { "name" : NumberLong("4611686018427387902") } on : shard-rs03 Timestamp(1, 2)
                         { "name" : NumberLong("4611686018427387902") } -->> { "name" : { "$maxKey" : 1 } } on : shard-rs03 Timestamp(1, 3)
+        {  "_id" : "test2",  "primary" : "shard-rs03",  "partitioned" : true,  "version" : {  "uuid" : UUID("5b15f5cc-a20b-4274-977f-4097da99f9b9"),  "lastMod" : 1 } }
+                test2.orders
+                        shard key: { "merchant_id" : 1 }   # 根据test2.orders.merchant_id字段进行range分库
+                        unique: false
+                        balancing: true
+                        chunks:
+                                shard-rs03      1
+                        { "merchant_id" : { "$minKey" : 1 } } -->> { "merchant_id" : { "$maxKey" : 1 } } on : shard-rs03 Timestamp(1, 0)
 ```
 ### (20). 分片测试
 ```
+# *******************************************************************************************
 # 1. hash分片(总共插入1000条数据)
 mongos> use test1;
 mongos> for(var i=0;i<1000;i++){ if(i%2==0) { db.users.insert({name:"张三" + i,age:20,gender:"男"}); } else { db.users.insert({name:"张三"+i ,age:20,gender:"女"}); } }
@@ -695,13 +709,29 @@ shard-rs03:PRIMARY> use test1;
 switched to db test1
 shard-rs03:PRIMARY> db.users.count();
 493
+
+
+# *******************************************************************************************
+# 3. range分库测试
+# MongDB规定:只有数据块(chunk)达到64M后,才会考虑向其它分片的数据块填充数据,所以,测试之前,先修改下chunksize
+mongos> use config
+mongos> db.settings.save({ _id : "chunksize" , value : 1 });
+
+
+mongos> use test2;
+mongos> for(var i=1;i<=20000;i++){ db.orders.insert({ order_id:i , order_no:"000000008" , merchant_id:i , total_money:100 }); }
+
+# 2. 验证range分片结果(额,我尝试了N次,总数都不对,是不是range有Bug?)
+shard-rs02:PRIMARY> use test2;
+switched to db test2
+shard-rs02:PRIMARY> db.orders.count();
+4059
+
+# shard-rs03 副本集数据
+shard-rs03:PRIMARY> use test2;
+switched to db test2
+shard-rs03:PRIMARY> db.orders.count();
+16528
 ```
-### (21). 
-
-### (22). 
-
-### (23). 
-
-### (24). 
-
-### (25). 
+### (21). 总结
+> MongoDB的集群,相对来说还是比较复杂的.  
