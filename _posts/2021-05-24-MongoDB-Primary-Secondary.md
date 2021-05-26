@@ -49,7 +49,7 @@ net:
 
 # 副本集的名称(三台机器要保持一持)
 replication:
-    replSetName: cluster    
+    replSetName: cluster
 ```
 ### (4). 所有的节点都启动
 ```
