@@ -12,5 +12,6 @@ tags:  MongoDB
 > ["MongoDB 基础入门"](/2021/05/24/MongoDB-Basic-Operate.html)    
 > ["MongoDB 副本集搭建(二)"](/2021/05/24/MongoDB-Primary-Secondary.html)     
 > ["MongoDB 集群搭建(三)"](/2021/05/24/MongoDB-Sharding-Cluster.html)   
+> ["MongoDB Spring Data MongoDB基本使用(四)"](/2021/05/24/MongoDB-Spring-Data-CRUD.html)    
 
 ### (3). 总结
