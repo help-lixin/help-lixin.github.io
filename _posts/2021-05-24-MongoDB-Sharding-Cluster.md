@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'MongoDB 集群搭建(三)'
+title: 'MongoDB 分片集群搭建(三)'
 date: 2021-05-24
 author: 李新
 tags:  MongoDB
