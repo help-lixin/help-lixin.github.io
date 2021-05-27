@@ -1,13 +1,13 @@
 ---
 layout: post
-title: 'MongoDB 安全管理(五)'
+title: 'MongoDB 单机安全管理(五)'
 date: 2021-05-24
 author: 李新
 tags:  MongoDB
 ---
 
 ### (1). 概述
-> 在这里,主要对MongoDB的安全进行配置.
+> 在这里,主要对MongoDB的单机安全进行配置.
 
 ### (2). MongoDB DCL操作
 
