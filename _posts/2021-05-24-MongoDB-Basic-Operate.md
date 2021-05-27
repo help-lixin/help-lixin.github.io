@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'MongoDB 基础入门'
+title: 'MongoDB 基础入门(一)'
 date: 2021-05-24
 author: 李新
 tags:  MongoDB
