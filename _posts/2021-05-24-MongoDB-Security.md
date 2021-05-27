@@ -9,7 +9,7 @@ tags:  MongoDB
 ### (1). 概述
 > 在这里,主要对MongoDB的安全进行配置.
 
-### (2). MongoDB DCL
+### (2). MongoDB DCL操作
 
 ```
 > show dbs;
@@ -150,4 +150,4 @@ switched to db admin
 spring.data.mongodb.uri=mongodb://lixin:123456@127.0.0.1:27017/test
 ```
 ### (5). 总结
-> MongoDB的授权过程还是挺麻烦的,在对某个库授权时,必须要先进入该库,否则,在登录时,出现:Authentication failed,这个折腾了我很久.      
+> MongoDB的授权过程还是挺麻烦的,在对某个库授权时,必须要先进入该库(use xxxx),否则,在登录时,出现:Authentication failed,这个折腾了我很久.      
