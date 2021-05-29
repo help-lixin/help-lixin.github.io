@@ -20,5 +20,5 @@ tags:  ClickHouse
 + ["ClickHouse AggregatingMergeTree表引擎(八)"](/2021/05/16/ClickHouse-Engine-AggregatingMergeTree.html)    
 + ["ClickHouse CollapsingMergeTree表引擎(九)"](/2021/05/16/ClickHouse-Engine-CollapsingMergeTree.html)      
 + ["ClickHouse VersionedCollapsingMergeTree表引擎(十)"](/2021/05/16/ClickHouse-Engine-VersionedCollapsingMergeTree.html)   
-+ ["ClickHouse SummingMergeTree表引擎(十一)"](/2021/05/16/ClickHouse-Engine-SummingMergeTree.html)    
-+ 
++ ["ClickHouse SummingMergeTree表引擎(十一)"](/2021/05/16/ClickHouse-Engine-SummingMergeTree.html)      
++ ["ClickHouse Distributed分布式表引擎(十二)"](/2021/05/16/ClickHouse-Engine-Distributed.html)     

@@ -15,7 +15,7 @@ CREATE DATABASE test10;
 
 USE test10;
 
-# 1. 创建:ReplacingMergeTree引擎表
+# 1. 创建:ReplacingMergeTree引擎表(merchant_id+create_time+order_id组合即可去重)
 CREATE TABLE IF NOT EXISTS t_order (
    order_id          Int32,
    order_no          String,
