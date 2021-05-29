@@ -451,7 +451,17 @@ $lookup            左外连接      LEFT OUTER JOIN
 > db.orders.aggregate([  {$match:{merchant_id:9999}} , {$skip:2} , {$sort:{total_money:1}} , {$project:{ merchant_id_:"$merchant_id" , total_money_:"$total_money"  }}  ]);
 
 
-# 案例二(统计租户所有的收入总计)
+# 案例二(统计租户订单数量大于2笔的记录)
+# SELECT 
+#  merchant_id AS _id,
+#  COUNT(*) AS merchant_cnt
+# FROM orders
+# GROUP BY merchant_id 
+# HAVING COUNT(*) > 2
+> db.orders.aggregate([  { $group:{_id:"$merchant_id",merchant_cnt:{ $sum: 1 }} } , { $match:{merchant_cnt: { $gt : 2 }} }  ]);
+
+
+# 案例三(统计租户所有的收入总计)
 # SELECT 
 #   merchant_id AS _id,
 #   SUM(total_money) AS total
