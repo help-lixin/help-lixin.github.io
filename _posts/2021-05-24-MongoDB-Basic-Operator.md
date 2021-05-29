@@ -428,3 +428,35 @@ switched to db test2
 	"ok" : 1
 }
 ```
+
+### 10. MongoDB聚合查询
+```
+# 常见步骤:
+步骤                作用        SQL等价运算符
+$match             过滤          WHERE
+$project           投影          AS(别名)
+$sort              排序          ORDER BY 
+$group             分组          GROUP BY 
+$skip/$limit       结果限制      SKIP/LIMIT
+$lookup            左外连接      LEFT OUTER JOIN
+
+# 案例一(显示租户所有的收入列表)
+# SELECT 
+#   merchant_id_,
+#   total_money_
+# FROM  orders
+# WHERE merchant_id = 9999
+# LIMIT 2,10000
+# ORDER BY total_money
+> db.orders.aggregate([  {$match:{merchant_id:9999}} , {$skip:2} , {$sort:{total_money:1}} , {$project:{ merchant_id_:"$merchant_id" , total_money_:"$total_money"  }}  ]);
+
+
+# 案例二(统计租户所有的收入总计)
+# SELECT 
+#   merchant_id AS _id,
+#   SUM(total_money) AS total
+# FROM orders
+# GROUP BY merchant_id 
+# ORDER BY _id
+> db.orders.aggregate([  { $group:{_id:"$merchant_id" , total:{ $sum:"$total_money" } } } ,{ $sort : { _id : -1 } } ]  );
+```
