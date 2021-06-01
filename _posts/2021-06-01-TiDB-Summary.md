@@ -16,3 +16,7 @@ tags:  TiDB
 > ["TiDB 架构详解(二)"](/2021/06/01/TiDB-Architecture.html)    
 > ["TiDB 单机安装(三)"](/2021/06/01/TiDB-Simple-Install.html)   
 > ["TiDB Docker集群安装(四)"](/2021/06/01/TiDB-Docker-Cluster-Install.html)   
+
+### (3). 总结
+> 优点就不用说了,TiDB在分布式的情况下,有着一整套完善的生态圈来解决问题.   
+> 个人觉得缺点就是:成本问题(上生产最低要求:16核32G * 5台 / 4核8G * 2台 ),数据是随着时间增长而增长的,成本也应该是随着时间增长而增长的. 
