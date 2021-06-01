@@ -16,13 +16,14 @@ tags:  TiDB
    - 对外暴露MySQL协议.
    - <font color='red'>负责接受客户端的连接,执行SQL解析和优化,最终生成分布式执行计划.</font>  
    - 只是解析SQL，将实际的数据读取请求转发给底层的存储节点TiKV.  
+   - 有没有感觉,有点像MyCat(Proxy).  
 2. PD(Placement Driver)
    - <font color='red'>整个TiDB集群的元信息管理模块.</font>  
    - 存储每个TiKV节点实时的数据分布情况和集群的整体拓扑结构.   
    - 下发数据调度命令给具体的TiKV节点.
    - 分配分布式事务分配事务ID.  
-   - 建议部署奇数个PD节点.
-   - 可以理解成为:ZK(HBase利用ZK来存储Region数据) 
+   - 建议部署奇数个PD节点.   
+   - 有没有感觉像ZK(HBase利用ZK来存储Region数据).  
 3. TiKV
    -  <font color='red'>存储数据的基本单位是Region,每个Region负责存储一个Key Range(从StartKey到EndKey的左闭右开区间)的数据,每个TiKV节点会负责多个Region(还记得HBase(LSM)的架构吗?).</font>  
    -  在KV键值对层面提供对分布式事务的原生支持.  
