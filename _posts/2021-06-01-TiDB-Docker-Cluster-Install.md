@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'TiDB Docker集群安装(三)'
+title: 'TiDB Docker集群安装(四)'
 date: 2021-06-01
 author: 李新
 tags:  TiDB

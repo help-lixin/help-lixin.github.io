@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'TiDB 单机安装(二)'
+title: 'TiDB 单机安装(三)'
 date: 2021-06-01
 author: 李新
 tags:  TiDB

@@ -13,6 +13,6 @@ tags:  TiDB
 > ["官网地址"](https://docs.pingcap.com/zh/tidb/stable)  
 
 ### (2). TiDB学习目录
-> ["TiDB 单机安装(二)"](/2021/06/01/TiDB-Simple-Install.html)   
-> ["TiDB Docker集群安装(三)"](/2021/06/01/TiDB-Docker-Cluster-Install.html)   
-> 
+> ["TiDB 架构详解(二)"](/2021/06/01/TiDB-Architecture.html)    
+> ["TiDB 单机安装(三)"](/2021/06/01/TiDB-Simple-Install.html)   
+> ["TiDB Docker集群安装(四)"](/2021/06/01/TiDB-Docker-Cluster-Install.html)   
