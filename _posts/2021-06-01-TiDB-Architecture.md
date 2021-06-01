@@ -19,9 +19,9 @@ tags:  TiDB
    - 有没有感觉,有点像MyCat(Proxy).  
 2. PD(Placement Driver)
    - <font color='red'>整个TiDB集群的元信息管理模块.</font>  
-   - 存储每个TiKV节点实时的数据分布情况和集群的整体拓扑结构.   
-   - 下发数据调度命令给具体的TiKV节点.
-   - 分配分布式事务分配事务ID.  
+   - 存储每个TiKV节点实时的数据分布情况和集群的整体拓扑结构.     
+   - 下发数据调度命令给具体的TiKV节点.  
+   - 分配分布式事务分配事务ID.     
    - 建议部署奇数个PD节点.   
    - 有没有感觉像ZK(HBase利用ZK来存储Region数据).  
 3. TiKV
