@@ -17,6 +17,7 @@ tags:  Hmily
 4. 启动Eureka
 5. 启动微服务(order/account/inventory)
 6. 测试
+
 ### (3). 导入SQL
 ```
 CREATE DATABASE IF NOT EXISTS hmily_account DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin ;
@@ -32,7 +33,7 @@ CREATE TABLE account (
   freeze_amount decimal(10,0) NOT NULL COMMENT '冻结金额，扣款暂存余额',
   create_time datetime NOT NULL,
   update_time datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (id)
 );
 
 -- 账户号为:10000的用户,余额为:10000000.
