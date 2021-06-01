@@ -41,6 +41,70 @@ tags:  TiDB
    -  TiKV没有选择直接向磁盘上写数据,而是把数据保存在RocksDB中,具体的数据落地由RocksDB负责.  
    -  <font color='red'>通过单机的RocksDB,TiKV可以将数据快速地存储在磁盘上.</font>  
    -  通过Raft协议,将数据复制到多台机器上,以防单机失效(数据的写入是通过Raft这一层的接口写入,而不是直接写RocksDB),即使,少数几台机器宕机也能通过原生的Raft协议自动把副本补全,可以做到对业务无感知.   
-### 4. 总结
+
+### 4. TiDB(计算)架构
+> TiDB如何将库表中的数据映射到TiKV中的(Key, Value)键值对的呢?   
+> 以TiDB官网的一张图为例,来剖析:
+
+!["TiDB计算架构"](/assets/tidb/imgs/tidb-computing.png)
+
+```
+# 1. 创建表:t_test
+CREATE TABLE t_test (
+  id      INT,
+  name    VARCHAR(20),
+  age     INT,
+  score   DECIMAL(10,2),
+  PRIMARY KEY (id),
+  UNIQUE  KEY (name),
+  INDEX   idx_age (age)
+);
+
+# 2. 插入数据
+INSERT INTO t_test(id,name,age,score) VALUES(1,"Bob",12,99);
+
+# 3. 查看一下索引信息
+mysql> show index from t_test;
++--------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+-----------+
+| Table  | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression | Clustered |
++--------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+-----------+
+| t_test |          0 | PRIMARY  |            1 | id          | A         |           0 |     NULL | NULL   |      | BTREE      |         |               | YES     | NULL       | YES       |
+| t_test |          0 | name     |            1 | name        | A         |           0 |     NULL | NULL   | YES  | BTREE      |         |               | YES     | NULL       | NO        |
+| t_test |          1 | idx_age  |            1 | age         | A         |           0 |     NULL | NULL   | YES  | BTREE      |         |               | YES     | NULL       | NO        |
++--------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+-----------+
+
+# 4. TiDB中是如何把表中的数据与Key映射的呢?
+#  4.1 TiDB在创建表时,会为表(t_test)分配一个唯一的表ID(TableID)
+#  4.2 TiDB在插入数据时,会为每一行数据生成(表没有主键的情况下)一个唯一的行ID(RowID),当,表有主键的情况下,RowID就是主键ID.  
+#  4.3 TiDB为了支持索引,会为表中每个索引分配了一个索引ID,用 IndexID 表示.  
+#  4.4 tablePrefix(t)/recordPrefixSep(r)/indexPrefixSep(i)都是字符串常量.  
+#  4.5 如果,按官网这种方式存储数据,对于LIKE肯定是支持不到位的(因为,要支持LIKE,意味着:要存储大量的索引数据).  
+
+# 5. 主键索引与KV的映射
+#  Key:   tablePrefix{TableID}_recordPrefixSep{RowID}
+#  Value: [col1, col2, col3, col4]
+
+在主键索引的情况下,上图的数据在TiDB存储方式为:  
+KEY :    t{TableID}_r1   
+VALUE :  [Bob,12,99]
+
+
+# 6. 唯一索引与KV的映射
+#  Key:   tablePrefix{TableID}_indexPrefixSep{IndexID}_indexedColumnsValue
+#  Value: RowID
+
+在唯一索引情况下,上图的数据在TiDB存储方式为: 
+  KEY:   t_{TableID}_i_Bob   
+  VALUE: 1
+
+# 7. 非唯一索引与KV映射
+# Key:   tablePrefix{TableID}_indexPrefixSep{IndexID}_indexedColumnsValue_{RowID}
+# Value: null
+
+在非唯一索引情况下,上图的数据在TiDB存储方式为(直接解析KEY,就可以找到对应的数据):
+  KEY:      t_{TableID}_i_12_1
+  VALUE :  NULL
+```
+### 5. 总结
 > 1. 感觉:TiDB是运用Raft协议,协调所有的RocksDB进行数据存储.    
 > 2. 由于LSM的特性(数据有序性),在逻辑上划分多个Region(对Map中的Key进行分区,不至于让所有数据都在一个Map里),以此:实现数据的负载均衡.     
