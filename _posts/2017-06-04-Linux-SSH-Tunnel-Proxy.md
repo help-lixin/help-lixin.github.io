@@ -7,6 +7,7 @@ tags: Linux
 ---
 
 ### (1). 前言
+> 通过内网3800端口,可以实现远程公网MySQL服务.   
 
 ### (2). 机器准备
 
@@ -45,17 +46,17 @@ Welcome to Alibaba Cloud Elastic Compute Service !
 ```
 ### (4). 外网机器允许(3306)端口通行(略)
 
-### (5). 外网机器配置(sshd_config)
-> 注意:这一步一定要做,否则,你会发现:监听的地址是:127.0.0.1,而不是:0.0.0.0,倒至你无法访问.  
+### (5). 内网机器配置(sshd_config)
+> 如果内网机器不需要被其它机器访问的情况下,可以跳过这一步.    
+> 注意:如果内网机器,需要会访问这个端口(3800)的话,这一步一定要做,否则,你会发现:监听的地址是:127.0.0.1,而不是:0.0.0.0,导致你无法远程连接(只能本地连接).  
 
 ```
-# 1. 修改外网机器(47.119.169.76)的SSHD配置
+# 1. 修内外网机器(172.17.12.223)的SSHD配置
 [root@lixin ~]# vi /etc/ssh/sshd_config
 # 修改这个内容为yes
 GatewayPorts yes
 
-# 2. 重启sshd(47.119.169.76)
-[root@lixin ~]# systemctl restart sshd.service
+# 2. 重启机器(172.17.12.223)
 ```
 ### (6). 内网通过SSH隧道与外网建立连接
 ```
@@ -90,7 +91,7 @@ lixin-macbook:~ lixin$ brew install autossh
 #    -M   : 使用内网主机的55555端口监视SSH连接状态,连接出问题了会自动重连.
 #    -N   : 不执行远程命令
 #    -L   : 将内网主机的某个端口的请求转发公网的某个端口上.
-lixin-macbook:~ lixin$ autossh -M 55555 -NfL 3800:47.119.169.76:3306 root@47.119.169.76
+lixin-macbook:~ lixin$ autossh -M 55555 -NfL *:3800:47.119.169.76:3306 root@47.119.169.76
 
 # 3. 测试是否连接成功
 lixin-macbook:~ lixin$ mysql -h 127.0.0.1 -P 3800 -u lixin -p
