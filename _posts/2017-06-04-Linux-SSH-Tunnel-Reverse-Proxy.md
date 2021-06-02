@@ -19,15 +19,15 @@ tags: Linux
 
 ### (3). 内网机器配置免密钥
 ```
-# 1. 内网机器生成密钥
+# 1. 内网机器(172.17.12.223)生成密钥
 lixin-macbook:~ lixin$ ssh-keygen
 
-# 2. 会在用户的目录下生成密钥对
+# 2. 会在(172.17.12.223)用户的目录下生成密钥对
 lixin-macbook:~ lixin$ ll ~/.ssh
 -rw-------   1 lixin  staff  1675  4 15  2020 id_rsa
 -rw-------   1 lixin  staff   401  4 15  2020 id_rsa.pub
 
-# 3. 拷贝内网机器生成的公钥到远程机器上
+# 3. 拷贝内网机器(172.17.12.223)生成的公钥到远程机器上
 lixin-macbook:~ lixin$ ssh-copy-id root@47.119.169.76
 /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/Users/lixin/.ssh/id_rsa.pub"
 The authenticity of host '47.119.169.76 (47.119.169.76)' can't be established.
@@ -40,18 +40,18 @@ Number of key(s) added:        1
 Now try logging into the machine, with:   "ssh 'root@47.119.169.76'"
 and check to make sure that only the key(s) you wanted were added.
 
-# 4. 测试连接
+# 4. 测试ssh连接
 lixin-macbook:~ lixin$ ssh root@47.119.169.76
 Last login: Wed Jun  2 19:09:28 2021 from 219.133.101.169
 Welcome to Alibaba Cloud Elastic Compute Service !
 ```
-### (4). 外网机器允许端口通行(略)
+### (4). 外网机器允许(8081)端口通行(略)
 
-### (5). 外网机器配置(ssh)
-> 注意:这一步一定要做,否则,你会发现:监听的地址是:127.0.0.1,而不是:0.0.0.0
+### (5). 外网机器配置(sshd_config)
+> 注意:这一步一定要做,否则,你会发现:监听的地址是:127.0.0.1,而不是:0.0.0.0,倒至你无法访问.  
 
 ```
-# 1. 修改外网机器的SSHD配置(47.119.169.76)
+# 1. 修改外网机器(47.119.169.76)的SSHD配置
 [root@lixin ~]# vi /etc/ssh/sshd_config
 # 修改这个内容为yes
 GatewayPorts yes
@@ -84,7 +84,7 @@ LISTEN     0      128    0.0.0.0:8081                     *:*                   
 Hello World!!!
 ```
 ### (8). 使用autossh
-> 上面通过ssh配置的反向代理的方式是不稳定的,这种ssh反向链接会因为超时而关闭,如果关闭了那从外网连通内网的通道就无法维持了,为此我们需要另外的方法来提供稳定的ssh反向代理隧道工具(autossh).
+> 上面通过ssh配置的反向代理的方式是不稳定的,这种ssh反向链接会因为超时而关闭,如果关闭了,那么外网连通内网的通道就无法维持了,为此我们需要另外的方法来提供稳定的ssh反向代理隧道工具(autossh).
 
 ```
 # 1. Mac安装ssh
