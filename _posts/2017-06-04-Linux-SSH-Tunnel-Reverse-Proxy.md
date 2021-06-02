@@ -3,7 +3,7 @@ layout: post
 title: 'Linux SSH隧道(反向代理)'
 date: 2017-06-04
 author: 李新
-tags: Linux SSH隧道 内网穿透 
+tags: Linux
 ---
 
 ### (1). 前言
