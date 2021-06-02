@@ -1,20 +1,19 @@
 ---
 layout: post
-title: 'Linux SSH隧道(反向代理)'
+title: 'Linux SSH隧道(正向代理)'
 date: 2017-06-04
 author: 李新
 tags: Linux
 ---
 
 ### (1). 前言
-> 要对接微信(支付宝)的支付功能,支付后有一个回调功能,开发人员期望:这个回调的请求能转发到自己的机器上(方便联调),而公司的IP地址是动态的,这时候,就要用到:内网穿透功能了.
 
 ### (2). 机器准备
 
 |  环境    | IP             | Port   |
 |  ----   | ----           | ----   |
-| 公网     | 47.119.169.76  | 8888   |
-| 内网     | 172.17.12.223  | 8080   |
+| 公网     | 47.119.169.76  | 3306   |
+| 内网     | 172.17.12.223  | 3306   |
 
 ### (3). 内网机器配置免密钥
 ```
@@ -44,7 +43,7 @@ lixin-macbook:~ lixin$ ssh root@47.119.169.76
 Last login: Wed Jun  2 19:09:28 2021 from 219.133.101.169
 Welcome to Alibaba Cloud Elastic Compute Service !
 ```
-### (4). 外网机器允许(8081)端口通行(略)
+### (4). 外网机器允许(3306)端口通行(略)
 
 ### (5). 外网机器配置(sshd_config)
 > 注意:这一步一定要做,否则,你会发现:监听的地址是:127.0.0.1,而不是:0.0.0.0,倒至你无法访问.  
@@ -68,35 +67,47 @@ GatewayPorts yes
 # -L 将本地机(客户机)的某个端口转发到远端指定机器的指定端口
 # -p 指定远程主机的SSH端口
 
-# 反向代理:
-# 在公网:47.119.169.76机器上,开启一个8081的端口与内网(本机)的8080端口进行映射
-lixin-macbook:~ lixin$ ssh -fNCR  *:8081:localhost:8080 root@47.119.169.76
+# 正向代理:
+# 在本机,启动一个3800端口,映射到:47.119.169.76的3306端口.
+lixin-macbook:~ lixin$ ssh -fNCL  0.0.0.0:3800:47.119.169.76:3306 root@47.119.169.76
 ```
-### (7). 外网机器查看是否监听端口成功
+### (7). 内网机器查看是否监听端口成功
 ```
-# 查看(47.119.169.76)端口是否监听成功:
-[root@lixin ~]# ss -tlnp|grep 8081
-LISTEN     0      128    0.0.0.0:8081                     *:*                   users:(("sshd",pid=1517,fd=8))
-
-# 在外网的机器(47.119.169.76)上测试访问
-[root@lixin ~]# curl http://47.119.169.76:8081/hello
-Hello World!!!
+# 1.查看(172.17.12.223)端口是否监听成功:
+lixin-macbook:~ lixin$ lsof -i tcp:3800
+COMMAND  PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+ssh     5676 lixin    4u  IPv4 0x3574c3ddb0431051      0t0  TCP *:pwgpsi (LISTEN)
 ```
 ### (8). 使用autossh
-> 上面通过ssh配置的反向代理的方式是不稳定的,这种ssh反向链接会因为超时而关闭,如果关闭了,那么外网连通内网的通道就无法维持了,为此我们需要另外的方法来提供稳定的ssh反向代理隧道工具(autossh).
+> 上面通过ssh配置的正向代理的方式是不稳定的,这种ssh链接会因为超时而关闭,如果关闭了,那么内网连通外网的通道就无法维持了,为此我们需要另外的方法来提供稳定的ssh反向代理隧道工具(autossh).
 
 ```
 # 1. Mac安装ssh
 lixin-macbook:~ lixin$ brew install autossh
+
 # 2. 通过autossh启动
 # 参数说明:
 #    -M   : 使用内网主机的55555端口监视SSH连接状态,连接出问题了会自动重连.
 #    -N   : 不执行远程命令
-#    -R   : 将公网主机的某个端口转发到本地指定机器的指定端口.
-lixin-macbook:~ lixin$ autossh -M 55555 -NfR 8081:localhost:8080 root@47.119.169.76
-# 3. 通过外网访问
-lixin-macbook:~ lixin$ curl http://47.119.169.76:8081/hello
-Hello World!!!
+#    -L   : 将内网主机的某个端口的请求转发公网的某个端口上.
+lixin-macbook:~ lixin$ autossh -M 55555 -NfL 3800:47.119.169.76:3306 root@47.119.169.76
+
+# 3. 测试是否连接成功
+lixin-macbook:~ lixin$ mysql -h 127.0.0.1 -P 3800 -u lixin -p
+Enter password:
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 6
+# *********************************************
+//  注意:这里是MariaDB
+Server version: 5.5.68-MariaDB MariaDB Server
+# *********************************************
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql>
 ```
 ### (9). 总结
-> 通过SSH反向隊道代理,可以实现内网和外网的穿透(通过访问外网的IP:PORT,透传到内网的IP:PORT).  
+> 通过SSH正向隊道代理,可以实现内网和外网的穿透(通过访问内网的IP:PORT,透传到外网的IP:PORT).  
