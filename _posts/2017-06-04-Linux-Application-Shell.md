@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '自定义Shell脚本'
+title: '定义Application程序启动脚本'
 date: 2017-06-04
 author: 李新
 tags: Linux
