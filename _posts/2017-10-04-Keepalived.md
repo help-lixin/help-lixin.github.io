@@ -111,8 +111,6 @@ vrrp_instance VI_1 {
 }
 ```
 ### (10). 配置从节点(app-101)
-> 注意:priority   
-
 ```
 global_defs {
     router_id app-101
