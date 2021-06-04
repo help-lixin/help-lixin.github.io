@@ -93,12 +93,12 @@ vrrp_script check-nginx
 }
 
 vrrp_instance VI_1 {
-    state MASTER
+    state MASTER            # 备份服务器上将 MASTER 改为 BACKUP
     interface eth0
-    virtual_router_id 100   # 主、备机的virtual_router_id必须相同 
+    virtual_router_id 100   # 主,备机的virtual_router_id必须相同 
     master_src_ip 10.211.55.100
     nopreempt
-    priority 100            # 主,备机的权重要求不一样(备机一般比主要的权重要小)
+    priority 100            # 主,备机取不同的优先级，主机值较大，备份机值较小
     advert_int 1
 
     track_script {
@@ -145,7 +145,7 @@ vrrp_instance VI_1 {
 ```
 # vi /home/check.sh
 
-# 尝试启动nginx,如果,启动失败的情况下,杀掉keepalived进程
+# 尝试启动nginx,如果,启动失败的情况下,杀掉keepalived进程(让出VIP资源) 
 #!/bin/bash
 nginx_count=`ps -ef|grep nginx|grep -v grep|wc -l`
 if [ $nginx_count -eq 0 ];then
@@ -158,7 +158,7 @@ if [ $nginx_count -eq 0 ];then
     fi
 fi
 ```
-### (12). 测试
+### (12). 测试结果
 ```
 # 1. 启动keepalived
 [root@app-100 ~]# keepalived
