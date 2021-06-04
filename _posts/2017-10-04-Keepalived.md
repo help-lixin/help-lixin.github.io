@@ -98,7 +98,7 @@ vrrp_instance VI_1 {
     virtual_router_id 100   # 主,备机的virtual_router_id必须相同 
     master_src_ip 10.211.55.100
     nopreempt
-    priority 100            # 主,备机取不同的优先级，主机值较大，备份机值较小
+    priority 100            # 主,备机取不同的优先级,主机值较大,备份机值较小
     advert_int 1
 
     track_script {
