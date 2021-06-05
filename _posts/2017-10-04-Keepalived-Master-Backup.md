@@ -86,7 +86,7 @@ global_defs {
 
 vrrp_script check-nginx
 {
-    script "/home/check.sh"
+    script "/home/check.sh"    # 注意脚本位置,以及可执行权限
     interval 2
     weight -20
 }
@@ -140,10 +140,8 @@ vrrp_instance VI_1 {
     }
 }
 ```
-### (11). 创建检查脚本
+### (11). 创建检查脚本(/home/check.sh)
 ```
-# vi /home/check.sh
-
 # 尝试启动nginx,如果,启动失败的情况下,杀掉keepalived进程(让出VIP资源) 
 #!/bin/bash
 nginx_count=`ps -ef|grep nginx|grep -v grep|wc -l`
@@ -254,6 +252,28 @@ lixin-macbook:~ lixin$ curl http://10.211.55.88
 # 9. 测试访问
 lixin-macbook:~ lixin$ curl http://10.211.55.88
 <h1>Welcome to nginx app-100</h1>
+
+
+# 10.测试关闭nginx,验证:keepalived会重新启动ngingx
+[root@app-100 ~]# ip addr
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 00:1c:42:2e:64:5e brd ff:ff:ff:ff:ff:ff
+    inet 10.211.55.100/24 brd 10.211.55.255 scope global noprefixroute eth0
+       valid_lft forever preferred_lft forever
+    inet 10.211.55.88/32 scope global eth0
+       valid_lft forever preferred_lft forever
+# *************************************************************************	   
+## kill2次,你会发现PID是变了,代表确实是有在:kill,只是keepalived很快执行脚本,帮我们启动nginx
+# *************************************************************************
+[root@app-100 ~]# killall nginx
+[root@app-100 ~]# ps -ef|grep nginx|grep -v grep  
+root      3998     1  0 12:29 ?        00:00:00 nginx: master process /usr/local/nginx/sbin/nginx
+nobody    4000  3998  0 12:29 ?        00:00:00 nginx: worker process
+
+[root@app-100 ~]# killall nginx
+[root@app-100 ~]# ps -ef|grep nginx|grep -v grep 
+root      4062     1  0 12:29 ?        00:00:00 nginx: master process /usr/local/nginx/sbin/nginx
+nobody    4064  4062  0 12:29 ?        00:00:00 nginx: worker process
 ```
 ### (14). 总结
 > 通过Keepalived即可实现:VIP的飘移功能,但,有个缺陷就是:一主一备,备机资源是闲置的(两台机器互为双主,将另开一篇来玩).  

@@ -177,10 +177,8 @@ vrrp_instance VI_2 {
     }
 }
 ```
-### (11). 创建检查脚本
+### (11). 创建检查脚本(/home/check.sh)
 ```
-# vi /home/check.sh
-
 # 尝试启动nginx,如果,启动失败的情况下,杀掉keepalived进程(让出VIP资源) 
 #!/bin/bash
 nginx_count=`ps -ef|grep nginx|grep -v grep|wc -l`
@@ -296,6 +294,28 @@ lixin-macbook:~ lixin$ curl http://10.211.55.88
        valid_lft forever preferred_lft forever
     inet 10.211.55.89/32 scope global eth0
        valid_lft forever preferred_lft forever
+
+
+# 13.测试关闭nginx,验证:keepalived会重新启动ngingx
+[root@app-100 ~]# ip addr
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 00:1c:42:2e:64:5e brd ff:ff:ff:ff:ff:ff
+    inet 10.211.55.100/24 brd 10.211.55.255 scope global noprefixroute eth0
+       valid_lft forever preferred_lft forever
+    inet 10.211.55.88/32 scope global eth0
+       valid_lft forever preferred_lft forever
+# *************************************************************************	   
+## kill2次,你会发现PID是变了,代表确实是有在:kill,只是keepalived很快执行脚本,帮我们启动nginx
+# *************************************************************************
+[root@app-100 ~]# killall nginx
+[root@app-100 ~]# ps -ef|grep nginx|grep -v grep  
+root      3998     1  0 12:29 ?        00:00:00 nginx: master process /usr/local/nginx/sbin/nginx
+nobody    4000  3998  0 12:29 ?        00:00:00 nginx: worker process
+
+[root@app-100 ~]# killall nginx
+[root@app-100 ~]# ps -ef|grep nginx|grep -v grep 
+root      4062     1  0 12:29 ?        00:00:00 nginx: master process /usr/local/nginx/sbin/nginx
+nobody    4064  4062  0 12:29 ?        00:00:00 nginx: worker process
 ```
 ### (14). 总结
 > 所谓的高可用,就是解决虚拟IP的飘移问题,其实,是会存在脑裂的问题来着的.我们自己也可以基于ZK,实现这么一套VIP飘移.  
