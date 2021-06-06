@@ -14,6 +14,7 @@ tags: Linux
 # s        : 替换
 # g        : 全局替换
 # pattern  : 模式(要扫描的内容)
+# -i       : 直接修改读取的文件内容,而不是输出到终端.
 # sed 's/pattern/replace content/g' inputFileName > outputFileName
 sed [OPTION]... {script-only-if-no-other-script} [input-file]...
 
