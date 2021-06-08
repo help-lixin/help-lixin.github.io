@@ -74,14 +74,17 @@ connect: Network is unreachable
 [root@tomcat-1 ~]# sysctl -p
 net.ipv4.ip_forward = 1
 
-# 2. 添加SNAT规则
+# 2. iptables的filter表的FORWARD链允许转发
+[root@tomcat-1 ~]# iptables -P FORWARD ACCEPT
+
+# 3. 添加SNAT规则
 #    把源地址为:10.37.129.0/24的网段,转换成:10.211.55.100这个公网IP出去
 [root@tomcat-1 ~]# iptables -t nat -A POSTROUTING -s 10.37.129.0/24 -j SNAT --to 10.211.55.100
 
 # 清空规则时,要指定-t
 # [root@tomcat-1 ~]# iptables -t nat -F   
 
-# 3. 保存iptables
+# 4. 保存iptables
 [root@tomcat-1 ~]# service iptables save
 [root@tomcat-1 ~]# service iptables restart
 ```
