@@ -20,6 +20,7 @@ tags:  Kong
    - 直接理解成Nginx的upstream即可.
 + Target:
    - 理解成Nginx中upstream配置的每一项.
+
 ### (3). Kong学习目录
 +["PostgreSQL安装(一)"](/2021/06/09/PostgreSQL-Install.html)    
 +["Kong 安装(二)"](/2021/06/09/Kong-Install.html)    
