@@ -7,9 +7,8 @@ tags:  Kong
 ---
 
 ### (1). Kong介绍
-> Kong是一款基于OpenResty(Nginx + Lua模块)编写的高可用、易扩展的API Gateway项目.   
+> [Kong](https://docs.konghq.com/gateway-oss/2.4.x)是一款基于OpenResty(Nginx + Lua模块)编写的高可用、易扩展的API Gateway项目.   
 > 一句话总结:把Nginx的配置进行动态化,不需要每次都进行加载(-s reload),并且,提供了不少的插件(WAF/限流/).    
-> [Kong官网](https://docs.konghq.com/gateway-oss/2.4.x)  
 
 ### (2). Kong关键术语
 + Route:
