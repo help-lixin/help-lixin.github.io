@@ -55,14 +55,7 @@ TOKEN_SECRET=some_secret_token
 ```
 ### (4). 启动konga
 ```
-
+[root@tomcat-1 konga-0.14.9]# npm run production
 ```
-### (5). 
-
-### (6). 
-
-### (7). 
-
-### (8). 
-
-### (9). 
+### (5). 总结
+> 通过NPM安装了一个下午的依赖,都没有把依赖全部下载下来,反正,我对UI界面不感兴趣,直接玩API先.  
