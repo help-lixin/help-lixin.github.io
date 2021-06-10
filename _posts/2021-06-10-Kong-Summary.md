@@ -21,7 +21,7 @@ tags:  Kong
    - 理解成Nginx中upstream配置的每一项.
 
 ### (3). Kong学习目录
-+["PostgreSQL安装(一)"](/2021/06/09/PostgreSQL-Install.html)    
-+["Kong 安装(二)"](/2021/06/09/Kong-Install.html)    
-+["Konga 安装(三)"](/2021/06/09/Konga-Install.html)     
-+["Kong 配置服务案例(四)"](/2021/06/09/Kong-Api.html)   
+> ["PostgreSQL安装(一)"](/2021/06/09/PostgreSQL-Install.html)    
+> ["Kong 安装(二)"](/2021/06/09/Kong-Install.html)    
+> ["Konga 安装(三)"](/2021/06/09/Konga-Install.html)     
+> ["Kong 配置服务案例(四)"](/2021/06/09/Kong-Api.html)   
