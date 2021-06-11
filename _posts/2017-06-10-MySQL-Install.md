@@ -85,7 +85,6 @@ socket=/tmp/mysql.sock
 # ************************************************
 # 注意:我已切换到root账号下了
 # ************************************************
-
 [root@app-1 ~]# vi /etc/systemd/system/mysql.service
 
 [Unit]
