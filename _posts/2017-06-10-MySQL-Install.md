@@ -135,7 +135,7 @@ export PATH
 ```
 # 1. 查看root密码
 [mysql@app-1 ~]$ cat ~/.mysql_secret
-# Password set for user 'root@localhost' at 2021-06-11 16:45:06
+# Password set for user 'root@localhost' at 2017-06-10 16:45:06
 ZVU50NAK5Atb
 
 # 2. 修改root密码
