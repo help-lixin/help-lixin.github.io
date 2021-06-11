@@ -52,7 +52,7 @@ passwd: all authentication tokens updated successfully.
 ```
 
 ### (3). 配置my.cnf
-> my.cnf查找顺序: /etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf  ~/.my.cnf   
+> my.cnf查找顺序:/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf  ~/.my.cnf   
 
 ```
 [mysql@app-1 ~]$ vi  ~/.my.cnf
@@ -82,6 +82,10 @@ socket=/tmp/mysql.sock
 ```
 ### (5). MySQL配置开机启动(/etc/systemd/system/mysql.service)
 ```
+# ************************************************
+# 注意:我已切换到root账号下了
+# ************************************************
+
 [root@app-1 ~]# vi /etc/systemd/system/mysql.service
 
 [Unit]
@@ -96,6 +100,9 @@ WantedBy=multi-user.target
 ```
 ### (6). 启动mysql
 ```
+# ************************************************
+# 注意:我已切换到root账号下了
+# ************************************************
 # 启动mysql
 [root@app-1 ~]# systemctl enable mysql.service
 [root@app-1 ~]# systemctl daemon-reload
