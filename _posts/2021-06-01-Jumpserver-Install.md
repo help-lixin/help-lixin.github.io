@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'JumpServer 安装与使用'
-date: 2021-06-11
+date: 2021-06-01
 author: 李新
 tags:  Jumpserver
 ---
@@ -125,7 +125,7 @@ mysql> FLUSH PRIVILEGES;
 (py3) [root@app-1 jumpserver-v2.10.4]# sed -i "s/# SESSION_EXPIRE_AT_BROWSER_CLOSE: false/SESSION_EXPIRE_AT_BROWSER_CLOSE: true/g" /opt/jumpserver-v2.10.4/config.yml
 (py3) [root@app-1 jumpserver-v2.10.4]# sed -i "s/DB_PASSWORD: /DB_PASSWORD: $DB_PASSWORD/g" /opt/jumpserver-v2.10.4/config.yml
 ```
-### (15). config.yml模板
+### (15). config.yml内容如下
 ```
 # SECURITY WARNING: keep the secret key used in production secret!
 # 加密秘钥 生产环境中请修改为随机字符串，请勿外泄, 可使用命令生成
@@ -497,4 +497,4 @@ zhangsan:x:1002:1002:tomcat[张三(zhangsan)]:/home/zhangsan:/bin/bash
 
 ```
 ### (30). 总结
-> 说实话,JumpServer的UI界面不是很人性化,我反正是摸索了半天才理解(当然,也有可能是我自己的问题).  
+> 说实话:JumpServer的UI界面不是很人性化,我反正是摸索了半天才理解(当然,也有可能是我自己的问题).  
