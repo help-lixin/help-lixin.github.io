@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'JumpServer 安装(一)'
+title: 'JumpServer 安装与使用'
 date: 2021-06-11
 author: 李新
 tags:  Jumpserver
@@ -441,4 +441,59 @@ admin@10.211.55.100's password:
 	8) 输入 h 进行显示帮助.
 	9) 输入 q 进行退出.
 ```
-### (26). 总结
+### (26). JumpServer用户管理
+> 用户管理:在这里添加的账号可以在JumpServer UI界面以及koko登录. 
+
+!["jumpserver-account"](/assets/jumpserver/img/jumpserver-account.png)
+!["jumpserver-account-group-add"](/assets/jumpserver/img/jumpserve-account-group-add.jpg)
+!["jumpserver-account-add"](/assets/jumpserver/img/jumpserve-account-add.png)
+
+### (27). JumpServer资产管理
+> 在添加"系统用户"时,记得打开"自动推送".  
+
+!["添加被管控的机器root账号信息"](/assets/jumpserver/img/jumpserver-admin-users.jpg)
+!["资产管理"](/assets/jumpserver/img/jumpserver-assets-manager.png)
+!["系统用户添加"](/assets/jumpserver/img/jumpserver-system-users.png)
+
+### (28). JumpServer权限管理
+!["给资产与用户进行绑定"](/assets/jumpserver/img/jumpserver-user-role-bind.png)
+
+### (29). 测试zhangsan
+```
+lixin-macbook:~ lixin$ ssh -p 2222 zhangsan@10.211.55.100
+zhangsan@10.211.55.100's password:
+		张三,  欢迎使用JumpServer开源堡垒机系统
+
+	1) 输入 部分IP，主机名，备注 进行搜索登录(如果唯一).
+	2) 输入 / + IP，主机名，备注 进行搜索，如：/192.168.
+	3) 输入 p 进行显示您有权限的主机.
+	4) 输入 g 进行显示您有权限的节点.
+	5) 输入 d 进行显示您有权限的数据库.
+	6) 输入 k 进行显示您有权限的Kubernetes.
+	7) 输入 r 进行刷新最新的机器和节点信息.
+	8) 输入 h 进行显示帮助.
+	9) 输入 q 进行退出.
+
+Opt> p
+  ID    | 主机名                                                 | IP                            | 备注
++-------+--------------------------------------------------------+-------------------------------+---------------------+
+  1     | app-2                                                  | 10.211.55.101                 |
+页码：1，每页行数：17，总页数：1，总数量：1
+提示：输入资产ID直接登录，二级搜索使用 // + 字段，如：//192 上一页：b 下一页：n
+搜索：	
+
+# 通过jumpserver登录到:10.211.55.101
+[Host]> 1
+开始连接到 zhangsan@10.211.55.101  0.3
+Last login: Sat Jun 12 15:23:16 2021 from 10.211.55.100
+
+# 登录成功
+[zhangsan@app-2 ~]$
+
+# 额,在jumpserver创建的每个用户,实际将会是对应Linux下的用户.
+[zhangsan@app-2 ~]$ cat /etc/passwd|grep zhangsan
+zhangsan:x:1002:1002:tomcat[张三(zhangsan)]:/home/zhangsan:/bin/bash
+
+```
+### (30). 总结
+> 说实话,JumpServer的UI界面不是很人性化,我反正是摸索了半天才理解(当然,也有可能是我自己的问题).  
