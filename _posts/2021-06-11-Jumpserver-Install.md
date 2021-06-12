@@ -57,6 +57,7 @@ tags:  Jumpserver
 ```
 ### (8). 自动载入虚拟环境
 > 每次运行命令都要先运行(source /opt/py3/bin/activate),可通过以下操作,自动执行.
+
 ```
 (py3) [root@app-1 opt]# git clone https://github.com/kennethreitz/autoenv.git
 (py3) [root@app-1 opt]# echo "source /opt/autoenv/activate.sh" >> ~/.bashrc
