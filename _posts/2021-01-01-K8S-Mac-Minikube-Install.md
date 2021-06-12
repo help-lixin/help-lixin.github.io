@@ -71,6 +71,7 @@ lixin-macbook:Downloads lixin$ minikube stop
 > minikube实际还是个虚拟机,让k8s在这个虚拟机里工作(有时下载镜像慢之类,需要自己手工处理),以下是进入虚拟机的方法.
 
 ```
+# 不建议用这种方式进入虚拟机,建议用第8步的方式,切换:环境到minkube
 # minikube进入ssh(查看IP)
 lixin-macbook:~ lixin$ minikube ssh
                          _             _
@@ -100,7 +101,7 @@ docker@192.168.64.2's password:
 ```
 
 ### (8). 本地(Mac)环境下的Docker客户端(DockerDaemo)指向Minikube(虚拟机)中的Docker
-> 通过这种方式,可以不用进到虚拟机,拷贝镜像之类的,直接可以操作docker,直方便.
+> 通过这种方式,可以不用进到虚拟机,拷贝镜像之类的,直接可以操作docker,真方便.
 
 ```
 # 未指向之前,本地有centos镜像
@@ -165,7 +166,8 @@ lixin-macbook:test lixin$ kubectl get pods,svc
 NAME        READY   STATUS    RESTARTS   AGE
 pod/nginx   1/1     Running   0          119m
 
-# nginx-service端口为:31224
+# 9090  : 为ClusterIP
+# 31224 : 为NodePortIP
 NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
 service/kubernetes      ClusterIP   10.96.0.1       <none>        443/TCP          148m
 service/nginx-service   NodePort    10.96.111.210   <none>        9090:31224/TCP   6m12s
@@ -220,7 +222,7 @@ spec:
             serviceName: nginx-service
             servicePort: 9090
 
-# 发部nginx-ingress.yml配置
+# 发布nginx-ingress.yml配置
 lixin-macbook:test lixin$ kubectl apply -f nginx-ingress.yml
 Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 ingress.extensions/web created
