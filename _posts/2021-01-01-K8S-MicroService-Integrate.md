@@ -7,9 +7,10 @@ tags: K8S Spring SpringCloud  解决方案
 ---
 
 ### (1). K8S与微服务集成
-> 近来一直在用K8S,发现K8S有服务发现功能(Service),而Spring Cloud也有相应的服务发现功能,而两者的功能是不兼容的.    
+> 近来一直在用K8S,发现K8S有服务发现功能(Service),而Spring Cloud也有相应的服务发现(Eureka)功能,这两者的功能是不兼容的,你只能二选一.       
+> 当你相要深度拥抱K8S(使用K8S的服务发现功能),那么在开发的机器上就要搭建K8S,对开发的体验是一个问题,因为:就为了一个服务发现,强依赖K8S,实在太重了.
+> 是否有折中的方式呢?答案是有的:就是不做深度拥抱,不用K8S提供的服务发现功能,这功能:仅运维使用(比如:给Redis定义一个domain).
 > 故提出几套解决方案. 
-
 ### (2). 方案一
 > OpenRestry(网关) + Redis(注册中心) + 业务微服务:   
 > 1. <font color='red'>业务微服务,不使用K8S的Service功能.</font>   
@@ -17,7 +18,7 @@ tags: K8S Spring SpringCloud  解决方案
 > 3. OpenRestry提供Service功能(暴露80/443端口),读取Redis,根据路由规则,发分请求到容器.   
 > 4. 所有一切都是自研,需要注意:Redis之前还要加缓存.但是,问题是:缓存多长时间呢?暂时能考虑的是:监听ETCD变化来刷缓存.     
 
-### (3). 方案二
+### (3). 方案二(推荐)
 > Ingress + Spring Cloud Gateway + Eureka(Zookeeper/Nacos) + 业务微服务:   
 > 1. eureka 和 业务微服务,<font color='red'>不使用Service(NodePort)功能(也就是不暴露服务,仅内部访问).</font>      
 > 2. 业务微服务 和 Gateway 都向 eureka注册,这时在注册中心的元数据是:PodIP:port.   
