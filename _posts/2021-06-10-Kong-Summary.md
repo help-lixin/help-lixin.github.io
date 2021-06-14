@@ -25,3 +25,4 @@ tags:  Kong
 > ["Kong 安装(二)"](/2021/06/09/Kong-Install.html)    
 > ["Konga 安装(三)"](/2021/06/09/Konga-Install.html)     
 > ["Kong 配置服务案例(四)"](/2021/06/09/Kong-Api.html)   
+> ["K8S整合Kong(五)"](/2021/06/09/K8S-Kong-Integration.html)   
