@@ -176,7 +176,7 @@ spec:
             servicePort: 80
 " | kubectl create -f -
 ```
-### (12). 查看ingoress
+### (12). 部署ingoress
 ```
 lixin-macbook:~ lixin$ kubectl get ingress -o wide
 # nginx.hello.world 对应的ip地址是:192.168.64.3
