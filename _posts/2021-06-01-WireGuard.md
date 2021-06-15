@@ -239,6 +239,8 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/wg-quick@wg0.se
 
 Tell me a name for the client.
 The name must consist of alphanumeric character. It may also include an underscore or a dash and can't exceed 15 chars.
+
+# 配置一个client名称/IP
 Client name: test
 Client's WireGuard IPv4: 172.31.41.101
 Client's WireGuard IPv6: fd42:42:42::101
