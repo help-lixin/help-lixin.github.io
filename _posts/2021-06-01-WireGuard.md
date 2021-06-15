@@ -262,17 +262,19 @@ If you want to add more clients, you simply need to run this script another time
 Address = 172.31.41.100/24,fd42:42:42::1/64
 ### 设置udp监听端口,可选范围为49152到65535 
 ListenPort = 50506
-### 填写本机的私钥,默认存储在本机的/etc/wireguard/params文本中
+### 填写服务器的私钥,默认存储在本机的/etc/wireguard/params文本中
 PrivateKey = qKeo5zgUxNoktwXs2x8NsBkSgyfyQBmRubf1GKy1AWw=
 ### wg-quick up wg0启动后执行的内核防火墙(iptables)规则,可以打通VPN,服务器端需此参数.
 PostUp = iptables -A FORWARD -i eth0 -o wg0 -j ACCEPT; iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 ### wg-quick down wg0执行删除启动时定义的内核防火墙(iptables)规则,服务器端需此参数
 PostDown = iptables -D FORWARD -i eth0 -o wg0 -j ACCEPT; iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 
+### 每一个client一个Peer
 ### Client test
 [Peer]
-### client连接的公钥
+### 客户端公钥
 PublicKey = zmijB4jE1QMMkRtTe+doL+x8ONm3NOgF7HZbP4sTc3E=
+### 口令
 PresharedKey = HixRDQSAkMXPE9iEOshLl9jVFKBm3tz5PK6IueVE49s=
 ### 允许连接的ip地址
 AllowedIPs = 172.31.41.101/32,fd42:42:42::101/128
@@ -298,24 +300,37 @@ lixin-macbook:~ lixin$ brew install wireguard-tools
 lixin-macbook:~ lixin$ sudo mkdir /usr/local/etc/wireguard
 lixin-macbook:~ lixin$ sudo touch /usr/local/etc/wireguard/wg0.conf
 ```
-### (7). Mac(Client)配置wg0.conf(/usr/local/etc/wireguard/wg0.conf)
+### (7). wireguard-tools生成公私钥方法
+```
+# 生成私钥
+wg genkey > privatekey
+# 生成公钥
+wg pubkey < privatekey > publickey
+# 生成口令(每个peer一个)
+wg genpsk > presharedkey
+```
+
+### (8). Mac(Client)配置wg0.conf(/usr/local/etc/wireguard/wg0.conf)
 > 这里的内容,直接从服务端生成的文件(/root/wg0-client-test.conf)里拷过来即可.
 
 ```
 [Interface] 
 ### 通过命令,生成公私钥:wg genkey | tee privatekey | wg pubkey > publickey
+### 客户端私钥
 PrivateKey = WLKjwWDu2N7TlZX/0G+ldsYzPxv6tLuR4iaJgaEuO3E= 
-Address = 10.66.66.2/32
-DNS = 8.8.8.8,8.8.8.8
+Address = 172.31.41.101/32,fd42:42:42::101/128 
+DNS = 1.1.1.1,8.8.8.8 
 
 [Peer] 
-### 服务器端的公钥
-PublicKey = VQph4ERk/tWP1wuanSpxb4U2PakFLMkV7/MdBHKtBjw= 
-PresharedKey = oGejVfpR+Qps1z6g9LzkFVxuUtqRTEeXnMUVnlCnVKc= 
-Endpoint = 10.211.55.100:57413 
+### 服务器公钥
+PublicKey = pVtk+KUkNWcORxWYgPbrBkcr8SNKemAL75cJqs26124= 
+### 口令
+PresharedKey = HixRDQSAkMXPE9iEOshLl9jVFKBm3tz5PK6IueVE49s= 
+### 连接站点
+Endpoint = 8.210.32.174:50506 
 AllowedIPs = 0.0.0.0/0,::/0
 ```
-### (8). Mac启动WireGuard
+### (9). Mac启动WireGuard
 ```
 # 1. 启用网卡
 lixin-macbook:~ lixin$ sudo wg-quick up wg0
@@ -380,8 +395,7 @@ Warning: `/usr/local/etc/wireguard/wg0.conf' is world accessible
 [#] rm -f /var/run/wireguard/utun4.sock
 [#] rm -f /var/run/wireguard/wg0.name
 ```
-
-### (9). 查看Client(Mac)网卡信息
+### (10). 查看Client(Mac)网卡信息
 ```
 lixin-macbook:~ lixin$ ifconfig
 en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
@@ -401,7 +415,7 @@ utun4: flags=8051<UP,POINTOPOINT,RUNNING,MULTICAST> mtu 1420
 	inet6 fd42:42:42::101 prefixlen 128
 	nd6 options=201<PERFORMNUD,DAD>
 ```
-### (10). 查看WireGuard服务器网卡信息
+### (11). 查看WireGuard服务器网卡信息
 ```
 [root@iZj6cgalu8r574j7e3khydZ ~]# ifconfig
 eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
@@ -426,8 +440,7 @@ wg0: flags=209<UP,POINTOPOINT,RUNNING,NOARP>  mtu 1420
         TX packets 1287  bytes 941996 (919.9 KiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
-
-### (11). 验证
+### (12). 验证
 ```
 utun4: flags=8051<UP,POINTOPOINT,RUNNING,MULTICAST> mtu 1420
 	inet 172.31.41.101 --> 172.31.41.101 netmask 0xffffffff
@@ -447,5 +460,5 @@ PING www.google.com (142.250.66.132): 56 data bytes
 64 bytes from 142.250.66.132: icmp_seq=1 ttl=117 time=85.304 ms
 64 bytes from 142.250.66.132: icmp_seq=2 ttl=117 time=97.349 ms
 ```
-### (12). Chrome 验证访问墙外世界
+### (13). Chrome 验证访问墙外世界
 !["测试访问Google"](/assets/vpn/imgs/WireGuard.jpg)
