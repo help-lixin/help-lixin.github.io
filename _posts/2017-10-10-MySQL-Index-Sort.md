@@ -158,7 +158,31 @@ possible_keys: PRIMARY
      filtered: 100.00
         Extra: Using where
 ```
-### (4). 结论
+
+### (4). IN和Exits优化
+> 在MySQL中,当使用IN和Exists时,要切记:如果a表是大表(1W行数据),b表是小表(10行数据),那么使用:IN会更加的适合,反之使用EXISTS.
+
+```
+#   在MySQL中,IN属于子查询,会优先执行来着的.所以,它就是驱动表了.如果驱动表>被驱动表,性能可想而知,所以,始终要记住:驱动表应该要是小表
+#   SELECT * FROM a WHERE id IN( SELECT id FROM b );   
+#   
+#   List result = new ArrayList();
+#   for(SELECT id FROM b AS b){
+#	   SELECT * FROM a WHERE a.id = b.id;
+#   }
+```
+
+```
+# 在MySQL中,当使用Exists时,会使用a作为驱动表,b为被驱动表,始终要记住:驱动表应该要是小表
+# SELECT * FROM a WHERE EXISTS ( SELECT 1 FROM b WHERE a.id = b.id );
+# 
+# List result = new ArrayList();
+# for(SELECT * FROM a AS a){
+#  	boolean flag = SELECT 1 FROM b.id = a.id;
+#  	if(flag) result.add(a);
+# }
+```
+### (5). 结论
 ```
 查询条件+排序条件结合起来,符合最左元则,则可以利用索引的优势,让MySQL省去:Using filesort
 如果Using filesort无法避免,就尽量的使用覆盖索引.
