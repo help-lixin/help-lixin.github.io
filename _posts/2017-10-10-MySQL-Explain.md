@@ -507,13 +507,156 @@ possible_keys: NULL
          rows: NULL
      filtered: NULL
         Extra: Select tables optimized away
-
 ```
-### (13). 总结
+
+### (13). 案例
+```
+# 1. 当前字符集为UTF8
+# 2. 查看表结构(titles)
+mysql> desc titles;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| emp_no    | int(11)     | NO   | PRI | NULL    |       |
+| title     | varchar(50) | NO   | PRI | NULL    |       |
+| from_date | date        | NO   | PRI | NULL    |       |
+| to_date   | date        | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+# 3.查看表(titles)有哪些索引
+# PRIMARY(emp_no,title,from_date)
+mysql> SHOW INDEX FROM titles\G;
+*************************** 1. row ***************************
+        Table: titles
+   Non_unique: 0
+     Key_name: PRIMARY
+ Seq_in_index: 1
+  Column_name: emp_no
+    Collation: A
+  Cardinality: 299628
+     Sub_part: NULL
+       Packed: NULL
+         Null:
+   Index_type: BTREE
+      Comment:
+Index_comment:
+*************************** 2. row ***************************
+        Table: titles
+   Non_unique: 0
+     Key_name: PRIMARY
+ Seq_in_index: 2
+  Column_name: title
+    Collation: A
+  Cardinality: 442843
+     Sub_part: NULL
+       Packed: NULL
+         Null:
+   Index_type: BTREE
+      Comment:
+Index_comment:
+*************************** 3. row ***************************
+        Table: titles
+   Non_unique: 0
+     Key_name: PRIMARY
+ Seq_in_index: 3
+  Column_name: from_date
+    Collation: A
+  Cardinality: 443318
+     Sub_part: NULL
+       Packed: NULL
+         Null:
+   Index_type: BTREE
+      Comment:
+Index_comment:
+
+# ***********************************************************
+# 4. 命中部份索引(emp_no)
+# ken_len = emp_no(4) 
+mysql> EXPLAIN SELECT * FROM employees.titles  WHERE emp_no = 10007 \G
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: titles
+   partitions: NULL
+         type: ref
+possible_keys: PRIMARY
+          key: PRIMARY
+      key_len: 4
+          ref: const
+         rows: 2
+     filtered: 100.00
+        Extra: NULL
+
+# 5.命中部份索引(emp_no和title)
+# key_len = emp_no(4) + title(50*3+2) = 156
+mysql> EXPLAIN SELECT * FROM employees.titles  WHERE emp_no = 10007 AND title > 'Staff'  \G
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: titles
+   partitions: NULL
+         type: range
+possible_keys: PRIMARY,titles
+          key: PRIMARY
+      key_len: 156
+          ref: NULL
+         rows: 1
+     filtered: 100.00
+        Extra: Using where
+
+# 6.命中全部索引(emp_no,title,from_date)
+# 注意:条件全都是等于.
+# key_len = emp_no(4) + title(50*3+2) + from_date(3) = 159
+mysql> EXPLAIN SELECT * FROM employees.titles  WHERE emp_no = 10007 AND title = 'Staff' AND from_date = STR_TO_DATE('1989-02-10' , '%Y-%m-%d')  \G
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: titles
+   partitions: NULL
+         type: const
+possible_keys: PRIMARY,titles
+          key: PRIMARY
+      key_len: 159
+          ref: const,const,const
+         rows: 1
+     filtered: 100.00
+        Extra: NULL
+
+# **********************************************************************************
+# 7.命中部份索引(emp_no,title)
+# key_len = emp_no(3) + title(50*3+2) = 156
+# 注意:title条件是大于.
+# 因为:是区间查询,与from_date是排拆的,所以,from_date没有命中索引,需要回表检索.
+# **********************************************************************************
+mysql> EXPLAIN SELECT * FROM employees.titles  WHERE emp_no = 10007 AND title > 'Staff' AND from_date = STR_TO_DATE('1989-02-10' , '%Y-%m-%d')  \G
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: titles
+   partitions: NULL
+         type: range
+possible_keys: PRIMARY,titles
+          key: PRIMARY
+      key_len: 156
+          ref: NULL
+         rows: 1
+     filtered: 10.00
+        Extra: Using where
+
+# 7. 联合索引使用总结
+# 7.1 当使用联合索引时,如果使用了大于号(>),则会造成部份索引命中失效. 
+# 7.2 对索引列,使用了函数,会造成索引命中失效.  
+# 7.3 使用不等于(!=/<>)会导致全表扫描
+# 7.4 使用IS NULL,IS NOT NULL,会造成全表扫描.  
+# 7.5 使用LIKE时,通配符(%)只能在后面,否则会造成全表扫描.   
+# 7.6 索引列与查询常量类型不相同,会造成全表扫描.  
+# 7.7 少用OR/IN,MySQL内部优化器可能不走索引.  
+```
+### (14). 总结
 ```
 # 查看EXPLAIN的顺序
-# 1. 先看ID,ID越大的,越优先执行,ID相同的,从上至下执行.
-# 2. 看type,如果type:ALL,将需要先解决全表扫描.
+# 1. 看ID,ID越大的,越优先执行,ID相同的,从上至下执行.  
+# 2. 看type,如果type:ALL,需要先解决全表扫描.  
 # 3. 看key,如果key:NULL,则需要添加索引.
 # 4. 看rows,rows的数量尽可能的少.
 # 5. 对于联合索引,是否索引覆盖查看:ken_len,根据ken_len进行计算.   
