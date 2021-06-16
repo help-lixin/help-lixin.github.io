@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'CentOS 7 解压安装 MySQL'
+title: 'CentOS 免安装MySQL'
 date: 2017-10-10
 author: 李新
 tags: MySQL
