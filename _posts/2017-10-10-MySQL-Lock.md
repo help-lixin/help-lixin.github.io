@@ -135,4 +135,24 @@ mysql> SELECT * FROM departments;
 | d007    | Sales              |
 +---------+--------------------+
 ```
-### (7). 总结
+### (7). 死锁
+```
+mysql> use employees;
+# 1. 
+mysql> begin;  
+# 2. 对数据行:d010加锁.
+mysql> UPDATE departments  SET dept_name = 'IT-1' WHERE dept_no = 'd010';
+# 3. 尝试对d011行数据加锁,结果阻塞在此处.
+mysql> UPDATE departments  SET dept_name = 'IT-2.1' WHERE dept_no = 'd011';
+ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction
+```
+
+```
+mysql> use employees;
+# 1.
+mysql> begin; 
+# 2. 对数据行:d011加锁.
+mysql> UPDATE departments  SET dept_name = 'IT-2.1' WHERE dept_no = 'd011';
+
+mysql> UPDATE departments  SET dept_name = 'IT-1' WHERE dept_no = 'd010';
+```
