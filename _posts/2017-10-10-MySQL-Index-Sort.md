@@ -168,7 +168,8 @@ possible_keys: PRIMARY
 #   
 #   List result = new ArrayList();
 #   for(SELECT id FROM b AS b){
-#	   SELECT * FROM a WHERE a.id = b.id;
+#	   Object item  = SELECT * FROM a WHERE a.id = b.id;
+#	   if(null != item){ result.add(item) }
 #   }
 ```
 
