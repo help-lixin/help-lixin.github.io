@@ -140,10 +140,11 @@ db02.intranet.mydomain.net
 # -m : 模块名称 
 # -u : 指定用户名
 # -k : ansible默认是通过SSH KEY登录,也可以,通过密码登录(但是,不太建议这样做)  
+# -vvv  : 查看详细的日志内容
 # 
-# [lixin@manager ~]$ ansible erp -i ./erp/hosts -m ping
-# [lixin@manager ~]$ ansible all -i erp/hosts  -u root -k -m ping
-[lixin@manager ~]$ ansible all -i ./erp/hosts -m ping
+# [lixin@manager ~]$ ansible erp -i ./erp/hosts -m ping -vvv
+# [lixin@manager ~]$ ansible all -i erp/hosts  -u root -k -m ping -vvv
+[lixin@manager ~]$ ansible all -i ./erp/hosts -m ping -vvv
 test | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
@@ -152,3 +153,10 @@ test | SUCCESS => {
     "ping": "pong"
 }
 ```
+### (10). Ansible执行顺序
++ 加载配置文件(/etc/ansible/ansible.cfg).  
++ 加载模块文件,如:ping.
++ 通过Ansible将模块或命令生成对应的临时文件(.py),保存在$HOME/.ansible/tmp/,并将该文件传输到远程服务器对应执行用户目录下($HOME/.ansible/tmp)  
++ 给.py添加可执行权限.
++ 执行并返回结果.
++ 删除临时.py文件
