@@ -156,19 +156,7 @@ test | SUCCESS => {
 ### (10). Ansible执行顺序
 + 加载配置文件(/etc/ansible/ansible.cfg).  
 + 加载模块文件,如:ping.
-+ 通过Ansible将模块或命令生成对应的临时文件(.py),保存在$HOME/.ansible/tmp/,并将该文件传输到远程服务器对应执行用户目录下($HOME/.ansible/tmp)  
++ 通过Ansible将模块或命令生成对应的临时文件(.py),保存在~/.ansible/tmp/,并将该文件传输到远程服务器对应执行用户目录下(~/.ansible/tmp)  
 + 给.py添加可执行权限.
 + 执行并返回结果.
 + 删除临时.py文件
-
-### (11). Ansible Galaxy
-> 可以到[Galaxy官网](https://galaxy.ansible.com/)下载roles,学习.
-
-```
-# 比如:
-[lixin@manager ~]$ ansible-galaxy collection install community.mysql
-Process install dependency map
-Starting collection install process
-# 下载解后目录:/home/lixin/.ansible/collections/ansible_collections/community/mysql
-Installing 'community.mysql:2.1.0' to '/home/lixin/.ansible/collections/ansible_collections/community/mysql'
-```
