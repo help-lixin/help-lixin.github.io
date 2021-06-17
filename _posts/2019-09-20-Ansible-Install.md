@@ -160,3 +160,15 @@ test | SUCCESS => {
 + 给.py添加可执行权限.
 + 执行并返回结果.
 + 删除临时.py文件
+
+### (11). Ansible Galaxy
+> 可以到[Galaxy官网](https://galaxy.ansible.com/)下载roles,学习.
+
+```
+# 比如:
+[lixin@manager ~]$ ansible-galaxy collection install community.mysql
+Process install dependency map
+Starting collection install process
+# 下载解后目录:/home/lixin/.ansible/collections/ansible_collections/community/mysql
+Installing 'community.mysql:2.1.0' to '/home/lixin/.ansible/collections/ansible_collections/community/mysql'
+```
