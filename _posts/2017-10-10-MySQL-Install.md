@@ -76,9 +76,9 @@ socket=/tmp/mysql.sock
 ### (4). MySQL初始化
 ```
 [mysql@app-1 application]$ ./mysql-5.7.34/bin/mysql_install_db --user=mysql --basedir=/home/mysql/application/mysql-5.7.34 --datadir=/home/mysql/application/mysql-5.7.34/data/
-2021-06-11 16:45:06 [WARNING] mysql_install_db is deprecated. Please consider switching to mysqld --initialize
-2021-06-11 16:45:11 [WARNING] The bootstrap log isn't empty:
-2021-06-11 16:45:11 [WARNING] 2021-06-11T08:45:06.129387Z 0 [Warning] --bootstrap is deprecated. Please consider using --initialize instead
+2017-10-10 16:45:06 [WARNING] mysql_install_db is deprecated. Please consider switching to mysqld --initialize
+2017-10-10 16:45:11 [WARNING] The bootstrap log isn't empty:
+2017-10-10 16:45:11 [WARNING] 2017-10-10T08:45:06.129387Z 0 [Warning] --bootstrap is deprecated. Please consider using --initialize instead
 ```
 ### (5). MySQL配置开机启动(/etc/systemd/system/mysql.service)
 ```
@@ -109,7 +109,7 @@ WantedBy=multi-user.target
 [root@app-1 ~]# systemctl status mysql.service
 ● mysql.service - mysql service
    Loaded: loaded (/etc/systemd/system/mysql.service; disabled; vendor preset: disabled)
-   Active: active (running) since Fri 2021-06-11 16:56:03 CST; 13s ago
+   Active: active (running) since Fri 2017-10-10 16:56:03 CST; 13s ago
  Main PID: 4398 (mysqld)
    CGroup: /system.slice/mysql.service
            └─4398 /home/mysql/application/mysql-5.7.34/bin/mysqld --defaults-file=/home/mysql/.my.cnf --user=mysql
