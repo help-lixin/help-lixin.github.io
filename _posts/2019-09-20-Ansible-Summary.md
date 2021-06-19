@@ -26,4 +26,6 @@ Ansible是新出现的自动化运维工具,基于Python开发,集合了众多�
   - 定义Ansible需要操作主机的范围.
 
 ### (3). Ansible学习目录
-!["Ansible 安装(二)"](/2019/09/20/Ansible-Install.html)
+!["Ansible 安装(二)"](/2019/09/20/Ansible-Install.html)           
+!["Ansible 常用模块(三)"](/2019/09/20/Ansible-Module.html)         
+!["Ansible Playbook(四)"](/2019/09/20/Ansible-Playbook.html)   

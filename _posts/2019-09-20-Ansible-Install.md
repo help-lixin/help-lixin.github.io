@@ -160,3 +160,17 @@ test | SUCCESS => {
 + 给.py添加可执行权限.
 + 执行并返回结果.
 + 删除临时.py文件
+
+### (11). sudo特权提升
+> 在某些情况下,root账号是禁止远程登录的,可是,普通账号权限又有限,所以,可以通过提权的方式来操作(注意:普通账号要开通sudo).
+
+```
+# -k，--ask-pass : 询问连接密码
+# -K，--ask-become-pass : 询问特权升级密码
+# 如果主机有配置key的方式,那么可以只用-K(询问特权升级密码)
+
+# [lixin@manager ~]$ ansible test -i erp/hosts -m shell -a "yum -y install nginx" --become  --become-method=sudo --become-user=root -kK
+# [lixin@manager ~]$ ansible test -i erp/hosts -m shell -a "yum -y install nginx" --become  --become-method=sudo --become-user=root -K
+SSH password:      # 远程主机的密码
+BECOME password[defaults to SSH password]:   # sudo - root的密码
+```
