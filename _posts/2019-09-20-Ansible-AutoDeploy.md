@@ -214,7 +214,7 @@ esac
 ```
 ### (6). Jenkins调用Ansible
 ```
-# Ansible会把以下三个变量添加拼接出来,来定位要发版的构建物.  
+# Ansible会把以下三个变量拼接出来,来定位要发版的构建物.  
 # -e "service_name=test-service"  : 微服务的名称
 # -e "second_dir=2019-09-20"      : 二级目录
 #  -e "three_dir=18.20"           : 三级目录
