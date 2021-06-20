@@ -30,3 +30,5 @@ Ansible是新出现的自动化运维工具,基于Python开发,集合了众多�
 ["Ansible 常用模块(三)"](/2019/09/20/Ansible-Module.html)         
 ["Ansible Playbook(四)"](/2019/09/20/Ansible-Playbook.html)   
 ["Ansible Roles(五)"](/2019/09/20/Ansible-Roles.html)   
+["Ansible Roles定义JDK(六)"](/2019/09/20/Ansible-Roles-JDK.html)    
+
