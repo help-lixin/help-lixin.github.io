@@ -16,6 +16,7 @@ tags: Ansible 解决方案 DevOps
   - 运维在git里定义了一个目录.后面详解目录结构.
   - 开发/测试,将要交付的内容,放在git目录里.  
   - 通过Jenkins定义变量(微服务名称),读取git目录里的构件,调用Ansible进行发版.
+
 ### (2). 目录定义
 ```
 # 注意:发版时,定位的构件物的方式是: test-service/2019-09-20/18.20
@@ -53,7 +54,9 @@ deploy/
 10.211.55.102
 10.211.55.103
 ```
+
 ### (4). Playbook定义
+
 ```
 # 1. 创建部署目录
 lixin-macbook:roles root# mkdir -p deploy/{files,handlers,tasks,templates,vars}
