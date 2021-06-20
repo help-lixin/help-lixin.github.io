@@ -9,7 +9,7 @@ tags: Ansible
 ### (1). 创建Roles目录
 ```
 lixin-macbook:~ root# cd /etc/ansible/roles/
-lixin-macbook:ansible-roles root mkdir -p jdk/{files,handlers,tasks,templates,vars}
+lixin-macbook:ansible-roles root$ mkdir -p jdk/{files,handlers,tasks,templates,vars}
 lixin-macbook:ansible-roles root$ sudo ln -s ./jdk /etc/ansible/roles/
 lixin-macbook:ansible-roles root$ ll /etc/ansible/roles/
 lrwxr-xr-x  1 root  wheel    5  6 20 11:49 jdk

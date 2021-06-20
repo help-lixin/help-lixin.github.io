@@ -135,7 +135,7 @@ EOF
 [root@manager roles]# tree nginx
 nginx
 ├── handlers
-│   └── restart.yml
+│   └── restart.yml    # 我这里还缺少了一个main.yml.
 ├── nginx_roles.yml
 ├── tasks
 │   ├── config.yml

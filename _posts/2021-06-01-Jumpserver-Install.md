@@ -9,7 +9,7 @@ tags:  Jumpserver
 ### (1). 前言
 > 有这样的场景: 
 > 1. 企业拥有100多台机器,账号应该如何管理?    
-> 2. 企业IT员工有100多人,人员离职如何进行账户回收?    
+> 2. 企业IT员工有30多人,人员离职如何进行账户回收?    
 
 ### (2). Jumpserver介绍
 > JumpServer是全球首款开源的堡垒机,使用GNU GPL v2.0开源协议,是符合4A规范的运维安全审计系统.   
@@ -491,7 +491,7 @@ Last login: Sat Jun 12 15:23:16 2021 from 10.211.55.100
 # 登录成功
 [zhangsan@app-2 ~]$
 
-# 额,在jumpserver创建的每个用户,实际将会是对应Linux下的用户.
+# 额,在jumpserver创建的每个用户,实际会在Linux下创建相应的用户.
 [zhangsan@app-2 ~]$ cat /etc/passwd|grep zhangsan
 zhangsan:x:1002:1002:tomcat[张三(zhangsan)]:/home/zhangsan:/bin/bash
 
