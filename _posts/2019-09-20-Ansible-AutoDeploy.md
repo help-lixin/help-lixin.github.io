@@ -61,9 +61,17 @@ lixin-macbook:Desktop lixin$ tree /Users/lixin/Desktop/ansible_files
 [hello-service]
 10.211.55.100   ansible_ssh_user=root
 10.211.55.101   ansible_ssh_user=root
+
+
+[hello-service-a]
+10.211.55.100   ansible_ssh_user=root
+
+[hello-service-b]
+10.211.55.101   ansible_ssh_user=root
 ```
 
 ### (4). Playbook定义
+> <font color='re'>由于jekyll语法和代码有冲突,建议直接去github下载,参照学习.</font>  
 
 ```
 # 1. 创建部署目录
@@ -309,3 +317,4 @@ ansible-playbook deploy/deploy_roles.yml -e "service_name=test-service" -e "seco
 ```
 
 ### (7). 下载地址
+["ansible roles"](https://github.com/help-lixin/ansible_roles.git)
