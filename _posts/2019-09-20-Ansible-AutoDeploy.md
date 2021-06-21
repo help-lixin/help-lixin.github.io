@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ' GitLab + Jenkins +  Ansible 自动化部署解决方案(七)'
+title: 'Jenkins + Ansible 自动化部署解决方案(七)'
 date: 2019-09-20
 author: 李新
 tags: Ansible 解决方案 DevOps
@@ -13,10 +13,11 @@ tags: Ansible 解决方案 DevOps
   - 在开发和测试的环境下,Jenkins都会自动打包,并结合Ansible进行应用程序的发版.  
   - 开发交付给测试,相比来说要自由一些,因为,受影不大.
 + 开发/测试如何交付给运维?
-  - 运维也有一套自己的Jenkins
-  - 运维在git里定义了一个目录,专门用来存放构建物(目录需要按照一定的结构来定义).
-  - 开发/测试,将要交付的构建物,放在git目录里,并commit. 
-  - 在Ansible的服务器上,定时pull git目录里的内容.  
+  - 运维有一套自己的Jenkins
+  - 运维在定义了一个目录,专门用来存放构建物(目录需要按照一定的结构来定义).
+  - 开发/测试,将要交付的构建物,放在目录里.  
+  - 在Ansible的服务器上,定时获取最新的目录里的内容.  
+  - 在Ansible的服务器上,定时清理5天以上的构建物.  
   - 在Jenkin定义变量(微服务名称/发布时间/详细时间),手动(定时)触发Ansible进行生产上的机器发版.  
 
 ### (2). 目录定义
@@ -62,10 +63,11 @@ lixin-macbook:Desktop lixin$ tree /Users/lixin/Desktop/ansible_files
 10.211.55.100   ansible_ssh_user=root
 10.211.55.101   ansible_ssh_user=root
 
-
+# 针对A/B发版使用
 [hello-service-a]
 10.211.55.100   ansible_ssh_user=root
 
+# 针对A/B发版使用
 [hello-service-b]
 10.211.55.101   ansible_ssh_user=root
 ```
