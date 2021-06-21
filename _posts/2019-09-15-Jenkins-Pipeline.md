@@ -3,7 +3,7 @@ layout: post
 title: 'Jenkins + Ansible 自动化部署解决方案(八)'
 date: 2019-09-15
 author: 李新
-tags: Jenkins Ansible 解决方案 DevOps
+tags: Jenkins Ansible 自动化部署 DevOps
 ---
 
 ### (1). 需求
