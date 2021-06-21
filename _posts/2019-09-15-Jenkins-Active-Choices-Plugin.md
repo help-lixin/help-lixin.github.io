@@ -30,7 +30,7 @@ ansible_files/
 ### (2). 安装插件
 > [Active Choices Plug-in](https://github.com/jenkinsci/active-choices-plugin)这是一个构建动态参数的插件.  
 
-### (3). pipeline
+### (3). pipeline定义
 ```
 properties([
     parameters([
@@ -141,4 +141,27 @@ pipeline {
       }
     }
 }
+```
+
+### (4). list-dir.sh
+
+```
+lixin-macbook:Desktop lixin$ cat list-dir.sh
+#!/bin/bash
+ansible_files_path=/Users/lixin/Desktop/ansible_files
+
+if [ $# == 0 ];
+then
+  echo "${ansible_files_path}" >> /Users/lixin/Desktop/log.txt
+  ls -lha ${ansible_files_path} | awk 'NR > 3 {print $NF}'
+elif [ $# == 1 ];
+ then
+  ansible_files_path=${ansible_files_path}/$1
+  echo "${ansible_files_path}" >> /Users/lixin/Desktop/log.txt
+  ls -lha ${ansible_files_path} | awk 'NR > 3 {print $NF}'
+else
+  ansible_files_path=${ansible_files_path}/$1/$2
+  echo "${ansible_files_path}" >> /Users/lixin/Desktop/log.txt
+  ls -lha ${ansible_files_path} | awk 'NR > 3 {print $NF}'
+fi
 ```
