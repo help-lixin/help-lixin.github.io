@@ -25,7 +25,7 @@ tags: Ansible 自动化部署 DevOps
 lixin-macbook:deploy lixin$ tree
 .
 ├── deploy_roles.yml
-├── files -> /Users/lixin/Desktop/ansible_files     # 注意:这里的files实际是git clone到本地的一个目录,把clone后目录,软引用过来的
+├── files -> /Users/lixin/WorkspaceAnsible/files    # 注意:这里的files实际是git clone到本地的一个目录,把clone后目录,软引用过来的
 ├── handlers
 │   └── main.yml
 ├── tasks
@@ -45,8 +45,8 @@ lixin-macbook:deploy lixin$ tree
 # 注意:发版时,定位的构建物的方式是: test-service/2019-09-20/18.20,个人觉得,一个微服务,发版精确到分钟应该差不多.
 # 所以,三个参数都要传递,从Jenkins传递变量进来.
 # *************************************************************************
-lixin-macbook:Desktop lixin$ tree /Users/lixin/Desktop/ansible_files
-/Users/lixin/Desktop/ansible_files
+lixin-macbook:Desktop lixin$ tree /Users/lixin/WorkspaceAnsible/files
+/Users/lixin/WorkspaceAnsible/files
 └── test-service
     └── 2019-09-20
         └── 18.20                           ## 需要发版的内容.
@@ -77,7 +77,8 @@ lixin-macbook:Desktop lixin$ tree /Users/lixin/Desktop/ansible_files
 
 ```
 # 1. 创建部署目录
-lixin-macbook:~ lixin$ mkdir ~/WorkspaceAnsible/
+lixin-macbook:~ lixin$ cd ~/GitRepository/
+lixin-macbook:GitRepository lixin$ mkdir ansible_roles/
 lixin-macbook:WorkspaceAnsible lixin$ mkdir -p deploy/{files,handlers,tasks,templates,vars}
 lixin-macbook:WorkspaceAnsible lixin$ cd deploy
 
@@ -298,7 +299,7 @@ case "$1" in
 esac
 
 ```
-### (6). Jenkins调用Ansible
+### (6). 调用Ansible
 ```
 # -t init要先执行,相当于运维先打一个脚手架出来,也可以:init,deploy一起执行.
 # 创建骨架以及停止,启动,重启之所以需要servie_name,是因为:要定位到该目录下执行:app.sh stop/start/restart

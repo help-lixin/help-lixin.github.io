@@ -60,7 +60,7 @@ properties([
                     sandbox: false, 
                     script: 
                         '''
-                          def result = ['/bin/bash', '-c', "/Users/lixin/Desktop/list-dir.sh"].execute()
+                          def result = ['/bin/bash', '-c', "/Users/lixin/WorkspaceAnsible/shell/list-dir.sh"].execute()
                           return result.text.readLines()
                         '''
                 ]
@@ -89,7 +89,7 @@ properties([
                     sandbox: false, 
                     script: 
                         ''' 
-                          def result = ['/bin/bash', '-c', "/Users/lixin/Desktop/list-dir.sh '${service_name}' "].execute()
+                          def result = ['/bin/bash', '-c', "/Users/lixin/WorkspaceAnsible/shell/list-dir.sh '${service_name}' "].execute()
                           return result.text.readLines()
                         '''
                 ]
@@ -118,7 +118,7 @@ properties([
                     sandbox: false, 
                     script: 
                         ''' 
-                          def result = ['/bin/bash', '-c', "/Users/lixin/Desktop/list-dir.sh '${service_name}'  '${deploy_day}' "].execute()
+                          def result = ['/bin/bash', '-c', "/Users/lixin/WorkspaceAnsible/shell/list-dir.sh '${service_name}'  '${deploy_day}' "].execute()
                           return result.text.readLines()
                         '''
                 ]
@@ -161,18 +161,18 @@ pipeline {
 # 记得添加可执行权限
 lixin-macbook:Desktop lixin$ cat list-dir.sh
 #!/bin/bash
-ansible_files_path=/Users/lixin/Desktop/ansible_files
+ansible_files_path=/Users/lixin/WorkspaceAnsible/files
 
 if [ $# == 0 ];
 then
-  ls -lha ${ansible_files_path} | awk 'NR > 3 {print $NF}'
+  ansible_files_path=/Users/lixin/WorkspaceAnsible/files
 elif [ $# == 1 ];
  then
   ansible_files_path=${ansible_files_path}/$1
 else
   ansible_files_path=${ansible_files_path}/$1/$2
 fi
-ls -lha ${ansible_files_path} | awk 'NR > 3 {print $NF}'
+ls -lh ${ansible_files_path} | awk 'NR > 1 {print $NF}'
 ```
 ### (5). jenkins 查看运行后结果
 ```
