@@ -45,35 +45,47 @@ lixin-macbook:deploy lixin$ tree
 # 注意:发版时,定位的构建物的方式是: test-service/2019-09-20/18.20,个人觉得,一个微服务,发版精确到分钟应该差不多.
 # 所以,三个参数都要传递,从Jenkins传递变量进来.
 # *************************************************************************
-lixin-macbook:Desktop lixin$ tree /Users/lixin/WorkspaceAnsible/files
-/Users/lixin/WorkspaceAnsible/files
-└── test-service
-    └── 2019-09-20
-        └── 18.20                           ## 需要发版的内容.
-            ├── conf                        ## 配置目录
-            │   └── application.properties
-            └── lib                         ## jar包
-                └── hello-service.jar
+lixin-macbook:~ lixin$ tree WorkspaceAnsible/
+WorkspaceAnsible/
+├── files                                                        # 所有要发版的内容都放在这个目录下
+│   └── test-service                                             # 某个微服务
+│       ├── 2019-09-20
+│       │   └── 18.20
+│       │       ├── conf
+│       │       │   └── application.properties
+│       │       └── lib
+│       │           └── hello-service.jar
+│       └── 2019-09-21
+├── hosts                                                         # 存放所有的hosts
+│   └── test-service
+└── shell                                                         # 所有的shell
+    ├── list-dir.sh
+    └── list-hosts.sh
 ```
 ### (3). 规定hosts
 ```
 # 微服务名称就是:hosts文件名称
-# /etc/hosts/hello-service
-[hello-service]
-10.211.55.100   ansible_ssh_user=root
-10.211.55.101   ansible_ssh_user=root
+# /Users/lixin/WorkspaceAnsible/hosts/test-service
+[erp]
+10.211.55.100 ansible_ssh_user=root
+10.211.55.101 ansible_ssh_user=root
 
-# 针对A/B发版使用
-[hello-service-a]
-10.211.55.100   ansible_ssh_user=root
+# 针对灰度发布
+[erp-a]
+10.211.55.100 ansible_ssh_user=root
 
-# 针对A/B发版使用
-[hello-service-b]
-10.211.55.101   ansible_ssh_user=root
+[erp-b]
+10.211.55.101 ansible_ssh_user=root
+
+[alibaba]
+10.211.55.100 ansible_ssh_user=root
+
+[tencent]
+10.211.55.101 ansible_ssh_user=root
 ```
 
 ### (4). Playbook定义
-> <font color='re'>由于jekyll语法和代码有冲突,建议直接去github下载,参照学习.</font>  
+> <font color='re'>由于jekyll语法和代码有冲突,建议直接去github下载,参照学习,在笔记里,我只记录了过程.</font>  
 
 ```
 # 1. 创建部署目录
@@ -222,8 +234,8 @@ lixin-macbook:deploy lixin$ cat >  handlers/main.yml  <<EOF
 EOF
 
 # 5. 定义roles
-lixin-macbook:deploy lixin$ cat >  handlers/deploy_roles.yml  <<EOF
- - hosts: erp
+lixin-macbook:deploy lixin$ cat >  deploy_roles.yml  <<EOF
+ - hosts: "{{ hosts }}"    # 要给哪些host发版,也通过变量传递
    remote_user: root
    gather_facts: no
    roles:
