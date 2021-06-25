@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443'
-date: 2021-06-09
+date: 2021-06-25
 author: 李新
 tags:  git
 ---
