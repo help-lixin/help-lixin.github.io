@@ -31,7 +31,7 @@ lixin-macbook:~ lixin$ ll ~/.ssh/
 -rw-------    1 lixin  staff   401  4 15  2020 id_rsa.pub
 
 
-# 2. 拷贝公钥,到github里.
+# 2. 拷贝公钥,到github里(略).
 
 
 # 3. 配置你clone下来的项目
