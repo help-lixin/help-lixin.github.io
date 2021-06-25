@@ -13,7 +13,7 @@ tags: fluent-validator
 > 1. 添加fluent-validator依赖.  
 > 2. 定义验证Handler.  
 > 3. 定义要验证的Object.   
-> 4. 验证.  
+> 4. 验证.     
 
 ### (3). pom.xml
 ```
