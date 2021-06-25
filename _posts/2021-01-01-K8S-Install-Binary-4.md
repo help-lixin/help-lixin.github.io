@@ -3,7 +3,7 @@ layout: post
 title: 'Kubernetes 二进制安装之Flannel安装与配置(四)'
 date: 2021-01-01
 author: 李新
-tags: K8S  K8S安装
+tags: K8S二进制安装
 ---
 
 ### (1). Kubernetes网络模型概念(CNI)

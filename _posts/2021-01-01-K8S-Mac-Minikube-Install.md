@@ -3,7 +3,7 @@ layout: post
 title: 'Mac Minikube安装Kubernetes与使用'
 date: 2021-01-01
 author: 李新
-tags: K8S Minikube  K8S安装
+tags: minikube
 ---
 
 ### (1). 安装 docker-machine-driver-hyperkit

@@ -3,7 +3,7 @@ layout: post
 title: 'Kubernetes 二进制安装之Master(kube-controller-manager/kube-scheduler)部署(六)'
 date: 2021-01-01
 author: 李新
-tags: K8S K8S安装
+tags: K8S二进制安装
 ---
 
 ### (1). Master节点需要部署的组件有以下三个
