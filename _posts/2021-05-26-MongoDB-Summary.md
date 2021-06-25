@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'MongoDB 介绍(一)'
+title: 'MongoDB 介绍'
 date: 2021-05-26
 author: 李新
 tags:  MongoDB
