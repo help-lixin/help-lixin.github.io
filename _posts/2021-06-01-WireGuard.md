@@ -3,7 +3,7 @@ layout: post
 title: 'VPN(WireGuard) 搭建'
 date: 2021-06-01
 author: 李新
-tags:  WireGuard VPN
+tags:  VPN
 ---
 
 ### (1). 为什么研究VPN
