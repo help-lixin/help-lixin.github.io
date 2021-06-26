@@ -7,7 +7,7 @@ tags:  git
 ---
 
 ### (1). 前言
-> 这几天,突然,github提交代码时,总是报错:LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443.  
+> 这几天,github提交代码时,总是报错:LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443.  
 > 解决方法有两种:  
 > 1. git配置代理(翻墙).  
 > 2. 通过SSH进行提交.    
