@@ -227,6 +227,61 @@ mysql> show databases;
 | mysql              |
 | test               |
 +--------------------+
-5 rows in set (0.00 sec)
 
+# 进入测试库
+mysql>  USE test;
+
+# 创建表
+mysql>  CREATE TABLE t_test (
+  id int(11) NOT NULL,
+  name varchar(20) DEFAULT NULL,
+  age int(11) DEFAULT NULL,
+  score decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (id)  ,
+  KEY idx_name (name),
+  KEY idx_score (score)
+);
+
+# 插入数据
+INSERT INTO t_test(id,name,age,score) VALUES(1,"张三",18,59.9);
+INSERT INTO t_test(id,name,age,score) VALUES(2,"李四",18,58.9);
+INSERT INTO t_test(id,name,age,score) VALUES(3,"王五",18,57.9);
+INSERT INTO t_test(id,name,age,score) VALUES(4,"赵六",18,69.9);
+INSERT INTO t_test(id,name,age,score) VALUES(5,"张三丰",18,66.9);
+INSERT INTO t_test(id,name,age,score) VALUES(6,"赵敏",18,70.9);
+INSERT INTO t_test(id,name,age,score) VALUES(7,"李元霸",18,79.9);
+INSERT INTO t_test(id,name,age,score) VALUES(8,"李世民",18,89.9);
+INSERT INTO t_test(id,name,age,score) VALUES(9,"张翠山",18,99.9);
+INSERT INTO t_test(id,name,age,score) VALUES(10,"赵六",18,78.9);
+
+
+# LIKE全表扫描(证明:不支持LIKE)
+mysql> EXPLAIN SELECT * FROM t_test WHERE name LIKE '%三%';
++-------------------------+---------+-----------+---------------+-------------------------------------+
+| id                      | estRows | task      | access object | operator info                       |
++-------------------------+---------+-----------+---------------+-------------------------------------+
+| TableReader_7           | 8.00    | root      |               | data:Selection_6                    |
+| └─Selection_6           | 8.00    | cop[tikv] |               | like(test.t_test.name, "%三%", 92)  |
+|   └─TableFullScan_5     | 10.00   | cop[tikv] | table:t_test  | keep order:false, stats:pseudo      |
++-------------------------+---------+-----------+---------------+-------------------------------------+
+
+mysql> EXPLAIN SELECT * FROM t_test WHERE name LIKE '%张';
++-------------------------+---------+-----------+---------------+------------------------------------+
+| id                      | estRows | task      | access object | operator info                      |
++-------------------------+---------+-----------+---------------+------------------------------------+
+| TableReader_7           | 8.00    | root      |               | data:Selection_6                   |
+| └─Selection_6           | 8.00    | cop[tikv] |               | like(test.t_test.name, "%张", 92)  |
+|   └─TableFullScan_5     | 10.00   | cop[tikv] | table:t_test  | keep order:false, stats:pseudo     |
++-------------------------+---------+-----------+---------------+------------------------------------+
+
+
+# 范围扫描(IndexRangeScan/TableRowIDScan),证明用到了索引.
+mysql> EXPLAIN SELECT * FROM t_test WHERE score > 60 AND score < 70;
++-------------------------------+---------+-----------+--------------------------------------+-----------------------------------------------------+
+| id                            | estRows | task      | access object                        | operator info                                       |
++-------------------------------+---------+-----------+--------------------------------------+-----------------------------------------------------+
+| IndexLookUp_10                | 0.25    | root      |                                      |                                                     |
+| ├─IndexRangeScan_8(Build)     | 0.25    | cop[tikv] | table:t_test, index:idx_score(score) | range:(60.00,70.00), keep order:false, stats:pseudo |
+| └─TableRowIDScan_9(Probe)     | 0.25    | cop[tikv] | table:t_test                         | keep order:false, stats:pseudo                      |
++-------------------------------+---------+-----------+--------------------------------------+-----------------------------------------------------+
 ```
