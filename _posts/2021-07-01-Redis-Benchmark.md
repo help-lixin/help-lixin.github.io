@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'redi-benchmark 压测'
+title: 'redis-benchmark 基准测试'
 date: 2021-07-01
 author: 李新
 tags:  Redis
