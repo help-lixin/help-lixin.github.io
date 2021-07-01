@@ -7,7 +7,7 @@ tags:  Redis
 ---
 
 ### (1). 前言
-> 对Redis性能测试,需要测出最终的QPS.
+> 对Redis进行基准测试,需要测出最终的QPS.
 
 ### (2). redis-benchmark命令格式
 ```
