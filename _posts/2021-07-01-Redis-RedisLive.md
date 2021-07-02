@@ -9,6 +9,7 @@ tags:  Redis
 ### (1). RedisLive是什么? 
 > RedisLive提供对Redis实例的内存使用情况,接收的客户端命令,接收的请求数量以及键进行监控. 
 > RedisLive的工作原理基于Redis的INFO和MONITOR命令,通过向Redis实例发送INFO和MONITOR命令来获取Redis实例当前的运行数据.  
+
 ### (2). RedisLive安装
 ```
 lixin-macbook:~ lixin$ cd ~/GitRepository/
