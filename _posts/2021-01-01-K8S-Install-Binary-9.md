@@ -3,7 +3,7 @@ layout: post
 title: 'Kubernetes 二进制安装之DNS解析(九)'
 date: 2021-01-01
 author: 李新
-tags: K8S二进制安装
+tags: 二进制安装K8S
 ---
 
 ### (1). 获取kube-dns.yml文件

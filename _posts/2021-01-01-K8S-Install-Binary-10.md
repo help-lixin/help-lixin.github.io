@@ -3,7 +3,7 @@ layout: post
 title: 'Kubernetes 二进制安装之结束篇'
 date: 2021-01-01
 author: 李新
-tags: K8S二进制安装
+tags: 二进制安装K8S
 ---
 
 ### (1). K8S创建Pod时,是否会把机器名称(hostname)和IP地址保存在ETCD?

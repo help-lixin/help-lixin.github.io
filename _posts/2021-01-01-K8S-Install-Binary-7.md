@@ -3,7 +3,7 @@ layout: post
 title: 'Kubernetes 二进制安装之Node(kubelet/kube-proxy)部署(七)'
 date: 2021-01-01
 author: 李新
-tags: K8S二进制安装
+tags: 二进制安装K8S
 ---
 
 ### (1). Node节点需要部署以下组件 
