@@ -7,9 +7,9 @@ tags:  Redis
 ---
 
 ### (1). Redis Stat 是什么?
-redis-stat,这个gem是一个用Ruby写成的,用于对Redis进行监控.
-此gem本身基于Redis的INFO命令封装而成.而不会像基于MONITOR命令的监控工具一样,对Redis本身有性能上的影响.
-我们只需要在一台机器上安装redis-stat,就可在这台机器上监控所有的redis实例当前时间的数据信息.  
+redis-stat是一个用Ruby语言开发的工具,主要用于对Redis进行监控.     
+redis-stat本身基于Redis的INFO命令封装而成,而不会像其它工具那样,基于MONITOR命令的监控.    
+我们只需要在一台机器上安装redis-stat,就可在这台机器上监控所有的redis实例当前时间的数据信息.     
 
 ### (2). Redis Stat 安装
 ```
