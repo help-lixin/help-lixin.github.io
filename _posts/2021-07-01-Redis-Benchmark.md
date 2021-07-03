@@ -88,6 +88,11 @@ lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 10 -n 1000000
 35973.81 requests per second
 36121.95 requests per second
 
+# redis-stat 监控数据(看第9列[cmd/s])
+16:50:05 23 49 11   0 1.61MB 3.57MB    1 38.4k     0     0    100 38.4k     0    0B
+16:50:06 22 48 11   0 1.61MB 3.57MB    1 37.1k     0     0    100 37.1k     0    0B
+16:50:07 22 48 11   0 1.61MB 3.57MB    1 37.1k     0     0    100 37.1k     0    0B
+
 
 # CPU占用率:75%
 lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 20 -n 1000000 -t set,get -d 50
@@ -99,6 +104,11 @@ lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 20 -n 1000000
 38119.93 requests per second
 39373.18 requests per second
 40293.34 requests per second
+
+# redis-stat 监控数据(看第9列[cmd/s])
+16:52:02 27 50 21   0 2.15MB 3.61MB    1 40.6k     0     0      -     0     0    0B
+16:52:03 27 50 21   0 2.15MB 3.61MB    1 41.4k     0     0      -     0     0    0B
+16:52:05 27 51 21   0 2.15MB 3.61MB    1 41.1k     0     0      -     0     0    0B
 
 
 # CPU占用率:76%
@@ -112,6 +122,12 @@ lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 30 -n 1000000
 40866.37 requests per second
 43306.92 requests per second
 
+# redis-stat 监控数据(看第9列[cmd/s])
+16:53:18 25 54 31   0 2.68MB 3.83MB    1 47.5k     0     0    100 47.5k     0    0B
+16:53:19 25 54 31   0 2.68MB 3.83MB    1 48.2k     0     0    100 48.2k     0    0B
+16:53:20 25 55 31   0 2.68MB 3.83MB    1 49.0k     0     0    100 49.0k     0    0B
+
+
 
 # CPU占用率:77%
 lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 40 -n 1000000 -t set,get -d 50
@@ -124,6 +140,13 @@ lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 40 -n 1000000
 45008.55 requests per second
 45545.64 requests per second
 
+# redis-stat 监控数据(看第9列[cmd/s])
+16:54:08 29 53 41   0 3.20MB 3.93MB    1 48.9k     0     0      -     0     0    0B
+16:54:09 29 53 41   0 3.20MB 3.93MB    1 49.1k     0     0      -     0     0    0B
+16:54:10 29 53 41   0 3.20MB 3.93MB    1 48.4k     0     0      -     0     0    0B
+16:54:11 25 52 41   0 3.20MB 3.93MB    1 47.1k     0     0    100 34.8k     0    0B
+
+
 # CPU占用率:78%
 lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 50 -n 1000000 -t set,get -d 50
 ====== SET ======
@@ -135,6 +158,14 @@ lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 50 -n 1000000
 45369.99 requests per second
 46959.38 requests per second
 
+# redis-stat 监控数据(看第9列[cmd/s])
+16:54:46 30 54 51   0 3.73MB 3.98MB    1 51.6k     0     0      -     0     0    0B
+16:54:47 30 54 51   0 3.73MB 3.98MB    1 52.4k     0     0      -     0     0    0B
+16:54:48 30 55 51   0 3.73MB 3.98MB    1 50.5k     0     0      -     0     0    0B
+16:54:49 30 54 51   0 3.73MB 3.98MB    1 50.1k     0     0      -     0     0    0B
+16:54:50 29 53 51   0 3.73MB 3.98MB    1 50.0k     0     0      -     0     0    0B
+
+
 # CPU占用率:78%
 lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 60 -n 1000000 -t set,get -d 50
 ====== SET ======
@@ -145,6 +176,12 @@ lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 60 -n 1000000
 46620.05 requests per second
 47865.21 requests per second
 49062.90 requests per second
+
+# redis-stat 监控数据(看第9列[cmd/s])
+16:55:51 30 54 61   0 4.24MB 4.35MB    1 53.5k     0     0      -     0     0    0B
+16:55:53 30 55 61   0 4.24MB 4.35MB    1 54.5k     0     0      -     0     0    0B
+16:55:54 30 54 61   0 4.24MB 4.35MB    1 53.6k     0     0      -     0     0    0B
+16:55:55 31 55 61   0 4.24MB 4.35MB    1 55.8k     0     0      -     0     0    0B
 
 
 # CPU占用率:80%
@@ -158,6 +195,13 @@ lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 70 -n 1000000
 47846.89 requests per second
 49441.31 requests per second
 
+# redis-stat 监控数据(看第9列[cmd/s])
+16:56:48 30 54 71   0 4.76MB 4.68MB    1 51.1k     0     0      -     0     0    0B
+16:56:49 30 55 71   0 4.76MB 4.68MB    1 54.2k     0     0      -     0     0    0B
+16:56:50 31 55 71   0 4.76MB 4.68MB    1 55.2k     0     0      -     0     0    0B
+16:56:51 31 55 71   0 4.76MB 4.68MB    1 55.1k     0     0      -     0     0    0B
+16:56:52 31 55 71   0 4.76MB 4.68MB    1 54.4k     0     0      -     0     0    0B
+
 # CPU占用率:80%
 lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 80 -n 1000000 -t set,get -d 50
 ====== SET ======
@@ -168,6 +212,12 @@ lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 80 -n 1000000
 46763.93 requests per second
 48654.70 requests per second
 49719.09 requests per second
+
+# redis-stat 监控数据(看第9列[cmd/s])
+16:57:34 31 56 81   0 5.29MB 4.84MB    1 52.8k     0     0      -     0     0    0B
+16:57:35 31 56 81   0 5.29MB 4.85MB    1 53.4k     0     0      -     0     0    0B
+16:57:36 30 55 81   0 5.29MB 4.85MB    1 52.6k     0     0      -     0     0    0B
+
 
 # CPU占用率:80%
 lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 90 -n 1000000 -t set,get -d 50
@@ -180,6 +230,14 @@ lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 90 -n 1000000
 47456.34 requests per second
 49046.05 requests per second
 
+# redis-stat 监控数据(看第9列[cmd/s])
+16:58:32 31 55 91   0 5.81MB 5.13MB    1 55.3k     0     0      -     0     0    0B
+16:58:33 31 55 91   0 5.81MB 5.13MB    1 55.9k     0     0      -     0     0    0B
+16:58:34 31 56 91   0 5.81MB 5.13MB    1 57.6k     0     0      -     0     0    0B
+16:58:35 31 56 91   0 5.81MB 5.13MB    1 54.3k     0     0      -     0     0    0B
+16:58:36 31 55 91   0 5.81MB 5.13MB    1 53.1k     0     0      -     0     0    0B
+
+
 # CPU占用率:80%
 lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 100 -n 1000000 -t set,get -d 50
 ====== SET ======
@@ -191,6 +249,12 @@ lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 100 -n 100000
 48797.15 requests per second
 48763.84 requests per second
 
+# redis-stat 监控数据(看第9列[cmd/s])
+16:59:24 32 56 101   0 6.33MB 5.68MB    1 57.9k     0     0      -     0     0    0B
+16:59:25 31 56 101   0 6.33MB 5.68MB    1 58.0k     0     0      -     0     0    0B
+16:59:26 31 56 101   0 6.33MB 5.68MB    1 57.9k     0     0      -     0     0    0B
+
+
 # CPU占用率:80%
 lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 110 -n 1000000 -t set,get -d 50
 ====== SET ======
@@ -201,9 +265,17 @@ lixin-macbook:src lixin$ ./redis-benchmark -h 127.0.0.1 -p 6379 -c 110 -n 100000
 46214.99 requests per second
 47386.62 requests per second
 51305.73 requests per second
+
+# redis-stat 监控数据(看第9列[cmd/s])
+17:00:45 31 56 111   0 6.85MB 5.90MB    1 56.7k     0     0      -     0     0    0B
+17:00:46 31 56 111   0 6.85MB 5.90MB    1 55.7k     0     0      -     0     0    0B
+17:00:47 31 56 111   0 6.85MB 5.90MB    1 54.8k     0     0      -     0     0    0B
+17:00:48 32 57 111   0 6.85MB 5.90MB    1 57.8k     0     0      -     0     0    0B
+
 ```
 ### (4). 压测结论
 ```
 从上面的基准测试可以看出,当并发连接数达到:100之后,就开始出现了拐点(QPS不升,反降)
 所以,我这台机器上Redis,最佳配置并发数(连接池数量),为100个,SET操作的QPS为:49877/s,GET操作的QPS为:48797/s. 
+通地redis-stat监控的数据来看,Redis服务器,每秒的吞吐量为:5.7W左右.
 ```
