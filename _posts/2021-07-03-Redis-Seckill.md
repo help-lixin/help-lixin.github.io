@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Redis秒杀设计'
+title: 'Redis秒杀模型设计'
 date: 2021-07-03
 author: 李新
 tags:  Redis
