@@ -8,7 +8,7 @@ tags:  Redis
 
 ### (1). 需求分析
 + 瞬间大量的刷新页面的操作
-+ 瞬间大量的抢宝的操作
++ 瞬间大量的抢购的操作
 + 可能有秒杀器的恶性竞争
 
 ### (2). 总体思路
@@ -56,13 +56,12 @@ local orderTime = KEYS[7]
 
 --用到的各个hash
 -- 某个活动下的SKU数量记录(field=skuId value=N)
-local sku_amount_hash = 'sec_'..actId..'_sku_amount_hash'
+local sku_amount_hash = 'sec_{'..actId..'}_sku_amount_hash'
 -- 用户参与秒杀活动记录(field="userId+actId"  value=N)
-local user_act_hash = 'sec_'..actId..'_u_act_hash'
+local user_act_hash = 'sec_{'..actId..'}_u_act_hash'
 -- 用户参与秒杀商品记录(field="userId+skuId" value=N)
-local user_sku_hash = 'sec_'..actId..'_u_sku_hash'
---
-local second_log_hash = 'sec_'..actId..'_log_hash'
+local user_sku_hash = 'sec_{'..actId..'}_u_sku_hash'
+local second_log_hash = 'sec_{'..actId..'}_log_hash'
 
 -- skuAmountStr : 某个活动下的某个SKU的库存数量
 --当前sku是否还有库存
