@@ -30,7 +30,10 @@ tags:  Redis
   - MQ(消费者)订阅信息,根据自身的能力,创建订单/扣库存...   
   - 前端通过ID轮询,或者,等待websocket通知:秒杀成功,跳转到支付页面.   
 
-### (3). Lua脚本
+### (3). 秒杀整体流程图
+!["秒杀整体流程图"](/assets/redis/imgs/redis-seckill.jpg)
+
+### (4). Lua脚本
 > 在GitHub上搜了下秒杀项目,发现的[这个项目](https://github.com/liuhongdi/seconddemo)秒杀脚本,在业务需求覆盖还是比较全面的,特意摘抄出来.   
 
 ```
@@ -163,7 +166,7 @@ else
    return '0'
 end
 ```
-### (4). SecondController
+### (5). SecondController
 ```
 @Controller
 @RequestMapping("/second")
@@ -269,7 +272,7 @@ public class SecondController {
     }
 }
 ```
-### (5). SecondServiceImpl
+### (6). SecondServiceImpl
 ```
 package com.second.demo.service.impl;
 
@@ -351,7 +354,7 @@ public class SecondServiceImpl implements SecondService {
     }
 }
 ```
-### (6). RedisLuaUtil
+### (7). RedisLuaUtil
 ```
 package com.second.demo.util;
 
@@ -397,5 +400,5 @@ public class RedisLuaUtil {
     }
 }
 ```
-### (7). 总结
+### (8). 总结
 仔细研究了[这个项目的代码](https://www.cnblogs.com/liconglong/p/14347794.html),虽然,功能不是很齐全,但是,在运用Lua+Redis来做秒杀(防超卖/限购买/限活动)的业务场景,考虑比其他人的要全面一些.  
