@@ -240,18 +240,23 @@ M: 8a9bf55091d15fd77de0bf7d4db05e09a5b682db 127.0.0.1:6382
 ```
 # -c   : 智能客户端,以集群的模式连接上Redis.
 lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c  -a 888888 -p 6380
+
+# 测试,设置数据
 127.0.0.1:6380> set a a
 -> Redirected to slot [15495] located at 127.0.0.1:6382
 OK
 
+# 测试,获取数据
 127.0.0.1:6382> get a
 "a"
-
-# 查看key的hash slot
+```
+### (9). Redis集群命令
+```
+# 1. 查看key的hash slot
 127.0.0.1:6382> CLUSTER KEYSLOT a
 (integer) 15495
 
-# 查看所有的slot
+# 2. 查看所有的slot
 127.0.0.1:6380> CLUSTER SLOTS
 1) 1) (integer) 5461
    2) (integer) 10922
@@ -277,6 +282,25 @@ OK
    4) 1) "127.0.0.1"
       2) (integer) 6385(S)
       3) "edaeeffe57750afe67957f9ebbbcb0d919e9baea"
+
+# 3. 查看集群信息
+127.0.0.1:6380> CLUSTER INFO
+cluster_state:ok
+cluster_slots_assigned:16384
+cluster_slots_ok:16384
+cluster_slots_pfail:0
+cluster_slots_fail:0
+cluster_known_nodes:6
+cluster_size:3
+cluster_current_epoch:6
+cluster_my_epoch:1
+cluster_stats_messages_ping_sent:907
+cluster_stats_messages_pong_sent:922
+cluster_stats_messages_sent:1829
+cluster_stats_messages_ping_received:917
+cluster_stats_messages_pong_received:907
+cluster_stats_messages_meet_received:5
+cluster_stats_messages_received:1829
 ```
-### (9). 总结
+### (10). 总结
 > Redis5.X已经不再需要Ruby,看来,它已经慢慢的把生态圈开始完善了.  
