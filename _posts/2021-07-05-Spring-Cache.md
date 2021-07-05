@@ -8,8 +8,8 @@ tags:  Spring
 
 ### (1). Spring Cache是什么
 Spring比较喜欢做的一件事情就是,定义规范(抽象),可以理解:Spring Cache是Spring针对Cache定义的一套规范.    
-比如:你要生活中要用到:Map/Redis/Memcache...等等,通过Spring Cache可以无缝自由切换实现.     
-<font color='red'>底层实则是对标有指定注解的类进行AOP拦截(注意:private/final/this call),Spring是无法代理的.</font>   
+比如:你在生活中要用到:Map/Redis/Memcache...等等,使用Spring Cache你可以无缝自由切换(组合)这些缓存的实现.     
+<font color='red'>底层实则是:对标有注解的类进行AOP拦截(注意:private/final/this call),Spring是无法代理的.</font>   
 
 ### (2). Spring Cache类图
 > CacheManager固名思义,就是对Cache进行管理,可以管理多个Cache.     
