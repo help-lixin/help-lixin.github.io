@@ -67,7 +67,7 @@ public class HelloService implements IHelloService {
 	}
 
 	// 查询全部都入缓存,key=tenantId
-	@Cacheable(cacheNames = "users")
+	@Cacheable(cacheNames = "users" , sync = true)
 	public List<User> findByTenantId(Long tenantId) {
 		logger.info("query....");
 		return datas.get(tenantId);
@@ -225,7 +225,11 @@ public class User implements Serializable {
   key="#p0" , 
   
   // 通过condition指定符合条件,则缓存,不符合条件的数据,则不缓存.
-  condition = "#user.id % 2 == 0"
+  condition = "#user.id % 2 == 0" ,
+  
+  // 告诉底层的缓存提供者将缓存的入口锁住,这样就只能有一个线程计算操作的结果值,而其它线程需要等待,这样就避免了 n-1 次数据库访问.
+  // sync=true,可以避免缓存击穿问题
+  // sync = false
 )
 ```
 ### (5). @CachePut注解
