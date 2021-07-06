@@ -229,6 +229,9 @@ public class User implements Serializable {
   
   // 告诉底层的缓存提供者将缓存的入口锁住,这样就只能有一个线程计算操作的结果值,而其它线程需要等待,这样就避免了 n-1 次数据库访问.
   // sync=true,可以避免缓存击穿问题
+  // Cache.get(Object key, Callable<T> valueLoader)
+  // 实际上是依赖于java的synchronized关键字
+  // synchronized <T> T get(Object key, Callable<T> valueLoader)
   // sync = false
 )
 ```
