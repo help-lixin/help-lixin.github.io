@@ -255,6 +255,7 @@ public class User implements Serializable {
 
 ### (8). Spring Cache配置类在哪?
 ```
+# **************************************ProxyCachingConfiguration**********************************************************
 @Configuration
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class ProxyCachingConfiguration extends AbstractCachingConfiguration {
@@ -288,6 +289,36 @@ public class ProxyCachingConfiguration extends AbstractCachingConfiguration {
 		interceptor.setCacheOperationSource(cacheOperationSource());
 		return interceptor;
 	}
+}
+
+
+# 默认的CacheManager是ConcurrentMapCacheManager
+# **************************************SimpleCacheConfiguration**********************************************************
+@Configuration
+@ConditionalOnMissingBean(CacheManager.class)
+@Conditional(CacheCondition.class)
+class SimpleCacheConfiguration {
+
+	private final CacheProperties cacheProperties;
+
+	private final CacheManagerCustomizers customizerInvoker;
+
+	SimpleCacheConfiguration(CacheProperties cacheProperties,
+			CacheManagerCustomizers customizerInvoker) {
+		this.cacheProperties = cacheProperties;
+		this.customizerInvoker = customizerInvoker;
+	}
+
+	@Bean
+	public ConcurrentMapCacheManager cacheManager() {
+		ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
+		List<String> cacheNames = this.cacheProperties.getCacheNames();
+		if (!cacheNames.isEmpty()) {
+			cacheManager.setCacheNames(cacheNames);
+		}
+		return this.customizerInvoker.customize(cacheManager);
+	}
+
 }
 ```
 ### (9). Spring Cache AOP逻辑代码
