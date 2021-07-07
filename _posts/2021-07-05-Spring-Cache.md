@@ -1,210 +1,26 @@
 ---
 layout: post
-title: 'Spring Cache源码详解'
+title: 'Spring Cache源码剖析(二)'
 date: 2021-07-05
 author: 李新
 tags:  Spring 
 ---
 
-### (1). Spring Cache是什么
-Spring比较喜欢做的一件事情就是:定义规范(抽象),然后,相同类型的产品对规范进行实现(类似于:桥梁模式),可以理解:Spring Cache是Spring针对Cache定义的一套规范.    
-比如:你在工作中要用到:Redis/Memcache/Tair/Guava...等等,使用Spring Cache你可以无缝自由切换(组合)这些缓存的实现.     
-<font color='red'>底层实则是:对标有注解的类进行AOP拦截(注意:private/final/this call),Spring是无法代理的.</font>   
+### (1). 前言
+在前面对Spring+Redis有了一个简单的案例入门,在这里将对Spring Cache部份的源码进行剖析.  
 
-### (2). Spring Cache简单案例
-```
-# **************************************App**********************************************************
-package help.lixin;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
-
-@SpringBootApplication
-// 1. 启用缓存,相当于向Spring容器中,注册一些Bean(AOP)
-@EnableCaching
-public class App {
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(App.class, args);
-	}
-}
-
-# **************************************HelloService**********************************************************
-package help.lixin.service.impl;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-
-import help.lixin.entity.User;
-import help.lixin.service.IHelloService;
-
-@Service
-public class HelloService implements IHelloService {
-	private Logger logger = LoggerFactory.getLogger(HelloService.class);
-
-	private final Map<Long, List<User>> datas = new ConcurrentHashMap<Long, List<User>>();
-
-	public HelloService() {
-		init();
-	}
-
-	private void init() {
-		Long tenantId = 1L;
-		List<User> users = new ArrayList<User>();
-		users.add(new User(1L, "张三"));
-		users.add(new User(2L, "李四"));
-		users.add(new User(3L, "王五"));
-		users.add(new User(4L, "赵六"));
-		datas.put(tenantId, users);
-	}
-
-	// 查询全部都入缓存,key=tenantId
-	@Cacheable(cacheNames = "users" , sync = true)
-	public List<User> findByTenantId(Long tenantId) {
-		logger.info("query....");
-		return datas.get(tenantId);
-	}
-
-	// 从我的DEBUG来看,@CacheEvict会及时更新:users缓存中key=2的缓存结果集,而不是直接把key对应的结果集给删了.
-	// 当添加操作时,仅更新:tenantId % 2 == 0的缓存信息
-	@CacheEvict(cacheNames = "users", condition = "#tenantId % 2 == 0" , beforeInvocation = true)
-	public Boolean add(Long tenantId, User user) {
-		List<User> users = new ArrayList<User>();
-		users.add(user);
-		if (!datas.containsKey(tenantId)) {
-			datas.put(tenantId, users);
-		} else {
-			datas.get(tenantId).addAll(users);
-		}
-		return true;
-	}
-}
-
-# **************************************HelloController**********************************************************
-package help.lixin.controller;
-
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import help.lixin.entity.User;
-import help.lixin.service.IHelloService;
-
-@RestController
-public class HelloController {
-	private Logger logger = LoggerFactory.getLogger(HelloController.class);
-
-	@Autowired
-	private IHelloService helloService;
-
-	@GetMapping("/{tenantId}")
-	public List<User> list(@PathVariable("tenantId") Long tenantId) {
-		List<User> users = helloService.findByTenantId(tenantId);
-		return users;
-	}
-
-	@PostMapping("/{tenantId}")
-	public String addUser(@PathVariable("tenantId") Long tenantId, @RequestBody User user) {
-		helloService.add(tenantId, user);
-		return "SUCCESS";
-	}
-}
-
-# **************************************User**********************************************************
-package help.lixin.entity;
-
-import java.io.Serializable;
-
-public class User implements Serializable {
-	private static final long serialVersionUID = 2521452689834263244L;
-
-	private Long id;
-	private String name;
-	
-	public User() {
-	}
-
-	public User(Long id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + "]";
-	}
-
-}
-```
-### (3). Spring Cache类图
-> CacheManager固名思义,就是对Cache进行管理,可以管理多个Cache.     
-> Cache是对缓存的一些基本操作(添加到缓存/缓存剔除/清空整个缓存...)      
-> CacheResolver在AOP时会需要根据注解,解析出Cache对象.     
-> KeyGenerator用于缓存时自定义KEY策略,注意,与注解上的key是互斥的.      
+### (2). Spring Cache类图
+> CacheManager固名思义:就是对Cache进行管理,可以管理多个Cache.         
+> Cache是对缓存的一些基本操作(添加数据到缓存/剔除中的缓存/清空整个缓存...)         
+> CacheResolver在AOP时会需要根据注解,解析出Cache对象.        
+> KeyGenerator用于缓存时自定义KEY策略,注意,与注解上的key是互斥的.         
 
 !["CacheManager"](/assets/spring/imgs/spring_CacheManager.jpg)    
 !["Cache"](/assets/spring/imgs/spring_Cache.jpg)    
 !["CacheResolver"](/assets/spring/imgs/spring_CacheResolver.jpg)   
 !["KeyGenerator"](/assets/spring/imgs/spring_KeyGenerator.jpg)   
 
-### (4). @Cacheable注解
+### (3). @Cacheable注解
 > 使用@Cacheable标注的方法,Spring在每次执行前都会检查Cache中是否存在相同key的缓存元素,如果存在就不再执行该方法,而是直接从缓存中获取结果进行返回,否则才会执行并将返回结果存入指定的缓存中.   
 
 ```
@@ -235,10 +51,10 @@ public class User implements Serializable {
   // sync = false
 )
 ```
-### (5). @CachePut注解
+### (4). @CachePut注解
 > @CachePut与@Cacheable不同的是,@CachePut标注的方法在执行前不会去检查缓存中是否存在之前执行过的结果,而是每次都会执行该方法,并将执行结果以键值对的形式存入指定的缓存中.  
 
-### (6). @CacheEvict注解
+### (5). @CacheEvict注解
 >  @CacheEvict是用来标注在需要清除缓存元素
 
 ```
@@ -252,11 +68,11 @@ public class User implements Serializable {
   beforeInvocation = false
 )
 ```
-### (7). @Caching注解
+### (6). @Caching注解
 > @Caching注解可以让我们在一个方法或者类上同时指定多个Spring Cache相关的注解.
 > 其拥有三个属性:cacheable、put和evict,分别用于指定@Cacheable、@CachePut和@CacheEvict. 
 
-### (8). Spring Cache配置类在哪?
+### (7). Spring Cache配置类在哪?
 ```
 # **************************************ProxyCachingConfiguration**********************************************************
 @Configuration
@@ -324,7 +140,7 @@ class SimpleCacheConfiguration {
 
 }
 ```
-### (9). Spring Cache AOP逻辑代码
+### (8). Spring Cache AOP逻辑代码
 > Spring Cache 的原理是AOP,那么,入口类在哪呢? 
 > 答案就是: CacheInterceptor
 
@@ -360,6 +176,56 @@ public class CacheInterceptor
 		}
 	}
 }
+```
+
+### (9). Spring Cache 如何避免缓存穿透
+> @Cacheable(cacheNames = "users" , sync = true),当对相同的key进行操作时,会运用Java的synchronized关键字,只同一个进程里,只会允许一个线程去访问DB.  
+
+```
+# ********************************************************CacheAspectSupport********************************************************
+private Object execute(final CacheOperationInvoker invoker, Method method, CacheOperationContexts contexts) {
+	// 在注解上是否开启了sync=true
+	if (contexts.isSynchronized()) {
+		CacheOperationContext context = contexts.get(CacheableOperation.class).iterator().next();
+		if (isConditionPassing(context, CacheOperationExpressionEvaluator.NO_RESULT)) {
+			Object key = generateKey(context, CacheOperationExpressionEvaluator.NO_RESULT);
+			Cache cache = context.getCaches().iterator().next();
+			try {
+				return wrapCacheValue(
+				      method, 
+					  // *************************************************************************
+					  // 看下方法签名,get方法需要一个回调函数.
+					  // cache.get(Object key, Callable<T> valueLoader)
+					  // *************************************************************************
+				      cache.get(key, () -> unwrapReturnValue(invokeOperation(invoker)))
+				);
+			}
+			catch (Cache.ValueRetrievalException ex) {
+				throw (CacheOperationInvoker.ThrowableWrapper) ex.getCause();
+			}
+		}
+		else {
+			// No caching required, only call the underlying method
+			return invokeOperation(invoker);
+		}
+	} 
+	// ... ...
+} // end execute
+		
+# ********************************************************RedisCache********************************************************		
+// 注意看,这里有synchronized关键字.
+public synchronized <T> T get(Object key, Callable<T> valueLoader) {
+	ValueWrapper result = get(key);
+
+	if (result != null) {
+		return (T) result.get();
+	}
+     
+	// Callable是个回调,在这里才会真正的调用:目标类上的方法.
+	T value = valueFromLoader(key, valueLoader);
+	put(key, value);
+	return value;
+} // end 
 ```
 ### (10). 总结
 > Spring Cache用到了哪些设计模式?   
