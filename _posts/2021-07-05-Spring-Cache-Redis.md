@@ -278,4 +278,4 @@ lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 -p 6382
 ```
 ### (9). 总结
 RedisCacheConfiguration在配置RedisCacheManager时,默认的value序列化是:JdkSerializationRedisSerializer.  
-<font color='red'>如果,想定制序列化的value可以是json,则自己实现CacheManagerCustomizer,并托管给Spring即可,想法是挺好的,结果发现:RedisCacheManager没有提供相应的行为可以改造序列化机制,此时,能做的方式只有两种:要么:反射,要么:RedisCacheManager的创建过程自己托管</font>    
+<font color='red'>如果,想定制序列化的value是json,则自己实现CacheManagerCustomizer,并托管给Spring即可,想法是挺好的,结果发现:RedisCacheManager没有提供相应的行为可以改造序列化,此时,能做的方式只有两种:要么:反射,要么:RedisCacheManager的创建过程自己托管</font>    
