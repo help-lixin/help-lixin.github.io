@@ -1,17 +1,12 @@
 ---
 layout: post
-title: 'Spring Cache + Redis整合(一)'
+title: 'Spring Cache + Redis整合(二)'
 date: 2021-07-05
 author: 李新
 tags:  Spring 
 ---
 
-### (1). Spring Cache是什么
-Spring比较喜欢做的一件事情就是:定义规范(抽象),然后,相同类型的产品对规范进行实现(类似于:桥梁模式),可以理解:Spring Cache是Spring针对Cache定义的一套规范.    
-比如:你在工作中要用到:Redis/Memcache/Tair/Guava...等等,使用Spring Cache你可以无缝自由切换(组合)这些缓存的实现.     
-<font color='red'>底层实则是:对标有注解的类进行AOP拦截(注意:private/final/this call,Spring是无法代理的.)</font>   
-
-### (2). pom.xml
+### (1). pom.xml
 ```
 <dependencyManagement>
 	<dependencies>
@@ -65,7 +60,7 @@ Spring比较喜欢做的一件事情就是:定义规范(抽象),然后,相同类
 	</dependency>
 </dependencies>
 ```
-### (3). 启用缓存(@EnableCaching)
+### (2). 启用缓存(@EnableCaching)
 ```
 package help.lixin;
 
@@ -81,7 +76,7 @@ public class App {
 	}
 }
 ```
-### (4). 配置(RedisConnectionFactory)
+### (3). 配置(RedisConnectionFactory)
 ```
 package help.lixin.config;
 
@@ -160,7 +155,7 @@ public class RedisConnectionFactoryConfig {
 	}
 }
 ```
-### (5). HelloService
+### (4). HelloService
 ```
 package help.lixin.service.impl;
 
@@ -218,7 +213,7 @@ public class HelloService implements IHelloService {
 	}
 }
 ```
-### (6). HelloController
+### (5). HelloController
 ```
 package help.lixin.controller;
 
@@ -256,7 +251,7 @@ public class HelloController {
 	}
 }
 ```
-### (7). application.properties
+### (6). application.properties
 ```
 server.port=8080
 spring.application.name=test-provider
@@ -265,7 +260,7 @@ spring.redis.password=888888
 spring.redis.cluster.nodes=127.0.0.1:6380,127.0.0.1:6381,127.0.0.1:6382,127.0.0.1:6383,127.0.0.1:6384,127.0.0.1:6385
 spring.redis.cluster.max-redirects=5
 ```
-### (8). 测试查看Redis结果
+### (7). 测试查看Redis结果
 ```
 # 1. 发送curl请求
 curl http://localhost:8080/1
@@ -276,6 +271,6 @@ lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 -p 6382
 127.0.0.1:6382> get "users::1"
 "[\"java.util.ArrayList\",[{\"@class\":\"help.lixin.entity.User\",\"id\":1,\"name\":\"\xe5\xbc\xa0\xe4\xb8\x89\"},{\"@class\":\"help.lixin.entity.User\",\"id\":2,\"name\":\"\xe6\x9d\x8e\xe5\x9b\x9b\"},{\"@class\":\"help.lixin.entity.User\",\"id\":3,\"name\":\"\xe7\x8e\x8b\xe4\xba\x94\"},{\"@class\":\"help.lixin.entity.User\",\"id\":4,\"name\":\"\xe8\xb5\xb5\xe5\x85\xad\"}]]"
 ```
-### (9). 总结
+### (8). 总结
 <font color='red'>RedisCacheConfiguration在配置RedisCacheManager时,默认的value序列化是:JdkSerializationRedisSerializer.  
 如果,想定制序列化的value是json,则自己实现CacheManagerCustomizer,并托管给Spring即可,想法是挺好的,结果发现:RedisCacheManager没有提供相应的行为可以改造序列化,此时,能做的方式只有两种:要么:反射,要么:RedisCacheManager的创建过程自己托管</font>    
