@@ -8,7 +8,7 @@ tags:  Spring
 
 ### (1). Spring Cache是什么
 Spring比较喜欢做的一件事情就是:定义规范(抽象),然后,相同类型的产品对规范进行实现(类似于:桥梁模式),可以理解:Spring Cache是Spring针对Cache定义的一套规范.    
-比如:你在生活中要用到:Redis/Memcache/Tair/Guava...等等,使用Spring Cache你可以无缝自由切换(组合)这些缓存的实现.     
+比如:你在工作中要用到:Redis/Memcache/Tair/Guava...等等,使用Spring Cache你可以无缝自由切换(组合)这些缓存的实现.     
 <font color='red'>底层实则是:对标有注解的类进行AOP拦截(注意:private/final/this call),Spring是无法代理的.</font>   
 
 ### (2). Spring Cache简单案例
