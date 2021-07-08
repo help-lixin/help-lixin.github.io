@@ -21,7 +21,7 @@ lixin-macbook:redis-stat lixin$ wget https://github.com/junegunn/redis-stat/rele
 ### (3). 运行redis-stat
 ```
 # 运行(指定web端口:63790,间隔:1秒采集一次数据)
-#  --server=63790  : 开启端口
+#  --server=63790  : 开启web端口
 #  -a 888888       : 指定集群的密码
 lixin-macbook:redis-stat lixin$ java -jar redis-stat-0.4.14.jar 127.0.0.1:6379 127.0.0.1:6380  --server=63790  1
 Puma 2.3.2 starting...
