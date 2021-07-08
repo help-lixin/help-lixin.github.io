@@ -216,9 +216,11 @@ public synchronized <T> T get(Object key, Callable<T> valueLoader) {
 	return value;
 } // end 
 ```
+
 ### (8). 总结
 > Spring Cache用到了哪些设计模式?   
-> 1. 组合模式(CompositeCacheManager),话说这东西没有用处哈.     
+> 1. 组合模式(CompositeCacheManager),话说这东西没有太大的用处哈.     
 > 2. 策略模式(KeyGenerator).   
 > 3. 解释器模式(CacheResolver).   
 > 4. 代理模式(CacheInterceptor).  
+> 总体来说,Spring Cache的源码有一点点的乱,而且,可扩展性方面做得真的是一般般.  

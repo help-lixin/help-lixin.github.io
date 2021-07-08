@@ -259,6 +259,21 @@ spring.application.name=test-provider
 spring.redis.password=888888
 spring.redis.cluster.nodes=127.0.0.1:6380,127.0.0.1:6381,127.0.0.1:6382,127.0.0.1:6383,127.0.0.1:6384,127.0.0.1:6385
 spring.redis.cluster.max-redirects=5
+
+# 配置过期时间
+# P : 是持续时间指示符,始终放在开头,是必要字符,不能省略
+# T : 表示后面跟的是时间.如果存在时间则必须要有 T.
+# 例: 
+#    PT48H    : 48小时
+#    PT30s    : 30秒
+#    PT10M    : 10分钟
+# spring.cache.redis.time-to-live=PT30s
+# 是否缓存空的value
+# spring.cache.redis.cache-null-values=true
+# key的前缀
+# spring.cache.redis.key-prefix
+# 是否使用前缀
+# spring.cache.redis.use-key-prefix=true
 ```
 ### (7). 测试查看Redis结果
 ```
@@ -271,6 +286,11 @@ lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 -p 6382
 127.0.0.1:6382> get "users::1"
 "[\"java.util.ArrayList\",[{\"@class\":\"help.lixin.entity.User\",\"id\":1,\"name\":\"\xe5\xbc\xa0\xe4\xb8\x89\"},{\"@class\":\"help.lixin.entity.User\",\"id\":2,\"name\":\"\xe6\x9d\x8e\xe5\x9b\x9b\"},{\"@class\":\"help.lixin.entity.User\",\"id\":3,\"name\":\"\xe7\x8e\x8b\xe4\xba\x94\"},{\"@class\":\"help.lixin.entity.User\",\"id\":4,\"name\":\"\xe8\xb5\xb5\xe5\x85\xad\"}]]"
 ```
-### (8). 总结
+### (8). Spring Cache缺陷
+Spring Cache与Redis结合时,过期时间(TTL)是全局的,即所有的KEY都是相同的过期时间,若想为某一项单独配置过期时间,是不支持.  
+深入看了源码,也没有发现有预留或者暴露出接口方便扩展,当然,你也可以自己写,但是,感觉成本有点大.  
+个人觉得在Cache实现类的内部,应该要加上相应的Hook.   
+
+### (9). 总结
 <font color='red'>RedisCacheConfiguration在配置RedisCacheManager时,默认的value序列化是:JdkSerializationRedisSerializer.  
 如果,想定制序列化的value是json,则自己实现CacheManagerCustomizer,并托管给Spring即可,想法是挺好的,结果发现:RedisCacheManager没有提供相应的行为可以改造序列化,此时,能做的方式只有两种:要么:反射,要么:RedisCacheManager的创建过程自己托管</font>    
