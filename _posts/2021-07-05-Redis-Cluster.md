@@ -238,7 +238,7 @@ M: 8a9bf55091d15fd77de0bf7d4db05e09a5b682db 127.0.0.1:6382
 ```
 ### (8). client连接测试
 ```
-# -c   : 智能客户端,以集群的模式连接上Redis.
+# -c   : 以集群的模式连接上Redis.
 lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c  -a 888888 -p 6380
 
 # 测试,设置数据
@@ -250,7 +250,71 @@ OK
 127.0.0.1:6382> get a
 "a"
 ```
-### (9). Redis集群命令
+### (9). redis目录结构
+```
+lixin-macbook:redis-cluster lixin$ tree
+.
+├── bin
+│   ├── redis-benchmark
+│   ├── redis-check-aof
+│   ├── redis-check-rdb
+│   ├── redis-cli
+│   ├── redis-sentinel
+│   └── redis-server
+├── conf
+│   ├── redis-6380.conf
+│   ├── redis-6381.conf
+│   ├── redis-6382.conf
+│   ├── redis-6383.conf
+│   ├── redis-6384.conf
+│   └── redis-6385.conf
+├── data
+│   ├── 6380
+│   │   ├── appendonly.aof
+│   │   ├── dump.rdb
+│   │   ├── nodes-6380.conf
+│   │   └── redis_6380.pid
+│   ├── 6381
+│   │   ├── appendonly.aof
+│   │   ├── dump.rdb
+│   │   ├── nodes-6381.conf
+│   │   └── redis_6381.pid
+│   ├── 6382
+│   │   ├── appendonly.aof
+│   │   ├── dump.rdb
+│   │   ├── nodes-6382.conf
+│   │   └── redis_6382.pid
+│   ├── 6383
+│   │   ├── appendonly.aof
+│   │   ├── dump.rdb
+│   │   ├── nodes-6383.conf
+│   │   └── redis_6383.pid
+│   ├── 6384
+│   │   ├── appendonly.aof
+│   │   ├── dump.rdb
+│   │   ├── nodes-6384.conf
+│   │   └── redis_6384.pid
+│   └── 6385
+│       ├── appendonly.aof
+│       ├── dump.rdb
+│       ├── nodes-6385.conf
+│       └── redis_6385.pid
+├── logs
+│   ├── 6380
+│   │   └── redis_6380.log
+│   ├── 6381
+│   │   └── redis_6381.log
+│   ├── 6382
+│   │   └── redis_6382.log
+│   ├── 6383
+│   │   └── redis_6383.log
+│   ├── 6384
+│   │   └── redis_6384.log
+│   └── 6385
+│       └── redis_6385.log
+└── start-all.sh
+```
+### (10). Redis集群命令
 ```
 # 1. 查看key的hash slot
 127.0.0.1:6382> CLUSTER KEYSLOT a
@@ -302,5 +366,5 @@ cluster_stats_messages_pong_received:907
 cluster_stats_messages_meet_received:5
 cluster_stats_messages_received:1829
 ```
-### (10). 总结
+### (11). 总结
 > Redis5.X已经不再需要Ruby,看来,它已经慢慢的把生态圈开始完善了.  
