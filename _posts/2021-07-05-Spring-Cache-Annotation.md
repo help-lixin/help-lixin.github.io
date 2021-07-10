@@ -13,7 +13,7 @@ Spring比较喜欢做的一件事情就是:定义规范(抽象),然后,相同类
 
 ### (2). 缺陷
 Spring Cache与Redis结合时,过期时间(TTL)是全局的,即所有的KEY都是相同的过期时间(是否有考虑过缓存雪崩问题),若想为某一个key单独配置过期时间,是不支持.  
-深入看了源码,也没有发现有预留或者暴露出接口方便扩展,当然,你也可以自己写(CacheManager),但是,感觉成本有点大.  
+深入看了源码,也没有发现有预留或者暴露出接口方便扩展,当然,你也可以自己写(CacheManager),但是,感觉成本有点大(若要解决:缓存穿透/缓存击穿/缓存雪崩,还是得自己去扩展CacheManager).  
 个人觉得Spring应该定义一些规范,在Cache的内部,增加上相应生命周期(回调函数).   
 
 ### (3). @Cacheable注解
@@ -34,6 +34,7 @@ Spring Cache与Redis结合时,过期时间(TTL)是全局的,即所有的KEY都�
   // #root.targetClass  : 目标Class
   // #root.args[0]      : 方法参数组
   // #root.caches[0].name   : 当前被调用的方法使用的Cache(caceNames)
+  // "#productId + '_' + #imgType.id"    : 多个key进行组合
   key="#p0" , 
   
   // 通过condition指定符合条件,则缓存,不符合条件的数据,则不缓存.
