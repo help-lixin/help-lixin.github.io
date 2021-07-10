@@ -266,6 +266,8 @@ public class RedisCacheNewManager extends AbstractTransactionSupportingCacheMana
 	protected RedisCache createRedisCache(String name, @Nullable RedisCacheConfiguration cacheConfig) {
 		// ********************************************************************************
 		// 1. 判断名字是否包含有指定字符(#)
+		//    其实,这里可以做一个回调函数,扔出去给外部使用.比如:
+		/     可以,把name和ttl放在配置文件中,读取配置文件即可.
 		// ********************************************************************************
 		RedisCacheConfiguration tmpCacheConfig = cacheConfig != null ? cacheConfig : defaultCacheConfig;
 		String tmpName = name;
