@@ -90,6 +90,8 @@ public class ProxyCachingConfiguration extends AbstractCachingConfiguration {
 		return advisor;
 	}
 
+	// 对方法上的注解进行解析,并返回方法上的注解信息.
+	// Collection<CacheOperation> getCacheOperations(Method method, @Nullable Class<?> targetClass);
 	@Bean
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 	public CacheOperationSource cacheOperationSource() {
