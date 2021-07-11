@@ -7,12 +7,12 @@ tags:  Spring
 ---
 
 ### (1). 前言
-在前面说过,Spring Cache与Redis结合时,所有key的过期时间(TTL)是统一的,如果想要做到某个key,有自己的过期时间,就只能自己去扩展源码了.  
+在前面说过,Spring Cache与Redis结合时,所有key的过期时间(TTL)是统一的(可能引起缓存雪崩问题),如果想要做到某个key,有自己的过期时间,就只能自己去扩展源码了.  
 
 ### (2). 实现方式
 > 1. 最简例方法(@Cacheable(cacheNames = "users#PT60s")).    
 > 2. 自定义: 注解(@Cacheable(cacheNames = "users", ttl = "PT30s")).         
-> <font color='red'>我这里使用最简单的,即方案一.</font>      
+> <font color='red'>在这里,我这里使用:方案一.[方案二已经开源在github](https://github.com/help-lixin/framework/spring-boot-starter-data-redis-ext-parent)</font>      
 
 ### (3). 自定义CacheManager
 > 直接把RedisCacheManager拷贝过来,重命名,注意:package名称不能动,因为,在这个类的内部使用到了其它的包级别的类(注意:我标星的部位).   
