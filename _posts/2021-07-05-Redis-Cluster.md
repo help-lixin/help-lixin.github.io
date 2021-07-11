@@ -518,7 +518,7 @@ cluster_state:fail
 ### (13). 上线一组Redis(Master和Slave)
 > 总结:  
 > 1. 添加节点为Master.  
-> 2. 为Master指定Slave.  
+> 2. 添加节点为Slave,并指定Master.  
 > 3. reshard重新分配slot,Redis提供的工具,相比你自己要实现好一些.  
 
 ```
