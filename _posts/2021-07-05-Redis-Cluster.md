@@ -178,7 +178,7 @@ lixin-macbook:redis-cluster lixin$ ps -ef|grep redis|grep -v grep
 ```
 # lixin-macbook:redis-cluster lixin$ ./bin/redis-cli --cluster help
 
-#  --cluster-replicas 1  : 集群为1主1从
+# --cluster-replicas 表示有一个主有几个slave
 lixin-macbook:redis-cluster lixin$  ./bin/redis-cli -a 888888 --cluster create 127.0.0.1:6380 127.0.0.1:6381 127.0.0.1:6382 127.0.0.1:6383 127.0.0.1:6384 127.0.0.1:6385  --cluster-replicas 1 
 
 Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
@@ -366,5 +366,417 @@ cluster_stats_messages_pong_received:907
 cluster_stats_messages_meet_received:5
 cluster_stats_messages_received:1829
 ```
-### (11). 总结
+### (11). 模拟一组Redis(Master和Slave)出现故障
+> 结论:   
+> 在Redis集群有Master和Slave,如果,Master和Slave都下线后,整个集群是不能对外提供服务的.   
+
+```
+# 1. 查看集群现在的状态
+127.0.0.1:6380> CLUSTER SLOTS
+1) 1) (integer) 10923
+   2) (integer) 16383
+   3) 1) "127.0.0.1"
+      2) (integer) 6382
+      3) "8a9bf55091d15fd77de0bf7d4db05e09a5b682db"
+   4) 1) "127.0.0.1"
+      2) (integer) 6384
+      3) "894425fde65f7da875d4d078f41e01381e52c6d9"
+2) 1) (integer) 5461
+   2) (integer) 10922
+   3) 1) "127.0.0.1"
+      2) (integer) 6381
+      3) "d36cf78e5481e488bc50dd31960044cc1e69522f"
+   4) 1) "127.0.0.1"
+      2) (integer) 6383
+      3) "bf09356f37d20288d1a8cb5754b0f5b6afddfdae"
+3) 1) (integer) 0
+   2) (integer) 5460
+   3) 1) "127.0.0.1"
+      2) (integer) 6380
+      3) "d4fb72a249a42ecfce9f5e6d90eab917ddf20c22"
+   4) 1) "127.0.0.1"
+      2) (integer) 6385
+      3) "edaeeffe57750afe67957f9ebbbcb0d919e9baea"
+
+# 2. 添加一条数据,路由是在:127.0.0.1:6382.
+#    kill掉6382和6384两个端口对应的服务,如果不关闭6384的话,6384会过一段时间,提升为master节点.整个集群,仍然是可以对外提供服务的.
+127.0.0.1:6380> set a a
+-> Redirected to slot [15495] located at 127.0.0.1:6382
+OK
+
+# 3. 检查6382和6384
+lixin-macbook:~ lixin$ ps -ef|grep redis|grep 6382
+  501   755     1   0  9:46下午 ??         0:01.15 /Users/lixin/Developer/redis-cluster/bin/redis-server *:6382 [cluster]
+lixin-macbook:~ lixin$ ps -ef|grep redis|grep 6384
+  501   759     1   0  9:46下午 ??         0:01.20 /Users/lixin/Developer/redis-cluster/bin/redis-server *:6384 [cluster]
+
+# 4. kill掉对应的进程
+lixin-macbook:~ lixin$ kill $(ps -ef|grep redis|grep 6382|grep -v grep|awk '{print $2}')
+lixin-macbook:~ lixin$ kill $(ps -ef|grep redis|grep 6384|grep -v grep|awk '{print $2}')
+
+# 5. 再次验证,是否kill结束
+lixin-macbook:~ lixin$ ps -ef|grep redis|grep 6382
+lixin-macbook:~ lixin$ ps -ef|grep redis|grep 6384
+
+# 6. 验证集群是否能正常的插入数据,修改数据,删除数据
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 -p 6380
+# 6.1 获取已经保存的值,提示集群已经关闭
+127.0.0.1:6380> get a
+(error) CLUSTERDOWN The cluster is down
+
+# 6.2 查看key(b)将会保存在哪个solt(3300会保存在6380服和器上)
+127.0.0.1:6380> CLUSTER KEYSLOT b
+(integer) 3300
+
+# 6.3 集群中,只要有一组(一组M和S)机器出现故障,那么,整个集群是不可以对外提供服务的.
+127.0.0.1:6380> set b world
+(error) CLUSTERDOWN The cluster is down
+```
+
+### (12). 模拟Redis Master出现故障
+> 结论:   
+> 在Redis集群有Master和Slave,如果,下线Master,会触发Slave提升为Master,整个集群会有一小段时间无法提供服务,等到Slave提升为Master后,整个集群仍然可以提供服务.  
+
+```
+# 1. 查看redis集群slot分布情况
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 -p 6380
+127.0.0.1:6380> CLUSTER SLOTS
+1) 1) (integer) 0
+   2) (integer) 5460
+   3) 1) "127.0.0.1"
+      2) (integer) 6380
+      3) "d4fb72a249a42ecfce9f5e6d90eab917ddf20c22"
+   4) 1) "127.0.0.1"
+      2) (integer) 6385
+      3) "edaeeffe57750afe67957f9ebbbcb0d919e9baea"
+2) 1) (integer) 10923
+   2) (integer) 16383
+   3) 1) "127.0.0.1"
+      2) (integer) 6384
+      3) "894425fde65f7da875d4d078f41e01381e52c6d9"
+   4) 1) "127.0.0.1"
+      2) (integer) 6382
+      3) "8a9bf55091d15fd77de0bf7d4db05e09a5b682db"
+3) 1) (integer) 5461
+   2) (integer) 10922
+   3) 1) "127.0.0.1"
+      2) (integer) 6381
+      3) "d36cf78e5481e488bc50dd31960044cc1e69522f"
+   4) 1) "127.0.0.1"
+      2) (integer) 6383
+      3) "bf09356f37d20288d1a8cb5754b0f5b6afddfdae"
+
+
+# 2. 查看添加的数据路由在哪台机器上(6384)
+127.0.0.1:6380> get a
+-> Redirected to slot [15495] located at 127.0.0.1:6384
+"a"
+
+# 3. kill掉6384端口对应的进程.
+lixin-macbook:redis-cluster lixin$ ps -ef|grep redis|grep 6384
+  501  1588     1   0 10:10下午 ??         0:01.10 /Users/lixin/Developer/redis-cluster/bin/redis-server *:6384 [cluster]
+lixin-macbook:redis-cluster lixin$  kill $(ps -ef|grep redis|grep 6384|awk '{print $2}')
+
+# 4. 检查集群状态,为fail
+127.0.0.1:6380> CLUSTER INFO
+cluster_state:fail
+
+# 5. 尝试获取数据(提示集群已经down)
+127.0.0.1:6380> get a
+(error) CLUSTERDOWN The cluster is down
+
+# 6. 稍等一段时间(30s),再次查看slot信息,发现:6384被剔除了,由6382进行管理
+127.0.0.1:6380> CLUSTER SLOTS
+1) 1) (integer) 0
+   2) (integer) 5460
+   3) 1) "127.0.0.1"
+      2) (integer) 6380
+      3) "d4fb72a249a42ecfce9f5e6d90eab917ddf20c22"
+   4) 1) "127.0.0.1"
+      2) (integer) 6385
+      3) "edaeeffe57750afe67957f9ebbbcb0d919e9baea"
+2) 1) (integer) 5461
+   2) (integer) 10922
+   3) 1) "127.0.0.1"
+      2) (integer) 6381
+      3) "d36cf78e5481e488bc50dd31960044cc1e69522f"
+   4) 1) "127.0.0.1"
+      2) (integer) 6383
+      3) "bf09356f37d20288d1a8cb5754b0f5b6afddfdae"
+3) 1) (integer) 10923
+   2) (integer) 16383
+   3) 1) "127.0.0.1"
+      2) (integer) 6382
+      3) "8a9bf55091d15fd77de0bf7d4db05e09a5b682db"
+
+# 6. 集群恢复后,即可获取数据.   
+127.0.0.1:6380> get a
+-> Redirected to slot [15495] located at 127.0.0.1:6382
+"a"
+```
+
+### (13). 上线一组Redis(Master和Slave)
+> 总结:  
+> 1. 添加节点为Master.  
+> 2. 为Master指定Slave.  
+> 3. reshard重新分配slot,Redis提供的工具,相比你自己要实现好一些.  
+
+```
+lixin-macbook:~ lixin$ cd ~/Developer/redis-cluster
+
+# 1. 创建数据目录和日志目录
+lixin-macbook:redis-cluster lixin$ mkdir -p  data/{6386,6387}
+lixin-macbook:redis-cluster lixin$ mkdir -p  logs/{6386,6387}
+
+# 2. 拷贝配置文件
+lixin-macbook:redis-cluster lixin$ cp conf/redis-6385.conf ./conf/redis-6386.conf
+lixin-macbook:redis-cluster lixin$ cp conf/redis-6386.conf ./conf/redis-6387.conf
+
+# 3. 修改配置文件内容,请参考前面(此处略)
+
+# 4. 启动所有的redis节点(6386/6387)(此处略)
+lixin-macbook:redis-cluster lixin$ ps -ef|grep redis
+  501  2264     1   0 10:34下午 ??         0:00.03 /Users/lixin/Developer/redis-cluster/bin/redis-server *:6380 [cluster]
+  501  2266     1   0 10:34下午 ??         0:00.03 /Users/lixin/Developer/redis-cluster/bin/redis-server *:6381 [cluster]
+  501  2268     1   0 10:34下午 ??         0:00.03 /Users/lixin/Developer/redis-cluster/bin/redis-server *:6382 [cluster]
+  501  2270     1   0 10:34下午 ??         0:00.04 /Users/lixin/Developer/redis-cluster/bin/redis-server *:6383 [cluster]
+  501  2272     1   0 10:34下午 ??         0:00.03 /Users/lixin/Developer/redis-cluster/bin/redis-server *:6384 [cluster]
+  501  2274     1   0 10:34下午 ??         0:00.04 /Users/lixin/Developer/redis-cluster/bin/redis-server *:6385 [cluster]
+  501  2276     1   0 10:34下午 ??         0:00.02 /Users/lixin/Developer/redis-cluster/bin/redis-server *:6386 [cluster]
+  501  2278     1   0 10:34下午 ??         0:00.02 /Users/lixin/Developer/redis-cluster/bin/redis-server *:6387 [cluster]
+
+# 5. 登录redis
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 -p 6380
+
+# 6. 查看slot信息.
+127.0.0.1:6380> CLUSTER SLOTS
+1) 1) (integer) 5461
+   2) (integer) 10922
+   3) 1) "127.0.0.1"
+      2) (integer) 6381
+      3) "d36cf78e5481e488bc50dd31960044cc1e69522f"
+   4) 1) "127.0.0.1"
+      2) (integer) 6383
+      3) "bf09356f37d20288d1a8cb5754b0f5b6afddfdae"
+2) 1) (integer) 0
+   2) (integer) 5460
+   3) 1) "127.0.0.1"
+      2) (integer) 6380
+      3) "d4fb72a249a42ecfce9f5e6d90eab917ddf20c22"
+   4) 1) "127.0.0.1"
+      2) (integer) 6385
+      3) "edaeeffe57750afe67957f9ebbbcb0d919e9baea"
+3) 1) (integer) 10923
+   2) (integer) 16383
+   3) 1) "127.0.0.1"
+      2) (integer) 6382
+      3) "8a9bf55091d15fd77de0bf7d4db05e09a5b682db"
+   4) 1) "127.0.0.1"
+      2) (integer) 6384
+      3) "894425fde65f7da875d4d078f41e01381e52c6d9"
+
+# 7. 添加Master节点到集群里
+# 127.0.0.1:6386   : 新的节点
+# 127.0.0.1:6380   : 集群里任意一个节点
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster  add-node 127.0.0.1:6386 127.0.0.1:6380
+# 添加节点到集群
+>>> Adding node 127.0.0.1:6386 to cluster 127.0.0.1:6380
+>>> Performing Cluster Check (using node 127.0.0.1:6380)
+M: d4fb72a249a42ecfce9f5e6d90eab917ddf20c22 127.0.0.1:6380
+   slots:[0-5460] (5461 slots) master
+   1 additional replica(s)
+M: d36cf78e5481e488bc50dd31960044cc1e69522f 127.0.0.1:6381
+   slots:[5461-10922] (5462 slots) master
+   1 additional replica(s)
+S: bf09356f37d20288d1a8cb5754b0f5b6afddfdae 127.0.0.1:6383
+   slots: (0 slots) slave
+   replicates d36cf78e5481e488bc50dd31960044cc1e69522f
+S: edaeeffe57750afe67957f9ebbbcb0d919e9baea 127.0.0.1:6385
+   slots: (0 slots) slave
+   replicates d4fb72a249a42ecfce9f5e6d90eab917ddf20c22
+S: 894425fde65f7da875d4d078f41e01381e52c6d9 127.0.0.1:6384
+   slots: (0 slots) slave
+   replicates 8a9bf55091d15fd77de0bf7d4db05e09a5b682db
+M: 8a9bf55091d15fd77de0bf7d4db05e09a5b682db 127.0.0.1:6382
+   slots:[10923-16383] (5461 slots) master
+   1 additional replica(s)
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+>>> Send CLUSTER MEET to node 127.0.0.1:6386 to make it join the cluster.
+[OK] New node added correctly.
+
+# 8. 查看集群节点信息
+127.0.0.1:6380> CLUSTER NODES
+c43cabb3036f42ed592b36eaa3282760ecdb3caa 127.0.0.1:6386@16386 master - 0 1626014633000 0 connected
+
+# 9. 添加新节点slave(6387)与master(6386)进行绑定
+#  127.0.0.1:6387   : 新的slave节点
+#  127.0.0.1:6380   : 集群中任意一个节点即可
+#  --cluster-slave  : 代表添加的节点是slave节点
+# --cluster-master-id c43cabb3036f42ed592b36eaa3282760ecdb3caa    :  给新节点指定主节点id
+ixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster  add-node 127.0.0.1:6387 127.0.0.1:6380  --cluster-slave --cluster-master-id c43cabb3036f42ed592b36eaa3282760ecdb3caa
+Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+>>> Adding node 127.0.0.1:6387 to cluster 127.0.0.1:6380
+>>> Performing Cluster Check (using node 127.0.0.1:6380)
+M: d4fb72a249a42ecfce9f5e6d90eab917ddf20c22 127.0.0.1:6380
+   slots:[0-5460] (5461 slots) master
+   1 additional replica(s)
+M: d36cf78e5481e488bc50dd31960044cc1e69522f 127.0.0.1:6381
+   slots:[5461-10922] (5462 slots) master
+   1 additional replica(s)
+S: bf09356f37d20288d1a8cb5754b0f5b6afddfdae 127.0.0.1:6383
+   slots: (0 slots) slave
+   replicates d36cf78e5481e488bc50dd31960044cc1e69522f
+S: edaeeffe57750afe67957f9ebbbcb0d919e9baea 127.0.0.1:6385
+   slots: (0 slots) slave
+   replicates d4fb72a249a42ecfce9f5e6d90eab917ddf20c22
+S: 894425fde65f7da875d4d078f41e01381e52c6d9 127.0.0.1:6384
+   slots: (0 slots) slave
+   replicates 8a9bf55091d15fd77de0bf7d4db05e09a5b682db
+M: c43cabb3036f42ed592b36eaa3282760ecdb3caa 127.0.0.1:6386
+   slots: (0 slots) master
+M: 8a9bf55091d15fd77de0bf7d4db05e09a5b682db 127.0.0.1:6382
+   slots:[10923-16383] (5461 slots) master
+   1 additional replica(s)
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+>>> Send CLUSTER MEET to node 127.0.0.1:6387 to make it join the cluster.
+Waiting for the cluster to join
+>>> Configure node as replica of 127.0.0.1:6386.
+[OK] New node added correctly.
+
+
+# 10. 注意(6386和6387已经是主从关系了.)
+127.0.0.1:6380> CLUSTER NODES
+73855ed05187e40ac4b84a59c2246ffa5a207b66 127.0.0.1:6387@16387 slave c43cabb3036f42ed592b36eaa3282760ecdb3caa 0 1626015421000 11 connected
+c43cabb3036f42ed592b36eaa3282760ecdb3caa 127.0.0.1:6386@16386 master - 0 1626015419812 11 connected
+
+# 11. 此时新添加的一组Redis还不能被使用,需要分配solt
+# 11.1 查看现有slot情况
+127.0.0.1:6380> CLUSTER SLOTS
+1) 1) (integer) 5461
+   2) (integer) 10922
+   3) 1) "127.0.0.1"
+      2) (integer) 6381
+      3) "d36cf78e5481e488bc50dd31960044cc1e69522f"
+   4) 1) "127.0.0.1"
+      2) (integer) 6383
+      3) "bf09356f37d20288d1a8cb5754b0f5b6afddfdae"
+2) 1) (integer) 0
+   2) (integer) 5460
+   3) 1) "127.0.0.1"
+      2) (integer) 6380
+      3) "d4fb72a249a42ecfce9f5e6d90eab917ddf20c22"
+   4) 1) "127.0.0.1"
+      2) (integer) 6385
+      3) "edaeeffe57750afe67957f9ebbbcb0d919e9baea"
+3) 1) (integer) 10923
+   2) (integer) 16383
+   3) 1) "127.0.0.1"
+      2) (integer) 6382
+      3) "8a9bf55091d15fd77de0bf7d4db05e09a5b682db"
+   4) 1) "127.0.0.1"
+      2) (integer) 6384
+      3) "894425fde65f7da875d4d078f41e01381e52c6d9"
+
+# 11.2 查看所有的节点信息
+127.0.0.1:6380> CLUSTER NODES
+d36cf78e5481e488bc50dd31960044cc1e69522f 127.0.0.1:6381@16381 master - 0 1626016580000 2 connected 5461-10922
+bf09356f37d20288d1a8cb5754b0f5b6afddfdae 127.0.0.1:6383@16383 slave d36cf78e5481e488bc50dd31960044cc1e69522f 0 1626016581000 4 connected
+edaeeffe57750afe67957f9ebbbcb0d919e9baea 127.0.0.1:6385@16385 slave d4fb72a249a42ecfce9f5e6d90eab917ddf20c22 0 1626016581000 6 connected
+73855ed05187e40ac4b84a59c2246ffa5a207b66 127.0.0.1:6387@16387 slave c43cabb3036f42ed592b36eaa3282760ecdb3caa 0 1626016580309 11 connected
+894425fde65f7da875d4d078f41e01381e52c6d9 127.0.0.1:6384@16384 slave 8a9bf55091d15fd77de0bf7d4db05e09a5b682db 0 1626016581320 10 connected
+c43cabb3036f42ed592b36eaa3282760ecdb3caa 127.0.0.1:6386@16386 master - 0 1626016582329 11 connected
+d4fb72a249a42ecfce9f5e6d90eab917ddf20c22 127.0.0.1:6380@16380 myself,master - 0 1626016580000 1 connected 0-5460
+8a9bf55091d15fd77de0bf7d4db05e09a5b682db 127.0.0.1:6382@16382 master - 0 1626016583342 10 connected 10923-16383
+
+# 11.3 重新分配slot
+# reshard             : slot迁移
+# 127.0.0.1:6380      : 集群中随机一个节点即可
+# --cluster-from      : 需要从哪些源节点上迁移slot,可从多个源节点完成迁移,以逗号隔开,传递的是节点的node id
+# --cluster-to        : slot需要迁移的目的节点的node id,目的节点只能填写一个,不传递该参数的话,则会在迁移过程中提示用户输入.
+# --cluster-slots     : 需要迁移的slot数量,不传递该参数的话,则会在迁移过程中提示用户输入.
+# --cluster-yes       : 迁移前,还需要用户再次确认.
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster reshard 127.0.0.1:6380 --cluster-from d36cf78e5481e488bc50dd31960044cc1e69522f,d4fb72a249a42ecfce9f5e6d90eab917ddf20c22,8a9bf55091d15fd77de0bf7d4db05e09a5b682db --cluster-to  c43cabb3036f42ed592b36eaa3282760ecdb3caa --cluster-slots 1024
+
+
+# 12. 验证slot分配信息
+# 从结果上能看得出来,redis集群是把某一片范围内的数据,分配在某个节点上.
+# 
+127.0.0.1:6380> CLUSTER SLOTS
+1) 1) (integer) 6486
+   2) (integer) 10922
+   3) 1) "127.0.0.1"
+      2) (integer) 6381
+      3) "d36cf78e5481e488bc50dd31960044cc1e69522f"
+   4) 1) "127.0.0.1"
+      2) (integer) 6383
+      3) "bf09356f37d20288d1a8cb5754b0f5b6afddfdae"
+
+# **************************************************************************************
+# 6386节点上,分配上更多的slot,感觉好像是从现有(3个)的节点上,各抽出:1024个slot到该节点.
+2) 1) (integer) 0
+   2) (integer) 1022
+   3) 1) "127.0.0.1"
+      2) (integer) 6386
+      3) "c43cabb3036f42ed592b36eaa3282760ecdb3caa"
+   4) 1) "127.0.0.1"
+      2) (integer) 6387
+      3) "73855ed05187e40ac4b84a59c2246ffa5a207b66"
+3) 1) (integer) 5461
+   2) (integer) 6485
+   3) 1) "127.0.0.1"
+      2) (integer) 6386
+      3) "c43cabb3036f42ed592b36eaa3282760ecdb3caa"
+   4) 1) "127.0.0.1"
+      2) (integer) 6387
+      3) "73855ed05187e40ac4b84a59c2246ffa5a207b66"
+4) 1) (integer) 10923
+   2) (integer) 11945
+   3) 1) "127.0.0.1"
+      2) (integer) 6386
+      3) "c43cabb3036f42ed592b36eaa3282760ecdb3caa"
+   4) 1) "127.0.0.1"
+      2) (integer) 6387
+      3) "73855ed05187e40ac4b84a59c2246ffa5a207b66"
+# **************************************************************************************
+
+5) 1) (integer) 1023
+   2) (integer) 5460
+   3) 1) "127.0.0.1"
+      2) (integer) 6380
+      3) "d4fb72a249a42ecfce9f5e6d90eab917ddf20c22"
+   4) 1) "127.0.0.1"
+      2) (integer) 6385
+      3) "edaeeffe57750afe67957f9ebbbcb0d919e9baea"
+6) 1) (integer) 11946
+   2) (integer) 16383
+   3) 1) "127.0.0.1"
+      2) (integer) 6382
+      3) "8a9bf55091d15fd77de0bf7d4db05e09a5b682db"
+   4) 1) "127.0.0.1"
+      2) (integer) 6384
+      3) "894425fde65f7da875d4d078f41e01381e52c6d9"
+
+# 13. 尝试插入数据到新的节点
+127.0.0.1:6382> CLUSTER KEYSLOT bbb
+(integer) 5287
+127.0.0.1:6382> set bbb world
+-> Redirected to slot [5287] located at 127.0.0.1:6380
+OK
+
+
+# 14. 删除节点,并下线.
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster del-node  127.0.0.1:6387 fe6da937a8f63b496de6526d7c60c7aa8a19d885
+Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+>>> Removing node fe6da937a8f63b496de6526d7c60c7aa8a19d885 from cluster 127.0.0.1:6387
+>>> Sending CLUSTER FORGET messages to the cluster...
+>>> SHUTDOWN the node.
+```
+
+### (14). 总结
 > Redis5.X已经不再需要Ruby,看来,它已经慢慢的把生态圈开始完善了.  
