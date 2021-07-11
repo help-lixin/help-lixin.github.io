@@ -11,9 +11,8 @@ tags:  Spring
 
 ### (2). 实现方式
 > 1. 最简例方法(@Cacheable(cacheNames = "users#PT60s")).    
-> 2. 自定义: 注解(@Cacheable(cacheNames = "users", ttl = "PT30s")),注解解析器CacheOperationSource,注解解析后的数据载体CacheOperation.       
-
-> <font color='red'>我这里使用最简单的,即方案一.方案二需要一天以上的时间来做开发.</font>      
+> 2. 自定义: 注解(@Cacheable(cacheNames = "users", ttl = "PT30s")).         
+> <font color='red'>我这里使用最简单的,即方案一.</font>      
 
 ### (3). 自定义CacheManager
 > 直接把RedisCacheManager拷贝过来,重命名,注意:package名称不能动,因为,在这个类的内部使用到了其它的包级别的类(注意:我标星的部位).   
