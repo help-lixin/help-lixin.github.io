@@ -11,7 +11,7 @@ tags:  Spring
 
 ### (2). Spring Cache类图
 > CacheManager固名思义:就是对Cache进行管理,可以管理多个Cache.         
-> Cache是对缓存的一些基本操作(添加数据到缓存/剔除中的缓存/清空整个缓存...)         
+> Cache是对缓存的一些基本操作(添加数据到缓存/剔除缓存中的数据/清空整个缓存...)         
 > CacheResolver在AOP时会需要根据注解,解析出Cache对象.        
 > KeyGenerator用于缓存时自定义KEY策略,注意,与注解上的key是互斥的.         
 
