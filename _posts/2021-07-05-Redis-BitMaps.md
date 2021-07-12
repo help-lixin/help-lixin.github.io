@@ -1,13 +1,14 @@
 ---
 layout: post
-title: 'Redis Bitmaps'
+title: 'Redis Bitmaps操作'
 date: 2021-07-05
 author: 李新
 tags:  Redis 
 ---
 
 ### (1). 前言
-统计日活用户
+
+
 ### (2). SETBIT设置
 ```
 # unique:users:2021-07-21 :  key
@@ -49,15 +50,3 @@ tags:  Redis
 127.0.0.1:6381> BITCOUNT "tmp_:{2021-07}_result"
 (integer) 3
 ```
-### (5). 
-
-### (6). 
-
-### (7). 
-
-### (8). 
-
-### (9). 
-
-### (10).
- 
