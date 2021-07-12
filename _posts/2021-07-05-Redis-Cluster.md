@@ -768,15 +768,252 @@ lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster reshar
 127.0.0.1:6382> set bbb world
 -> Redirected to slot [5287] located at 127.0.0.1:6380
 OK
+```
+### (14). 下线一组服务
+> 结论:  
+> 在下线一组Redis时,要求Redis里的数据需要先作迁移,否则,下线失败.   
 
+```
+# 1.下线6386和6387的服务.
+127.0.0.1:6380> CLUSTER NODES
+d36cf78e5481e488bc50dd31960044cc1e69522f 127.0.0.1:6381@16381 master - 0 1626060322363 2 connected 6827-10922
+73855ed05187e40ac4b84a59c2246ffa5a207b66 127.0.0.1:6387@16387 slave c43cabb3036f42ed592b36eaa3282760ecdb3caa 0 1626060003000 11 connected
+c43cabb3036f42ed592b36eaa3282760ecdb3caa 127.0.0.1:6386@16386 master - 0 1626060004943 11 connected 0-1364 5461-6826 10923-12287
 
-# 14. 删除节点,并下线.
-lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster del-node  127.0.0.1:6387 fe6da937a8f63b496de6526d7c60c7aa8a19d885
-Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
->>> Removing node fe6da937a8f63b496de6526d7c60c7aa8a19d885 from cluster 127.0.0.1:6387
+# 2. 下线slave节点
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster del-node  127.0.0.1:6387 73855ed05187e40ac4b84a59c2246ffa5a207b66
+>>> Removing node 73855ed05187e40ac4b84a59c2246ffa5a207b66 from cluster 127.0.0.1:6387
 >>> Sending CLUSTER FORGET messages to the cluster...
 >>> SHUTDOWN the node.
-```
 
-### (14). 总结
+# 3. 下线master节点
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster del-node  127.0.0.1:6386 c43cabb3036f42ed592b36eaa3282760ecdb3caa
+>>> Removing node c43cabb3036f42ed592b36eaa3282760ecdb3caa from cluster 127.0.0.1:6386
+# 下线失败,因为节点里有数据,请先做reshard
+[ERR] Node 127.0.0.1:6386 is not empty! Reshard data away and try again.
+
+# 4. 重新reshard
+# 把master(c43cabb3036f42ed592b36eaa3282760ecdb3caa)节点(6386)上的slot,全部迁移到:
+#   slave(d36cf78e5481e488bc50dd31960044cc1e69522f)节点(6381)上
+./bin/redis-cli -c -a 888888 --cluster reshard 127.0.0.1:6380 --cluster-from c43cabb3036f42ed592b36eaa3282760ecdb3caa --cluster-to d36cf78e5481e488bc50dd31960044cc1e69522f  --cluster-slots 1365
+./bin/redis-cli -c -a 888888 --cluster reshard 127.0.0.1:6380 --cluster-from c43cabb3036f42ed592b36eaa3282760ecdb3caa --cluster-to d36cf78e5481e488bc50dd31960044cc1e69522f  --cluster-slots 6826
+
+# 5. 检查下6386是否有slot分配
+127.0.0.1:6380> CLUSTER NODES
+c43cabb3036f42ed592b36eaa3282760ecdb3caa 127.0.0.1:6386@16386 master - 0 1626061120200 11 connected
+
+# 6. 重新下线master节点(移除成功)
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster del-node  127.0.0.1:6386 c43cabb3036f42ed592b36eaa3282760ecdb3caa
+>>> Removing node c43cabb3036f42ed592b36eaa3282760ecdb3caa from cluster 127.0.0.1:6386
+>>> Sending CLUSTER FORGET messages to the cluster...
+>>> SHUTDOWN the node.
+
+# 7. 再次查看slot分配信息.
+127.0.0.1:6380> CLUSTER SLOTS
+1) 1) (integer) 0
+   2) (integer) 1364
+   3) 1) "127.0.0.1"
+      2) (integer) 6381
+      3) "d36cf78e5481e488bc50dd31960044cc1e69522f"
+   4) 1) "127.0.0.1"
+      2) (integer) 6383
+      3) "bf09356f37d20288d1a8cb5754b0f5b6afddfdae"
+2) 1) (integer) 5461
+   2) (integer) 12287
+   3) 1) "127.0.0.1"
+      2) (integer) 6381
+      3) "d36cf78e5481e488bc50dd31960044cc1e69522f"
+   4) 1) "127.0.0.1"
+      2) (integer) 6383
+      3) "bf09356f37d20288d1a8cb5754b0f5b6afddfdae"
+3) 1) (integer) 1365
+   2) (integer) 5460
+   3) 1) "127.0.0.1"
+      2) (integer) 6380
+      3) "d4fb72a249a42ecfce9f5e6d90eab917ddf20c22"
+   4) 1) "127.0.0.1"
+      2) (integer) 6385
+      3) "edaeeffe57750afe67957f9ebbbcb0d919e9baea"
+4) 1) (integer) 12288
+   2) (integer) 16383
+   3) 1) "127.0.0.1"
+      2) (integer) 6382
+      3) "8a9bf55091d15fd77de0bf7d4db05e09a5b682db"
+   4) 1) "127.0.0.1"
+      2) (integer) 6384
+      3) "894425fde65f7da875d4d078f41e01381e52c6d9"
+```
+### (15). 重新平衡
+```
+# 1. 查看现有的solt
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 -p 6380
+127.0.0.1:6380> CLUSTER SLOTS
+1) 1) (integer) 6486
+   2) (integer) 10922
+   3) 1) "127.0.0.1"
+      2) (integer) 6381
+      3) "d36cf78e5481e488bc50dd31960044cc1e69522f"
+   4) 1) "127.0.0.1"
+      2) (integer) 6383
+      3) "bf09356f37d20288d1a8cb5754b0f5b6afddfdae"
+2) 1) (integer) 1023
+   2) (integer) 5460
+   3) 1) "127.0.0.1"
+      2) (integer) 6380
+      3) "d4fb72a249a42ecfce9f5e6d90eab917ddf20c22"
+   4) 1) "127.0.0.1"
+      2) (integer) 6385
+      3) "edaeeffe57750afe67957f9ebbbcb0d919e9baea"
+3) 1) (integer) 11946
+   2) (integer) 16383
+   3) 1) "127.0.0.1"
+      2) (integer) 6382
+      3) "8a9bf55091d15fd77de0bf7d4db05e09a5b682db"
+   4) 1) "127.0.0.1"
+      2) (integer) 6384
+      3) "894425fde65f7da875d4d078f41e01381e52c6d9"
+4) 1) (integer) 0
+   2) (integer) 1022
+   3) 1) "127.0.0.1"
+      2) (integer) 6386
+      3) "c43cabb3036f42ed592b36eaa3282760ecdb3caa"
+   4) 1) "127.0.0.1"
+      2) (integer) 6387
+      3) "73855ed05187e40ac4b84a59c2246ffa5a207b66"
+5) 1) (integer) 5461
+   2) (integer) 6485
+   3) 1) "127.0.0.1"
+      2) (integer) 6386
+      3) "c43cabb3036f42ed592b36eaa3282760ecdb3caa"
+   4) 1) "127.0.0.1"
+      2) (integer) 6387
+      3) "73855ed05187e40ac4b84a59c2246ffa5a207b66"
+6) 1) (integer) 10923
+   2) (integer) 11945
+   3) 1) "127.0.0.1"
+      2) (integer) 6386
+      3) "c43cabb3036f42ed592b36eaa3282760ecdb3caa"
+   4) 1) "127.0.0.1"
+      2) (integer) 6387
+      3) "73855ed05187e40ac4b84a59c2246ffa5a207b66"
+
+# 2. 平衡集群中各个节点的slot数量
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster rebalance 127.0.0.1:6380
+Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+>>> Performing Cluster Check (using node 127.0.0.1:6380)
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+>>> Rebalancing across 4 nodes. Total weight = 4.00
+Moving 342 slots from 127.0.0.1:6382 to 127.0.0.1:6386
+######################################################################################################################################################################################################################################################################################################################################################
+Moving 342 slots from 127.0.0.1:6380 to 127.0.0.1:6386
+######################################################################################################################################################################################################################################################################################################################################################
+Moving 341 slots from 127.0.0.1:6381 to 127.0.0.1:6386
+#####################################################################################################################################################################################################################################################################################################################################################
+
+# 3. 再次查看slot信息
+127.0.0.1:6380> CLUSTER SLOTS
+1) 1) (integer) 6827
+   2) (integer) 10922
+   3) 1) "127.0.0.1"
+      2) (integer) 6381
+      3) "d36cf78e5481e488bc50dd31960044cc1e69522f"
+   4) 1) "127.0.0.1"
+      2) (integer) 6383
+      3) "bf09356f37d20288d1a8cb5754b0f5b6afddfdae"
+2) 1) (integer) 1365
+   2) (integer) 5460
+   3) 1) "127.0.0.1"
+      2) (integer) 6380
+      3) "d4fb72a249a42ecfce9f5e6d90eab917ddf20c22"
+   4) 1) "127.0.0.1"
+      2) (integer) 6385
+      3) "edaeeffe57750afe67957f9ebbbcb0d919e9baea"
+3) 1) (integer) 12288
+   2) (integer) 16383
+   3) 1) "127.0.0.1"
+      2) (integer) 6382
+      3) "8a9bf55091d15fd77de0bf7d4db05e09a5b682db"
+   4) 1) "127.0.0.1"
+      2) (integer) 6384
+      3) "894425fde65f7da875d4d078f41e01381e52c6d9"
+4) 1) (integer) 0
+   2) (integer) 1364
+   3) 1) "127.0.0.1"
+      2) (integer) 6386
+      3) "c43cabb3036f42ed592b36eaa3282760ecdb3caa"
+   4) 1) "127.0.0.1"
+      2) (integer) 6387
+      3) "73855ed05187e40ac4b84a59c2246ffa5a207b66"
+5) 1) (integer) 5461
+   2) (integer) 6826
+   3) 1) "127.0.0.1"
+      2) (integer) 6386
+      3) "c43cabb3036f42ed592b36eaa3282760ecdb3caa"
+   4) 1) "127.0.0.1"
+      2) (integer) 6387
+      3) "73855ed05187e40ac4b84a59c2246ffa5a207b66"
+6) 1) (integer) 10923
+   2) (integer) 12287
+   3) 1) "127.0.0.1"
+      2) (integer) 6386
+      3) "c43cabb3036f42ed592b36eaa3282760ecdb3caa"
+   4) 1) "127.0.0.1"
+      2) (integer) 6387
+      3) "73855ed05187e40ac4b84a59c2246ffa5a207b66"
+```
+### (16). 查看集群信息
+```
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster info 127.0.0.1:6380
+Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+127.0.0.1:6380 (d4fb72a2...) -> 1 keys | 4096 slots | 1 slaves.
+127.0.0.1:6381 (d36cf78e...) -> 0 keys | 4096 slots | 1 slaves.
+127.0.0.1:6382 (8a9bf550...) -> 1 keys | 4096 slots | 1 slaves.
+127.0.0.1:6386 (c43cabb3...) -> 0 keys | 4096 slots | 1 slaves.
+[OK] 2 keys in 4 masters.
+0.00 keys per slot on average.
+```
+### (17). 检查集群
+```
+lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster check 127.0.0.1:6380
+Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+127.0.0.1:6380 (d4fb72a2...) -> 1 keys | 4096 slots | 1 slaves.
+127.0.0.1:6381 (d36cf78e...) -> 0 keys | 4096 slots | 1 slaves.
+127.0.0.1:6382 (8a9bf550...) -> 1 keys | 4096 slots | 1 slaves.
+127.0.0.1:6386 (c43cabb3...) -> 0 keys | 4096 slots | 1 slaves.
+[OK] 2 keys in 4 masters.
+0.00 keys per slot on average.
+>>> Performing Cluster Check (using node 127.0.0.1:6380)
+M: d4fb72a249a42ecfce9f5e6d90eab917ddf20c22 127.0.0.1:6380
+   slots:[1365-5460] (4096 slots) master
+   1 additional replica(s)
+M: d36cf78e5481e488bc50dd31960044cc1e69522f 127.0.0.1:6381
+   slots:[6827-10922] (4096 slots) master
+   1 additional replica(s)
+S: bf09356f37d20288d1a8cb5754b0f5b6afddfdae 127.0.0.1:6383
+   slots: (0 slots) slave
+   replicates d36cf78e5481e488bc50dd31960044cc1e69522f
+M: 8a9bf55091d15fd77de0bf7d4db05e09a5b682db 127.0.0.1:6382
+   slots:[12288-16383] (4096 slots) master
+   1 additional replica(s)
+S: 894425fde65f7da875d4d078f41e01381e52c6d9 127.0.0.1:6384
+   slots: (0 slots) slave
+   replicates 8a9bf55091d15fd77de0bf7d4db05e09a5b682db
+S: 73855ed05187e40ac4b84a59c2246ffa5a207b66 127.0.0.1:6387
+   slots: (0 slots) slave
+   replicates c43cabb3036f42ed592b36eaa3282760ecdb3caa
+M: c43cabb3036f42ed592b36eaa3282760ecdb3caa 127.0.0.1:6386
+   slots:[0-1364],[5461-6826],[10923-12287] (4096 slots) master
+   1 additional replica(s)
+S: edaeeffe57750afe67957f9ebbbcb0d919e9baea 127.0.0.1:6385
+   slots: (0 slots) slave
+   replicates d4fb72a249a42ecfce9f5e6d90eab917ddf20c22
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+```
+### (18). 总结
 > Redis5.X已经不再需要Ruby,看来,它已经慢慢的把生态圈开始完善了.  
