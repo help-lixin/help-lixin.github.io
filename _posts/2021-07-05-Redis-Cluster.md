@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Redis Cluster搭建'
+title: 'Redis Cluster搭建与管理'
 date: 2021-07-05
 author: 李新
 tags:  Redis 
@@ -899,7 +899,6 @@ lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 -p 6380
 
 # 2. 平衡集群中各个节点的slot数量
 lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster rebalance 127.0.0.1:6380
-Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
 >>> Performing Cluster Check (using node 127.0.0.1:6380)
 [OK] All nodes agree about slots configuration.
 >>> Check for open slots...
