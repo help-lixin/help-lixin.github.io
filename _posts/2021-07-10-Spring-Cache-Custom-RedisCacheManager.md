@@ -15,7 +15,7 @@ tags:  Spring
 > 在这里,我这里使用:方案一,[方案二已经开源在github](https://github.com/help-lixin/framework)
 
 ### (3). 自定义CacheManager
-> 直接把RedisCacheManager拷贝过来,重命名,注意:package名称不能动,因为,在这个类的内部使用到了其它的包级别的类(注意:我标星的部位).   
+> 直接把RedisCacheManager拷贝过来,重命名,注意:package名称不能动,因为,在这个类的内部使用到了其它包级别的类(注意:标星的部位是我改动的部位,其余地方不变即可).   
 
 ```
 package org.springframework.data.redis.cache;
