@@ -17,6 +17,7 @@ tags: MySQL Canal
 > 5. slave停止与master进行同步.   
 > 6. slave重新与master同步,并指定第2步FLUSH时的binlog+position(让slave回退同步).   
 > 7. 再次检查slave表(t_user)数据.   
+> 8. 测试alter,查看binlog信息.  
 
 ### (3). 准备工作
 ```
@@ -487,9 +488,108 @@ DELIMITER ;
 ###   @3=25
 ###   @4=2
 ```
+
+### (13). alter内部结构
+```
+#1. 查看master表结构和数据
+mysql> SHOW VARIABLES  LIKE 'server_id';
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| server_id     | 1     |
++---------------+-------+
+
+# 2. 进入库
+mysql> use test2;
+Database changed
+
+# 3. 查看表结构
+mysql> desc t_user;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| id      | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name    | varchar(25) | YES  |     | NULL    |                |
+| age     | int(3)      | YES  |     | NULL    |                |
+| version | int(11)     | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+
+# 4. 修改表结构之前查看表所有信息.
+mysql> select * from t_user;
++----+-------+------+---------+
+| id | name  | age  | version |
++----+-------+------+---------+
+|  3 | xinli |   26 |       1 |
+|  4 | test  |   27 |       1 |
++----+-------+------+---------+
+
+# 5. alter表结构
+mysql> ALTER TABLE t_user ADD sex CHAR(1) NOT NULL DEFAULT '0';
+
+
+# 6. 查看表中数据
+mysql> SELECT * FROM t_user;
++----+-------+------+---------+-----+
+| id | name  | age  | version | sex |
++----+-------+------+---------+-----+
+|  3 | xinli |   26 |       1 | 0   |
+|  4 | test  |   27 |       1 | 0   |
++----+-------+------+---------+-----+
+
+# ****************************************************************************************
+# 1. 查看最新的binlog内容
+mysql> SHOW BINARY LOGS;
++------------------+-----------+
+| Log_name         | File_size |
++------------------+-----------+
+| slave-bin.000025 |       379 |
++------------------+-----------+
+
+# 2. copy出binlog内容
+lixin-macbook:~ lixin$ cp ~/DockerWorkspace/mysql/slave/data/slave-bin.000023  ~/Downloads/binlog/
+lixin-macbook:~ lixin$ cd ~/Downloads/binlog/
+
+# ************************************************************
+# 3. 解析binlog内容:
+#    注意:alter语句,并不会触发全表update,在binlog里反正是没有这个内容.
+# ************************************************************
+lixin-macbook:binlog lixin$ mysqlbinlog  --no-defaults -v  --base64-output=decode-rows slave-bin.000025 |cat
+/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=1*/;
+/*!50003 SET @OLD_COMPLETION_TYPE=@@COMPLETION_TYPE,COMPLETION_TYPE=0*/;
+DELIMITER /*!*/;
+# at 4
+#210714  8:53:03 server id 2  end_log_pos 123 CRC32 0xebc15af5 	Start: binlog v 4, server v 5.7.9-log created 210714  8:53:03
+# Warning: this binlog is either in use or was not closed properly.
+# at 123
+#210714  8:53:03 server id 2  end_log_pos 154 CRC32 0x96e5ff89 	Previous-GTIDs
+# [empty]
+# at 154
+#210714  8:53:42 server id 1  end_log_pos 219 CRC32 0x6576c267 	Anonymous_GTID	last_committed=0	sequence_number=1	rbr_only=no
+SET @@SESSION.GTID_NEXT= 'ANONYMOUS'/*!*/;
+# at 219
+#210714  8:53:42 server id 1  end_log_pos 350 CRC32 0x4c7e081d 	Query	thread_id=3	exec_time=0	error_code=0
+use `test2`/*!*/;
+SET TIMESTAMP=1626224022/*!*/;
+SET @@session.pseudo_thread_id=3/*!*/;
+SET @@session.foreign_key_checks=1, @@session.sql_auto_is_null=0, @@session.unique_checks=1, @@session.autocommit=1/*!*/;
+SET @@session.sql_mode=1436549152/*!*/;
+SET @@session.auto_increment_increment=1, @@session.auto_increment_offset=1/*!*/;
+/*!\C utf8 *//*!*/;
+SET @@session.character_set_client=33,@@session.collation_connection=33,@@session.collation_server=8/*!*/;
+SET @@session.lc_time_names=0/*!*/;
+SET @@session.collation_database=DEFAULT/*!*/;
+ALTER TABLE t_user ADD sex CHAR(1) NOT NULL DEFAULT '0'
+/*!*/;
+SET @@SESSION.GTID_NEXT= 'AUTOMATIC' /* added by mysqlbinlog */ /*!*/;
+DELIMITER ;
+# End of log file
+/*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
+/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;
+```
 ### (13). 总结
 > 在ROW模式下,对binlog进行测试结论:  
 > 1. UPDATE/DELETE虽然是批量更新了多行数据,但是在ROW模式下,会变成了多条语句,并保持在一个事务以内.  
 > 2. UPDATE的WHERE和SET条件都变成了整行数据,相当于在ROW模式下MySQL把SQL语句给改写了.     
 > 3. DELETE的WHERE条件也被改写成整行数据.   
 > 4. 从上面的结论得出:在ROW模式下,binlog+position回退的情况下,都不会出现脏数据.   
+> 5. ALTER表时,是不会触发UPDATE语句的.   
