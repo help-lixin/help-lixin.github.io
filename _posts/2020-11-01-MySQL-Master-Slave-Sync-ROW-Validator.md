@@ -489,7 +489,8 @@ DELIMITER ;
 ###   @4=2
 ```
 
-### (13). alter内部结构
+### (13). alter剖析
+
 ```
 #1. 查看master表结构和数据
 mysql> SHOW VARIABLES  LIKE 'server_id';
