@@ -23,7 +23,7 @@ BoundValueOperations<String, String> ops = stringRedisTemplate.boundValueOps("c"
 // 3. set操作
 ops.set("cccc");
 ```
-### (3). StringRedisTemplate.boundValueOps
+### (3). StringRedisTemplate
 ```
 public BoundValueOperations<K, V> boundValueOps(K key) {
 	// 每次调用,都new出来一个
