@@ -259,7 +259,7 @@ public class JedisClusterInfoCache {
 			// 下标是第二个的时候,代表着是Master
 			if (i == MASTER_NODE_INDEX) {
               // **********************************************************
-			  // 7. 分配slot
+			  // 7. 只有masster节点的情况下才会分配slot与master节点的映射关系.
 			  // **********************************************************
 			  assignSlotsToNode(slotNums, targetNode);
 			}
