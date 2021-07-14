@@ -15,7 +15,7 @@ tags: MySQL Canal
 > 3. 在master执行一条UPDATE语句(更新多条数据),不明确指定version(UPDATE t_user SET name='xinli' , version=version+1 WHERE age=25).   
 > 4. 检查slave表(t_user)的数据.   
 > 5. slave停止与master进行同步.   
-> 6. slave重新与master同步,并指定第2步FLUSH时的binlog+position(让slave回退同步).   
+> 6. slave重新与master同步,并指定第2步FLUSH时的:binlog+position(模拟slave回退同步).   
 > 7. 再次检查slave表(t_user)数据.   
 > 8. 测试alter,查看binlog信息.  
 
