@@ -6,14 +6,14 @@ author: 李新
 tags:  Redis 
 ---
 ### (1). 主从复制流程
-1) slave执行slaveof <masterIP> <masterPort>,并保master节点信息.  
-2) slave建立与master的socket连接,并周期性的ping,master节点返回:pong.  
-3) slave发送指令: psync <runId> [offset].   
-4) master接受到psync指令建立"缓冲区"(repl_backlog_size),并触发bgsave生成RDB文件,通过sokcet发送给slave.   
-5) slave接受RDB,清空数据,执行RDB文件恢复过程.   
-6) 发送命令告诉master,RDB恢复已经完成.   
-7) master发送"缓冲区"信息给slave.  
-8) slave接收信息,执行bgrewriteaof,恢复数据.   
+1) slave执行slaveof <masterIP> <masterPort>,并保master节点信息.          
+2) slave建立与master的socket连接,并周期性的ping,master节点返回:pong.          
+3) slave发送指令: psync <runId> [offset].             
+4) master接受到psync指令建立"缓冲区"(repl_backlog_size),并触发bgsave生成RDB文件,通过sokcet发送给slave.           
+5) slave接受RDB,清空数据,执行RDB文件恢复过程.          
+6) 发送命令告诉master,RDB恢复已经完成.           
+7) master发送"缓冲区"信息给slave.           
+8) slave接收信息,执行bgrewriteaof,恢复数据.              
 
 ### (2). psyn命令与积压缓冲区
 ```
