@@ -444,8 +444,8 @@ DELIMITER ;
 /*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
 /*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;
 ```
-### (11). 提出重要SQL语句
-> UPDATE语句(UPDATE t_user SET name='xinli',version=version+1 WHERE age=25;)
+### (11). 提取重要SQL语句
+UPDATE语句(UPDATE t_user SET name='xinli',version=version+1 WHERE age=25;)
 
 ```
 ### UPDATE `test2`.`t_user`
@@ -472,7 +472,7 @@ DELIMITER ;
 ###   @4=2
 ```
 
-> DELETE语句(DELETE FROM t_user WHERE age=25;)
+DELETE语句(DELETE FROM t_user WHERE age=25;)
 
 ```
 ### DELETE FROM `test2`.`t_user`
