@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Jedis客户端是如何根据slot路由(一)'
+title: 'Jedis客户端是如何把key与slot映射并路由(一)'
 date: 2021-07-14
 author: 李新
 tags:  Redis 
@@ -104,7 +104,6 @@ public void afterPropertiesSet() {
 		this.cluster = createCluster();
 	}
 }// end afterPropertiesSet
-
 
 
 private JedisCluster createCluster() {
