@@ -294,6 +294,6 @@ public class JedisClusterInfoCache {
 
 ### (10). 总结
 Jedis客户端,会在初始化时,调用Redis集群中任意一台机器,执行:CLUSTER SLOTS,获得slot与Redis服务器之间的关系,并在内存中维护好slot与Redis实例之间的关系.  
-在这一小章,剖析了,当应用进程启动时,Jedis是如何初始化slot的,有两个问题:  
+在这一小节,剖析了,Jedis是如何初始化slot的,但是,有两个问题值得考虑:  
 1) 调用Jedis进行保存操作时,底层是如何做的?    
 2) slot迁移时,Jedis又是如何感知的?   
