@@ -340,3 +340,4 @@ apollo.cacheDir=/tmp/data/
 ```
 ### (14). 总结
 在这里,对Apollo进行了一个简单的入门,当配置有更新时,Apollo会热更新Bean,这种热更新与Spring(@RefreshScope)没有任何关系.Apollo完全自己写了一套(反射),所以,热更新时,Bean并没有销毁.  
+后面的内容,会更新剖析源码了,首先就剖析热更新这一块.  
