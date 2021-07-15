@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Apollo热更新配置(四)'
+title: 'Apollo @EnableApolloConfig(四)'
 date: 2021-07-16
 author: 李新
 tags:  Apollo
