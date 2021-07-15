@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Apollo @EnableApolloConfig(四)'
+title: 'Apollo @EnableApolloConfig(五)'
 date: 2021-07-16
 author: 李新
 tags:  Apollo
@@ -112,7 +112,7 @@ public class DefaultApolloConfigRegistrarHelper implements ApolloConfigRegistrar
 }
 ```
 ### (5). 总结
-@EnableApolloConfig的主要作用就是向Spring容器中注册一堆Bean,后面,会剖析这些类的源码.   
+@EnableApolloConfig的主要作用就是向Spring容器中注册一堆Bean,但是,好像也没有找到我们想要的内容.  
 1) PropertySourcesPlaceholderConfigurer   
 2) PropertySourcesProcessor   
 3) ApolloAnnotationProcessor   
