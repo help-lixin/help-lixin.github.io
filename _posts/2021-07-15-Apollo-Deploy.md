@@ -40,14 +40,17 @@ mysql> select `Id`, `Key`, `Value`, `Comment` from `ApolloConfigDB`.`ServerConfi
 ### (4). 配置(/Users/lixin/GitRepository/apollo/scripts/build.sh)
 ```
 # apollo config db info
+# apollo-configservice/apollo-adminservice共享一个db
 apollo_config_db_url='jdbc:mysql://127.0.0.1:3306/ApolloConfigDB?characterEncoding=utf8'
 apollo_config_db_username=root
 apollo_config_db_password=123456
 
 # apollo portal db info
+# portal 独有db
 apollo_portal_db_url='jdbc:mysql://127.0.0.1:3306/ApolloPortalDB?characterEncoding=utf8'
 apollo_portal_db_username=root
 apollo_portal_db_password=123456
+
 
 # meta server url, different environments should have different meta server addresses
 dev_meta=http://localhost:8080
