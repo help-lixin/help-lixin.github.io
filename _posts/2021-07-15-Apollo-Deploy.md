@@ -337,6 +337,12 @@ app.id=7BBB492B-62F8-453F-B50B-0D568308E87A
 apollo.meta=http://127.0.0.1:8080
 apollo.cacheDir=/tmp/data/
 #apollo.accesskey.secret=1cf998c4e2ad4704b45a98a509d15719
+
+# 注入默认application namespace的配置
+# apollo.bootstrap.enabled=true
+
+# 注入非默认application namespace或多个namespace的配置示例
+# apollo.bootstrap.namespaces = application,TEST1.jdbc
 ```
 ### (14). 总结
 在这里,对Apollo进行了一个简单的入门,当配置有更新时,Apollo会热更新Bean,这种热更新与Spring(@RefreshScope)没有任何关系.Apollo完全自己写了一套(反射),所以,热更新时,Bean并没有销毁.  
