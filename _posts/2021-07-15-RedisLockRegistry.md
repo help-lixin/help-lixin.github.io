@@ -3,7 +3,7 @@ layout: post
 title: '分布式锁之 LockRegistry'
 date: 2021-07-15
 author: 李新
-tags:  Redis 
+tags:  Redis Spring
 ---
 
 ### (1). 概述
