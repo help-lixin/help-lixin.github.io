@@ -11,7 +11,7 @@ tags:  Apollo
 即:Apollo向Spring靠拢,始终是要围绕着这个类:Config来做适配来着的,那咋办?                        
 找/META-INF/spring.factories,这是Spring的启动之前的回调点.         
 
-### (2). apollo-client-1.9.0-SNAPSHOT.jar//META-INF/spring.factories
+### (2). apollo-client-xxx.jar/META-INF/spring.factories
 ```
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.ctrip.framework.apollo.spring.boot.ApolloAutoConfiguration
