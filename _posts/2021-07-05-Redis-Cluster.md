@@ -701,7 +701,7 @@ d4fb72a249a42ecfce9f5e6d90eab917ddf20c22 127.0.0.1:6380@16380 myself,master - 0 
 # --cluster-to        : slot需要迁移的目的节点的node id,目的节点只能填写一个,不传递该参数的话,则会在迁移过程中提示用户输入.
 # --cluster-slots     : 需要迁移的slot数量,不传递该参数的话,则会在迁移过程中提示用户输入.
 # --cluster-yes       : 迁移前,还需要用户再次确认.
-# slots               : 分配1024个slot
+# slots               : 分配1024个slot,建议是:16384/4=4096(4代表是所有master的节点数量)
 lixin-macbook:redis-cluster lixin$ ./bin/redis-cli -c -a 888888 --cluster reshard 127.0.0.1:6380 --cluster-from d36cf78e5481e488bc50dd31960044cc1e69522f,d4fb72a249a42ecfce9f5e6d90eab917ddf20c22,8a9bf55091d15fd77de0bf7d4db05e09a5b682db --cluster-to  c43cabb3036f42ed592b36eaa3282760ecdb3caa --cluster-slots 1024
 
 
