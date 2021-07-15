@@ -246,8 +246,6 @@ public class ApolloClientTest {
 value: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8
 ```
 ### (13). Spring Boot集成
-@RefreshScope : 会动态的刷新配置项,我在另一篇文章里有深入研究(每次刷新都会剔除Bean),但是,不知道为什么,这次在Apollo里,每次刷新Bean还是同一个,是自己弄错了吗?    
-
 ```
 # 1. 添加依赖
 <dependency>
@@ -258,10 +256,6 @@ value: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8
 	<groupId>com.ctrip.framework.apollo</groupId>
 	<artifactId>apollo-client</artifactId>
 	<version>1.9.0-SNAPSHOT</version>
-</dependency>
-<dependency>
-	<groupId>org.springframework.cloud</groupId>
-	<artifactId>spring-cloud-starter</artifactId>
 </dependency>
 <dependency>
 	<groupId>org.springframework.boot</groupId>
@@ -309,11 +303,9 @@ public class App {
 }
 
 
+# Apollo压根就不需要:@RefreshScope的参与,它自己内部实现了一套热更新配置
+# 可以参考我以前的文章,Apollo的做法和我上家公司的做法一样,收集Bean上的@Value,然后,反射更新
 # 4. Controller
-// *************************************************************
-// 1. 只有加了这个注解:@RefreshScope,配置变动时,才会被刷新.
-// *************************************************************
-@RefreshScope
 @RestController
 public class HelloController {
 	private Logger logger = LoggerFactory.getLogger(HelloController.class);
@@ -336,7 +328,7 @@ public class HelloController {
 	}
 }
 
-# 5. application.properties
+# 5. application.properties(bootstrap.properties)
 server.port=9999
 spring.application.name=test-provider
 
@@ -347,4 +339,4 @@ apollo.cacheDir=/tmp/data/
 #apollo.accesskey.secret=1cf998c4e2ad4704b45a98a509d15719
 ```
 ### (14). 总结
-在这里,对Apollo进行了一个简单的入门,也留了一个疑惑(上次深入:@RefreshScope发现,Bean是会销毁的,这次用Apollo发现Bean还是同一个.)
+在这里,对Apollo进行了一个简单的入门,当配置有更新时,Apollo会热更新Bean,这种热更新与Spring(@RefreshScope)没有任何关系.Apollo完全自己写了一套(反射),所以,热更新时,Bean并没有销毁.  
