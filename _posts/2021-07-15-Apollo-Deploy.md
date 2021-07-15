@@ -196,5 +196,155 @@ lixin-macbook:apollo-portal lixin$ curl -vvv http://localhost:8070
 
 !["Apollo Portal"](/assets/apollo/imgs/apollo-portal.png)
 
-### (11). 总结
-总体来说,部署还是挺复杂的.
+### (11). 创建项目
+创建项目:  
+部门:   样例部门1(TEST1)   
+Appid: 7BBB492B-62F8-453F-B50B-0D568308E87A   
+应用程序名称: spring-cloud-apollo-example   
+
+!["创建项目"](/assets/apollo/imgs/apollo-create-project.jpg)
+
+### (12). 创建namespace并发布配置
+namespace:在前面说过namespace是多个配置文件的集合.
+
+!["创建namespace"](/assets/apollo/imgs/apollo-create-namespace.jpg)
+!["namespace添加配置项"](/assets/apollo/imgs/apollo-namespace-add-config.png)
+!["namespace home"](/assets/apollo/imgs/apollo-app-home.png)
+!["deploy"](/assets/apollo/imgs/apollo-deploy.png)
+
+### (12). Java集成
+```
+# 1. 添加依赖
+<dependency>
+	<groupId>com.ctrip.framework.apollo</groupId>
+	<artifactId>apollo-client</artifactId>
+	<version>1.9.0-SNAPSHOT</version>
+</dependency>
+
+# 2.java代码
+package help.lixin.apollo;
+
+import com.ctrip.framework.apollo.Config;
+import com.ctrip.framework.apollo.ConfigService;
+ 
+public class ApolloClientTest {
+	public static void main(String[] args) {
+		System.getProperties().put("env", "DEV");
+		System.getProperties().put("app.id", "7BBB492B-62F8-453F-B50B-0D568308E87A");
+		System.getProperties().put("apollo.meta", "http://127.0.0.1:8080");
+		
+		Config config = ConfigService.getConfig("TEST1.jdbc");
+		String key = "jdbc.url";
+		String defaultValue = "default value";
+		String value = config.getProperty(key, defaultValue);
+		System.out.println("value: " + value);
+		
+	}
+}
+
+# 3. 查看输出结果
+value: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8
+```
+### (13). Spring Boot集成
+@RefreshScope : 会动态的刷新配置项,我在另一篇文章里有深入研究(每次刷新都会剔除Bean),但是,不知道为什么,这次在Apollo里,每次刷新Bean还是同一个,是自己弄错了吗?    
+
+```
+# 1. 添加依赖
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+<dependency>
+	<groupId>com.ctrip.framework.apollo</groupId>
+	<artifactId>apollo-client</artifactId>
+	<version>1.9.0-SNAPSHOT</version>
+</dependency>
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-test</artifactId>
+	<scope>test</scope>
+</dependency>
+
+# 2. 配置属性bean
+package help.lixin.properties;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ConfigurationProperties(prefix = "jdbc")
+public class JdbcProperties {
+
+	private String url;
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+}
+
+
+# 3. 启用注解:@EnableApolloConfig
+package help.lixin;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
+
+@SpringBootApplication
+//指定namespace(TEST1是部门,jdbc是namespace)
+@EnableApolloConfig({ "TEST1.jdbc", "application" })
+public class App {
+	public static void main(String[] args) throws Exception {
+		SpringApplication.run(App.class, args);
+	}
+}
+
+
+# 4. Controller
+// *************************************************************
+// 1. 只有加了这个注解:@RefreshScope,配置变动时,才会被刷新.
+// *************************************************************
+@RefreshScope
+@RestController
+public class HelloController {
+	private Logger logger = LoggerFactory.getLogger(HelloController.class);
+
+	@Autowired
+	private IHelloService helloService;
+
+    // 2. 通过@Value配置
+	@Value("${jdbc.url}")
+	private String url;
+
+    // 3. 通过属性来配置的,发现不会发生变化
+	@Autowired
+	private JdbcProperties jdbcProperties;
+
+	@GetMapping("/test")
+	public String test() {
+		System.out.println(this + " url:" + url);
+		return jdbcProperties.getUrl();
+	}
+}
+
+# 5. application.properties
+server.port=9999
+spring.application.name=test-provider
+
+env=DEV
+app.id=7BBB492B-62F8-453F-B50B-0D568308E87A
+apollo.meta=http://127.0.0.1:8080
+apollo.cacheDir=/tmp/data/
+#apollo.accesskey.secret=1cf998c4e2ad4704b45a98a509d15719
+```
+### (14). 总结
+在这里,对Apollo进行了一个简单的入门,也留了一个疑惑(上次深入:@RefreshScope发现,Bean是会销毁的,这次用Apollo发现Bean还是同一个.)
