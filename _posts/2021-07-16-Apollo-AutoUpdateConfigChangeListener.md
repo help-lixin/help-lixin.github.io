@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Apollo是如何热更新配置呢(四)'
+title: 'Apollo热更新配置(四)'
 date: 2021-07-16
 author: 李新
 tags:  Apollo
