@@ -338,6 +338,9 @@ apollo.meta=http://127.0.0.1:8080
 apollo.cacheDir=/tmp/data/
 #apollo.accesskey.secret=1cf998c4e2ad4704b45a98a509d15719
 
+# 将Apollo配置加载提到初始化日志系统之前
+apollo.bootstrap.eagerLoad.enabled=true
+
 # 注入默认application namespace的配置
 # apollo.bootstrap.enabled=true
 
