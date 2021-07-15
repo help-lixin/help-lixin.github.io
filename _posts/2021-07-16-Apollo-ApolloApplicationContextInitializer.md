@@ -1,15 +1,15 @@
 ---
 layout: post
-title: 'Apollo是如何与Spring无缝整合的(六)' 
+title: 'Apollo是如何与Spring无缝整合(六)' 
 date: 2021-07-16
 author: 李新
 tags:  Apollo
 ---
 
 ### (1). 概述
-在前面查看了半天的:@EnableApolloConfig的内容,始终没有找到我们想要的内容.
-即:Apollo向Spring靠扰,始终是要围绕着这个类:com.ctrip.framework.apollo.Config来做适配来着的,那咋办? 
-找/META-INF/spring.factories,这是Spring的启动之前的回调点.   
+在前面查看了半天的:@EnableApolloConfig的源码,始终没有找到我们想要的内容.                                                     
+即:Apollo向Spring靠拢,始终是要围绕着这个类:Config来做适配来着的,那咋办?                        
+找/META-INF/spring.factories,这是Spring的启动之前的回调点.         
 
 ### (2). apollo-client-1.9.0-SNAPSHOT.jar//META-INF/spring.factories
 ```
