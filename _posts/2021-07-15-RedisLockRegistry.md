@@ -93,13 +93,7 @@ public class HelloService implements IHelloService {
 	} // end findByTenantId
 }// end 
 ```
-### (5). 缺陷
-```
-# 在Redis集群模式下,LockRegistry报错如下:
-# 集群模式下不支持evalSha函数.
-org.springframework.dao.InvalidDataAccessApiUsageException: EvalSha is not supported in cluster environment.
-```
-### (6). 测试结果
+### (5). 测试结果
 ```
 127.0.0.1:6379> keys *
 1) "test:users"
@@ -116,4 +110,10 @@ org.springframework.dao.InvalidDataAccessApiUsageException: EvalSha is not suppo
 (integer) -2
 127.0.0.1:6379> keys *
 (empty list or set)
+```
+### (6). 缺陷
+```
+# 在Redis集群模式下,LockRegistry报错如下:
+# 集群模式下不支持evalSha函数.
+org.springframework.dao.InvalidDataAccessApiUsageException: EvalSha is not supported in cluster environment.
 ```
