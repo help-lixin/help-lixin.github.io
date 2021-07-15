@@ -11,8 +11,8 @@ tags:  Apollo
 目的就是想知道,当配置热更新之后,Bean实例是否会发生变化.    
 <font color='red'>
 结果,出乎我的意料,Bean实例没有变化,但是,Bean上的配置却更新了,瞬间就开始怀疑自己前面对@RefreshScope的剖析了.
-但是,还是觉得自己应该是对的,所以,本来看源码的第一件事情就是看业务模型的,不得不先解开这个疑惑.  
-答案是:Apollo没有调用Spring提供的@RefreshScope方式,对Bean进行热更新,而是,通过反射去更新Bean的.
+但是,还是觉得自己应该是对的,本来看源码的第一件事情是要去看业务模型的,但是,不得不先解开这个疑惑.  
+先说答案:Apollo没有调用Spring提供的@RefreshScope方式,对Bean进行热更新,而是,通过反射去更新Bean的.  
 </font> 
 ### (2). AutoUpdateConfigChangeListener
 ```
