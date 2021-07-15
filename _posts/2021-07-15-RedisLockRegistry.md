@@ -9,7 +9,7 @@ tags:  Redis Spring
 ### (1). 概述
 在前面源码分析过Redssion,昨晚,睡觉时刷到:RedisLockRegistry,比较好奇,起床第一件事就是尝试一把,结果出乎我的意料,总结下缺点:      
 1) Redis不能是集群模式,否则,会抛错(Redssion不会有这情况).              
-2) 在Redis中key过期时间默认为60s(可以自己配置),如果业务执行80秒,在Redis里key到达60秒时会消失,RedisLockRegistry并不会自动续锁,有点恐怖哈.         
+2) LockRegistry为key配置的过期时间默认为60s,如果业务执行80秒,在key到达60秒时会消失,LockRegistry并不会自动续锁,有点恐怖哈.         
 
 ### (2). 添加依赖
 ```
