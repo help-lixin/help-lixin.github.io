@@ -158,8 +158,8 @@ apollo.bootstrap.eagerLoad.enabled=true
 # 注入默认application namespace的配置
 # apollo.bootstrap.enabled=true
 
-# 注入非默认application namespace或多个namespace的配置示例
-# apollo.bootstrap.namespaces = application,TEST1.jdbc
+# 注入非默认application namespace或多个namespace的配置示例(需要与apollo.bootstrap.enabled搭配使用)
+# apollo.bootstrap.namespaces=application,TEST1.jdbc
 ```
 ### (6). 总结
 在这里,对Apollo进行了一个简单的入门,当配置有更新时,Apollo会热更新Bean,这种热更新与Spring提供的:@RefreshScope没有任何关系.   
