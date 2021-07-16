@@ -7,7 +7,7 @@ tags:  Spring
 ---
 
 ### (1). 概述
-今天在看Nacos的源码时,我发现:Nacos基于动态配置,并没有这样做:ConfigurableEnvironment.getPropertySources().addFirst(PropertySource),所以,特意写成一篇内容,记录下.   
+> 今天在看Nacos的源码时,我发现:Nacos基于动态配置,并没有这样做:ConfigurableEnvironment.getPropertySources().addFirst(PropertySource),所以,特意写成一篇内容,记录下.   
 
 ### (2). 先看一个Spring的类(PropertySourceBootstrapConfiguration)
 ```
