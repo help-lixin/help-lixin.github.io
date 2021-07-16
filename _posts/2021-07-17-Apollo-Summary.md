@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Apollo 总结(八)' 
+title: 'Apollo 总结' 
 date: 2021-07-17
 author: 李新
 tags:  Apollo
@@ -20,5 +20,5 @@ tags:  Apollo
 + ["Apollo源码学习之:配置热更新原理(四)"](/2021/07/16/Apollo-AutoUpdateConfigChangeListener.html)
 + ["Apollo源码学习之:@EnableApolloConfig作用(五)"](/2021/07/16/Apollo-EnableApolloConfig.html)  
 + ["Apollo源码学习之:Spring无缝整合(六)"](/2021/07/16/Apollo-ApolloApplicationContextInitializer.html)  
-+ ["Apollo源码学习之:拉取配置过程(七)"](/2021/07/16/Apollo-RemoteConfigRepository.html)   
++ ["Apollo源码学习之:拉取配置过程部析(七)"](/2021/07/16/Apollo-RemoteConfigRepository.html)   
 
