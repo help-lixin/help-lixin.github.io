@@ -13,7 +13,12 @@ tags:  Apollo
 3) 属性命名这一块,我反正有点不适用.     
 4) 自身需要的配置化的信息,都将会转换到System.setProperty里,可是,你若是像Tomcat多应用的情况下,不知道官网是怎么解决的.  
 
-### (2). Apollo学习目录
+### (2). 为什么研究Apollo
+1) Eureka属于CAP中的AP模式,可以想像成蝗虫一样,快速的传播,而,Nacos用到了DB,有DB就会有限制(当然,也可以只用Nacos中的配置中心).   
+2) Nacos在UI上的权限控制很粗糙,总感觉就是个半成品.    
+3) Apollo就专心做一件事.   
+
+### (3). Apollo学习目录
 + ["Apollo架构深入浅出(一)"](/2021/07/16/Apollo-Architecture.html)   
 + ["Apollo安装与部署(二)"](/2021/07/16/Apollo-Deploy.html)  
 + ["Apollo简单使用与集成(三)"](/2021/07/16/Apollo-JavaClient-Integration.html)  
