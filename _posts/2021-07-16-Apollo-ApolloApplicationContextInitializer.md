@@ -108,10 +108,11 @@ public class ApolloApplicationContextInitializer
 		}
 		
 		// *********************************************************************
-		// 向容器中注册:PropertySource,而且,还是放在首位,意味着:是按照namespace的顺序查找的.
+		// 向容器中注册:PropertySource,而且,还是放在首位,意味着:编写顺序在最后的namespace具有优先查找功能.
 		// 比如: namespaces = [TEST1.jdbc, application]
+		// 而 environment.getPropertySources().addFirst()后的结果是:  [application, TEST1.jdbc]
 		//      key = server.port
-		//     先在:TEST1.jdbc查找,找不到,再到:application里查找.
+		//     先在:application查找,找不到,再到:TEST1.jdbc里查找.
 		// *********************************************************************
 		environment.getPropertySources().addFirst(composite);
     }// end initialize
