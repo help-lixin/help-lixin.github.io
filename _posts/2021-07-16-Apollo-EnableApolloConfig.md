@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Apollo源码之@EnableApolloConfig作用(五)'
+title: 'Apollo源码学习之:@EnableApolloConfig作用(五)'
 date: 2021-07-16
 author: 李新
 tags:  Apollo

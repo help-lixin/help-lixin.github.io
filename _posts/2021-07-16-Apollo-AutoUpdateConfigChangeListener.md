@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Apollo源码之配置热更新(四)'
+title: 'Apollo源码学习之:配置热更新原理(四)'
 date: 2021-07-16
 author: 李新
 tags:  Apollo
