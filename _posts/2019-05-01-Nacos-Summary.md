@@ -22,4 +22,4 @@ tags: Nacos
 ### (5). 最佳实践
 > Namespace  : 环境,比如:45a6112b-a866-4e92-a8d6-9e440bcdebbe   
 > Group      : 项目名称(微服务名称),比如:erp:sso-service     
-> DataId     : 具体的配置文件,比如:application.properties   
+> DataId     : 具体的配置文件,比如:application.properties,datasource.properties      
