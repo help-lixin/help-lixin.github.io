@@ -356,7 +356,7 @@ public class RemoteConfigRepository extends AbstractConfigRepository {
 }
 ```
 ### (4). RemoteConfigLongPollService
-RemoteConfigLongPollService固名思义,就是一个轮询的操作,轮询的目的就是为了做补救(官网说是60秒,实际超时为:90秒),返回的结果有两种情况:  
+RemoteConfigLongPollService固名思义,就是一个轮询的操作,轮询的目的就是为了近可能实时的知道有配置变化(官网说是60秒,实际超时为:90秒),返回的结果有两种情况:  
 1) 返回协议头为:200,并且,有内容,但不是配置详细信息.  
 2) 返回协议头为:304,继续进行轮询.
 
