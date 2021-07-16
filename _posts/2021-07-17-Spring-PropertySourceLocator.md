@@ -94,4 +94,4 @@ public class NacosPropertySourceLocator implements PropertySourceLocator {
 }
 ```
 ### (5). 总结
-Spring在设计上,真的值得大家学习,它永远都会留出回调函数给大家使用(完全符合开闭原则),以防止你直接改它的源码.   
+Spring在设计上,真的值得大家学习,它永远都会留出回调函数给大家使用(完全符合开闭原则),而不需要改动现有的源码.   
