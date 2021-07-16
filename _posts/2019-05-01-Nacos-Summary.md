@@ -12,13 +12,17 @@ tags: Nacos
 
 !["Nacos架构模型"](/assets/nacos/imgs/nacos-data-model.jpeg)
 
+
 ### (2). Namespace
 > Namespace可用于进行不同环境的配置隔离(例如:开发,测试,生产)
+
 ### (3). Group(配置分组)
 > Group是对DataId(配置集)进行分组.  
 > Group常见场景,用于区分:<font color='red'>不同的系统名称,项目名称,应用名称.</font>    
+
 ### (4). Service/DataId
 > DataId代表:一个配置集,所谓的配置集,就是:<font color='red'>一个配置文件包含的配置集合.</font>   
+
 ### (5). 最佳实践
 > Namespace  : 环境,比如:45a6112b-a866-4e92-a8d6-9e440bcdebbe   
 > Group      : 项目名称(微服务名称),比如:erp:sso-service     
