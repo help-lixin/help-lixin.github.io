@@ -6,14 +6,14 @@ author: 李新
 tags:  Tigase 
 ---
 
-### (0). 准备工作
->  配置hosts
+### (1). 准备工作
+>  1.配置/etc/hosts
 
 ```
 127.0.0.1 tigase.lixin.help
 ```
 
-> 修改mysql的字符集
+> 2. 修改mysql的字符集和开启mysql function
 > SHOW VARIABLES WHERE Variable_name LIKE 'character_set_%';  
 
 ```
@@ -28,7 +28,7 @@ log_bin_trust_function_creators=1
 [client]
 default-character-set=utf8mb4
 ```
-### (1). 下载tigbase
+### (2). 下载tigbase
 ```
 # 1. 进入下载目录
 lixin-macbook:~ lixin$ cd ~/Downloads/
@@ -41,7 +41,7 @@ lixin-macbook:Downloads lixin$ mv tigase-server-8.0.0-b10083 ~/Developer/tigase-
 # 5. 进入到程序目录下
 lixin-macbook:Downloads lixin$ cd ~/Developer/tigase-server-8.0.0/
 ```
-### (2). 查看项目目录
+### (3). 查看项目目录
 ```
 lixin-macbook:tigase-server-8.0.0 lixin$ ll
 drwxr-xr-x    5 lixin  staff    160  7 17 10:42 certs/                    # 证书目录
@@ -55,14 +55,14 @@ drwxr-xr-x   24 lixin  staff    768  7 17 10:42 scripts/                  # 启�
 drwxr-xr-x    5 lixin  staff    160  7 17 10:42 tigase/                   # 文档
 drwxr-xr-x    9 lixin  staff    288  7 17 10:42 win-stuff/
 ```
-### (3). 配置tigase.conf
+### (4). 配置tigase.conf
 ```
 # 只需要指定:JAVA_HOME
 lixin-macbook:tigase-server-8.0.0 lixin$ vi etc/tigase.conf
 JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home
 ```
 
-### (4). config.tdsl
+### (5). config.tdsl
 ```
 lixin-macbook:tigase-server-8.0.0 lixin$ cat etc/config.tdsl
 'config-type' = 'setup'
@@ -74,7 +74,7 @@ http () {
     }
 }
 ```
-### (5). 启动
+### (6). 启动
 ```
 lixin-macbook:tigase-server-8.0.0 lixin$ ./scripts/tigase.sh start etc/tigase.conf
 Starting Tigase:
@@ -85,7 +85,7 @@ lixin-macbook:tigase-server-8.0.0 lixin$ lsof -i tcp:8080
 COMMAND  PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
 java    1558 lixin  102u  IPv6 0x336f92458e0b8089      0t0  TCP *:http-alt (LISTEN)
 ```
-### (6). 登录tigase
+### (7). 登录tigase
 > 账号和密码在:etc/config.tdsl
 !["tigase关于界面"](/assets/tigase/imgs/tigase-about.jpg)
 !["填写公司名称"](/assets/tigase/imgs/tigase-input-company-name.png)
@@ -98,7 +98,7 @@ java    1558 lixin  102u  IPv6 0x336f92458e0b8089      0t0  TCP *:http-alt (LIST
 !["确认配置"](/assets/tigase/imgs/tigase-configuration.png)
 !["安装完成"](/assets/tigase/imgs/tigase-install-finished.png)
 
-### (7). etc/config.tdsl
+### (8). etc/config.tdsl
 > 在我这里admin的账号和密码是:  admin@tigase.lixin.help/admin 
 
 ```
@@ -123,7 +123,7 @@ pubsub () {
     trusted = [ 'http@{clusterNode}' ]
 }
 ```
-### (8). 重启服务
+### (9). 重启服务
 ```
 # 1. 停止服务
 lixin-macbook:tigase-server-8.0.0 lixin$ ./scripts/tigase.sh stop
@@ -141,20 +141,20 @@ Tigase running pid=3000
 lixin-macbook:tigase-server-8.0.0 lixin$ jps -l
 3000 tigase.server.XMPPServer
 ```
-### (9). 进入后台
+### (10). 进入后台
 !["tigase admin"](/assets/tigase/imgs/tigase-admin.png)
 
-### (10). Tigase Spark 连接测试
+### (11). Tigase Spark 连接测试
 ["Spark下载"](http://www.igniterealtime.org/downloads/index.jsp)
 
-### (11). Spark连接Tigase
+### (12). Spark连接Tigase
 > 在连接过程中,有任何问题看日志(logs/tigase.log.0)
 
 !["Spark配置主机"](/assets/tigase/imgs/tigase-spark-setting-1.png)
 !["Spark禁用Security"](/assets/tigase/imgs/tigase-spark-setting-2.png )
 !["Spark创建用户"](/assets/tigase/imgs/tigase-spark-create-user.png)
 
-### (12). 监听Spark连接日志内容
+### (13). 监听Spark连接日志内容
 > 创建用户成功的日志.
 
 ```
