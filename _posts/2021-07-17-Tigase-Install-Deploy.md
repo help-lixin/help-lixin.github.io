@@ -143,7 +143,7 @@ lixin-macbook:tigase-server-8.0.0 lixin$ jps -l
 ### (10). 进入后台
 !["tigase admin"](/assets/tigase/imgs/tigase-admin.png)
 
-### (11). Tigase Spark 连接测试
+### (11). Tigase Spark下载
 ["Spark下载"](http://www.igniterealtime.org/downloads/index.jsp)
 
 ### (12). Spark连接Tigase
