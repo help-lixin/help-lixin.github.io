@@ -335,3 +335,7 @@ lixin-macbook:tigase-server-8.0.0 lixin$ tail -500f logs/tigase.log.0
 2021-07-17 12:33:25.372 [in_0-message-router]  MessageRouter.processPacket()       FINEST:   1. Packet will be processed by: c2s@localhost, from=sess-man@localhost, to=c2s@localhost/127.0.0.1_5222_127.0.0.1_50377, DATA=<iq to="c2s@localhost/127.0.0.1_5222_127.0.0.1_50377" type="result" from="sess-man@localhost" id="a976d860-46be-4da2-b086-445ad0b1cec4"/>, SIZE=137, XMLNS=null, PRIORITY=SYSTEM, PERMISSION=NONE, TYPE=result
 2021-07-17 12:33:25.372 [in_0-c2s]         ClientConnectionManager$StoppedHandler.responseReceived()  FINEST: Response for stop received...
 ```
+### (14). Beagle IM
+Beagle IM是Mac下的一个聊天工具(直接在App Store搜即可).   
+
+!["Beagle IM聊天"](/assets/tigase/imgs/beagle-im.png)
