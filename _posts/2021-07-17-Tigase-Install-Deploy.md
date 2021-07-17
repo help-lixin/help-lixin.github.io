@@ -7,13 +7,13 @@ tags:  Tigase
 ---
 
 ### (1). 准备工作
->  1.配置/etc/hosts
+>  配置/etc/hosts
 
 ```
 127.0.0.1 tigase.lixin.help
 ```
 
-> 2. 修改mysql的字符集和开启mysql function
+> 修改mysql的字符集并开启允许function的创建.
 
 ```
 [mysql]
