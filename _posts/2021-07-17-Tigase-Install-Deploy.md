@@ -14,7 +14,6 @@ tags:  Tigase
 ```
 
 > 2. 修改mysql的字符集和开启mysql function
-> SHOW VARIABLES WHERE Variable_name LIKE 'character_set_%';  
 
 ```
 [mysql]
