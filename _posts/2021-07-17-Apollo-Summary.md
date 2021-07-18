@@ -14,9 +14,11 @@ tags:  Apollo
 4) Apollo自身需要的配置化的信息,都将会转换到System.setProperty里,可是,你若是像Tomcat多应用(并发启动的应用)的情况下,不知道官网是怎么解决的.  
 
 ### (2). 为什么研究Apollo
-1) Eureka属于CAP中的AP模式,可以想像成蝗虫一样,快速的传播,而,Nacos用到了DB,有DB就会有限制(当然,也可以只用Nacos中的配置中心).   
+1) Eureka属于CAP中的AP模式,可以想像成蠕虫病毒一样,快速的传播,而,Nacos用到了DB,有DB就会有限制(当然,也可以只用Nacos中的配置中心).   
 2) Nacos在UI上的权限控制很粗糙,总感觉就是个半成品.    
 3) Apollo就专心做一件事.   
+4) Apollo需要的一部份变量会统一设置到System setProperties里,如果是:传统Tomcat那样的情况下,应用不能并发启动.  
+5) 业务场景若是想要实现,数据的解密功能,Apollo的实现代价有点大(SPI),而Nacos就简单多了(责任链).   
 
 ### (3). Apollo学习目录
 + ["Apollo架构深入浅出(一)"](/2021/07/16/Apollo-Architecture.html)   
