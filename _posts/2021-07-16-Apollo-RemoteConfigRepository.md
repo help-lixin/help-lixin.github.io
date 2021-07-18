@@ -262,6 +262,12 @@ public class RemoteConfigRepository extends AbstractConfigRepository {
 	  // 请求的参数
 	  String appId = m_configUtil.getAppId();
 	  String cluster = m_configUtil.getCluster();
+	  // ******************************************************
+	  // 在有些特殊情况下,应用有需求对不同的集群做不同的配置.
+	  // 比如部署在A机房的应用连接的es服务器地址和部署在B机房的应用连接的es服务器地址不一样. 
+	  // 在这种情况下，可以通过在Apollo创建不同的集群来解决
+	  // 会读取:/opt/settings/server.properties(linux)或C:\opt\settings\server.properties(windows)文件中的idc属性作为集群名字. 
+	  // ******************************************************
 	  String dataCenter = m_configUtil.getDataCenter();
 	  String secret = m_configUtil.getAccessKeySecret();
 	  Tracer.logEvent("Apollo.Client.ConfigMeta", STRING_JOINER.join(appId, cluster, m_namespace));
