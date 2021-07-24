@@ -344,25 +344,17 @@ root@1a7ec863ff94:/# curl -vvv http://10.10.10.5
 ```
 # 宿主机上,能否访问容器内的ip地址呢?
 # 总结:在宿主机上,不能访问到容器内部的IP
-# 因为,docker容器内部的IP会通过:docker_gwbridge进行转发,然后,docker_gwbridge又通过:docker0,然后,再经过:eth0.
-# docker--> docker_gwbridge --> docker0 --> eth0
+# 因为,docker容器内部的IP会通过:docker_gwbridge进行转发,然后,docker_gwbridge又通过::eth0转发.
+# docker--> docker_gwbridge  --> eth0
 [root@erp-100 ~]# ping 10.10.10.5
 PING 10.10.10.5 (10.10.10.5) 56(84) bytes of data.
 --- 10.10.10.5 ping statistics ---
 2 packets transmitted, 0 received, 100% packet loss, time 1001ms
 
-[root@erp-100 ~]# ping 10.10.10.2
-PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
---- 10.10.10.2 ping statistics ---
-1 packets transmitted, 0 received, 100% packet loss, time 0ms
-
-[root@erp-100 ~]# ping 10.10.10.4
-PING 10.10.10.4 (10.10.10.4) 56(84) bytes of data.
-
 # 1. 安装ip命令
 root@1a7ec863ff94:/# apt update && apt install -y iproute2
 #    安装ping命令
-root@74f343fdc8fb:/# apt-get update && apt-get install iputils-ping
+root@74f343fdc8fb:/# apt-get update && apt-get install iputils-ping && apt-get install dnsutils
 
 # 2. 查看ip地址
 root@1a7ec863ff94:/# ip addr
