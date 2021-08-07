@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ThingsBoard源码编译与运行(一)' 
+title: 'ThingsBoard源码编译并运行(一)' 
 date: 2021-08-07
 author: 李新
 tags:  ThingsBoard
