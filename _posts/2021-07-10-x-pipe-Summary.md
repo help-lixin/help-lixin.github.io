@@ -31,7 +31,7 @@ X-Pipe是由携程框架部门研发的Redis多数据中心复制管理系统.�
 [root@erp-100 ~]# git clone git@github.com:help-lixin/x-pipe.git
 [root@erp-100 ~]# cd x-pipe
 [root@erp-100 x-pipe]# mvn clean install -Plocal,package -DskipTests
+
 ```
 
 ### (3). 总结
-编译了一个下午,还是没有编译通过
