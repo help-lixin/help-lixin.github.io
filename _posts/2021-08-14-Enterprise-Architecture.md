@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '架构分类' 
+title: 'ToGAF基础知识' 
 date: 2021-08-14
 author: 李新
 tags:  ToGAF
