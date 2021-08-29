@@ -11,7 +11,10 @@ Debezium是由RedHat(这是一家典型靠文档盈利的公司)开源的一个�
 你可以安装并且配置Debezium去监控你的数据库,然后你的应用就可以消费对数据库的每一个行级别(row-level)的更改.只有已提交的更改才是可见的,所以你的应用不用担心事务(transaction)或者更改被回滚(roll back).                
 Debezium为所有的数据库更改事件提供了一个统一的模型,所以你的应用不用担心每一种数据库管理系统的错综复杂性.另外,由于Debezium用持久化的、有副本备份的日志来记录数据库数据变化的历史,因此,你的应用可以随时停止再重启,而不会错过它停止运行时发生的事件,保证了所有的事件都能被正确地、完全地处理掉.           
 
-### (2). 适用场景
+### (2). Debezium架构
+!["Debezium架构图"](/assets/debezium/imgs/debezium-architecture.png)
+
+### (3). 适用场景
 
 + 缓存失效
   - 多应用,缓存同时失效.   
@@ -24,8 +27,8 @@ Debezium为所有的数据库更改事件提供了一个统一的模型,所以�
 + 命令查询职责分离(CQRS)
   - 在命令查询职责分离(Command Query Responsibility Separation,CQRS)架构模式中,更新数据使用了一种数据模型,读数据使用了一种或者多种数据模型.由于数据更改被记录在更新侧(update-side),这些更改将被处理以更新各种读展示.所以CQRS应用通常更复杂,尤其是他们需要保证可靠性和全序(totally-ordered)处理.Debezium和CDC可以使这种方式更可行:写操作被正常记录,但是Debezium捕获数据更改,并且持久化到全序流里,然后供那些需要异步更新只读视图的服务消费.写侧(write-side)表可以表示面向领域的实体(domain-oriented entities),或者当CQRS和Event Sourcing结合的时候,写侧表仅仅用做追加操作命令事件的日志.  
 
-### (3). CDC选型比较
+### (4). CDC选型比较
 
 ["CDC选型比较参考地址"](https://aleiwu.com/post/vimur.cn/)
 
-### (4). Debezium学习目录
+### (5). Debezium学习目录
