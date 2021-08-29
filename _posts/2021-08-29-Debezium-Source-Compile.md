@@ -26,4 +26,3 @@ lixin-macbook:GitRepository lixin$ cd debezium/
 # 4. 源码编译(-DskipITs:因为,本地没有Docke,跳过集成测试和docker来构建项目)
 lixin-macbook:debezium lixin$ mvn clean install -DskipITs -DskipTests
 ```
-### (3). 

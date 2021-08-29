@@ -32,3 +32,5 @@ Debezium为所有的数据库更改事件提供了一个统一的模型,所以�
 ["CDC选型比较参考地址"](https://aleiwu.com/post/vimur.cn/)
 
 ### (5). Debezium学习目录
+["Debezium源码编译(一)"](/2021/08/29/Debezium-Source-Compile.html)   
+
