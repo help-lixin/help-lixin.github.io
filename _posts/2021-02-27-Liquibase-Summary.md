@@ -11,7 +11,7 @@ tags: Liquibase
 > 我来说几个痛点:   
 > 1. 在发版时,DBA需要每个Schema执行相同SQL,Schema的增加,DBA负担也增加.  
 > 2. 一个企业,如果没有很好的架构规范,随着时间,慢慢会发现:业务模型经常与表结构不一致,所以,也需要有一套东西,能解决表与业务模型的一致性.      
-> 3. 是否还有其它解决方案?其实是有的,比如:Hibernate/Flyway/Liquibase.   
+> 3. 是否还有其它解决方案?其实是有的,比如:Hibernate/Flyway.   
 
 ### (2). Hibernate解决方案
 > 1. 在Entity增加注解,知道这个Entity属于哪个业务系统,同时,有映射信息记录:业务系统-->DataSource的关系.        
