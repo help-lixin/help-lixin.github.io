@@ -7,8 +7,7 @@ tags:  SpringBoot
 ---
 
 ### (1). 背景
-Gateway与Apollo进行了整合,每次新增一个微服务,都需要重启Gateway,而这类型的应用,尽可能的越少岩机越好,所以:能否做到配置的热更新呢?   
-GatewayProperties是Gateway的数据载体,最终承载着所有的数据,每次Apollo刷新时,能否读取Environment对象,把配置文件信息转换成业务模型呢?而不是手动去new对象呢?
+Spring是如何把Environment转换成GatewayProperties对象的? 
 
 ### (2). application.properties
 ```
