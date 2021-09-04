@@ -552,5 +552,7 @@ public class InsertDataChange extends AbstractChange implements ChangeWithColumn
     // ... 
 }
 ```
-### (8). 总结
-> 通过对源码的剖析,我们能知道Liquibase是允许我们自定义标签,并解析的,后面会详细剖析自动定义标签以及Liquibase是如何把Change进行转换并执行的.  
+### (9). 总结
+> 通过对源码的剖析,我们能知道Liquibase的业务模型(如下图),后面,会继续对Liquibase是如何执行SQL进行剖析.    
+
+!["Liquibase数据模型"](/assets/liquibase/imgs/Liquibase-Data-Model.jpg)   
