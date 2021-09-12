@@ -793,5 +793,102 @@ Rows matched: 1  Changed: 1  Warnings: 0
 	}
 }
 ```
-### (17). 总结
+### (17). 验证zk里只存储了kafka的信息
+```
+# 1. 查看zookeeper对应的容器id
+lixin-macbook:~ lixin$ docker ps|grep zookeeper
+8216c51e9051   debezium/zookeeper:1.2       "/docker-entrypoint.…"   About an hour ago   Up About an hour   0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 0.0.0.0:2888->2888/tcp, :::2888->2888/tcp, 8778/tcp, 0.0.0.0:3888->3888/tcp, :::3888->3888/tcp, 9779/tcp   zookeeper
+
+# 2. 进入容器内部
+lixin-macbook:~ lixin$ docker exec -it  8216c51e9051 /bin/bash
+[zookeeper@8216c51e9051 ~]$ cd bin/
+
+# 3. 运行zkCli.sh命令
+[zookeeper@8216c51e9051 bin]$ ./zkCli.sh
+Connecting to localhost:2181
+......
+
+# 4. 查看path(这里的所有path是否一定都是kafka的呢?后面自己搭一个kafka,再回来验证)
+[zk: localhost:2181(CONNECTED) 0] ls /
+[admin, brokers, cluster, config, consumers, controller, controller_epoch, isr_change_notification, latest_producer_id_block, log_dir_event_notification, zookeeper]
+```
+
+### (18). 查看kafka容器信息
+```
+# 注意:
+# 容器ID:75cbd9048d54为消费者
+# 容器ID:0a7816254c1f为kakfa服务器
+
+# 1. 查看运行的kafka容器
+lixin-macbook:~ lixin$ docker ps |grep kafka
+75cbd9048d54   debezium/kafka:1.2           "/docker-entrypoint.…"   59 minutes ago      Up 59 minutes      8778/tcp, 9092/tcp, 9779/tcp                                                                                                                          watcher
+0a7816254c1f   debezium/kafka:1.2           "/docker-entrypoint.…"   About an hour ago   Up About an hour   8778/tcp, 9779/tcp, 0.0.0.0:9092->9092/tcp, :::9092->9092/tcp                                                                                         kafka
+
+# 2. 进入容器内部
+lixin-macbook:~ lixin$ docker exec -it 0a7816254c1f /bin/bash
+
+# 3. 查看当前所在目录
+[kafka@0a7816254c1f ~]$ pwd
+/kafka
+
+# 4. 查看容器内部的文件信息
+[kafka@0a7816254c1f ~]$ ll
+drwxrwxrwx 1 root  root   4096 Apr  8  2020 bin                  # kafka二进制目录
+drwxrwxrwx 2 root  root   4096 Sep 12 02:18 config               # kafak配置文件目录
+drwxrwxrwx 1 root  root   4096 Feb  6  2021 config.orig
+drwxrwxrwx 3 kafka kafka  4096 Sep 12 02:18 data                 # kafka数据目录
+drwxrwxrwx 1 root  root   4096 Feb  6  2021 libs                 # kafka依赖lib
+drwxrwxrwx 2 kafka kafka  4096 Sep 12 03:08 logs                 # kafka日志目录
+```
+### (19). 查看kafka-connect容器信息
+> kafka-connect估计是在kafka容器的基础上封装的一层镜像.   
+
+```
+# 1. 查看connect运行的容器id
+lixin-macbook:~ lixin$ docker ps|grep connect
+8a218a19dcbc   debezium/connect:1.2         "/docker-entrypoint.…"   About an hour ago   Up About an hour   8778/tcp, 9092/tcp, 0.0.0.0:8083->8083/tcp, :::8083->8083/tcp, 9779/tcp                                                                               connect
+
+# 2. 进入容器内部
+lixin-macbook:~ lixin$ docker exec -it 8a218a19dcbc /bin/bash
+
+# 3. 查看当前所在的目录
+[kafka@8a218a19dcbc ~]$ pwd
+/kafka
+
+# 4. 查看目录信息.
+[kafka@8a218a19dcbc ~]$ ll
+drwxrwxrwx 1 root  root   4096 Apr  8  2020 bin
+drwxrwxrwx 2 root  root   4096 Sep 12 02:18 config
+drwxrwxrwx 1 root  root   4096 Feb  6  2021 config.orig
+drwxr-xr-x 1 kafka kafka  4096 Feb  6  2021 connect                          # connect新增的内容
+drwxrwxrwx 2 kafka kafka  4096 Feb  6  2021 data 
+drwxr-xr-x 1 kafka kafka  4096 Feb  6  2021 external_libs                    # connect新增的内容
+drwxrwxrwx 1 root  root   4096 Feb  6  2021 libs
+drwxrwxrwx 2 kafka kafka  4096 Sep 12 03:00 logs
+
+# 5. 查看目录connect下内容
+[kafka@8a218a19dcbc ~]$ ll connect/
+drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-db2
+drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-mongodb
+drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-mysql
+drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-oracle
+drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-postgres
+drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-sqlserver
+
+# 6. 查看目录connect/debezium-connector-mysql/下内容
+[kafka@8a218a19dcbc ~]$ ll connect/debezium-connector-mysql/
+-rw-r--r-- 1 kafka kafka  337904 Sep 24  2020 antlr4-runtime-4.7.2.jar
+-rw-r--r-- 1 kafka kafka   19653 Sep 24  2020 debezium-api-1.2.5.Final.jar
+-rw-r--r-- 1 kafka kafka  255757 Sep 24  2020 debezium-connector-mysql-1.2.5.Final.jar
+-rw-r--r-- 1 kafka kafka  827663 Sep 24  2020 debezium-core-1.2.5.Final.jar
+-rw-r--r-- 1 kafka kafka 2703943 Sep 24  2020 debezium-ddl-parser-1.2.5.Final.jar
+-rw-r--r-- 1 kafka kafka  173228 Sep 24  2020 mysql-binlog-connector-java-0.20.1.jar
+-rw-r--r-- 1 kafka kafka 2293144 Sep 24  2020 mysql-connector-java-8.0.16.jar
+
+# 7. 查看目录external_libs下内容
+[kafka@8a218a19dcbc ~]$ ll external_libs/
+drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 apicurio
+drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-scripting
+```
+### (20). 总结
 因为,自己有把源码拉取下来,并编译通过,所以,后面会脱离容器,在本地部署,并进行源码分析.  
