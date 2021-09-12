@@ -855,7 +855,11 @@ lixin-macbook:~ lixin$ docker exec -it 8a218a19dcbc /bin/bash
 [kafka@8a218a19dcbc ~]$ pwd
 /kafka
 
-# 4. 查看目录信息.
+# 4. 查看运行的java进程.
+[kafka@8a218a19dcbc ~]$ jps -l
+1 org.apache.kafka.connect.cli.ConnectDistributed
+
+# 5. 查看目录信息.
 [kafka@8a218a19dcbc ~]$ ll
 drwxrwxrwx 1 root  root   4096 Apr  8  2020 bin
 drwxrwxrwx 2 root  root   4096 Sep 12 02:18 config
@@ -866,7 +870,7 @@ drwxr-xr-x 1 kafka kafka  4096 Feb  6  2021 external_libs                    # c
 drwxrwxrwx 1 root  root   4096 Feb  6  2021 libs
 drwxrwxrwx 2 kafka kafka  4096 Sep 12 03:00 logs
 
-# 5. 查看目录connect下内容
+# 6. 查看目录connect下内容
 [kafka@8a218a19dcbc ~]$ ll connect/
 drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-db2
 drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-mongodb
@@ -875,7 +879,7 @@ drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-oracle
 drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-postgres
 drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-sqlserver
 
-# 6. 查看目录connect/debezium-connector-mysql/下内容
+# 7. 查看目录connect/debezium-connector-mysql/下内容
 [kafka@8a218a19dcbc ~]$ ll connect/debezium-connector-mysql/
 -rw-r--r-- 1 kafka kafka  337904 Sep 24  2020 antlr4-runtime-4.7.2.jar
 -rw-r--r-- 1 kafka kafka   19653 Sep 24  2020 debezium-api-1.2.5.Final.jar
@@ -885,10 +889,60 @@ drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-sqlserver
 -rw-r--r-- 1 kafka kafka  173228 Sep 24  2020 mysql-binlog-connector-java-0.20.1.jar
 -rw-r--r-- 1 kafka kafka 2293144 Sep 24  2020 mysql-connector-java-8.0.16.jar
 
-# 7. 查看目录external_libs下内容
+# 8. 查看目录external_libs下内容
 [kafka@8a218a19dcbc ~]$ ll external_libs/
 drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 apicurio
 drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-scripting
 ```
-### (20). 总结
+### (20). Kafka Connect API
+```
+# 查看有哪些插件
+lixin-macbook:~ lixin$ curl -H "Accept:application/json" localhost:8083/connector-plugins
+[{
+	"class": "io.debezium.connector.db2.Db2Connector",
+	"type": "source",
+	"version": "1.2.5.Final"
+}, {
+	"class": "io.debezium.connector.mongodb.MongoDbConnector",
+	"type": "source",
+	"version": "1.2.5.Final"
+}, {
+	"class": "io.debezium.connector.mysql.MySqlConnector",
+	"type": "source",
+	"version": "1.2.5.Final"
+}, {
+	"class": "io.debezium.connector.oracle.OracleConnector",
+	"type": "source",
+	"version": "1.2.5.Final"
+}, {
+	"class": "io.debezium.connector.postgresql.PostgresConnector",
+	"type": "source",
+	"version": "1.2.5.Final"
+}, {
+	"class": "io.debezium.connector.sqlserver.SqlServerConnector",
+	"type": "source",
+	"version": "1.2.5.Final"
+}, {
+	"class": "org.apache.kafka.connect.file.FileStreamSinkConnector",
+	"type": "sink",
+	"version": "2.5.0"
+}, {
+	"class": "org.apache.kafka.connect.file.FileStreamSourceConnector",
+	"type": "source",
+	"version": "2.5.0"
+}, {
+	"class": "org.apache.kafka.connect.mirror.MirrorCheckpointConnector",
+	"type": "source",
+	"version": "1"
+}, {
+	"class": "org.apache.kafka.connect.mirror.MirrorHeartbeatConnector",
+	"type": "source",
+	"version": "1"
+}, {
+	"class": "org.apache.kafka.connect.mirror.MirrorSourceConnector",
+	"type": "source",
+	"version": "1"
+}]
+```
+### (21). 总结
 因为,自己有把源码拉取下来,并编译通过,所以,后面会脱离容器,在本地部署,并进行源码分析.  
