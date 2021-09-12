@@ -9,7 +9,8 @@ tags:  Debezium
 ### (1). 概述
 前面对debezium进行了一个大概的了解,在这一里,通过docker来运行一个简单的案例.         
 
-["参考地址"](https://debezium.io/documentation/reference/tutorial.html)  
+["参考文献一"](https://debezium.io/documentation/reference/tutorial.html)             
+["参考文献二"](https://debezium.io/documentation/reference/1.6/install.html)        
 
 ### (2). Docker运行Debezium后架构图如下
 !["在Docker运行Debezium"](/assets/debezium/imgs/docker-run-debezium-example.jpg)
