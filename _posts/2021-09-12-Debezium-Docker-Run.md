@@ -592,7 +592,7 @@ Rows matched: 1  Changed: 1  Warnings: 0
 			"thread": 6,
 			"query": null
 		},
-		"op": "c",
+		"op": "c",                                         # 插入操作
 		"ts_ms": 1631416116417,
 		"transaction": null
 	}
@@ -787,7 +787,7 @@ Rows matched: 1  Changed: 1  Warnings: 0
 			"thread": 6,
 			"query": null
 		},
-		"op": "u",
+		"op": "u",                                       # 更新操作
 		"ts_ms": 1631416216727,
 		"transaction": null
 	}
