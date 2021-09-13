@@ -583,14 +583,14 @@ Created topic hello.
 lixin@lixin kafka_2.13-2.7.0 % ./bin/kafka-topics.sh --list --zookeeper 127.0.0.1:2181
 hello
 ```
-### (8). 分布消息
+### (8). 生产者生产消息
 ```
 # --broker-list            : 指定brokder
 lixin@lixin kafka_2.13-2.7.0 % ./bin/kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic hello
 >hello world
 >test world
 ```
-### (9). 订阅消息
+### (9). 消费者消费消息
 ```
 # --from-beginning         : 从开始位置进行消费
 lixin@lixin kafka_2.13-2.7.0 % ./bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092  --from-beginning --topic hello
