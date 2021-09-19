@@ -31,6 +31,8 @@ docker-hive_namenode_1                    /entrypoint.sh /run.sh           Up (h
 docker-hive_presto-coordinator_1          ./bin/launcher run               Up             0.0.0.0:8080->8080/tcp,:::8080->8080/tcp
 ```
 ### (4). 进行docker容器内部
+> 10000端口为hive提供服务的端口.  
+
 ```
 # 1.进入docker容器内部
 lixin@lixin docker-hive % docker-compose exec hive-server bash
@@ -62,5 +64,11 @@ Beeline version 2.3.2 by Apache Hive
 | 311        | val_311    |
 +------------+------------+
 ```
-### (5). 总结
+### (5). dbeaver连接hive
++ 准备jar包(hadoop-common-2.7.4.jar/hive-jdbc-2.3.2-standalone.jar) 
++ dbeaver编辑驱动配置(添加上面两个jar包)
+
+!["dbeaver连接配置"](/assets/hive/imgs/dbeaver-hive-connection.jpg)
+
+### (6). 总结
 Docker能有效的解析环境问题,有时为了测试,而无须自己手动安装一整套Hadoop.   
