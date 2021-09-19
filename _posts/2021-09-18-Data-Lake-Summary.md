@@ -45,7 +45,7 @@ ADS层: Application Data Service
   - 主要解决针对不同的数据库的物理化以及性能等一些具体的技术问题.
 ### (5). 数据湖库命名规范
 
-+ ODW层: 主题名称_ods(例如:order_ods)
++ ODS层: 主题名称_ods(例如:order_ods)
 + DWD层: 主题名称_dw(例如:order_dw)[dim_product/dim_customer/fact_order]   
 
 ### (6). 数据湖表命名规范
