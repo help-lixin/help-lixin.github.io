@@ -18,7 +18,7 @@ ODS层: Operation Data Store
       数据准备区,也称为贴源层,数据仓库源头系统的数据表通常会原封不动的存储一份,这称为ODS层,是后续数据仓库加工数据的来源.   
 	  1. 保持数据的原汁原味,不做任何修改,有效的备份数据的作用.  
       2. 数据采用压缩,减少磁盘存储空间.
-      3. 创建分区表,防止全表扫描.  
+      3. 创建分区表("按天分区"),防止全表扫描.  
 
 DW层: 
     DWD : Data Warehouse Detail
@@ -31,10 +31,10 @@ DW层:
 		4. 确认事实: 
 	
     DWS : Data Warehouse Service
-	  一般是宽表.在DWD的基础上,按天进行轻度汇总
+	  一般是宽表.一般是在在DWD的基础上,统计各个"主题对象"的"当天行为",以及一些业务明细.  
 	  
 	DWT : Data Warehouse Topic  
-	 以DWS为基础,按主题进行汇总.
+	 以DWS为基础,按主题进行汇总,构建全量宽表.  
 	  
 
 ADS层: Application Data Service
