@@ -74,6 +74,10 @@ ADS层: Application Data Store
 > 基本上是很多数据仓库的常态,因为很多数据仓库都是多个事实表.所以是否星座只反应是否有多个事实表,它们之间是否共享一些维度表.星座模型不和前两种模型冲突.   
 !["星座模型"](/assets/data-warehouse/imgs/data-warehouse-model-3.jpeg)
 
+### (7). 维度建模案例
+> 下单业务事件:  张三 2021-09-20 在京东商城  购买了一件商品 花了100圆钱 ,收货地址为:广东省深圳市  --> 订单事实表(user_id/time_id/product_id,address,buy_num,amount)  
+!["维度建模案例"](/assets/data-warehouse/imgs/model-example.png)   
+
 ### (7). 建模步骤
 + 业务模型(先分出主题)
   - 以业务的维度进行业务建模(比如:客户/商品/订单,可以,把客户归纳为:用户主题,把商口和订单归纳为:订单主题).   
