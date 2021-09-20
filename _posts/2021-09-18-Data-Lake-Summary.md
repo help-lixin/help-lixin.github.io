@@ -22,6 +22,7 @@ ODS层: Operation Data Store
 
 DW层: 
     DWD : Data Warehouse Detail
+	  该层主要存放:业务事实表信息
 	  细节数据层,是业务层与数据仓库的隔离层.它的结构和粒度与ODS表保持一致,对ODS层数据进行清洗(去除空值/脏数据/脱敏)等操作.
 	  DWD层需要构建维度模型,一般采用星型模型.
 	  维度建模一般按照以下四个步骤:
@@ -30,7 +31,10 @@ DW层:
 		3. 确认维度: 维度是用来描述业务的事实.
 		4. 确认事实: 
 	
-    DWS : Data Warehouse Summary
+	DIM: Dimension(维度层)	
+	   该层主要:存放维度表信息. 
+    
+	DWS : Data Warehouse Summary
 	  在DWD的基础上,"按天轻度汇总".   
 	  
 	DWT : Data Warehouse Topic  
