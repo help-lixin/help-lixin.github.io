@@ -892,7 +892,34 @@ drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-connector-sqlserver
 -rw-r--r-- 1 kafka kafka  173228 Sep 24  2020 mysql-binlog-connector-java-0.20.1.jar
 -rw-r--r-- 1 kafka kafka 2293144 Sep 24  2020 mysql-connector-java-8.0.16.jar
 
-# 8. 查看目录external_libs下内容
+# ********************************************************************************
+# 8. 查看kafka-connector配置(config/connect-distributed.properties)
+# ********************************************************************************
+[kafka@8a218a19dcbc ~]$  cat config/connect-distributed.properties  | grep -Ev '^$|#'
+bootstrap.servers=172.17.0.3:9092
+group.id=1
+key.converter=org.apache.kafka.connect.json.JsonConverter
+value.converter=org.apache.kafka.connect.json.JsonConverter
+key.converter.schemas.enable=true
+value.converter.schemas.enable=true
+offset.storage.topic=my_connect_offsets
+offset.storage.replication.factor=1
+config.storage.topic=my_connect_configs
+config.storage.replication.factor=1
+status.storage.topic=my_connect_statuses
+status.storage.replication.factor=1
+offset.flush.interval.ms=60000
+rest.host.name=172.17.0.5
+rest.port=8083
+rest.advertised.host.name=172.17.0.5
+rest.advertised.port=8083
+plugin.path=/kafka/connect
+internal.value.converter=org.apache.kafka.connect.json.JsonConverter
+task.shutdown.graceful.timeout.ms=10000
+offset.flush.timeout.ms=5000
+internal.key.converter=org.apache.kafka.connect.json.JsonConverter
+
+# 9. 查看目录external_libs下内容
 [kafka@8a218a19dcbc ~]$ ll external_libs/
 drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 apicurio
 drwxr-xr-x 2 kafka kafka 4096 Feb  6  2021 debezium-scripting
