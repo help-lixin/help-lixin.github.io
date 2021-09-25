@@ -38,6 +38,12 @@ mysql> SHOW MASTER STATUS \G
 Executed_Gtid_Set:
 1 row in set (0.00 sec)
 ```
+
++ 创建同步账号和密码
+
+```
+GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'debezium' IDENTIFIED BY 'dbz';
+```
 ### (4). 运行Zookeeper(略)
 
 ### (5). Kafka单机搭建(略)
@@ -57,27 +63,27 @@ drwxr-xr-x@  12 lixin  staff    384  9 14 21:09 licenses/
 drwxr-xr-x@   3 lixin  staff     96  9 14 21:09 site-docs/
 
 # 3. 创建kakfa-connector目录
-lixin-macbook:kafka-single lixin$ mkdir external_libs
-lixin-macbook:kafka-single lixin$ cd external_libs/
+lixin-macbook:kafka-single lixin$ mkdir connect
+lixin-macbook:kafka-single lixin$ cd connect/
 
-# 4. 拷贝:debezium-connector-mysql到kafka目录下(external_libs)
-lixin-macbook:external_libs lixin$ cp /Users/lixin/Developer/debezium/debezium-connector-mysql/target/debezium-connector-mysql-1.7.0-SNAPSHOT-plugin.tar.gz  ./
+# 4. 拷贝:debezium-connector-mysql到kafka目录下(connect)
+lixin-macbook:connect lixin$ cp /Users/lixin/Developer/debezium/debezium-connector-mysql/target/debezium-connector-mysql-1.7.0-SNAPSHOT-plugin.tar.gz  ./
 # 4.1 解压插件
-lixin-macbook:external_libs lixin$ tar -zxvf debezium-connector-mysql-1.7.0-SNAPSHOT-plugin.tar.gz
+lixin-macbook:connect lixin$ tar -zxvf debezium-connector-mysql-1.7.0-SNAPSHOT-plugin.tar.gz
 # 4.2 删除压缩文件
-lixin-macbook:external_libs lixin$ rm -rf debezium-connector-mysql-1.7.0-SNAPSHOT-plugin.tar.gz
-# 4.3 查看external_libs目录下的内容
-lixin-macbook:external_libs lixin$ ll
+lixin-macbook:connect lixin$ rm -rf debezium-connector-mysql-1.7.0-SNAPSHOT-plugin.tar.gz
+# 4.3 查看connect目录下的内容
+lixin-macbook:connect lixin$ ll
 drwxr-xr-x  19 lixin  staff  608  9 25 11:36 debezium-connector-mysql/
 
-# 5. 查看:external_libs目录结构.
-lixin-macbook:external_libs lixin$ pwd
-/Users/lixin/Developer/kafka-single/external_libs
+# 5. 查看:connect目录结构.
+lixin-macbook:connect lixin$ pwd
+/Users/lixin/Developer/kafka-single/connect
 
 # *************************************************************************
 # 注意:我的mysql是8.0以上的
 # *************************************************************************
-lixin-macbook:external_libs lixin$ tree
+lixin-macbook:connect lixin$ tree
 .
 └── debezium-connector-mysql
     ├── antlr4-runtime-4.8.jar
@@ -139,7 +145,9 @@ lixin-macbook:~ lixin$ curl -H "Accept:application/json" localhost:8083/connecto
 ```
 # 向kafka connector注册(mysql connector信息)
 # 疑问:不用指定:filename + position的吗?
-lixin-macbook:~ lixin$ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '{ "name": "test2-connector", "config": { "connector.class": "io.debezium.connector.mysql.MySqlConnector", "tasks.max": "1", "database.hostname": "127.0.0.1", "database.port": "3306", "database.user": "canal", "database.password": "canal", "database.server.id": "1", "database.server.name": "test-dbserver", "database.whitelist": "test2", "database.history.kafka.bootstrap.servers": "127.0.0.1:9092", "database.history.kafka.topic": "dbhistory.test2" } }'
+lixin-macbook:~ lixin$ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '{ "name": "test2-connector", "config": { "connector.class": "io.debezium.connector.mysql.MySqlConnector", "tasks.max": "1", "database.hostname": "127.0.0.1", "database.port": "3306", "database.user": "debezium", "database.password": "dbz", "database.server.id": "1", "database.server.name": "lixin-macbook.local", "database.whitelist": "test2", "database.history.kafka.bootstrap.servers": "127.0.0.1:9092", "database.history.kafka.topic": "dbhistory.test2" } }'
+
+# 用docker提供的mysql就正常.
+# curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '{ "name": "inventory-connector", "config": { "connector.class": "io.debezium.connector.mysql.MySqlConnector", "tasks.max": "1", "database.hostname": "127.0.0.1", "database.port": "3306", "database.user": "debezium", "database.password": "dbz", "database.server.id": "184054", "database.server.name": "dbserver2", "database.whitelist": "inventory", "database.history.kafka.bootstrap.servers": "127.0.0.1:9092", "database.history.kafka.topic": "dbhistory.inventory" } }'
 ```
 ### (9). 问题
-我的MySQL版本是5.7,看了下Docker里的jar和配置都是8.0.26,不知道为什么,就是不能运行起来.
