@@ -150,8 +150,49 @@ lixin-macbook:~ lixin$ curl -H "Accept:application/json" localhost:8083/connecto
 #   The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
 # 注意:mysql8.0.26的driver是支持mysql5.7数据库的.  
 
-lixin-macbook:~ lixin$ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '{ "name": "test2-connector", "config": { "connector.class": "io.debezium.connector.mysql.MySqlConnector", "tasks.max": "1", "database.hostname": "127.0.0.1", "database.port": "3306", "database.user": "debezium", "database.password": "dbz", "database.server.id": "1", "database.server.name": "dbserver1", "database.whitelist": "test2", "database.history.kafka.bootstrap.servers": "127.0.0.1:9092", "database.history.kafka.topic": "dbhistory.test2" } }'
-
-
+lixin-macbook:~ lixin$ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '{ "name": "test-connector", "config": { "connector.class": "io.debezium.connector.mysql.MySqlConnector", "tasks.max": "1", "database.hostname": "127.0.0.1", "database.port": "3306", "database.user": "debezium", "database.password": "dbz", "database.server.id": "1", "database.server.name": "test2", "database.whitelist": "test2", "database.history.kafka.bootstrap.servers": "127.0.0.1:9092", "database.history.kafka.topic": "dbhistory.test2" } }'
 ```
-### (9). 
+### (9). 查看kafka目录信息
+```
+# 1. 查看有哪些表
+mysql> show tables;
++-----------------+
+| Tables_in_test2 |
++-----------------+
+| test            |
+| user            |
++-----------------+
+
+# 2. 查看kafka数据目上录
+lixin-macbook:~ lixin$ ll ~/Developer/kafka-single/data/
+
+# 3. 存放的是数据库的信息(binlog/position)
+drwxr-xr-x   6 lixin  staff   192  9 26 21:44 dbhistory.test2-0/             # binlog信息
+
+# 4. 存放的是表结构信息和表里的数据
+drwxr-xr-x   6 lixin  staff   192  9 26 21:44 test2-0/                       # 表结构信息
+drwxr-xr-x   6 lixin  staff   192  9 26 21:44 test2.test2.test-0/            # 表里的数据
+drwxr-xr-x   6 lixin  staff   192  9 26 21:44 test2.test2.user-0/            # 表里的数据
+```
+### (10). 查看kafka topic列表
+```
+lixin-macbook:kafka-single lixin$ ./bin/kafka-topics.sh --list --zookeeper 127.0.0.1:2181
+__consumer_offsets
+dbhistory.test2                               # 存binlog的相关信息.
+test2                                         # 数据库的基本信息
+test2.test2.test                              # 表里的数据信息
+test2.test2.user                              # 表里的数据信息
+```
+### (11). 通过kafka进行消费  
+```
+# 1. 监听队列消费
+lixin-macbook:kafka-single lixin$ ./bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092  --from-beginning --topic test2.test2.user
+
+# 2. mysql修改数据
+mysql> INSERT INTO user(id,nick,phone,password,email,account) VALUES(7,'小娜',999999,999999,'test@126.com',NULL);
+
+# 3. kafka日志
+{"schema":{"type":"struct","fields":[{"type":"struct","fields":[{"type":"int32","optional":false,"field":"id"},{"type":"string","optional":true,"field":"nick"},{"type":"string","optional":true,"field":"phone"},{"type":"string","optional":true,"field":"password"},{"type":"string","optional":true,"field":"email"},{"type":"string","optional":true,"field":"account"}],"optional":true,"name":"test2.test2.user.Value","field":"before"},{"type":"struct","fields":[{"type":"int32","optional":false,"field":"id"},{"type":"string","optional":true,"field":"nick"},{"type":"string","optional":true,"field":"phone"},{"type":"string","optional":true,"field":"password"},{"type":"string","optional":true,"field":"email"},{"type":"string","optional":true,"field":"account"}],"optional":true,"name":"test2.test2.user.Value","field":"after"},{"type":"struct","fields":[{"type":"string","optional":false,"field":"version"},{"type":"string","optional":false,"field":"connector"},{"type":"string","optional":false,"field":"name"},{"type":"int64","optional":false,"field":"ts_ms"},{"type":"string","optional":true,"name":"io.debezium.data.Enum","version":1,"parameters":{"allowed":"true,last,false"},"default":"false","field":"snapshot"},{"type":"string","optional":false,"field":"db"},{"type":"string","optional":true,"field":"sequence"},{"type":"string","optional":true,"field":"table"},{"type":"int64","optional":false,"field":"server_id"},{"type":"string","optional":true,"field":"gtid"},{"type":"string","optional":false,"field":"file"},{"type":"int64","optional":false,"field":"pos"},{"type":"int32","optional":false,"field":"row"},{"type":"int64","optional":true,"field":"thread"},{"type":"string","optional":true,"field":"query"}],"optional":false,"name":"io.debezium.connector.mysql.Source","field":"source"},{"type":"string","optional":false,"field":"op"},{"type":"int64","optional":true,"field":"ts_ms"},{"type":"struct","fields":[{"type":"string","optional":false,"field":"id"},{"type":"int64","optional":false,"field":"total_order"},{"type":"int64","optional":false,"field":"data_collection_order"}],"optional":true,"field":"transaction"}],"optional":false,"name":"test2.test2.user.Envelope"},"payload":{"before":null,"after":{"id":7,"nick":"小娜","phone":"999999","password":"999999","email":"test@126.com","account":null},"source":{"version":"1.6.1.Final","connector":"mysql","name":"test2","ts_ms":1632664785000,"snapshot":"false","db":"test2","sequence":null,"table":"user","server_id":1,"gtid":null,"file":"mysql-bin.000405","pos":923,"row":0,"thread":null,"query":null},"op":"c","ts_ms":1632664785925,"transaction":null}}
+```
+### (12). 总结
+通过本地部署一套应用后,后面会对Debezinum源码进行深度剖析.  
