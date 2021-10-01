@@ -29,7 +29,7 @@ import java.util.Properties;
 public class TestConsumer {
     private Properties kafkaProperties = null;
     private String topic = "hello";
-    private String groupName = "test-service";
+    private String groupName = "test-service123";
 
     @Before
     public void initProperties() {
@@ -41,12 +41,34 @@ public class TestConsumer {
         kafkaProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupName);
     }
 
+    @Test
+    public void testConsumer() {
+        // earliest      --> 从头消费
+        // latest(默认)   --> 只消费自己启动之后的主题消息
+        kafkaProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG , "earliest");
+
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(kafkaProperties);
+        // 消息订阅
+        consumer.subscribe(Arrays.asList(topic));
+
+
+        while (true) {
+            // 每隔1秒,拉取一批消息(ConsumerRecords).
+            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
+            // ConsumerRecord 为具体的消息
+            for (ConsumerRecord<String, String> record : records) {
+                String format = String.format("topic:[%s],partition:[%d],offset:[%d],value:[%s]", record.topic(), record.partition(), record.offset(), record.value());
+                System.out.println("RESULT:" + format);
+            }
+        }
+    }
+
 
     /**
      * 测试指定:主题/分区/offset/时间等进行消费
      */
     @Test
-    public void testConsumer() {
+    public void testSettingOffsetConsumer() {
         KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(kafkaProperties);
 
 
@@ -71,8 +93,6 @@ public class TestConsumer {
         // 指定要消费的主题/分区/offset
         // 5.2 consumer.assign();
         // 5.3 consumer.seek();
-
-
 
         while (true) {
             // 每隔1秒,拉取一批消息(ConsumerRecords).
