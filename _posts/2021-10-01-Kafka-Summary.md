@@ -39,6 +39,6 @@ Kafka是Apache项目下的一个分布式流处理平台,它的流行是因为�
 ### (4). Kafka学习目录
 ["Kafka单机安装(一)"](/2021/09/13/Kafka-Install.html)  
 ["Kafka集群安装(二)"](/2021/10/01/Kafka-Cluster-Install.html)   
-["Kafka常用命令(三)"](/2021/10/01/Kafka-Command.html)   
-["Kafka生产者配置和案例(四"](/2021/10/01/Kafka-Producer.html)
-["Kafka消费者案例(五)"](/2021/10/01/Kafka-Consumer.html)
+["Kafka常用命令(三)"](/2021/10/01/Kafka-Command.html)     
+["Kafka生产者配置和案例(四"](/2021/10/01/Kafka-Producer.html)   
+["Kafka消费者案例(五)"](/2021/10/01/Kafka-Consumer.html)  
