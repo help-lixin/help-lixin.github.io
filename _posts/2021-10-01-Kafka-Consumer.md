@@ -67,7 +67,11 @@ public class TestConsumer {
         // 5. 指定时间进行消费
         // TopicPartition : 主题和分区信息
         // timestampsToSearch : 定位的时间点
-        // consumer.offsetsForTimes(Map<TopicPartition, Long> timestampsToSearch)
+        // 5.1 consumer.offsetsForTimes(Map<TopicPartition, Long> timestampsToSearch)
+        // 指定要消费的主题/分区/offset
+        // 5.2 consumer.assign();
+        // 5.3 consumer.seek();
+
 
 
         while (true) {
