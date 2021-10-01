@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Kafka单机安装' 
+title: 'Kafka单机安装(一)' 
 date: 2021-09-13
 author: 李新
 tags:  Kafka
