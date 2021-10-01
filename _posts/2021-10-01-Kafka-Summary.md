@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Kafka集群安装' 
+title: 'Kafka总结' 
 date: 2021-10-01
 author: 李新
 tags:  Kafka
