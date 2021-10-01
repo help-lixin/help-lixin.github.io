@@ -46,7 +46,7 @@ public class TestConsumer {
      */
     @Test
     public void testConsumerDefinMaxRecord() {
-        // 定义每次拉取消息的最大数量.
+        // 定义每次拉取消息的最大条数,默认一次poll500条
         kafkaProperties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 2);
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(kafkaProperties);
@@ -123,6 +123,5 @@ public class TestConsumer {
             }
         }
     }
-
 }
 ```
