@@ -17,6 +17,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +39,46 @@ public class TestConsumer {
         kafkaProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         // 定义消费者组
         kafkaProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupName);
+    }
+
+
+    /**
+     * 测试指定:主题/分区/offset/时间等进行消费
+     */
+    @Test
+    public void testConsumer() {
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(kafkaProperties);
+
+
+        // 1. 指定分区消费
+        // consumer.assign(Arrays.asList(new TopicPartition(topic,0)));
+
+        // 2. 消息回溯消息,相当于指定offset=0,类似于命令行指定了:--from-beginning
+        // consumer.assign(Arrays.asList(new TopicPartition(topic, 0)));
+        // consumer.seekToBeginning(Arrays.asList(new TopicPartition(topic, 0)));
+
+        // 3. 指定offset消费
+        consumer.assign(Arrays.asList(new TopicPartition(topic, 0)));
+        consumer.seek(new TopicPartition(topic, 0), 1);
+
+        // 根据topic,获得所有的:PartitionInfo
+        // consumer.partitionsFor(topic);
+
+        // 5. 指定时间进行消费
+        // TopicPartition : 主题和分区信息
+        // timestampsToSearch : 定位的时间点
+        // consumer.offsetsForTimes(Map<TopicPartition, Long> timestampsToSearch)
+
+
+        while (true) {
+            // 每隔1秒,拉取一批消息(ConsumerRecords).
+            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
+            // ConsumerRecord 为具体的消息
+            for (ConsumerRecord<String, String> record : records) {
+                String format = String.format("topic:[%s],partition:[%d],offset:[%d],value:[%s]", record.topic(), record.partition(), record.offset(), record.value());
+                System.out.println("RESULT:" + format);
+            }
+        }
     }
 
 
