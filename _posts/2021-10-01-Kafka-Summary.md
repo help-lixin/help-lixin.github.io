@@ -35,6 +35,7 @@ Kafka是Apache项目下的一个分布式流处理平台,它的流行是因为�
   - Follower角色的分区副本,负责从Leader拉取数据到本地,实现分区副本的创建.  
 + Zookeeper
   - Kafka的选举以及元数据信息是依赖于ZK的.
+
 ### (4). Kafka学习目录
 ["Kafka单机安装(一)"](/2021/09/13/Kafka-Install.html)  
 ["Kafka集群安装(二)"](/2021/10/01/Kafka-Cluster-Install.html)   
