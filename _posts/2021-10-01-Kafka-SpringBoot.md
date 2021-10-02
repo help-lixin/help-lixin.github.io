@@ -187,6 +187,7 @@ import org.springframework.stereotype.Component;
 public class MessageRevice {
     
 	// concurrency : 代表为:test-group配置2个Consumer去消费,建议:与Partition数量相同.
+	// @KafkaListener(topics = {"${listener.topic}"}, groupId = "test-group", concurrency = "${listener.concurrency}")
     @KafkaListener(topics = {"hello"}, groupId = "test-group", concurrency = "2")
     public void listen(ConsumerRecord<String, String> record, Acknowledgment ack) {
         System.out.println("Revice Message: " + record.value());
