@@ -46,3 +46,6 @@ Kafka是Apache项目下的一个分布式流处理平台,它的流行是因为�
 ["Spring Boot与Kafka集成源码之@KafkaListener(八)"](/2021/10/01/Kafka-SpringBoot-KafkaListener.html)   
 ["Spring Boot与Kafka集成源码之ConcurrentMessageListenerContainer(九)"](/2021/10/01/Kafka-SpringBoot-ConcurrentMessageListenerContainer.html)   
 ["Spring Cloud Stream集成Kafka(十)"](/2021/10/01/SpringCloudStream-Kafka-HelloWorld.html)    
+["Spring Cloud Stream集成Kafka源码之KafkaBinderConfiguration(十一)"](/2021/10/01/SpringCloudStream-Kafka-KafkaBinderConfiguration.html)      
+
+
