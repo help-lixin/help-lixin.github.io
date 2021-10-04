@@ -128,6 +128,11 @@ connectors有点类似于Kafka里的Connector来着的,用于快速将数据导�
 12:54:47.270 [main] INFO  org.apache.pulsar.client.cli.PulsarClientTool - 1 messages successfully produced
 
 # 5. 查看消费者控制台信息
+12:54:27.382 [pulsar-client-io-1-1] INFO  org.apache.pulsar.client.impl.ConnectionPool - [[id: 0x37d924b7, L:/10.211.55.101:42990 - R:10.211.55.101/10.211.55.101:6650]] Connected to server
+12:54:27.990 [pulsar-client-io-1-1] INFO  org.apache.pulsar.client.impl.ConnectionPool - [[id: 0x2a653810, L:/10.211.55.101:42992 - R:erp-101/10.211.55.101:6650]] Connected to server
+12:54:28.020 [pulsar-client-io-1-1] INFO  org.apache.pulsar.client.impl.ConsumerImpl - [persistent://public/default/test][consumer-test] Subscribing to topic on cnx [id: 0x2a653810, L:/10.211.55.101:42992 - R:erp-101/10.211.55.101:6650], consumerId 0
+12:54:29.932 [pulsar-client-io-1-1] INFO  org.apache.pulsar.client.impl.ConsumerImpl - [persistent://public/default/test][consumer-test] Subscribed to topic on erp-101/10.211.55.101:6650 -- consumer: 0
+12:54:45.319 [pulsar-client-io-1-1] INFO  com.scurrilous.circe.checksum.Crc32cIntChecksum - SSE4.2 CRC32C provider initialized
 ----- got message -----
 key:[null], properties:[], content:Hello Pulsar
 12:55:27.371 [pulsar-timer-5-1] INFO  org.apache.pulsar.client.impl.ConsumerStatsRecorderImpl - [persistent://public/default/test] [consumer-test] [1d382] Prefetched messages: 0 --- Consume throughput received: 0.02 msgs/s --- 0.00 Mbit/s --- Ack sent rate: 0.02 ack/s --- Failed messages: 0 --- batch messages: 0 ---Failed acks: 0
