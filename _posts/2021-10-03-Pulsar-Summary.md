@@ -33,4 +33,4 @@ Pulsar 的关键特性如下:
 !["Pulsar架构图"](/assets/pulsar/imgs/pulsar-system-architecture.png)
 
 ### (3). Pulsar学习目录
-["Pulsar集成搭建(一)"](/2021/10/03/Pulsar-Cluster-Install.html)
+["Pulsar集群搭建(一)"](/2021/10/03/Pulsar-Cluster-Install.html)
