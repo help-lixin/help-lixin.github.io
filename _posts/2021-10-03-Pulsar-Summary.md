@@ -20,6 +20,8 @@ Pulsar 的关键特性如下:
   - 由轻量级的serverless计算框架Pulsar Functions实现流原生的数据处理.   
   - 基于Pulsar Functions的serverless connector框架Pulsar IO使得数据更易移入、移出 Apache Pulsar.  
   - 分层式存储可在数据陈旧时,将数据从热存储卸载到冷/长期存储(如S3、GCS)中.  
+
+
 ### (2). Pulsar架构
 + Brokers
   - Pulsar的Broker是一个无状态组件,主要负责运行另外的两个组件(REST API/调度分发器)
