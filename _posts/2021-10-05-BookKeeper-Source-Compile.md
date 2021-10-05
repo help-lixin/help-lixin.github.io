@@ -66,4 +66,4 @@ lixin-macbook:bookkeeper lixin$ ll  bookkeeper-dist/server/target/ |grep gz
 -rw-r--r--  1 lixin  staff  101102104 10  5 13:56 bookkeeper-server-4.15.0-SNAPSHOT-bin.tar.gz
 ```
 ### (3). 总结
-一般一个优盘的框架有一个好的表现就是基本能一把编译通过,后面会用一个简单的Hello World,来入门.   
+一般一个优秀的框架有一个好的表现就是:源码clone下来之后,基本上能一把编译通过,后面会用一个简单的Hello World,来入门.   
