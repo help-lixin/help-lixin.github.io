@@ -17,7 +17,7 @@ tags:  SpringIntegration
 	<version>4.3.5.RELEASE</version>
 </dependency>						
 ```
-### (3). 配置Spring Integeration(hell-world.xml)
+### (3). 配置Spring Integeration(hello-world.xml)
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"

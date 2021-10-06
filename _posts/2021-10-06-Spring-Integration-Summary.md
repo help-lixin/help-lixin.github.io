@@ -25,5 +25,6 @@ SI的首要目标是:为“构建企业集成方案、维护系统间通信”�
 + ... ...
 
 ### (3). Spring Integration学习目录
-["Spring Integration概念与介绍(一)"](/2021/10/06/Spring-Integration-Introduce.html)          
-["Spring Integration简单入门案例(二)"](/2021/10/06/Spring-Integration-Hello-World.html)      
++ ["Spring Integration概念与介绍(一)"](/2021/10/06/Spring-Integration-Introduce.html)          
++ ["Spring Integration简单入门案例(二)"](/2021/10/06/Spring-Integration-Hello-World.html)        
++ ["Spring Integration源码之IntegrationNamespaceHandler(三)"](/2021/10/06/Spring-Integration-IntegrationNamespaceHandler.html)   
