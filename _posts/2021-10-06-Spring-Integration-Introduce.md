@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Integration概念与介绍(一)' 
+title: 'Spring Integration相关概念(一)' 
 date: 2021-10-06
 author: 李新
 tags:  SpringIntegration
