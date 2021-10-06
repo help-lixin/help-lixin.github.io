@@ -6,7 +6,7 @@ author: 李新
 tags:  SpringIntegration
 ---
 
-### (1). 概术
+### (1). 概述
 在这里先对Spring Integration的概念有一个大概的了解,后面会进行案例,以及源码剖析.
 
 ### (2). Message
