@@ -30,3 +30,4 @@ SI的首要目标是:为“构建企业集成方案、维护系统间通信”�
 + ["Spring Integration源码之IntegrationNamespaceHandler(三)"](/2021/10/06/Spring-Integration-IntegrationNamespaceHandler.html)   
 + ["Spring Integration源码之PointToPointChannelParser(四)"](/2021/10/06/Spring-Integration-PointToPointChannelParser.html)   
 + ["Spring Integration源码之ServiceActivatorParser(五)"](/2021/10/09/Spring-Integration-ServiceActivatorParser.html)   
++ ["Spring Integration源码之ServiceActivatorFactoryBean(六)"](/2021/10/09/Spring-Integration-ServiceActivatorFactoryBean.html)    
