@@ -7,7 +7,7 @@ tags:  SpringIntegration
 ---
 
 ### (1). 概述
-这一小篇,主要剖析,SI是如何解析<service-activator/>标签的
+这一小篇,主要剖析,SI是如何解析service-activator标签的
 
 ### (2). xml内容如下
 ```
