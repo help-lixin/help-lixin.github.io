@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Integration源码之Channel解析PointToPointChannelParser(四)' 
+title: 'Spring Integration源码之PointToPointChannelParser(四)' 
 date: 2021-10-09
 author: 李新
 tags:  SpringIntegration
@@ -149,6 +149,7 @@ public class PointToPointChannelParser extends AbstractChannelParser {
 		return builder;
 	}
 
+    // 解析 <queue capacity="10"/>
 	private boolean parseQueueCapacity(BeanDefinitionBuilder builder, Element queueElement) {
 		String capacity = queueElement.getAttribute("capacity");
 		if (StringUtils.hasText(capacity)) {
@@ -158,6 +159,7 @@ public class PointToPointChannelParser extends AbstractChannelParser {
 		return false;
 	}
 
+	// 解析 <queue ref=""/>
 	private boolean parseQueueRef(BeanDefinitionBuilder builder, Element queueElement) {
 		String queueRef = queueElement.getAttribute("ref");
 		if (StringUtils.hasText(queueRef)) {
@@ -166,13 +168,13 @@ public class PointToPointChannelParser extends AbstractChannelParser {
 		}
 		return false;
 	}
-
+	
+	// 解析 <queue message-store=""/>
 	private boolean parseStoreRef(BeanDefinitionBuilder builder, Element queueElement, String channel,
 			boolean priority) {
 		String storeRef = queueElement.getAttribute("message-store");
 		if (StringUtils.hasText(storeRef)) {
-			BeanDefinitionBuilder queueBuilder = BeanDefinitionBuilder
-					.genericBeanDefinition(MessageGroupQueue.class);
+			BeanDefinitionBuilder queueBuilder = BeanDefinitionBuilder.genericBeanDefinition(MessageGroupQueue.class);
 			queueBuilder.addConstructorArgReference(storeRef);
 			queueBuilder.addConstructorArgValue(new TypedStringValue(storeRef).getValue() + ":" + channel);
 			queueBuilder.addPropertyValue("priority", priority);
