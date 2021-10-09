@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Integration简单入门案例(二)' 
+title: 'Spring Integration Hello World入门案例(二)' 
 date: 2021-10-06
 author: 李新
 tags:  SpringIntegration
