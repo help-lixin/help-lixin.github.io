@@ -373,5 +373,10 @@ protected void sendOutput(Object output, Object replyChannel, boolean useArgChan
 	}
 } // end sendOutput
 ```
+
+### (7). MessageHandler
+其实,经过分析,我们能发现:MessageHandler承载着消息的中转过程,那么,MessageHandler的实现有哪些实现类呢?通过IDEA稍微看了下,基本大部份的业务组件,都是MessageHandler的实现(包括路由),所以,理解了一个,余下的应该能很好的理解了.      
+
+!["MessageHandler"](/assets/spring-integration/imgs/MessageHandler-Impl.png)   
 ### (8). 总结
 ServiceActivatingHandler的目的是被动接受消息,并把消息放MessageChannel(outputChannel)进行发送.   
