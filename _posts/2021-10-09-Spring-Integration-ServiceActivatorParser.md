@@ -284,5 +284,5 @@ public class ServiceActivatorParser extends AbstractDelegatingConsumerEndpointPa
 ```
 ### (7). 总结
 ServiceActivatorParser的主要目的是把XML解析成业务模型,需要注意的是,它会向Spring容器中,注册两个Bean(ServiceActivatorFactoryBean和ConsumerEndpointFactoryBean).   
- ServiceActivatorFactoryBean实际是:MessageHandler的实现类(它主要负责接收消息,并处理消息).      
- ConsumerEndpointFactoryBean负责inputChannel与outputChannel的关联来着的.   
++ ServiceActivatorFactoryBean实际是:MessageHandler的实现类(它主要负责接收消息,并处理消息).      
++ ConsumerEndpointFactoryBean负责inputChannel与outputChannel的关联来着的.   
