@@ -32,4 +32,5 @@ SI的首要目标是:为“构建企业集成方案、维护系统间通信”�
 + ["Spring Integration源码之PointToPointChannelParser(五)"](/2021/10/09/Spring-Integration-PointToPointChannelParser.html)   
 + ["Spring Integration源码之ServiceActivatorParser(六)"](/2021/10/09/Spring-Integration-ServiceActivatorParser.html)   
 + ["Spring Integration源码之ServiceActivatorFactoryBean(七)"](/2021/10/09/Spring-Integration-ServiceActivatorFactoryBean.html)    
++["Spring Integration源码之ServiceActivatingHandler(八)"](/2021/10/09/Spring-Integration-ServiceActivatingHandler.html)    
 
