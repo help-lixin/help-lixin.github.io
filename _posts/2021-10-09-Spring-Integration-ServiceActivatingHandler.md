@@ -379,4 +379,4 @@ protected void sendOutput(Object output, Object replyChannel, boolean useArgChan
 
 !["MessageHandler"](/assets/spring-integration/imgs/MessageHandler-Impl.png)   
 ### (8). 总结
-ServiceActivatingHandler的目的是被动接受消息,并把消息放MessageChannel(outputChannel)进行发送.   
+ServiceActivatingHandler的目的是被动接受消息,并把消息往MessageChannel(outputChannel)里发送.   
