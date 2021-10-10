@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Integration源码之ServiceActivatorParser(五)' 
+title: 'Spring Integration源码之ServiceActivatorParser(六)' 
 date: 2021-10-09
 author: 李新
 tags:  SpringIntegration

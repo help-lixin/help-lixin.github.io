@@ -27,7 +27,9 @@ SI的首要目标是:为“构建企业集成方案、维护系统间通信”�
 ### (3). Spring Integration学习目录
 + ["Spring Integration概念与介绍(一)"](/2021/10/06/Spring-Integration-Introduce.html)          
 + ["Spring Integration Hello World入门案例(二)"](/2021/10/06/Spring-Integration-Hello-World.html)        
-+ ["Spring Integration源码之IntegrationNamespaceHandler(三)"](/2021/10/06/Spring-Integration-IntegrationNamespaceHandler.html)   
-+ ["Spring Integration源码之PointToPointChannelParser(四)"](/2021/10/06/Spring-Integration-PointToPointChannelParser.html)   
-+ ["Spring Integration源码之ServiceActivatorParser(五)"](/2021/10/09/Spring-Integration-ServiceActivatorParser.html)   
-+ ["Spring Integration源码之ServiceActivatorFactoryBean(六)"](/2021/10/09/Spring-Integration-ServiceActivatorFactoryBean.html)    
++ ["查看Spring Integration相关业务模型能力(三)"](/2021/10/09/Spring-Integration-Bussiness-Modeling.html)    
++ ["Spring Integration源码之IntegrationNamespaceHandler(四)"](/2021/10/06/Spring-Integration-IntegrationNamespaceHandler.html)   
++ ["Spring Integration源码之PointToPointChannelParser(五)"](/2021/10/06/Spring-Integration-PointToPointChannelParser.html)   
++ ["Spring Integration源码之ServiceActivatorParser(六)"](/2021/10/09/Spring-Integration-ServiceActivatorParser.html)   
++ ["Spring Integration源码之ServiceActivatorFactoryBean(七)"](/2021/10/09/Spring-Integration-ServiceActivatorFactoryBean.html)    
+

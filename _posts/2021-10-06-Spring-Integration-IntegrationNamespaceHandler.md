@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Integration源码之IntegrationNamespaceHandler(三)' 
+title: 'Spring Integration源码之IntegrationNamespaceHandler(四)' 
 date: 2021-10-06
 author: 李新
 tags:  SpringIntegration
