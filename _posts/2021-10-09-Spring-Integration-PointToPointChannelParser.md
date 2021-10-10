@@ -9,7 +9,127 @@ tags:  SpringIntegration
 ### (1). 概述
 这一小篇,主要剖析,SI是如何解析channel标签的.  
 
-### (2). PointToPointChannelParser
+### (2). 查看下PointToPointChannelParser类的继承关系
+```
+org.springframework.beans.factory.xml.AbstractBeanDefinitionParser
+	org.springframework.integration.config.xml.AbstractChannelParser
+		org.springframework.integration.config.xml.PointToPointChannelParser
+```
+### (3). AbstractBeanDefinitionParser
+AbstractBeanDefinitionParsero类的主要作用是解析XML上的id和name,把BeanDefinition向Spring容器进行注册.   
+
+```
+public abstract class AbstractBeanDefinitionParser implements BeanDefinitionParser {
+
+	/** Constant for the "id" attribute */
+	public static final String ID_ATTRIBUTE = "id";
+
+	/** Constant for the "name" attribute */
+	public static final String NAME_ATTRIBUTE = "name";
+
+
+	@Override
+	public final BeanDefinition parse(Element element, ParserContext parserContext) {
+		AbstractBeanDefinition definition = parseInternal(element, parserContext);
+		if (definition != null && !parserContext.isNested()) {
+			try {
+				String id = resolveId(element, definition, parserContext);
+				if (!StringUtils.hasText(id)) {
+					parserContext.getReaderContext().error(
+							"Id is required for element '" + parserContext.getDelegate().getLocalName(element)
+									+ "' when used as a top-level tag", element);
+				}
+				String[] aliases = null;
+				if (shouldParseNameAsAliases()) {
+					String name = element.getAttribute(NAME_ATTRIBUTE);
+					if (StringUtils.hasLength(name)) {
+						aliases = StringUtils.trimArrayElements(StringUtils.commaDelimitedListToStringArray(name));
+					}
+				}
+				BeanDefinitionHolder holder = new BeanDefinitionHolder(definition, id, aliases);
+				registerBeanDefinition(holder, parserContext.getRegistry());
+				if (shouldFireEvents()) {
+					BeanComponentDefinition componentDefinition = new BeanComponentDefinition(holder);
+					postProcessComponentDefinition(componentDefinition);
+					parserContext.registerComponent(componentDefinition);
+				}
+			}
+			catch (BeanDefinitionStoreException ex) {
+				parserContext.getReaderContext().error(ex.getMessage(), element);
+				return null;
+			}
+		}
+		return definition;
+	} // end parse
+	
+}	
+```
+### (4). AbstractChannelParser
+AbstractChannelParser主要是对标签interceptors进行处理.
+
+```
+// 针对标签(<interceptors></interceptors>)进行处理.
+public abstract class AbstractChannelParser extends AbstractBeanDefinitionParser {
+
+	@Override
+	protected AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
+		// 移交给子类:PointToPointChannelParser.buildBeanDefinition去构建:BeanDefinitionBuilder
+		BeanDefinitionBuilder builder = this.buildBeanDefinition(element, parserContext);
+		AbstractBeanDefinition beanDefinition = builder.getBeanDefinition();
+		Element interceptorsElement = DomUtils.getChildElementByTagName(element, "interceptors");
+		String datatypeAttr = element.getAttribute("datatype");
+		String messageConverter = element.getAttribute("message-converter");
+		if (!FixedSubscriberChannel.class.getName().equals(builder.getBeanDefinition().getBeanClassName())) {
+			ManagedList interceptors = null;
+			if (interceptorsElement != null) {
+				ChannelInterceptorParser interceptorParser = new ChannelInterceptorParser();
+				interceptors = interceptorParser.parseInterceptors(interceptorsElement, parserContext);
+			}
+			if (interceptors == null) {
+				interceptors = new ManagedList();
+			}
+			if (StringUtils.hasText(datatypeAttr)) {
+				builder.addPropertyValue("datatypes", datatypeAttr);
+			}
+			if (StringUtils.hasText(messageConverter)) {
+				builder.addPropertyReference("messageConverter", messageConverter);
+			}
+			
+			builder.addPropertyValue("interceptors", interceptors);
+			String scopeAttr = element.getAttribute("scope");
+			if (StringUtils.hasText(scopeAttr)) {
+				builder.setScope(scopeAttr);
+			}
+		} else {
+			if (interceptorsElement != null) {
+				parserContext.getReaderContext().error("Cannot have interceptors when 'fixed-subscriber=\"true\"'", element);
+			}
+			if (StringUtils.hasText(datatypeAttr)) {
+				parserContext.getReaderContext().error("Cannot have 'datatype' when 'fixed-subscriber=\"true\"'", element);
+			}
+			if (StringUtils.hasText(messageConverter)) {
+				parserContext.getReaderContext().error("Cannot have 'message-converter' when 'fixed-subscriber=\"true\"'", element);
+			}
+		}
+		
+		beanDefinition.setSource(parserContext.extractSource(element));
+		return beanDefinition;
+	}
+
+	@Override
+	protected void registerBeanDefinition(BeanDefinitionHolder definition, BeanDefinitionRegistry registry) {
+		String scope = definition.getBeanDefinition().getScope();
+		if (!AbstractBeanDefinition.SCOPE_DEFAULT.equals(scope) && !AbstractBeanDefinition.SCOPE_SINGLETON.equals(scope) && !AbstractBeanDefinition.SCOPE_PROTOTYPE.equals(scope)) {
+			definition = ScopedProxyUtils.createScopedProxy(definition, registry, false);
+		}
+		super.registerBeanDefinition(definition, registry);
+	}
+
+	protected abstract BeanDefinitionBuilder buildBeanDefinition(Element element, ParserContext parserContext);
+
+}
+```
+### (5). PointToPointChannelParser
 ```
 // <channel id="inputChannel"/>
 // AbstractChannelParser也会完成一部份的xml解析,在这里不重要,所以,不进行跟踪了.
@@ -187,7 +307,7 @@ public class PointToPointChannelParser extends AbstractChannelParser {
 	}
 }
 ```
-### (3). DirectChannel
+### (6). MessageChannel
 分析上面的源码,我们能得出一个结论就是,最终channel标签会被解析成如下对象,默认MessageChannel的实现为:DirectChannel:  
  
 ```
@@ -198,15 +318,14 @@ public class PointToPointChannelParser extends AbstractChannelParser {
  DirectChannel                  : 通过在与发送方相同的线程中调用消费者来将消息发送给单个消费者,此通道类型允许事务跨越通道.
  ExecutorChannel                : 与DirectChannel类似,但是消息分派是通过TaskExecutor进行的,在与发送方不同的线程中进行,此通道类型不支持事务跨通道.   
  ```
-### (4). DirectChannel类的继承关系
+### (7). DirectChannel类的继承关系
 ```
 org.springframework.integration.context.IntegrationObjectSupport
 	org.springframework.integration.channel.AbstractMessageChannel
 		org.springframework.integration.channel.AbstractSubscribableChannel
 			org.springframework.integration.channel.DirectChannel
 ```
-
-### (5). DirectChannel类
+### (8). DirectChannel核心代码
 ```
 public class DirectChannel extends AbstractSubscribableChannel {
 	// ***************************************************************************
@@ -247,7 +366,13 @@ public abstract class AbstractSubscribableChannel extends AbstractMessageChannel
 	}
 	
 }// end AbstractSubscribableChannel
-
 ```
-### (6). 总结
-通过对PointToPointChannelParser源码的剖析,能知道:channel是具有"发送"和"消费消息"功能的,所以,为什么会定义为Channel,而不是Product或Consumer的原因就在于此.      
+### (9). DirectChannel类结构图
++ AbstractMessageChannel负责消息的发送功能.    
++ AbstractSubscribableChannel负责消息的订阅功能.  
++ UnicastingDispatcher负责消息的单播功能.   
+
+
+!["DirectChannel类结构图"](/assets/spring-integration/imgs/DirectChannel-Diagram.jpg)
+### (10). 总结
+通过对PointToPointChannelParser源码的剖析,能知道:channel是具有"发送"和"订阅消息"功能的,所以,为什么会定义为Channel,而不是Product或Consumer的原因就在于此.      
