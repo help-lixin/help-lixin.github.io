@@ -181,7 +181,13 @@ public class SecurityRequestMatcherProviderAutoConfiguration {
 	} // end MvcRequestMatcherConfiguration
 }	
 ```
-### (7). 总结
+### (7). 思考题
+为什么Spring Security是基于Filter进行扩展的?不是基于Serlvet进行扩展?原因有以下几点:   
+
++ 如果基于Servlet,那么其它的MVC框架(Struts),就无法共用了.
++ Filter相比Servlet更通用性一些,因为,所有请求都是先经过Filter的.   
+
+### (8). 总结
 > 从源码分析来看,Spring Security在初始化的时候,创建了3个Bean,分别是:  
 + DelegatingFilterProxy
 + UserDetailsManager
