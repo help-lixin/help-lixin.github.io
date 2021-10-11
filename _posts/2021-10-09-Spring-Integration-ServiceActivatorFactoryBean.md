@@ -79,6 +79,9 @@ public abstract class AbstractSimpleMessageHandlerFactoryBean<H extends MessageH
 						.setApplicationEventPublisher(this.applicationEventPublisher);
 			}
 			
+			// ********************************************************************************
+			// 设置setOutputChannel
+			// ********************************************************************************
 			if (this.handler instanceof MessageProducer && this.outputChannel != null) {
 				((MessageProducer) this.handler).setOutputChannel(this.outputChannel);
 			}
