@@ -1,0 +1,23 @@
+---
+layout: post
+title: 'Spring Security总结' 
+date: 2021-10-11
+author: 李新
+tags:  SpringSecurity
+---
+
+### (1). Spring Security 是什么
+Spring Security是一个框架,提供针对常见攻击的身份验证,授权和保护.通过对命令式和反应式应用程序的一流支持,它是保护基于Spring的应用程序的事实标准.   
+
+### (2). 为什么研究Spring Security
+六年前在Spring Security和Shiro之间,果断选择Shiro,因为,足够的简单,而且那时候微服务也还没有流行.在上东家,对技术的要求是精通,基本要求要达到看完70%左右的源码,才能把一个框架用到实践工作中,所以,为了应对就自己抄Shiro造了个轮子.   
+实际,现在大家都开始拥抱Spring生态,自己对Spring Security的学习,以及源码也一直都是半读半停的,趁现在有点时间,想从头到尾再做一次深入的学习以及通读源码.   
+
+### (3). Spring Security参考文献
+["Spring Security参考文献"](https://www.springcloud.cc/spring-security.html)
+
+### (4). Spring Security学习目录
+
+
+### (5). Spring Security源码学习目录
++ ["Spring Security源码之EnableAutoConfiguration(一)"](/2021/10/11/Spring-Security-EnableAutoConfiguration.html)   
