@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Integration源码之ServiceActivatorFactoryBean(六)' 
+title: 'Spring Integration源码之ServiceActivatorFactoryBean(七)' 
 date: 2021-10-09
 author: 李新
 tags:  SpringIntegration
@@ -15,7 +15,7 @@ org.springframework.integration.config.AbstractSimpleMessageHandlerFactoryBean
 	org.springframework.integration.config.AbstractStandardMessageHandlerFactoryBean
 		org.springframework.integration.config.ServiceActivatorFactoryBean
 ```
-### (3). 看下AbstractSimpleMessageHandlerFactoryBean的能力
+### (3). AbstractSimpleMessageHandlerFactoryBean
 ```
 public abstract class AbstractSimpleMessageHandlerFactoryBean<H extends MessageHandler>
 		implements 
@@ -29,7 +29,7 @@ public abstract class AbstractSimpleMessageHandlerFactoryBean<H extends MessageH
 		ApplicationEventPublisherAware {
 }			
 ```
-### (4). AbstractSimpleMessageHandlerFactoryBean.getObject
+### (4). AbstractSimpleMessageHandlerFactoryBean
 ```
 public abstract class AbstractSimpleMessageHandlerFactoryBean<H extends MessageHandler>
 		implements FactoryBean<MessageHandler>, ApplicationContextAware, BeanFactoryAware, BeanNameAware,
@@ -79,9 +79,15 @@ public abstract class AbstractSimpleMessageHandlerFactoryBean<H extends MessageH
 						.setApplicationEventPublisher(this.applicationEventPublisher);
 			}
 			
+<<<<<<< HEAD
 			// ********************************************************************************
 			// 设置setOutputChannel
 			// ********************************************************************************
+=======
+			// ***************************************************************************
+			// 设置:outputChannel
+			// ***************************************************************************
+>>>>>>> b6ab82f117acbb232196bc1220b46d22870d945e
 			if (this.handler instanceof MessageProducer && this.outputChannel != null) {
 				((MessageProducer) this.handler).setOutputChannel(this.outputChannel);
 			}
@@ -143,10 +149,9 @@ public abstract class AbstractSimpleMessageHandlerFactoryBean<H extends MessageH
 		
 		return this.handler;
 	} // end createHandlerInternal
-
 }
 ```
-### (5). AbstractStandardMessageHandlerFactoryBean.
+### (5). AbstractStandardMessageHandlerFactoryBean
 ```
 public abstract class AbstractStandardMessageHandlerFactoryBean
 		extends AbstractSimpleMessageHandlerFactoryBean<MessageHandler> {
@@ -218,7 +223,7 @@ public abstract class AbstractStandardMessageHandlerFactoryBean
 				
 }
 ```
-### (6). ServiceActivatorFactoryBean.createMethodInvokingHandler
+### (6). ServiceActivatorFactoryBean
 ```
 public class ServiceActivatorFactoryBean extends AbstractStandardMessageHandlerFactoryBean {
 	
@@ -248,4 +253,4 @@ public class ServiceActivatorFactoryBean extends AbstractStandardMessageHandlerF
 }
 ```
 ### (7). 总结
-在ServiceActivatorFactoryBean的底层,最终是创建了:ServiceActivatingHandler对象,后面,会深入剖析ServiceActivatingHandler对象的源码.   
+ServiceActivatorFactoryBean的工厂方法(getObject),最终是创建了:ServiceActivatingHandler(属于MessageHandler的实现)对象包裹我们的业务对象(HelloService)和方法(sayHello).   

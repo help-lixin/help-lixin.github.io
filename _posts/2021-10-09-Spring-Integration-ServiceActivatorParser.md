@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Integration源码之ServiceActivatorParser(五)' 
+title: 'Spring Integration源码之ServiceActivatorParser(六)' 
 date: 2021-10-09
 author: 李新
 tags:  SpringIntegration
@@ -18,28 +18,165 @@ tags:  SpringIntegration
 	                   ref="helloService"
 	                   method="sayHello"/>
 ```
-### (3). ServiceActivatorParser
+### (3). ServiceActivatorParser继承关系图
 ```
-// ServiceActivatorParser相当的简单,所有业务逻辑都在:AbstractDelegatingConsumerEndpointParser里,从这个抽象类的名字来看,是跟消费者有关系.
-public class ServiceActivatorParser extends AbstractDelegatingConsumerEndpointParser {
-
-	@Override
-	String getFactoryBeanClassName() {
-		return ServiceActivatorFactoryBean.class.getName();
+org.springframework.beans.factory.xml.AbstractBeanDefinitionParser
+	org.springframework.integration.config.xml.AbstractConsumerEndpointParser             # 在SI的眼里<service-activator>是Consumer
+		org.springframework.integration.config.xml.AbstractDelegatingConsumerEndpointParser
+			org.springframework.integration.config.xml.ServiceActivatorParser
+```
+### (4). AbstractConsumerEndpointParser
+```
+public abstract class AbstractConsumerEndpointParser extends AbstractBeanDefinitionParser {
+	protected static final String REF_ATTRIBUTE = "ref";
+	protected static final String METHOD_ATTRIBUTE = "method";
+	protected static final String EXPRESSION_ATTRIBUTE = "expression";
+	
+	protected abstract BeanDefinitionBuilder parseHandler(Element element, ParserContext parserContext);
+	
+	protected String getInputChannelAttributeName() {
+		return "input-channel";
 	}
-
+	
 	@Override
-	boolean hasDefaultOption() {
-		return false;
-	}
+	protected final AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
+		// *****************************************************************************
+		// 1.委托给子类:AbstractDelegatingConsumerEndpointParser.parseHandler
+		// 最终返回的BeanDefinitionBuilder包裹着:ServiceActivatorFactoryBean
+		// 而,ServiceActivatorFactoryBean是一个工厂方法,每次都会创建一个新的:MessageHandler
+		// 也就是说:<service-activator>标签会解析出一个部信息,转化成:MessageHandler
+		// *****************************************************************************
+		BeanDefinitionBuilder handlerBuilder = this.parseHandler(element, parserContext);
+		
+		// **********************************************************************
+		// 为ServiceActivatorFactoryBean配置outputChannel的引用
+		// **********************************************************************
+		IntegrationNamespaceUtils.setReferenceIfAttributeDefined(handlerBuilder, element, "output-channel");
+		// 为ServiceActivatorFactoryBean配置order
+		IntegrationNamespaceUtils.setValueIfAttributeDefined(handlerBuilder, element, "order");
 
-	@Override
-	void postProcess(BeanDefinitionBuilder builder, Element element, ParserContext parserContext) {
-		IntegrationNamespaceUtils.setValueIfAttributeDefined(builder, element, "async");
-	}
+		// 配置:request-handler-advice-chain
+		Element adviceChainElement = DomUtils.getChildElementByTagName(element, IntegrationNamespaceUtils.REQUEST_HANDLER_ADVICE_CHAIN);
+		IntegrationNamespaceUtils.configureAndSetAdviceChainIfPresent(adviceChainElement, null, handlerBuilder.getRawBeanDefinition(), parserContext);
+		
+		// handlerBeanDefinition = org.springframework.integration.config.ServiceActivatorFactoryBean
+		AbstractBeanDefinition handlerBeanDefinition = handlerBuilder.getBeanDefinition();
+		// input-channel
+		String inputChannelAttributeName = this.getInputChannelAttributeName();
+		//true
+		boolean hasInputChannelAttribute = element.hasAttribute(inputChannelAttributeName);
+		if (parserContext.isNested()) { // false
+			String elementDescription = IntegrationNamespaceUtils.createElementDescription(element);
+			if (hasInputChannelAttribute) {
+				parserContext.getReaderContext().error("The '" + inputChannelAttributeName
+						+ "' attribute isn't allowed for a nested (e.g. inside a <chain/>) endpoint element: "
+						+ elementDescription + ".", element);
+			}
+			if (!replyChannelInChainAllowed(element)) {
+				if (StringUtils.hasText(element.getAttribute("reply-channel"))) {
+					parserContext.getReaderContext().error("The 'reply-channel' attribute isn't"
+							+ " allowed for a nested (e.g. inside a <chain/>) outbound gateway element: "
+							+ elementDescription + ".", element);
+				}
+			}
+			return handlerBeanDefinition;
+		} else {
+			if (!hasInputChannelAttribute) { // false
+				String elementDescription = IntegrationNamespaceUtils.createElementDescription(element);
+				parserContext.getReaderContext().error("The '" + inputChannelAttributeName
+						+ "' attribute is required for the top-level endpoint element: "
+						+ elementDescription + ".", element);
+			}
+		}
+
+		// ********************************************************************************
+		// 2. 声明Bean:ConsumerEndpointFactoryBean这是核心类
+		// ********************************************************************************
+		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(ConsumerEndpointFactoryBean.class);
+		
+		// handlerBeanName = org.springframework.integration.config.ServiceActivatorFactoryBean#0
+		String handlerBeanName = BeanDefinitionReaderUtils.generateBeanName(handlerBeanDefinition, parserContext.getRegistry());
+		// handlerAlias = null
+		String[] handlerAlias = IntegrationNamespaceUtils.generateAlias(element);
+		
+		// ********************************************************************************
+		// 3. 向Spring容器中注册bean,
+		//    id = org.springframework.integration.config.ServiceActivatorFactoryBean#0
+		//    class = org.springframework.integration.config.ServiceActivatorFactoryBean)
+		// ********************************************************************************
+		parserContext.registerBeanComponent(new BeanComponentDefinition(handlerBeanDefinition, handlerBeanName, handlerAlias));
+		
+		// 为ConsumerEndpointFactoryBean配置:handler = org.springframework.integration.config.ServiceActivatorFactoryBean#0
+		builder.addPropertyReference("handler", handlerBeanName);
+		
+		// inputChannel
+		String inputChannelName = element.getAttribute(inputChannelAttributeName);
+		
+		// 判断bean定义(inputChannel)在spring容器中是否存在.
+		if (!parserContext.getRegistry().containsBeanDefinition(inputChannelName)) {  // false
+			// ntegrationContextUtils.AUTO_CREATE_CHANNEL_CANDIDATES_BEAN_NAME = $autoCreateChannelCandidates
+			if (parserContext.getRegistry().containsBeanDefinition(IntegrationContextUtils.AUTO_CREATE_CHANNEL_CANDIDATES_BEAN_NAME)) {
+				BeanDefinition channelRegistry = parserContext.getRegistry().getBeanDefinition(IntegrationContextUtils.AUTO_CREATE_CHANNEL_CANDIDATES_BEAN_NAME);
+				ConstructorArgumentValues caValues = channelRegistry.getConstructorArgumentValues();
+				ValueHolder vh = caValues.getArgumentValue(0, Collection.class);
+				if (vh == null) { //although it should never happen if it does we can fix it
+					caValues.addIndexedArgumentValue(0, new ManagedSet<String>());
+				}
+
+				@SuppressWarnings("unchecked")
+				Collection<String> channelCandidateNames = (Collection<String>) caValues.getArgumentValue(0, Collection.class).getValue();
+				channelCandidateNames.add(inputChannelName);
+			} else {
+				parserContext.getReaderContext().error("Failed to locate '" +
+						IntegrationContextUtils.AUTO_CREATE_CHANNEL_CANDIDATES_BEAN_NAME + "'", parserContext.getRegistry());
+			}
+		}
+		
+		
+		IntegrationNamespaceUtils.checkAndConfigureFixedSubscriberChannel(element, parserContext, inputChannelName,handlerBeanName);
+		
+		// 为ConsumerEndpointFactoryBean配置:inputChannelName=inputChannel
+		builder.addPropertyValue("inputChannelName", inputChannelName);
+		
+		// 针对子节点<poller/>处理
+		List<Element> pollerElementList = DomUtils.getChildElementsByTagName(element, "poller");
+		if (!CollectionUtils.isEmpty(pollerElementList)) {
+			if (pollerElementList.size() != 1) {
+				parserContext.getReaderContext().error(
+						"at most one poller element may be configured for an endpoint", element);
+			}
+			IntegrationNamespaceUtils.configurePollerMetadata(pollerElementList.get(0), builder, parserContext);
+		}
+		
+		// 为ConsumerEndpointFactoryBean配置:autoStartup
+		IntegrationNamespaceUtils.setValueIfAttributeDefined(builder, element, IntegrationNamespaceUtils.AUTO_STARTUP);
+		// 为ConsumerEndpointFactoryBean配置:phase
+		IntegrationNamespaceUtils.setValueIfAttributeDefined(builder, element, IntegrationNamespaceUtils.PHASE);
+		
+		String role = element.getAttribute(IntegrationNamespaceUtils.ROLE);
+		if (StringUtils.hasText(role)) {
+			if (!StringUtils.hasText(element.getAttribute(ID_ATTRIBUTE))) {
+				parserContext.getReaderContext().error("When using 'role', 'id' is required", element);
+			}
+			IntegrationNamespaceUtils.putLifecycleInRole(role, element.getAttribute(ID_ATTRIBUTE), parserContext);
+		}
+		
+		// 获得ConsumerEndpointFactoryBean定义信息
+		AbstractBeanDefinition beanDefinition = builder.getBeanDefinition();
+		// 解析出bean名称(org.springframework.integration.config.ConsumerEndpointFactoryBean#0)
+		String beanName = this.resolveId(element, beanDefinition, parserContext);
+		
+		// ********************************************************************************
+		// 向Spring容器中,注册Bean
+		//  id     = org.springframework.integration.config.ConsumerEndpointFactoryBean#0
+		//  class  = org.springframework.integration.config.ConsumerEndpointFactoryBean
+		// ********************************************************************************
+		parserContext.registerBeanComponent(new BeanComponentDefinition(beanDefinition, beanName));
+		return null;
+	} // end parseInternal
 }
 ```
-### (4). AbstractDelegatingConsumerEndpointParser
+### (5). AbstractDelegatingConsumerEndpointParser
 ```
 // <service-activator input-channel="inputChannel" output-channel="outputChannel" ref="helloService" method="sayHello"/>
 
@@ -127,5 +264,28 @@ protected final BeanDefinitionBuilder parseHandler(Element element, ParserContex
 	return builder;
 }
 ```
-### (5). 总结
-ServiceActivatorParser的主要目的是把XML解析成业务模型:ServiceActivatorFactoryBean,注意:这个类是FactoryBean的子类来着的,需要重点关注getObject/getObjectType来着的,下一小篇,主要剖析:ServiceActivatorFactoryBean.     
+### (6). ServiceActivatorParser
+```
+public class ServiceActivatorParser extends AbstractDelegatingConsumerEndpointParser {
+
+	@Override
+	String getFactoryBeanClassName() {
+		return ServiceActivatorFactoryBean.class.getName();
+	}
+
+	@Override
+	boolean hasDefaultOption() {
+		return false;
+	}
+
+	@Override
+	void postProcess(BeanDefinitionBuilder builder, Element element, ParserContext parserContext) {
+		IntegrationNamespaceUtils.setValueIfAttributeDefined(builder, element, "async");
+	}
+}
+```
+### (7). 总结
+ServiceActivatorParser的主要目的是把XML解析成业务模型,需要注意的是,它会向Spring容器中,注册两个Bean(ServiceActivatorFactoryBean和ConsumerEndpointFactoryBean).   
++ ConsumerEndpointFactoryBean负责从input-channel里读取数据来着的,然后,向output-channel输出数据.  
++ ServiceActivatorFactoryBean工厂,会创建出ServiceActivatingHandler(output-channel)类,它实际是上:MessageHandler的实现类(主要负责接收消息,并处理消息).      
+   

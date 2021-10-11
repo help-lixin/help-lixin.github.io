@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Integration源码之PointToPointChannelParser(四)' 
+title: 'Spring Integration源码之PointToPointChannelParser(五)' 
 date: 2021-10-09
 author: 李新
 tags:  SpringIntegration
@@ -9,9 +9,130 @@ tags:  SpringIntegration
 ### (1). 概述
 这一小篇,主要剖析,SI是如何解析channel标签的.  
 
-### (2). PointToPointChannelParser
+### (2). 查看下PointToPointChannelParser类的继承关系
+```
+org.springframework.beans.factory.xml.AbstractBeanDefinitionParser
+	org.springframework.integration.config.xml.AbstractChannelParser
+		org.springframework.integration.config.xml.PointToPointChannelParser
+```
+### (3). AbstractBeanDefinitionParser
+AbstractBeanDefinitionParsero类的主要作用是解析XML上的id和name,把BeanDefinition向Spring容器进行注册.   
+
+```
+public abstract class AbstractBeanDefinitionParser implements BeanDefinitionParser {
+
+	/** Constant for the "id" attribute */
+	public static final String ID_ATTRIBUTE = "id";
+
+	/** Constant for the "name" attribute */
+	public static final String NAME_ATTRIBUTE = "name";
+
+
+	@Override
+	public final BeanDefinition parse(Element element, ParserContext parserContext) {
+		AbstractBeanDefinition definition = parseInternal(element, parserContext);
+		if (definition != null && !parserContext.isNested()) {
+			try {
+				String id = resolveId(element, definition, parserContext);
+				if (!StringUtils.hasText(id)) {
+					parserContext.getReaderContext().error(
+							"Id is required for element '" + parserContext.getDelegate().getLocalName(element)
+									+ "' when used as a top-level tag", element);
+				}
+				String[] aliases = null;
+				if (shouldParseNameAsAliases()) {
+					String name = element.getAttribute(NAME_ATTRIBUTE);
+					if (StringUtils.hasLength(name)) {
+						aliases = StringUtils.trimArrayElements(StringUtils.commaDelimitedListToStringArray(name));
+					}
+				}
+				BeanDefinitionHolder holder = new BeanDefinitionHolder(definition, id, aliases);
+				registerBeanDefinition(holder, parserContext.getRegistry());
+				if (shouldFireEvents()) {
+					BeanComponentDefinition componentDefinition = new BeanComponentDefinition(holder);
+					postProcessComponentDefinition(componentDefinition);
+					parserContext.registerComponent(componentDefinition);
+				}
+			}
+			catch (BeanDefinitionStoreException ex) {
+				parserContext.getReaderContext().error(ex.getMessage(), element);
+				return null;
+			}
+		}
+		return definition;
+	} // end parse
+	
+}	
+```
+### (4). AbstractChannelParser
+AbstractChannelParser主要是对标签interceptors进行处理.
+
+```
+// 针对标签(<interceptors></interceptors>)进行处理.
+public abstract class AbstractChannelParser extends AbstractBeanDefinitionParser {
+
+	@Override
+	protected AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
+		// 移交给子类:PointToPointChannelParser.buildBeanDefinition去构建:BeanDefinitionBuilder
+		BeanDefinitionBuilder builder = this.buildBeanDefinition(element, parserContext);
+		AbstractBeanDefinition beanDefinition = builder.getBeanDefinition();
+		Element interceptorsElement = DomUtils.getChildElementByTagName(element, "interceptors");
+		String datatypeAttr = element.getAttribute("datatype");
+		String messageConverter = element.getAttribute("message-converter");
+		if (!FixedSubscriberChannel.class.getName().equals(builder.getBeanDefinition().getBeanClassName())) {
+			ManagedList interceptors = null;
+			if (interceptorsElement != null) {
+				ChannelInterceptorParser interceptorParser = new ChannelInterceptorParser();
+				interceptors = interceptorParser.parseInterceptors(interceptorsElement, parserContext);
+			}
+			if (interceptors == null) {
+				interceptors = new ManagedList();
+			}
+			if (StringUtils.hasText(datatypeAttr)) {
+				builder.addPropertyValue("datatypes", datatypeAttr);
+			}
+			if (StringUtils.hasText(messageConverter)) {
+				builder.addPropertyReference("messageConverter", messageConverter);
+			}
+			
+			builder.addPropertyValue("interceptors", interceptors);
+			String scopeAttr = element.getAttribute("scope");
+			if (StringUtils.hasText(scopeAttr)) {
+				builder.setScope(scopeAttr);
+			}
+		} else {
+			if (interceptorsElement != null) {
+				parserContext.getReaderContext().error("Cannot have interceptors when 'fixed-subscriber=\"true\"'", element);
+			}
+			if (StringUtils.hasText(datatypeAttr)) {
+				parserContext.getReaderContext().error("Cannot have 'datatype' when 'fixed-subscriber=\"true\"'", element);
+			}
+			if (StringUtils.hasText(messageConverter)) {
+				parserContext.getReaderContext().error("Cannot have 'message-converter' when 'fixed-subscriber=\"true\"'", element);
+			}
+		}
+		
+		beanDefinition.setSource(parserContext.extractSource(element));
+		return beanDefinition;
+	}
+
+	@Override
+	protected void registerBeanDefinition(BeanDefinitionHolder definition, BeanDefinitionRegistry registry) {
+		String scope = definition.getBeanDefinition().getScope();
+		if (!AbstractBeanDefinition.SCOPE_DEFAULT.equals(scope) && !AbstractBeanDefinition.SCOPE_SINGLETON.equals(scope) && !AbstractBeanDefinition.SCOPE_PROTOTYPE.equals(scope)) {
+			definition = ScopedProxyUtils.createScopedProxy(definition, registry, false);
+		}
+		super.registerBeanDefinition(definition, registry);
+	}
+
+	protected abstract BeanDefinitionBuilder buildBeanDefinition(Element element, ParserContext parserContext);
+
+}
+```
+### (5). PointToPointChannelParser
 ```
 // <channel id="inputChannel"/>
+// AbstractChannelParser也会完成一部份的xml解析,在这里不重要,所以,不进行跟踪了.
 public class PointToPointChannelParser extends AbstractChannelParser {
 
 	@Override
@@ -186,7 +307,7 @@ public class PointToPointChannelParser extends AbstractChannelParser {
 	}
 }
 ```
-### (3). DirectChannel
+### (6). MessageChannel
 分析上面的源码,我们能得出一个结论就是,最终channel标签会被解析成如下对象,默认MessageChannel的实现为:DirectChannel:  
  
 ```
@@ -197,78 +318,61 @@ public class PointToPointChannelParser extends AbstractChannelParser {
  DirectChannel                  : 通过在与发送方相同的线程中调用消费者来将消息发送给单个消费者,此通道类型允许事务跨越通道.
  ExecutorChannel                : 与DirectChannel类似,但是消息分派是通过TaskExecutor进行的,在与发送方不同的线程中进行,此通道类型不支持事务跨通道.   
  ```
-### (4). 查看Message接口
+### (7). DirectChannel类的继承关系
 ```
-package org.springframework.messaging;
-
-// 通过MessageBuilder构建出一个消息.
-// org.springframework.messaging.support.MessageBuilder
-public interface Message<T> {
-
-	// 消息体
-	T getPayload();
+org.springframework.integration.context.IntegrationObjectSupport
+	org.springframework.integration.channel.AbstractMessageChannel
+		org.springframework.integration.channel.AbstractSubscribableChannel
+			org.springframework.integration.channel.DirectChannel
+```
+### (8). DirectChannel核心代码
+```
+public class DirectChannel extends AbstractSubscribableChannel {
+	// ***************************************************************************
+	// 创建一个单播的分发器
+	// ***************************************************************************
+	private final UnicastingDispatcher dispatcher = new UnicastingDispatcher();
 	
-	// 消息头
-	MessageHeaders getHeaders();
-}
-```
-### (5). 查看MessageChannel接口
-```
-package org.springframework.messaging;
+	protected UnicastingDispatcher getDispatcher() {
+		return this.dispatcher;
+	}
+} // end DirectChannel
 
-public interface MessageChannel {
+public abstract class AbstractSubscribableChannel extends AbstractMessageChannel
+		implements SubscribableChannel, SubscribableChannelManagement {
+    
+	// ***************************************************************************
+	// 订阅
+	// 在:service-activator内部,会找到:input-channel,调用该方法,注册订阅者.
+	// <service-activator input-channel="inputChannel" output-channel="outputChannel" ref="helloService" method="sayHello"/>
+	// ***************************************************************************
+	@Override
+	public boolean subscribe(MessageHandler handler) {
+		MessageDispatcher dispatcher = getRequiredDispatcher();
+		boolean added = dispatcher.addHandler(handler);
+		this.adjustCounterIfNecessary(dispatcher, added ? 1 : 0);
+		return added;
+	}
+
+	// ***************************************************************************
+	// 取消订阅
+	// ***************************************************************************
+	@Override
+	public boolean unsubscribe(MessageHandler handle) {
+		MessageDispatcher dispatcher = getRequiredDispatcher();
+		boolean removed = dispatcher.removeHandler(handle);
+		this.adjustCounterIfNecessary(dispatcher, removed ? -1 : 0);
+		return removed;
+	}
 	
-	long INDEFINITE_TIMEOUT = -1;
-	
-	// 发送消息
-	boolean send(Message<?> message);
-	
-	// 发送消息,并定义发送消息的超时时间
-	boolean send(Message<?> message, long timeout);
-}
+}// end AbstractSubscribableChannel
 ```
-### (6). 查看SubscribableChannel接口
-> 在前面的源码分析也能看到:FixedSubscriberChannel属于:SubscribableChannel的实现类,所以,我们看一下SubscribableChannel的接口.   
+### (9). DirectChannel类结构图
++ AbstractMessageChannel负责消息的发送功能.    
++ AbstractSubscribableChannel负责消息的订阅功能.  
++ UnicastingDispatcher负责消息的单播功能.   
 
-```
-package org.springframework.messaging;
 
-
-public interface SubscribableChannel extends MessageChannel {
-
-	/**
-	 * 绑定消息的处理
-	 * Register a message handler.
-	 * @return {@code true} if the handler was subscribed or {@code false} if it
-	 * was already subscribed.
-	 */
-	boolean subscribe(MessageHandler handler);
-
-	/**
-	 * 解绑消息的处理
-	 * Un-register a message handler.
-	 * @return {@code true} if the handler was un-registered, or {@code false}
-	 * if was not registered.
-	 */
-	boolean unsubscribe(MessageHandler handler);
-}
-```
-### (7). 查看MessageHandler接口
-```
-package org.springframework.messaging;
-
-// 消息的处理
-public interface MessageHandler {
-
-	/**
-	 * 消息的处理模型
-	 * Handle the given message.
-	 * @param message the message to be handled
-	 * @throws MessagingException if the handler failed to process the message
-	 */
-	void handleMessage(Message<?> message) throws MessagingException;
-
-}
-```
-### (8). 总结
-通过对PointToPointChannelParser源码的剖析,能知道:channel是具体着发送和接受消费功能的,所以,为什么会定义为Channel,而不是Product或Consumer的原因就在于此.      
+!["DirectChannel类结构图"](/assets/spring-integration/imgs/DirectChannel-Diagram.jpg)
+### (10). 总结
+通过对PointToPointChannelParser源码的剖析,能知道:channel是具有"发送"和"订阅消息"功能的,所以,为什么会定义为Channel,而不是Product或Consumer的原因就在于此.      
