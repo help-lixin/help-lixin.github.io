@@ -61,14 +61,15 @@ public class SecurityFilterAutoConfiguration {
 }
 ```
 ### (4). SecurityAutoConfiguration
-> 认证或者鉴权失败,会通过一个事件去处理(不是重点).   
 
 ```
 @Configuration
 @ConditionalOnClass(DefaultAuthenticationEventPublisher.class)
 @EnableConfigurationProperties(SecurityProperties.class)
-@Import({ SpringBootWebSecurityConfiguration.class, WebSecurityEnablerConfiguration.class,
-		SecurityDataConfiguration.class })
+// *************************************************************************
+// 在这里导入了一堆的Bean信息.
+// *************************************************************************
+@Import({ SpringBootWebSecurityConfiguration.class, WebSecurityEnablerConfiguration.class,SecurityDataConfiguration.class })
 public class SecurityAutoConfiguration {
 
 	@Bean
@@ -188,7 +189,8 @@ public class SecurityRequestMatcherProviderAutoConfiguration {
 + Filter相比Servlet更通用性一些,因为,所有请求都是先经过Filter的.   
 
 ### (8). 总结
-> 从源码分析来看,Spring Security在初始化的时候,创建了3个Bean,分别是:  
+> 从源码分析来看,Spring Security在初始化的时候,创建了3个Bean,同时,还导入了一些Bean,分别是:  
 + DelegatingFilterProxy
 + UserDetailsManager
 + RequestMatcherProvider
++ SpringBootWebSecurityConfiguration/WebSecurityEnablerConfiguration/SecurityDataConfiguration
