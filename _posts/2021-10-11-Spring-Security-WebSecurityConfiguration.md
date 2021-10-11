@@ -7,9 +7,10 @@ tags:  SpringSecurity
 ---
 
 ### (1). 概述
+```
 在分析:DelegatingFilterProxy时,发现,内部又引用了一个Bean(springSecurityFilterChain),所以,要了解下:springSecurityFilterChain是在什么时候初始化的.                
 我在分析SecurityAutoConfiguration时,只提了一嘴说:它导入了一堆的Bean,实际:springSecurityFilterChain的初始化就在这三个Import的Bean(SpringBootWebSecurityConfiguration/WebSecurityEnablerConfiguration/SecurityDataConfiguration)里定义的,只是定义比较深而已.            
-
+```
 ### (2). WebSecurityEnablerConfiguration
 不拉出一些没有用的代码了,其实,最终的关注点是在这个注解上@EnableWebSecurity,你会发现:这个注解又导入了其它的Bean,我们重点关注:WebSecurityConfiguration
 
