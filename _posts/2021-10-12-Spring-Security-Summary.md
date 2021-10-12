@@ -14,7 +14,9 @@ Spring Security是一个框架,提供针对常见攻击的身份验证,授权和
 实际,现在大家都开始拥抱Spring生态,自己对Spring Security的学习,以及源码也一直都是半读半停的,趁现在有点时间,想从头到尾再做一次深入的学习以及通读源码.   
 
 ### (3). Spring Security参考文献
-["Spring Security参考文献"](https://www.springcloud.cc/spring-security.html)
+["Spring Security参考文献(一)"](https://www.springcloud.cc/spring-security.html)             
+["Spring Security参考文献(二)"](https://www.docs4dev.com/docs/zh/spring-security/5.1.2.RELEASE/reference/community.html)     
+
 
 ### (4). Spring Security学习目录
 
