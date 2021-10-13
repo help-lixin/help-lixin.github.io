@@ -53,7 +53,7 @@ org.springframework.security.config.annotation.SecurityConfigurer
 ### (3). 查看HttpSecurity类图
 > 从UML图中,能看出HttpSecurity内部聚合着一个集合列表,这个集合列表是SecurityConfigurer类型的,也就是说通过HttpSecurity的所有操作,实际是把信息载体,设置在集合(configurers)里.
 
-!["HttpSecurity"](/assets/spring-security/imgsHttpSecurity.jpg)
+!["HttpSecurity"](/assets/spring-security/imgs/HttpSecurity.jpg)
 
 ### (4). HttpSecurity
 ```
