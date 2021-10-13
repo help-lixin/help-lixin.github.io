@@ -10,7 +10,7 @@ tags:  SpringSecurity
 在大多数的情况下,我们会继承WebSecurityConfigurerAdapter,然后,重写configure,进行一些我们自定义的配置(HttpSecurity),在这里,首先重点关注:SecurityConfigurer,因为:这就是我们要配置的模型.    
 
 ### (2). 看下SecurityConfigurer有哪些实现类
-> 从图中有看出来,Spring Security让所有的模块(cqrs/oauth等)配置,都实现了:SecurityConfigurer接口,那么问题来了,HttpSecurity和SecurityConfigurer接口是什么关系呢?      
+> 从图中能看出来,Spring Security让所有的模块(cqrs/oauth)配置,都实现了:SecurityConfigurer接口,那么问题来了,HttpSecurity和SecurityConfigurer接口是什么关系呢?      
 
 !["SecurityConfigurer"](/assets/spring-security/imgs/SecurityConfigurer.png)   
 
