@@ -32,11 +32,17 @@ public final O build() throws Exception {
 ```
 ### (4). AbstractConfiguredSecurityBuilder
 ```
+private final LinkedHashMap<Class<? extends SecurityConfigurer<O, B>>, List<SecurityConfigurer<O, B>>> configurers = new LinkedHashMap<Class<? extends SecurityConfigurer<O, B>>, List<SecurityConfigurer<O, B>>>();
+private final List<SecurityConfigurer<O, B>> configurersAddedInInitializing = new ArrayList<SecurityConfigurer<O, B>>();
+
 protected final O doBuild() throws Exception {
 	synchronized (configurers) {
 		buildState = BuildState.INITIALIZING;
 
 		beforeInit();
+		// ***************************************************
+		// 1. 委派给init方法.
+		// ***************************************************
 		init();
 
 		buildState = BuildState.CONFIGURING;
@@ -55,7 +61,23 @@ protected final O doBuild() throws Exception {
 
 		return result;
 	}
+} // end 
+
+
+// 2. 获得所有的:SecurityConfigurer
+private void init() throws Exception {
+	Collection<SecurityConfigurer<O, B>> configurers = getConfigurers();
+    
+	// 遍历所有的:SecurityConfigurer,并调用init方法.
+	for (SecurityConfigurer<O, B> configurer : configurers) {
+		configurer.init((B) this);
+	}
+	
+	for (SecurityConfigurer<O, B> configurer : configurersAddedInInitializing) {
+		configurer.init((B) this);
+	}
 }
+
 ```
 ### (5). WebSecurity
 ```
