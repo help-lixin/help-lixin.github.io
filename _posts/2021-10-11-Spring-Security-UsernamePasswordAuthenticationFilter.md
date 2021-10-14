@@ -117,6 +117,35 @@ public abstract class AbstractAuthenticationProcessingFilter
 		// ***********************************************************************************
 		successfulAuthentication(request, response, chain, authResult);
 	} // end doFilter
+	
+	protected void successfulAuthentication(HttpServletRequest request,
+				HttpServletResponse response, FilterChain chain, Authentication authResult)
+				throws IOException, ServletException {
+	
+		if (logger.isDebugEnabled()) {
+			logger.debug("Authentication success. Updating SecurityContextHolder to contain: "
+					+ authResult);
+		}
+
+		// ***********************************************************************************
+		// 认证成功之后,把Authentication与线程上下文进行绑定.
+		// ***********************************************************************************
+		SecurityContextHolder.getContext().setAuthentication(authResult);
+		
+		// ***********************************************************************************
+		// 调用记住我功能
+		// ***********************************************************************************
+		rememberMeServices.loginSuccess(request, response, authResult);
+
+		// Fire event
+		if (this.eventPublisher != null) {
+			eventPublisher.publishEvent(new InteractiveAuthenticationSuccessEvent(
+					authResult, this.getClass()));
+		}
+
+		successHandler.onAuthenticationSuccess(request, response, authResult);
+	} // end successfulAuthentication
+	
 }
 ```
 ### (4). UsernamePasswordAuthenticationFilter
@@ -175,4 +204,4 @@ public class UsernamePasswordAuthenticationFilter extends AbstractAuthentication
 }
 ```
 ### (5). 总结
-UsernamePasswordAuthenticationFilter的主要职责就是把登录表单的信息,封装成:Authentication,并委派给:AuthenticationManager进行处理.   
+UsernamePasswordAuthenticationFilter的主要职责就是把登录表单的信息,封装成:Authentication,并委派给:AuthenticationManager进行处理,最后把认证成功后的对象:Authentication与线程上下文进行绑定.      
