@@ -18,9 +18,9 @@ tags:  BookKeeper
 
 ### (3). 集群搭建步骤
 + Zookeeper(略)
-+ BookKeeper(3台),因为机器有限,所以,伪集群
++ BookKeeper(3台/伪集群)  
 
-### (4). BookKeeper集群搭建
+### (4). BookKeeper骨架搭建
 ```
 # 1. 这个目录是我从git拉取下来的源码:bookkeeper
 lixin-macbook:~ lixin$ cd /Users/lixin/GitRepository/bookkeeper
@@ -183,13 +183,12 @@ lixin-macbook:bookkeeper-1 lixin$ ./bin/bookkeeper shell metaformat
 14:44:19,409 INFO  Session: 0x10000d978ac0001 closed
 14:44:19,409 INFO  EventThread shut down for session: 0x10000d978ac0001
 ```
-### (8). 启动bookie
+### (8). 启动所有bookie
 ```
 # bookkeeper-1 控制台启动
 lixin-macbook:bookkeeper-1 lixin$ ./bin/bookkeeper  bookie
 2021-10-16 15:08:31,846 - INFO  - [main:ComponentStarter@86] - Started component bookie-server.
 2021-10-16 15:08:32,344 - INFO  - [BookieJournal-3181:NativeIO@48] - Unable to link C library. Native methods will be disabled.
-
 
 # bookkeeper-2 控制台启动
 lixin-macbook:bookkeeper-2 lixin$ ./bin/bookkeeper  bookie
