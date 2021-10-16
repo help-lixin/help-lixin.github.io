@@ -63,10 +63,10 @@ sns:
 
 # Tags 设置标签
 recommend-tags: true # whether or not display recommend-tags on the sidebar
-recommend-condition-size: 120 # a tag will be recommended if the size of it is more than this value
+recommend-condition-size: 500 # a tag will be recommended if the size of it is more than this value
 
 # Build settings
-paginate: 20
+paginate: 30
 paginate_path: 'page:num'
 exclude: ['node_modules', 'dev', 'package.json', 'gulpfile.js', '.gitignore', 'README.md']
 
