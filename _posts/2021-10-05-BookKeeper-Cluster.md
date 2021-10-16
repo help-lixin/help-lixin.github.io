@@ -223,7 +223,7 @@ lixin-macbook:bookkeeper-servers lixin$ chmod 755 start-bookkeeper.sh
 [127.0.0.1:3181, 127.0.0.1:3182, 127.0.0.1:3183]
 ```
 ### (11). 注意事项
-我的机器是动态获得IP,所以,当机器重启后IP就发生了变化,造成BK启动失败(启动时,是会向ZK进行校验的).建议配置:advertisedAddress   
+我的机器是动态获得IP,所以,当机器重启后IP就发生了变化,造成BK启动失败(启动时,会校验IP地址的),所以建议指定IP地址:advertisedAddress   
 
 ### (12). 总结
 BookKeeper集群,相对来说还是有一些麻烦来着的,后面,会结合一些Java Api进行入门.
