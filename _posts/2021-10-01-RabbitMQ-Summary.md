@@ -13,6 +13,6 @@ tags:  RabbitMQ
 + ["RabbitMQ Docker单机安装(二)"](/2021/10/18/RabbitMQ-Docker-Install.html)   
 
 ### (3). 总结
-感觉RabbitMQ的主要亮点是:消息路由机制,对于消息在存储模型上,最终是通过Queue来承载(与Kafka和RocketMQ完全相反),假如一个Queue每天有千万级的消息,可想而知,RabbitMQ的吞吐量是会有所下降的.   
-此处有一个疑问:RabbitMQ里,当消费只有一个Queue的时候,多线程消费时,ack是如何保证的(即:Kakfa Rebalance机制).    
+感觉RabbitMQ的主要亮点是:消息路由机制,对于消息在存储模型上,最终是通过Queue来承载(与Kafka和RocketMQ完全相反),假如一个Queue每天有千万级的消息,可想而知,RabbitMQ的吞吐量是会有所下降的.       
 我暂时理解的结论是:RabbitMQ不适合量比较大的消息,反而适合那种消费量小,并且,需要对消息进行区分的队列(路由是它最大的亮点).    
+此处有一个疑问:在RabbitMQ里,所有的消息都保存在一个Queue里,当多线程消费时,ack机制是如何保证的(即:Kakfa Rebalance问题)?  
