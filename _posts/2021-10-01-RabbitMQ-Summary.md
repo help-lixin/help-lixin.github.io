@@ -9,8 +9,8 @@ tags:  RabbitMQ
 ### (1). 概述
 大部份的MQ基本上都了解差不多了,由于,现在手上有一个项目有用到RabbitMQ,所以,对RabbitMQ进行一个深入的了解(以及与Spring Cloud Stream的集成).   
 ### (2). 学习目录
-+ ["RabbitMQ架构以及基本概念(一)"](/2021/10/18/RabbitMQ-Architecture.html)   
-+ ["RabbitMQ Docker单机安装(二)"](/2021/10/18/RabbitMQ-Docker-Install.html)   
++ ["RabbitMQ架构以及基本概念(一)"](/2021/10/01/RabbitMQ-Architecture.html)   
++ ["RabbitMQ Docker单机安装(二)"](/2021/10/01/RabbitMQ-Docker-Install.html)   
 
 ### (3). 总结
 感觉RabbitMQ的主要亮点是:消息路由机制,对于消息在存储模型上,最终是通过Queue来承载(与Kafka和RocketMQ完全相反),假如一个Queue每天有千万级的消息,可想而知,RabbitMQ的吞吐量是会有所下降的.       
