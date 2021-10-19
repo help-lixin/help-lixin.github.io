@@ -20,6 +20,7 @@ Spring Security是一个框架,提供针对常见攻击的身份验证,授权和
 
 ### (4). Spring Security学习目录
 
++ ["Spring Security与Oauth2整合(一)"](/2021/10/11/Spring-Security-Oauth2.html)   
 
 ### (5). Spring Security源码学习目录
 + ["Spring Security源码之EnableAutoConfiguration(一)"](/2021/10/11/Spring-Security-EnableAutoConfiguration.html)     
