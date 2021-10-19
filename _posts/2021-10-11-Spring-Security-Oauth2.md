@@ -10,8 +10,10 @@ tags:  SpringSecurity
 Oauth2一直都比较流行,在这里稍微的拿个小小的Demo来入门,后面,会对源码进行剖析.     
 
 ### (2). 项目结构
+["spring-security-oauth-example.zip下载"](/assets/spring-security/spring-security-oauth-example.zip)   
+
 ```
-infinova@lixin Workspace % tree spring-security-oauth-example 
+lixin@lixin Workspace % tree spring-security-oauth-example 
 spring-security-oauth-example
 ├── pom.xml
 ├── src
