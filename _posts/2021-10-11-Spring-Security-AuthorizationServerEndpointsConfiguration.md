@@ -1,9 +1,9 @@
 ---
 layout: post
-title: 'Spring Security与Oauth2整合源码之AuthorizationServerEndpointsConfiguration(十一)' 
+title: 'Spring Security与Oauth2整合源码之AuthorizationServerEndpointsConfiguration(一)' 
 date: 2021-10-11
 author: 李新
-tags:  SpringSecurity
+tags:  SpringSecurity Oauth2
 ---
 
 ### (1). 概述
