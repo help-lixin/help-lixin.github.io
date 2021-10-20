@@ -148,15 +148,5 @@ public class PreInvocationAuthorizationAdviceVoter implements
 	}
 }
 ```
-### (6). 
-
-### (7). 
-
-### (8). 
-
-### (9). 
-
-### (10). 
- 
-### (11). 
-
+### (6). 总结
+好像也没啥好分析的,AccessDecisionVoter主要负责具体的投票处理.  
