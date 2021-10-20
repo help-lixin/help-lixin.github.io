@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Security与Oauth2整合(一)' 
+title: 'Spring Security与Oauth2整合' 
 date: 2021-10-11
 author: 李新
 tags:  SpringSecurity
