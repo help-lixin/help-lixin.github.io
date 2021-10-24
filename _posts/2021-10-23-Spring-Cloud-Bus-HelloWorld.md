@@ -13,8 +13,8 @@ tags:  SpringCloudBus
 可以参考前面的内容,通过Docker创建RabbitMQ.   
 
 ### (3). 项目结构如下图
-+ spring-cloud-bus-server修改配置,并且发布刷新事件.       
-+ spring-cloud-bus-application热更新配置信息.   
++ 调用spring-cloud-bus-server服务,修改配置(事件).       
++ 验证spring-cloud-bus-application配置是否热更新信息.   
 
 ```
 lixin-macbook:spring-cloud-bus-parent-example lixin$ tree 
