@@ -13,5 +13,5 @@ Spring Cloud Bus将分布式的节点用轻量的消息代理连接起来,然后
 在网络大部份Spring Cloud Bus的案例是针以配置刷新,其实,可以看下下Spring Cloud Bus的源码,吸收一些它的优势,扩展成自己的消息总线来着的.  
 
 ### (3). Spring Cloud Bus学习目录
-+ ["Spring Cloud Bus简单入门案例(一)"](/2021/10/24/Spring-Cloud-Bus-HelloWorld.html)   
-+ ["Spring Cloud Bus源码下载并编译(二)"](/2021/10/24/Spring-Cloud-Bus-Download-Source-Compile.html)  
++ ["Spring Cloud Bus简单入门案例(一)"](/2021/10/23/Spring-Cloud-Bus-HelloWorld.html)   
++ ["Spring Cloud Bus源码下载并编译(二)"](/2021/10/23/Spring-Cloud-Bus-Download-Source-Compile.html)  
