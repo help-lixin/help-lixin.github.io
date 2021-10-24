@@ -10,7 +10,7 @@ tags:  SpringCloudBus
 在这一小篇,我们搭建一个Spring Cloud Bus的["案例"](/assets/spring-cloud-bus/spring-cloud-bus-parent-example.zip)来入门.
 
 ### (2). RabbitMQ搭建(略)
-
+可以参考前面的内容,通过Docker创建RabbitMQ.   
 
 ### (3). 项目结构如下图
 + spring-cloud-bus-server修改配置,并且发布刷新事件.       
