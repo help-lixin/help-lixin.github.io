@@ -18,3 +18,4 @@ Spring Cloud Bus将分布式的节点用轻量的消息代理连接起来,然后
 + ["Spring Cloud Bus源码之BusEnvironmentPostProcessor(三)"](/2021/10/23/Spring-Cloud-Bus-BusEnvironmentPostProcessor.html)   
 + ["Spring Cloud Bus源码之BusJacksonMessageConverter(四)"](/2021/10/23/Spring-Cloud-Bus-BusJacksonMessageConverter.html)     
 + ["Spring Cloud Bus源码之RefreshBusEndpoint和EnvironmentBusEndpoint(五)"](/2021/10/23/Spring-Cloud-Bus-Endpoint.html)     
++ ["Spring Cloud Bus源码之BusAutoConfiguration(六)"](/2021/10/23/Spring-Cloud-Bus-BusAutoConfiguration.html)   
