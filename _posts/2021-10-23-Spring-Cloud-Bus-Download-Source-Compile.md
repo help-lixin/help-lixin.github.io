@@ -44,11 +44,10 @@ lixin-macbook:spring-cloud-bus lixin$ tree -L 1
 ```
 lixin-macbook:spring-cloud-bus lixin$ cat ./spring-cloud-bus/src/main/resources/META-INF/spring.factories 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.springframework.cloud.bus.PathServiceMatcherAutoConfiguration,\
+org.springframework.cloud.bus.BusPropertiesAutoConfiguration,\
 org.springframework.cloud.bus.BusAutoConfiguration,\
-org.springframework.cloud.bus.BusRefreshAutoConfiguration,\
-org.springframework.cloud.bus.BusStreamAutoConfiguration,\
 org.springframework.cloud.bus.jackson.BusJacksonAutoConfiguration
+
 # Environment Post Processor
 org.springframework.boot.env.EnvironmentPostProcessor=\
 org.springframework.cloud.bus.BusEnvironmentPostProcessor

@@ -15,3 +15,6 @@ Spring Cloud Bus将分布式的节点用轻量的消息代理连接起来,然后
 ### (3). Spring Cloud Bus学习目录
 + ["Spring Cloud Bus简单入门案例(一)"](/2021/10/23/Spring-Cloud-Bus-HelloWorld.html)   
 + ["Spring Cloud Bus源码下载并编译(二)"](/2021/10/23/Spring-Cloud-Bus-Download-Source-Compile.html)  
++ ["Spring Cloud Bus源码之BusEnvironmentPostProcessor(三)"](/2021/10/23/Spring-Cloud-Bus-BusEnvironmentPostProcessor.html)   
++ ["Spring Cloud Bus源码之BusJacksonMessageConverter(四)"](/2021/10/23/Spring-Cloud-Bus-BusJacksonMessageConverter.html)     
++ 
