@@ -110,8 +110,11 @@ public void acceptLocal(RemoteApplicationEvent event) {
 // 订阅消息处理
 @StreamListener(SpringCloudBusClient.INPUT)
 public void acceptRemote(RemoteApplicationEvent event) {
-	
-	// 
+	// ***********************************************************************************************
+	// 消费者会监听这两个Event事件.
+	// EnvironmentChangeRemoteApplicationEvent
+	// AckRemoteApplicationEvent
+	// ***********************************************************************************************
 	if (event instanceof AckRemoteApplicationEvent) {
 		if (this.bus.getTrace().isEnabled() && !this.serviceMatcher.isFromSelf(event) && this.applicationEventPublisher != null) {
 			this.applicationEventPublisher.publishEvent(event);
