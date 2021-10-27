@@ -17,17 +17,11 @@ CAS(Central Authentication Service)是Yale大学发起的一个企业级的、�
 + 支持授权: 可以决定哪些服务可以请求和验证服务票据(Service Ticket).   
 + 提供高可用性: 通过把认证过的状态数据存储在TicketRegistry 组件中,这些组件有很多支持分布式环境的实现,如: BerkleyDB、Default 、EhcacheTicketRegistry 、JDBCTicketRegistry 、JBOSS TreeCache 、 JpaTicketRegistry 、 MemcacheTicketRegistry等.  
 
-### (4). 
+### (4). CAS架构
+!["CAS架构"](/assets/cas/imgs/cas_architecture.png)
 
-### (5). 
+### (5). CAS流程图
+["CAS流程图"](https://apereo.github.io/cas/6.4.x/protocol/CAS-Protocol.html)    
 
+!["CAS流程图"](/assets/cas/imgs/cas_flow_diagram.png)   
 ### (6). 
-
-### (7). 
-
-### (8). 
-
-### (9). 
-
-### (10). 
-
