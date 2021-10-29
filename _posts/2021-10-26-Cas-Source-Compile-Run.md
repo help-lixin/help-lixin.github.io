@@ -52,3 +52,62 @@ lixin@lixin cas-overlay-template % java -Xdebug -Xrunjdwp:transport=dt_socket,ad
 ### (8). WEB测试
 !["cas 登录"](/assets/cas/imgs/cas-login.png)  
 !["cas 首页"](/assets/cas/imgs/cas-home.png)   
+
+### (9). 查看控制台信息
+```
+2021-10-29 10:09:09,201 INFO [org.apereo.cas.web.CasWebApplication] - <>
+2021-10-29 10:09:09,201 INFO [org.apereo.cas.web.CasWebApplication] - <Ready to process requests @ [2021-10-29T02:09:09.200Z]>
+2021-10-29 10:09:09,218 INFO [org.apereo.cas.services.AbstractServicesManager] - <Loaded [0] service(s) from [InMemoryServiceRegistry].>
+2021-10-29 10:09:39,216 INFO [org.apereo.cas.ticket.registry.DefaultTicketRegistryCleaner] - <[0] expired tickets removed.>
+2021-10-29 10:11:14,000 WARN [javax.persistence.spi] - <javax.persistence.spi::No valid providers found.>
+2021-10-29 10:11:14,086 INFO [org.apereo.inspektr.audit.support.Slf4jLoggingAuditTrailManager] - <Audit trail record BEGIN
+=============================================================
+WHO: audit:unknown
+WHAT: {source=RankedMultifactorAuthenticationProviderWebflowEventResolver, event=success, timestamp=Fri Oct 29 10:11:14 CST 2021}
+ACTION: AUTHENTICATION_EVENT_TRIGGERED
+APPLICATION: CAS
+WHEN: Fri Oct 29 10:11:14 CST 2021
+CLIENT IP ADDRESS: 0:0:0:0:0:0:0:1
+SERVER IP ADDRESS: 0:0:0:0:0:0:0:1
+=============================================================
+
+>
+2021-10-29 10:11:27,134 INFO [org.apereo.cas.authentication.DefaultAuthenticationManager] - <Authenticated principal [lixin] with attributes [{}] via credentials [[UsernamePasswordCredential(username=lixin, source=null, customFields={})]].>
+2021-10-29 10:11:27,135 INFO [org.apereo.inspektr.audit.support.Slf4jLoggingAuditTrailManager] - <Audit trail record BEGIN
+=============================================================
+WHO: lixin
+WHAT: [UsernamePasswordCredential(username=lixin, source=null, customFields={})]
+ACTION: AUTHENTICATION_SUCCESS
+APPLICATION: CAS
+WHEN: Fri Oct 29 10:11:27 CST 2021
+CLIENT IP ADDRESS: 0:0:0:0:0:0:0:1
+SERVER IP ADDRESS: 0:0:0:0:0:0:0:1
+=============================================================
+
+>
+2021-10-29 10:11:27,167 INFO [org.apereo.inspektr.audit.support.Slf4jLoggingAuditTrailManager] - <Audit trail record BEGIN
+=============================================================
+WHO: lixin
+WHAT: TGT-1-*****Pu2S-oN6zE-lixin
+ACTION: TICKET_GRANTING_TICKET_CREATED
+APPLICATION: CAS
+WHEN: Fri Oct 29 10:11:27 CST 2021
+CLIENT IP ADDRESS: 0:0:0:0:0:0:0:1
+SERVER IP ADDRESS: 0:0:0:0:0:0:0:1
+=============================================================
+
+>
+2021-10-29 10:11:39,219 INFO [org.apereo.cas.ticket.registry.DefaultTicketRegistryCleaner] - <[0] expired tickets removed.>
+2021-10-29 10:11:45,298 INFO [org.apereo.cas.logout.DefaultLogoutManager] - <Performing logout operations for [TGT-1-*****Pu2S-oN6zE-lixin]>
+2021-10-29 10:11:45,301 INFO [org.apereo.cas.logout.DefaultLogoutManager] - <[0] logout requests were processed>
+2021-10-29 10:11:45,302 INFO [org.apereo.inspektr.audit.support.Slf4jLoggingAuditTrailManager] - <Audit trail record BEGIN
+=============================================================
+WHO: lixin
+WHAT: TGT-1-*****Pu2S-oN6zE-lixin
+ACTION: TICKET_DESTROYED
+APPLICATION: CAS
+WHEN: Fri Oct 29 10:11:45 CST 2021
+CLIENT IP ADDRESS: 0:0:0:0:0:0:0:1
+SERVER IP ADDRESS: 0:0:0:0:0:0:0:1
+=============================================================
+```
