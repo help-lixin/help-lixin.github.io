@@ -24,4 +24,3 @@ CAS(Central Authentication Service)是Yale大学发起的一个企业级的、�
 ["CAS流程图"](https://apereo.github.io/cas/6.4.x/protocol/CAS-Protocol.html)    
 
 !["CAS流程图"](/assets/cas/imgs/cas_flow_diagram.png)   
-### (6). 
