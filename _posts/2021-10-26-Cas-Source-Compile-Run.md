@@ -1,13 +1,13 @@
 ---
 layout: post
-title: 'CAS源码编译并运行(二)' 
+title: 'CAS脚手架源码之编译并运行(二)' 
 date: 2021-10-26
 author: 李新
 tags:  CAS
 ---
 
 ### (1). 概述
-在这里我使用cas-overlay-template来搭建Cas.  
+在这里我使用cas-overlay-template来搭建Cas Server,从名字(cas-overlay-template)上你大概能猜出来,这是个脚手架来着的.  
 
 ### (2). 环境要求
 + JDK11
