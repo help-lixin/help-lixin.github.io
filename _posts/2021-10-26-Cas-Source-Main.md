@@ -40,6 +40,7 @@ ApplicationFilterConfig[name=currentCredentialsAndAuthenticationClearingFilter, 
 + ClientInfoThreadLocalFilter
 + ThreadContextMDCServletFilter
 + DelegatingFilterProxyRegistrationBean
-+ AddResponseHeadersFilterRegisteredServiceResponseHeadersEnforcementFilter
++ AddResponseHeadersFilter
++ RegisteredServiceResponseHeadersEnforcementFilter
 + RequestParameterPolicyEnforcementFilter
 + AuthenticationCredentialsThreadLocalBinderClearingFilter
