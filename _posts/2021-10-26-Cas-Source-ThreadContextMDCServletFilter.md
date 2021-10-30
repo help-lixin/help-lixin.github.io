@@ -7,7 +7,7 @@ tags:  CAS
 ---
 
 ### (1). 概述
-
+在前面分析了,cas只是简单的创建了一个ClientInfo对象与线程绑定,我们这一篇继续往下分析,在这小篇,主要分析:ThreadContextMDCServletFilter.  
 ### (2). 看下ThreadContextMDCServletFilter是在什么时机初始化的
 ```
 @Configuration(value = "casLoggingConfiguration", proxyBeanMethods = false)

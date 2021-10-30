@@ -22,16 +22,13 @@ ApplicationFilterConfig[name=CAS Client Info Logging Filter, filterClass=org.ape
 ApplicationFilterConfig[name=threadContextMDCServletFilter, filterClass=org.apereo.cas.logging.web.ThreadContextMDCServletFilter]
 
 // ************************************************************************************************************
-// 以下这三个Filter是Spring boot的.
+// 以下这四个Filter是Spring boot的.
 // ************************************************************************************************************
 ApplicationFilterConfig[name=webMvcMetricsFilter, filterClass=org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter]
 ApplicationFilterConfig[name=formContentFilter, filterClass=org.springframework.boot.web.servlet.filter.OrderedFormContentFilter]
 ApplicationFilterConfig[name=requestContextFilter, filterClass=org.springframework.boot.web.servlet.filter.OrderedRequestContextFilter]
-
-// ************************************************************************************************************
-// 居然和Spring Security相关,莫非,cas又委托给Spring Security了?
-// ************************************************************************************************************
 ApplicationFilterConfig[name=springSecurityFilterChain, filterClass=org.springframework.boot.web.servlet.DelegatingFilterProxyRegistrationBean$1]
+
 ApplicationFilterConfig[name=responseHeadersFilter, filterClass=org.apereo.cas.web.support.filters.AddResponseHeadersFilter]
 ApplicationFilterConfig[name=responseHeadersSecurityFilter, filterClass=org.apereo.cas.services.web.support.RegisteredServiceResponseHeadersEnforcementFilter]
 ApplicationFilterConfig[name=requestParameterSecurityFilter, filterClass=org.apereo.cas.web.support.filters.RequestParameterPolicyEnforcementFilter]
@@ -42,7 +39,7 @@ ApplicationFilterConfig[name=currentCredentialsAndAuthenticationClearingFilter, 
 
 + ClientInfoThreadLocalFilter
 + ThreadContextMDCServletFilter
-+ DelegatingFilterProxyRegistrationBean$1
++ DelegatingFilterProxyRegistrationBean
 + AddResponseHeadersFilterRegisteredServiceResponseHeadersEnforcementFilter
 + RequestParameterPolicyEnforcementFilter
 + AuthenticationCredentialsThreadLocalBinderClearingFilter

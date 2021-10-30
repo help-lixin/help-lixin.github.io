@@ -80,3 +80,4 @@ protected void invokeDelegate(Filter delegate, ServletRequest request, ServletRe
 ```
 ### (6). 总结
 DelegatingFilterProxy从Spring容器中拿出名称为:springSecurityFilterChain的对象(FilterChainProxy),最终:会把请求委派给了FilterChainProxy进行处理,其实,后面要关注的是那一堆的Filter.      
+FilterChainProxy的创建实则是在:WebSecurityConfiguration类里定义的.
