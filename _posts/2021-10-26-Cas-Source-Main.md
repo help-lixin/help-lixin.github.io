@@ -8,7 +8,6 @@ tags:  CAS
 
 ### (1). 概述
 在前面,把CAS的源码拉取下来了,并编译通过,也对目录结构进行了分析,那么Cas的切入点到底在哪呢?              
-其实,可以套用以前的分析模式,CAS要么就是Filter的实现,要么就是Servlet的实现.不过,我可以大胆猜测是Filter,而不会是Servlet(需要你熟知Servlet的生命周期).   
 
 ### (2). 切入点在哪?
 > 我想偷懒,所以,用一种简单的方式.把断点打在:javax.servlet.FilterChain的实现类(org.apache.catalina.core.ApplicationFilterChain)里,查看有多少自定义的Filter托管给了Servlet容器.   
