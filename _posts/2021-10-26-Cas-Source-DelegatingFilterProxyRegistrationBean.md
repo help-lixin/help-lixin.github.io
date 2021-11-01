@@ -7,8 +7,7 @@ tags:  CAS
 ---
 
 ### (1). 概述
-感觉分析了半天,仍然未分析到我们想要的东西,在这小节,该DelegatingFilterProxyRegistrationBean登场了.  
-
+实际上分析了所有的Filter,没有发现和我们的登录什么关系,后面会调整策略,找到分析的入口.
 ### (2). 看下DelegatingFilterProxyRegistrationBean初始化
 ```
 package org.springframework.boot.autoconfigure.security.servlet;
