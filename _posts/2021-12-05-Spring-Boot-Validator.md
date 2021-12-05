@@ -178,5 +178,8 @@ public class MethodValidationInterceptor implements MethodInterceptor {
 }	
 ```
 ### (8). 总结
-@Validated的注解定义还是挺坑的,支持(ElementType.TYPE, ElementType.METHOD, ElementType.PARAMETER),但是,却只能放在类级别上,否则,AOP不会进行拦截.  
+@Validated的注解定义还是挺坑的,支持(ElementType.TYPE, ElementType.METHOD, ElementType.PARAMETER),但是,却只能放在类级别上,否则,AOP不会进行拦截.    
+其实,我在没看源码时,我的理解是:    
+1. Validator自己实现:BeanPostProcessor.   
+2. 验证目标Object的方法/类上是否有注解(@Validated),如果有注解,则进行动态代理就好了,没想到,它的代码出乎我的意料.  
 
