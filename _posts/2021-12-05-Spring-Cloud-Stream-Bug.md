@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Cloud Stream Bug问题总结' 
+title: 'Spring Cloud Stream与Validator整合Bug' 
 date: 2021-12-05
 author: 李新
 tags:  SpringCloudStream 
