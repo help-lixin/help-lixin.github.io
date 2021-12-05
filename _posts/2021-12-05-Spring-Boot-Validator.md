@@ -7,21 +7,22 @@ tags:  SpringBoot
 ---
 
 ### (1). 概述
-以前都是用Spring(XML)去配置Validator(fluent-validator),没有太细节的看这部份的源码,最主要的原因是:在我脑里无法不过就是AOP拦截而已.    
-但是,今天在整合Spring Boot时,被坑了,所以,特意记录下来.   
+以前都是用Spring(XML)去配置Validator(fluent-validator),没有太细节的看这部份的源码,最主要的原因是:在我脑里无法不过就是AOP拦截(生成动态代理)而已.    
+但是,今天在与Spring Boot整合时,被坑了,所以,特意记录下来.   
 
 ### (2). 业务代码配置@Validated注解
 ```
 @RequestMapping("/platformInfo")
 // ***********************************************************************
-// @Validated一定要放在类级别,不支持在方法级别的AOP处理,我记忆中:fluent-validator是支持的,所以,坑惨了.
+// @Validated一定要放在类级别,不支持在方法级别的AOP处理.
+// 在我记忆中:fluent-validator是支持方法级别的,所以,坑惨了.
 // ***********************************************************************
 @Validated
 public class PlatformInfoServiceController {
 	
 	@GetMapping("/validator")
 	// ***********************************************************************
-	// 注意:@Validated我是放在方法上的.
+	// 注意:刚开始@Validated我是放在方法上的.
 	// ***********************************************************************
 	// @Validated
 	public String validator(@NotBlank @RequestParam(value = "message", required = false) String message) {
@@ -106,7 +107,7 @@ public class ValidationAutoConfiguration {
 
 }
 ```
-### (6). MethodValidationPostProcessor
+### (6). 看源码:MethodValidationPostProcessor
 ```
 public class MethodValidationPostProcessor extends AbstractBeanFactoryAwareAdvisingPostProcessor
 		implements InitializingBean {
@@ -131,7 +132,7 @@ public class MethodValidationPostProcessor extends AbstractBeanFactoryAwareAdvis
 	} // end createMethodValidationAdvice
 }	
 ```
-### (7). MethodValidationInterceptor
+### (7). 看源码:MethodValidationInterceptor
 ```
 public class MethodValidationInterceptor implements MethodInterceptor {
 	public Object invoke(MethodInvocation invocation) throws Throwable {
