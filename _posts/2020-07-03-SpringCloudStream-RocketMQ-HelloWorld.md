@@ -231,5 +231,15 @@ public class ConsumerService {
 	}
 }
 ```
-### (9).总结
+### (9). Spring Cloud Stream配置类
+```
+# BindingServiceProperties是Spring Cloud Stream的配置类
+org.springframework.cloud.stream.config.BindingServiceProperties
+
+
+# RocketMQ针对Spring Cloud Stream的扩展配置类
+com.alibaba.cloud.stream.binder.rocketmq.properties.RocketMQExtendedBindingProperties
+com.alibaba.cloud.stream.binder.rocketmq.properties.RocketMQBinderConfigurationProperties
+```
+### (10).总结
 > 原理看另一篇
