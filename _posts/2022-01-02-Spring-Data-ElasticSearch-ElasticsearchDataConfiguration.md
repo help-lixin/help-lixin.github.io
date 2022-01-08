@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Data Elasticsearch源码之ElasticsearchDataConfiguration$ElasticsearchRestTemplate(三)' 
+title: 'Spring Data Elasticsearch源码之ElasticsearchRestTemplate初始化(三)' 
 date: 2022-01-02
 author: 李新
 tags:  Spring-Data-Elasticsearch
