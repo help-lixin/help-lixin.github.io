@@ -7,7 +7,7 @@ tags:  Spring-Data-Elasticsearch
 ---
 
 ### (1). 概述
-前面了解到:ElasticsearchRestClientProperties类主查用于配置ES信息,下一步,就应该要分析,配置信息是如何转换成ES的Client的.
+前面了解到:ElasticsearchRestClientProperties类主要用于配置ES连接的信息,下一步,就应该要分析,配置信息是如何转换成ES的Client的.  
 
 ### (2). ElasticsearchRestClientAutoConfiguration
 ```
