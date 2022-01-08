@@ -117,3 +117,6 @@ public <T> T getRepository(Class<T> repositoryInterface, RepositoryFragments fra
 ```
 ### (4). 总结
 从上面的分析结果能看出,ElasticsearchRepository接口的所有操作,全都会委派给SimpleElasticsearchRepository.  
+
+### (5). 架构图如下
+!["架构图如下"](/assets/spring-data-elasticsearch/imgs/SpringDataElasticSearch.jpg)  
