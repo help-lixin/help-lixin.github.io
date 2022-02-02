@@ -15,20 +15,19 @@ tags:  Zeebe
 !["Zeebe架构"](/assets/zeebe/imgs/zeebe-architecture.png)
 
 ### (3). Zeebe架构
-+ Client(Job Workers)
++ Client(Job Workers),客户端是嵌入到应用程序(执行业务逻辑的微服务)的库,主要用于跟Zeebe集群连接通信.
   - 发布工作流.  
   - 执行业务逻辑.   
   - 创建工作流实例/发布消息/激活任务/完成任务/失败任务. 
   - 处理运维问题.
   - 更新实例流程变量.
-  - 客户端是嵌入到应用程序(执行业务逻辑的微服务)的库,主要用于跟Zeebe集群连接通信.
 + Gateway
-  - 发请求到Brokers
-  - Gateway是无状态(stateless)无会话(sessionless)的,可以按需增加节点,以负载均衡及高可用
+  - 转发请求到Brokers
+  - Gateway是无状态(stateless)无会话(sessionless)的,可以按需增加节点,以负载均衡及高可用.
 + Broker
   - 处理客户端发送的指令
   - 存储和管理运行中流程实例的状态
-  - 分配任务给job workers(Client)
+  - 分配任务给Job Workers(Client)
 + Exporter
   - 监控当前运行流程实例的状态
   - 分析历史的工作流数据以做审计或BI
