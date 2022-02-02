@@ -12,6 +12,7 @@ tags:  Zeebe
 ### (2). 安装前提(略)
 + ElasticSearch,因为Zeebe默认的Export为ElasticSearch.  
 + Kibana(可选)
+
 ### (3). Zeebe安装
 ```
 # 1. 进入dist二进制程序目录
