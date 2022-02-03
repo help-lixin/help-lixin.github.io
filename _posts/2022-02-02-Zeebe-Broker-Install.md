@@ -7,7 +7,7 @@ tags:  Zeebe
 ---
 
 ### (1). 概述
-在这一篇主要对Zeebe安装.
+在这一篇主要对Zeebe Broker安装.
 
 ### (2). 安装前提(略)
 + ElasticSearch,因为Zeebe默认的Export为ElasticSearch.  
