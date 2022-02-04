@@ -13,6 +13,7 @@ tags:  Rancher
 |  机器名称           |           IP  |
 |  ----              |         ----  |
 | rancher-server     | 10.211.55.100 | 
+|  node-1            | 10.211.55.101 | 
 
 ### (3). Docker安装
 ```
