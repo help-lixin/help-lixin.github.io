@@ -7,7 +7,7 @@ tags:  Kafka
 ---
 
 ### (1). 概述
-三年前看过RocketMQ的源码,以至于,每次选择MQ都会不加思索的建议使用RocketMQ.     
+三年前看过RocketMQ的源码,以致于,每次选择MQ都会不加思索的建议使用RocketMQ.     
 最近要开始看Debezium的源码,发现它与Kakfa耦合太紧,所以,在看源码之前,先要大概的了解Kafa,结果:发现Kakfa的生态圈比RocketMQ要全很多.     
 所以,有时候:固定你思维的是你现在的认知和知识.   
 ### (2). Kafka介绍
