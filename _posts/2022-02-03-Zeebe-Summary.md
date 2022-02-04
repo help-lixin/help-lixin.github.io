@@ -33,4 +33,9 @@ tags:  Zeebe
   - 监控当前运行流程实例的状态.   
   - 分析历史的工作流数据以做审计或BI.   
   - 跟踪Zeebe抛出的异常(incident).   
+
 ### (4). 学习目索
++ ["Zeebe源码编译(一)"](/2022/02/02/Zeebe-Source-Compile.html)  
++ ["Zeebe Broker安装(二)"](/2022/02/02/Zeebe-Broker-Install.html)   
++ ["Zeebe Client简单入门(三)"](/2022/02/02/Zeebe-Client-HelloWorld.html)  
++ ["Zeebe ZeebeClient源码部析(四)"](/2022/02/02/Zeebe-ZeebeClient.html)  
