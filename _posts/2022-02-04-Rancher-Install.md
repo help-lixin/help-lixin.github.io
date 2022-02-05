@@ -51,7 +51,7 @@ yum -y install wget
 ```
 ### (6). Rancher Server镜像拉取
 ```
-[app@rancher-1 ~]$ docker pull rancher/rancher:v2.4.17  
+[app@rancher-1 ~]$ docker pull rancher/rancher
 Using default tag: latest
 latest: Pulling from rancher/rancher
 a3009803982d: Pull complete
@@ -83,7 +83,7 @@ docker.io/rancher/rancher:latest
 -e AUDIT_LEVEL=3 \
 -v /opt/rancher_home/rancher:/var/lib/rancher \
 -v /opt/rancher_home/log/auditlog:/var/log/auditlog \
---name rancher rancher/rancher:v2.4.17 
+--name rancher rancher/rancher
 ```
 ### (8). 查看运行的Rancher Server容器
 [app@rancher-server ~]$ docker ps
@@ -110,9 +110,9 @@ CONTAINER ID   IMAGE                     COMMAND           CREATED         STATU
 !["Rancher Server查看Rancher Work加入集群信息"](/assets/rancher/imgs/rancher-work.png)
 ### (14). Rancher Work加入集群
 ```
-docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.4.17 --server https://172.30.50.16 --token hsxgspcld9855xz52j4xjcfdcxtp9mqkznl44f6khnbcl2l25hf5mx --ca-checksum 9fe2422f4eb5b94ab26206e09c324d3e4a07649b58cf8a7b2ad0c3510aa3d813 --worker
+[root@rancher-node1 ~]# docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.4.17 --server https://172.30.50.16 --token hsxgspcld9855xz52j4xjcfdcxtp9mqkznl44f6khnbcl2l25hf5mx --ca-checksum 9fe2422f4eb5b94ab26206e09c324d3e4a07649b58cf8a7b2ad0c3510aa3d813 --worker
 ```
-### (15). 
+### (15). kubectl配置
 ```
 [root@rancher-master ~]# wget http://rancher-mirror.cnrancher.com/kubectl/v1.18.20/linux-amd64-v1.18.20-kubectl
 [root@rancher-master ~]# mv linux-amd64-v1.18.20-kubectl /usr/sbin/kubectl
@@ -180,23 +180,6 @@ cat >>  ~/.kube/config << EOF
  
  current-context: "gerp-rancher"
 EOF
-
-
 ```
-### (16). 
-
-### (17). 
-
-### (18). 
-
-### (19). 
-
-### (20). 
-
-### (21). 
-
-### (22). 
-
-### (23). 
-
-### (24). 
+### (16). 总结
+尝试了N次,国内的网络感觉安装Rancher都有问题.
