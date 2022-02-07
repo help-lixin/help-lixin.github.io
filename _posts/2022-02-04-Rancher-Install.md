@@ -79,8 +79,8 @@ CONTAINER ID   IMAGE                     COMMAND           CREATED         STATU
 ```
 ### (14). kubectl配置
 ```
-[root@rancher-master ~]# wget http://rancher-mirror.cnrancher.com/kubectl/v1.18.20/linux-amd64-v1.18.20-kubectl
-[root@rancher-master ~]# mv linux-amd64-v1.18.20-kubectl /usr/sbin/kubectl
+[root@rancher-master ~]# wget http://rancher-mirror.cnrancher.com/kubectl/v1.21.8/linux-amd64-v1.21.8-kubectl
+[root@rancher-master ~]# mv linux-amd64-v1.21.8-kubectl /usr/sbin/kubectl
 [root@rancher-master ~]# chmod 777 /usr/sbin/kubectl
 
 # 切换到app用户
