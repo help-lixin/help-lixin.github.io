@@ -19,6 +19,12 @@ tags:  Rancher
 ### (3). Docker安装
 ```
 # 以下命令所有的机器都要执行.
+
+# 关闭防火墙
+service firewalld stop
+systemctl disable firewalld.service
+
+
 # 安装docker
 yum -y install yum-utils
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -29,12 +35,6 @@ systemctl enable docker
 # 创建app用户,并添加用户到docker组
 gpasswd -a app docker
 systemctl restart docker
-
-# 防火墙开放2380端口
-firewall-cmd  --zone=public --add-port=2380/tcp --permanent
-firewall-cmd  --reload
-
-yum -y install wget
 ```
 ### (5). Rancher Server安装前准备
 ```
@@ -42,77 +42,42 @@ yum -y install wget
 [root@rancher-server ~]# mkdir -p /opt/rancher_home/rancher
 [root@rancher-server ~]# mkdir -p /opt/rancher_home/log/auditlog
 [root@rancher-server ~]# chown -R app:app /opt
-
-# 防火墙开启端口
-[root@rancher-server ~]# firewall-cmd  --zone=public --add-port=80/tcp --permanent
-[root@rancher-server ~]# firewall-cmd  --zone=public --add-port=443/tcp --permanent
-[root@rancher-server ~]# firewall-cmd  --zone=public --add-port=2380/tcp --permanent
-[root@rancher-server ~]# firewall-cmd  --reload
 ```
-### (6). Rancher Server镜像拉取
-```
-[app@rancher-1 ~]$ docker pull rancher/rancher
-Using default tag: latest
-latest: Pulling from rancher/rancher
-a3009803982d: Pull complete
-cf9e817c5d35: Pull complete
-b380663f8ccc: Pull complete
-1ca0e2238656: Pull complete
-65086cb458c9: Pull complete
-c6d25608690f: Pull complete
-6c8ad6da7ce2: Pull complete
-6a6940e66f68: Pull complete
-b115b1ef2b5b: Pull complete
-b4b03dbaa949: Pull complete
-aef7deb59b77: Pull complete
-0bbf7579a568: Pull complete
-eaa5d6336f95: Pull complete
-608f536609b9: Pull complete
-fcaf65f7937c: Pull complete
-e4ea550002d9: Pull complete
-9d698b9289d2: Pull complete
-caa4144aedf1: Pull complete
-Digest: sha256:f411ee37efa38d7891c11ecdd5c60ca73eb03dcd32296678af808f6b4ecccfff
-Status: Downloaded newer image for rancher/rancher:latest
-docker.io/rancher/rancher:latest
-```
-### (7). 运行Rancher Server
+### (6). 运行Rancher Server
 ```
 [app@rancher-1 ~]$ docker run -d  --privileged --restart=unless-stopped -p 80:80 -p 443:443 \
--e CATTLE_SYSTEM_CATALOG=bundled \
--e AUDIT_LEVEL=3 \
 -v /opt/rancher_home/rancher:/var/lib/rancher \
 -v /opt/rancher_home/log/auditlog:/var/log/auditlog \
 --name rancher rancher/rancher
 ```
-### (8). 查看运行的Rancher Server容器
+### (7). 查看运行的Rancher Server容器
 [app@rancher-server ~]$ docker ps
 CONTAINER ID   IMAGE                     COMMAND           CREATED         STATUS         PORTS                                                                      NAMES
 7e2fe3d86726   rancher/rancher:v2.4.17   "entrypoint.sh"   4 minutes ago   Up 4 minutes   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp   rancher
-### (9). Rancher Server登录界面
+### (8). Rancher Server登录界面
 !["Rancher设置密码页面"](/assets/rancher/imgs/rancher-pwd.png)   
 !["Rancher配置URL"](/assets/rancher/imgs/rancher-set-server-url.png)
 !["Rancher首页"](/assets/rancher/imgs/rancher-home.png)
-### (10). Rancher Server安装K8S
+### (9). Rancher Server安装K8S
 !["Rancher 安装K8S"](/assets/rancher/imgs/rancher-add-cluster.png)
 !["Rancher 安装K8S"](/assets/rancher/imgs/rancher-add-cluster-2.png)
 !["Rancher 安装K8S"](/assets/rancher/imgs/rancher-add-cluster-3.png)
 !["Rancher 安装K8S"](/assets/rancher/imgs/rancher-add-cluster-4.png)
 !["Rancher 安装K8S"](/assets/rancher/imgs/rancher-add-cluster-5.png)
-### (11). Rancher Server查看Rancher Master加入集群信息
+### (10). Rancher Server查看Rancher Master加入集群信息
 !["Rancher Server查看Rancher Master加入集群信息"](/assets/rancher/imgs/rancher-master.png)
-### (12). Rancher Master加入集群
+### (11). Rancher Master加入集群
 ```
-# 注意要以root身份运行
-[root@rancher-master ~]# docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.4.17 --server https://172.30.50.16 --token 5s22qsk5qrm4mxfkj8k6hcf9fq69z6nh2bcsr55wkdxxg5lgcp2zz4 --ca-checksum 9fe2422f4eb5b94ab26206e09c324d3e4a07649b58cf8a7b2ad0c3510aa3d813 --etcd --controlplane
+[root@rancher-master ~]# yum -y install wget
+[root@rancher-master ~]# docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run  rancher/rancher-agent:v2.6.3 --server https://172.30.50.16 --token 295bg677s2vzxgxth2krthf5gcbd6bn42sv2ktt4ssvqjgfbrh6f82 --ca-checksum 5357adc60ce6c0ce0660f06ec9c012f77c9cf97b75c02cfb31816e6c18ae551a --etcd --controlplane
 ```
-### (13). Rancher Server查看Rancher Work加入集群信息
+### (12). Rancher Server查看Rancher Work加入集群信息
 !["Rancher Server查看Rancher Work加入集群信息"](/assets/rancher/imgs/rancher-work.png)
-### (14). Rancher Work加入集群
+### (13). Rancher Work加入集群
 ```
-[root@rancher-node1 ~]# docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.4.17 --server https://172.30.50.16 --token hsxgspcld9855xz52j4xjcfdcxtp9mqkznl44f6khnbcl2l25hf5mx --ca-checksum 9fe2422f4eb5b94ab26206e09c324d3e4a07649b58cf8a7b2ad0c3510aa3d813 --worker
+[root@rancher-node1 ~]# docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run  rancher/rancher-agent:v2.6.3 --server https://172.30.50.16 --token 295bg677s2vzxgxth2krthf5gcbd6bn42sv2ktt4ssvqjgfbrh6f82 --ca-checksum 5357adc60ce6c0ce0660f06ec9c012f77c9cf97b75c02cfb31816e6c18ae551a --worker
 ```
-### (15). kubectl配置
+### (14). kubectl配置
 ```
 [root@rancher-master ~]# wget http://rancher-mirror.cnrancher.com/kubectl/v1.18.20/linux-amd64-v1.18.20-kubectl
 [root@rancher-master ~]# mv linux-amd64-v1.18.20-kubectl /usr/sbin/kubectl
@@ -181,5 +146,5 @@ cat >>  ~/.kube/config << EOF
  current-context: "gerp-rancher"
 EOF
 ```
-### (16). 总结
+### (15). 总结
 尝试了N次,国内的网络感觉安装Rancher都有问题.
