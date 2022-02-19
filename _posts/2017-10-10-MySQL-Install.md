@@ -42,13 +42,15 @@ passwd: all authentication tokens updated successfully.
 # 2. 下载(MySQL Community Server)
 [mysql@app-1 ~]$ wget https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.34-linux-glibc2.12-x86_64.tar.gz
 
+[mysql@app-1 ~]$ tar -zxvf mysql-5.7.34-linux-glibc2.12-x86_64.tar.gz
+
 # 3. 创建应用程序目录
-[mysql@app-1 ~]$ mkdir application
+[mysql@app-1 ~]$ mkdir -p  application
 
 # 4. 解压,并创建mysql数据目录
+[mysql@app-1 ~]$ mv mysql-5.7.34-linux-glibc2.12-x86_64 application/mysql-5.7.34
+[mysql@app-1 ~]$ mkdir -p  application/mysql-5.7.34/data
 [mysql@app-1 ~]$ cd application/
-[mysql@app-1 application]$ mv mysql-5.7.34-linux-glibc2.12-x86_64 mysql-5.7.34
-[mysql@app-1 application]$ mkdir mysql-5.7.34/data
 ```
 
 ### (3). 配置my.cnf
