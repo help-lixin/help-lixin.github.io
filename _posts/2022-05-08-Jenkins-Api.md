@@ -9,8 +9,10 @@ tags:  Jenkins
 ### (1). 概述
 几年前看过普元科技的DevOps,对Jenkins做了一些研究,却一直未做一些代码的公开.   
 近来工作很忙,趁着有一点时间,把Jenkins的一些API操作记录下. 
+
 ### (2). Jenkins API
 Jenkins Api实际就是Jenkins提供了一些API的能力,可以通过API操作Jenkins创建项目,触发构建,查看结果.  
+
 ### (3). BasicTest
 ```
 package help.lixin.test;
