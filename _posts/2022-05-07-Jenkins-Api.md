@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Jenkins API' 
-date: 2022-05-08
+date: 2022-05-07
 author: 李新
 tags:  Jenkins
 ---
