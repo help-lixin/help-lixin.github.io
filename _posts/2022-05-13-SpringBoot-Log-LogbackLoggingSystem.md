@@ -162,4 +162,4 @@ private void configureByResourceUrl(LoggingInitializationContext initializationC
 !["Logback类结构图"](/assets/logback/imgs/logback.jpg)
 
 ### (9). 总结
-LogbackLoggingSystem主要是通过加载xml进行初始化. 
+从上面能看得出来Logback加载配置语言件的顺序为:logback-test.groovy/logback-test.xml/logback.groovy/logback.xml/logback-test-spring.groovy/logback-test-spring.xml/logback-spring.groovy/logback-spring.xml.    
