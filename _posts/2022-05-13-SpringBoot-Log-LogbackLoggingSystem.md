@@ -145,7 +145,7 @@ private void configureByResourceUrl(LoggingInitializationContext initializationC
 	if (XML_ENABLED && url.toString().endsWith("xml")) {
 		// ********************************************************************
 		// SpringBootJoranConfigurator是对xml标签的扩展
-		// JoranConfigurator是加载logback.xml的入口.
+		// JoranConfigurator是加载logback.xml的入口(里面定义logback.xml解析的规则)
 		// ********************************************************************
 		JoranConfigurator configurator = new SpringBootJoranConfigurator(initializationContext);
 		configurator.setContext(loggerContext);
@@ -162,4 +162,4 @@ private void configureByResourceUrl(LoggingInitializationContext initializationC
 !["Logback类结构图"](/assets/logback/imgs/logback.jpg)
 
 ### (9). 总结
-从上面能看得出来Logback加载配置语言件的顺序为:logback-test.groovy/logback-test.xml/logback.groovy/logback.xml/logback-test-spring.groovy/logback-test-spring.xml/logback-spring.groovy/logback-spring.xml.    
+从上面能看得出来Logback加载配置语言件的顺序为:logback-test.groovy/logback-test.xml/logback.groovy/logback.xml/logback-test-spring.groovy/logback-test-spring.xml/logback-spring.groovy/logback-spring.xml.      
