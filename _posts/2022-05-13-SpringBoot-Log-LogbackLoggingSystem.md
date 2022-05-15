@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Spring Boot是如何加载日志之LogbackLoggingSystem' 
+title: 'Spring Boot是如何加载日志之LogbackLoggingSystem(二)' 
 date: 2022-05-13
 author: 李新
 tags:  SpringBoot Slf4j Logback
