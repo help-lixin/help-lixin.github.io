@@ -29,6 +29,8 @@ grant {
 };
 ```
 ### (5). IDEA配置VM_OPTIONS
+!["IDEA配置dependencies with provider scope to classpath"](/assets/elasticsearch/imgs/es-local-debug-2.png)
+
 !["IDEA配置vm_options"](/assets/elasticsearch/imgs/es-debug.png)
 
 ```
