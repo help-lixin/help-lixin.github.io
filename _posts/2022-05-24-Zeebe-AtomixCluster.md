@@ -159,4 +159,5 @@ protected static ManagedClusterEventService buildClusterEventService(
 	return new DefaultClusterEventService(membershipService, messagingService);
 }
 ```
-### (9). 总结s
+### (9). 总结
+AtomixCluster在创建时,会启动TCP和UDP端口监听.  
