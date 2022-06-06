@@ -7,7 +7,7 @@ tags:  Atomix
 ---
 
 ### (1). 概述
-
+在学习Atomix之时,先看下:Atomix的构建过程.
 ### (2). builder
 ```
 Atomix atomix1 = Atomix.builder();
@@ -166,4 +166,12 @@ public interface AtomixRegistry {
 }
 ```
 ### (9). 总结
-AtomixRegistry最主要的作用是扫描ClassLoader,如果属于以下这些类型的子类(PartitionGroup$Type/PrimitiveType/PrimitiveProtocol$Type/Profile$Type/NodeDiscoveryProvider$Type),则通过反射new出来.   
+AtomixRegistry最主要的作用是扫描ClassLoader,如果属于以下这些类型的子类,则通过反射new出来.   
+
+```
+PartitionGroup$Type   
+PrimitiveType   
+PrimitiveProtocol$Type  
+Profile$Type   
+NodeDiscoveryProvider$Type  
+```
