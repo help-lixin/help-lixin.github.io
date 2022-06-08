@@ -51,11 +51,11 @@ systemctl restart docker
 --name rancher rancher/rancher
 ```
 ### (7). 查看运行的Rancher Server容器
-
+```
 [app@rancher-server ~]$ docker ps
 CONTAINER ID   IMAGE                     COMMAND           CREATED         STATUS         PORTS                                                                      NAMES
 7e2fe3d86726   rancher/rancher:v2.4.17   "entrypoint.sh"   4 minutes ago   Up 4 minutes   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp   rancher
-
+```
 ### (8). Rancher Server登录界面
 !["Rancher设置密码页面"](/assets/rancher/imgs/rancher-pwd.png)   
 !["Rancher配置URL"](/assets/rancher/imgs/rancher-set-server-url.png)
