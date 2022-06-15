@@ -66,15 +66,15 @@ mysql> select * from information_schema.optimizer_trace \G
               "original_condition": "(`dept_emp`.`emp_no` = 10014)",
               "steps": [
                 {
-                  "transformation": "equality_propagation",
+                  "transformation": "equality_propagation",  # 等值条件句转换
                   "resulting_condition": "multiple equal(10014, `dept_emp`.`emp_no`)"
                 },
                 {
-                  "transformation": "constant_propagation",
+                  "transformation": "constant_propagation",   # 常量条件句转换
                   "resulting_condition": "multiple equal(10014, `dept_emp`.`emp_no`)"
                 },
                 {
-                  "transformation": "trivial_condition_removal",
+                  "transformation": "trivial_condition_removal",  # 无效条件移除的转换
                   "resulting_condition": "multiple equal(10014, `dept_emp`.`emp_no`)"
                 }
               ] /* steps */
@@ -96,7 +96,7 @@ mysql> select * from information_schema.optimizer_trace \G
             ] /* table_dependencies */
           },
           {
-            "ref_optimizer_key_uses": [
+            "ref_optimizer_key_uses": [    # 列出所有可用的ref类型的索引
               {
                 "table": "`dept_emp`",
                 "field": "emp_no",
@@ -106,7 +106,7 @@ mysql> select * from information_schema.optimizer_trace \G
             ] /* ref_optimizer_key_uses */
           },
           {
-            "rows_estimation": [
+            "rows_estimation": [          # 估算需要扫描的记录数
               {
                 "table": "`dept_emp`",
                 "range_analysis": {
@@ -114,7 +114,7 @@ mysql> select * from information_schema.optimizer_trace \G
                     "rows": 331143,
                     "cost": 66968
                   } /* table_scan */,
-                  "potential_range_indexes": [         # 可能使用到的索引
+                  "potential_range_indexes": [         # 列出表中所有的索引
                     {
                       "index": "PRIMARY",
                       "usable": true,                  
@@ -141,7 +141,7 @@ mysql> select * from information_schema.optimizer_trace \G
                     "chosen": false,
                     "cause": "not_group_by_or_distinct"
                   } /* group_index_range */,
-                  "analyzing_range_alternatives": {    # 分析各个索引的成本.
+                  "analyzing_range_alternatives": {    # 分析各个索引的使用成本
                     "range_scan_alternatives": [
                       {
                         "index": "PRIMARY",
@@ -154,16 +154,16 @@ mysql> select * from information_schema.optimizer_trace \G
                         "index_only": true,               # 是否使用覆盖索引
                         "rows": 1,                        # 要扫描的行数
                         "cost": 1.21,                     # 扫描这些行数,要花费的时间
-                        "chosen": true                    # 是否选择使用这个索引
+                        "chosen": true                    # 表示是否使用了该索引
                       }
                     ] /* range_scan_alternatives */,
-                    "analyzing_roworder_intersect": {
+                    "analyzing_roworder_intersect": {    # 分析是否使用了索引合并（index merge）,如果未使用,会在cause中展示原因.如果使用了索引合并,会在该部分展示索引合并的代价
                       "usable": false,
-                      "cause": "too_few_roworder_scans"   # 不使用这个索引的原因
+                      "cause": "too_few_roworder_scans" 
                     } /* analyzing_roworder_intersect */
                   } /* analyzing_range_alternatives */,
-                  "chosen_range_access_summary": {
-                    "range_access_plan": {
+                  "chosen_range_access_summary": {  # 在summary阶段汇总前一阶段的中间结果确认最后的方案
+                    "range_access_plan": {          # range扫描最终选择的执行计划
                       "type": "range_scan",
                       "index": "PRIMARY",
                       "rows": 1,
@@ -171,28 +171,28 @@ mysql> select * from information_schema.optimizer_trace \G
                         "10014 <= emp_no <= 10014"
                       ] /* ranges */
                     } /* range_access_plan */,
-                    "rows_for_plan": 1,
-                    "cost_for_plan": 1.21,
-                    "chosen": true
+                    "rows_for_plan": 1,            # 该执行计划的扫描行数
+                    "cost_for_plan": 1.21,         # 该执行计划的执行代价
+                    "chosen": true                 # 是否选择该执行计划
                   } /* chosen_range_access_summary */
                 } /* range_analysis */
               }
             ] /* rows_estimation */
           },
           {
-            "considered_execution_plans": [          # 可以被考虑的执行计划
+            "considered_execution_plans": [         # 负责对比各可行计划的开销，并选择相对最优的执行计划
               {
-                "plan_prefix": [
+                "plan_prefix": [                    # 当前计划的前置执行计划
                 ] /* plan_prefix */,
                 "table": "`dept_emp`",
                 "best_access_path": {               # 最优访问路径
                   "considered_access_paths": [      # MySQL最终会选择这条路径执行
                     {
-                      "access_type": "ref",         # scan/全表 ref/引用
+                      "access_type": "ref",         # 访问类型: scan/全表扫描  ref/引用
                       "index": "PRIMARY",
                       "rows": 1,                    # 要扫描的行数
                       "cost": 1.2,                  # 花费时间
-                      "chosen": true                # 选择该路径
+                      "chosen": true                # 确定选择
                     },
                     {
                       "access_type": "range",
@@ -200,12 +200,12 @@ mysql> select * from information_schema.optimizer_trace \G
                         "used_index": "PRIMARY"
                       } /* range_details */,
                       "chosen": false,
-                      "cause": "heuristic_index_cheaper"   # 不使用这个索引的原因
+                      "cause": "heuristic_index_cheaper"   
                     }
                   ] /* considered_access_paths */
                 } /* best_access_path */,
-                "condition_filtering_pct": 100,
-                "rows_for_plan": 1,
+                "condition_filtering_pct": 100,         # 类似于explain的filtered列，是一个估算值
+                "rows_for_plan": 1,                     # 
                 "cost_for_plan": 1.2,
                 "chosen": true
               }
