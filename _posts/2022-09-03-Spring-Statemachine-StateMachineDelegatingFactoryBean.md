@@ -31,6 +31,7 @@ private static class StateMachineDelegatingFactoryBean<S, E>
 		// *******************************************************************************
 		// 3. 前面不是创建了一个空的Builde么,把StateMachineConfigurerAdapter的实现类(StateMachineConfig)的配置信息,填充到这个空的Builder里.
 		//    在这一步,会回调:help.lixin.StateMachineConfig重写的相关方法来着的.
+		//    其实,可以更加智能一些的做法,解析XML然后,向这个模型(Build)靠拢即可. 
 		// *******************************************************************************
 		getBuilder().apply(configurer);
 
