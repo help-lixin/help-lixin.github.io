@@ -62,6 +62,10 @@ private static class StateMachineDelegatingFactoryBean<S, E>
 		if (stateMachineMonitor != null) {
 			stateMachineFactory.setStateMachineMonitor(stateMachineMonitor);
 		}
+		
+		// *****************************************************************************
+		// 通过StateMachineFactory工厂,创建:StateMachine
+		// *****************************************************************************
 		StateMachine<S, E> stateMachine = stateMachineFactory.getStateMachine();
 		this.lifecycle = (SmartLifecycle) stateMachine;
 		this.disposableBean = (DisposableBean) stateMachine;
