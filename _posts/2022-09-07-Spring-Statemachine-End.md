@@ -24,4 +24,4 @@ org.springframework.statemachine.processor.StateMachineHandlerCallHelper
 org.springframework.statemachine.support.StateMachineObjectSupport
 ```
 ### (4). 总结
-Spring StateMachine官网基本上是没有相应的架构文档介绍来着的,只能,从一个简单的案例入门,然后,简单的剖析下源码之后,通篇来看源码,感觉有点杂乱无章,也有可能是自己的能力不足.   
+Spring StateMachine官网基本上是没有相应的架构文档介绍来着的,只能,从一个简单的案例入门,然后,简单的剖析下源码之后,通篇来看源码,感觉有点杂乱无章(类里大量的内容都全部集中在StateMachine里,没有更进一步抽象),也有可能是自己的能力不足.   
