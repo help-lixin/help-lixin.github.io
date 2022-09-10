@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'COLA简单入门' 
+title: 'COLA简单入门与总结' 
 date: 2022-09-10
 author: 李新
 tags:  COLA
