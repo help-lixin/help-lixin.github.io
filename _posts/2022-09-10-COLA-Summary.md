@@ -100,4 +100,6 @@ frank is operating 123465 from:STATE1 to:STATE2 on:EVENT1
 这个案例是官网的,通过运行,大概能知道COLA的大体原理,与Spring StateMachine不同的点在于,触发事件时,是需要带上源始状态的,也不需要配置初始状态.  
 
 ### (6). 源码学习目录
-["COLA源码之Transition(一)"](2022/09/10/COLA-Transition.html) 
+> 1. ["COLA源码之Transition(一)"](/2022/09/10/COLA-Transition.html)    
+> 2. ["COLA源码之State(二)"](/2022/09/10/COLA-State.html)    
+> 3. ["COLA源码之StateMachine(三)"](/2022/09/10/COLA-StateMachine.html)   
