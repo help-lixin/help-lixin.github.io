@@ -116,130 +116,25 @@ export ZEEBE_BROKER_GATEWAY_NETWORK_HOST=0.0.0.0
 export ZEEBE_BROKER_NETWORK_HOST=node-1
 export ZEEBE_BROKER_GATEWAY_CLUSTER_HOST=node-1
 ```
-### (8). gateway启动
+### (8).  node-*启动
 ```
-2022-09-14 13:42:21.366 [] [main] INFO io.camunda.zeebe.gateway.StandaloneGateway - Starting StandaloneGateway v1.4.0-SNAPSHOT using Java 18.0.2.1 on gateway with PID 10174 (/root/zeebe-gateway-1.4.0/lib/camunda-cloud-zeebe-1.4.0-SNAPSHOT.jar started by root in /root/zeebe-gateway-1.4.0/bin)
-2022-09-14 13:42:21.483 [] [main] DEBUG io.camunda.zeebe.gateway.StandaloneGateway - Running with Spring Boot v2.6.3, Spring v5.3.16
-2022-09-14 13:42:21.490 [] [main] INFO io.camunda.zeebe.gateway.StandaloneGateway - The following profiles are active: gateway
-2022-09-14 13:42:32.430 [] [main] INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9600 (http)
-2022-09-14 13:42:32.524 [] [main] INFO org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-9600"]
-2022-09-14 13:42:32.526 [] [main] INFO org.apache.catalina.core.StandardService - Starting service [Tomcat]
-2022-09-14 13:42:32.527 [] [main] INFO org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
-2022-09-14 13:42:33.222 [] [main] INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2022-09-14 13:42:33.223 [] [main] INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 11244 ms
-2022-09-14 13:42:37.601 [] [main] INFO org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 5 endpoint(s) beneath base path '/actuator'
-2022-09-14 13:42:37.724 [] [main] INFO org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-9600"]
-2022-09-14 13:42:37.839 [] [main] INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 9600 (http) with context path ''
-2022-09-14 13:42:37.921 [] [main] INFO io.camunda.zeebe.gateway.StandaloneGateway - Started StandaloneGateway in 20.225 seconds (JVM running for 26.755)
-2022-09-14 13:42:37.948 [] [main] INFO io.camunda.zeebe.gateway - Version: 1.4.0-SNAPSHOT
-2022-09-14 13:42:38.001 [] [main] INFO io.camunda.zeebe.gateway - Starting standalone gateway with configuration {
-  "network" : {
-    "host" : "gateway",
-    "port" : 26500,
-    "minKeepAliveInterval" : "PT30S"
-  },
-  "cluster" : {
-    "contactPoint" : "node-1:26502",
-    "requestTimeout" : "PT15S",
-    "clusterName" : "zeebe-cluster",
-    "memberId" : "gateway",
-    "host" : "gateway",
-    "port" : 26502,
-    "membership" : {
-      "broadcastUpdates" : false,
-      "broadcastDisputes" : true,
-      "notifySuspect" : false,
-      "gossipInterval" : "PT0.25S",
-      "gossipFanout" : 2,
-      "probeInterval" : "PT1S",
-      "probeTimeout" : "PT0.1S",
-      "suspectProbes" : 3,
-      "failureTimeout" : "PT10S",
-      "syncInterval" : "PT10S"
-    },
-    "security" : {
-      "enabled" : false,
-      "certificateChainPath" : null,
-      "privateKeyPath" : null
-    },
-    "messageCompression" : "NONE"
-  },
-  "threads" : {
-    "managementThreads" : 1
-  },
-  "security" : {
-    "enabled" : false,
-    "certificateChainPath" : null,
-    "privateKeyPath" : null
-  },
-  "longPolling" : {
-    "enabled" : true
-  },
-  "interceptors" : [ ],
-  "initialized" : true
-}
-2022-09-14 13:42:38.634 [] [netty-messaging-event-epoll-server-0] INFO io.atomix.cluster.messaging.impl.NettyMessagingService - TCP server listening for connections on gateway:26502
-2022-09-14 13:42:38.643 [] [netty-messaging-event-epoll-server-0] INFO io.atomix.cluster.messaging.impl.NettyMessagingService - Started messaging service bound to [gateway:26502], advertising gateway:26502, and using plaintext
-2022-09-14 13:42:38.746 [] [netty-unicast-event-nio-client-0] INFO io.atomix.cluster.messaging.impl.NettyUnicastService - UDP server listening for connections on 0.0.0.0:26502
-2022-09-14 13:42:38.772 [] [atomix-cluster-0] INFO io.atomix.cluster.discovery.BootstrapDiscoveryProvider - Local node Node{id=gateway, address=gateway:26502} joined the bootstrap service
-2022-09-14 13:42:38.848 [] [atomix-cluster-0] INFO io.atomix.cluster.protocol.SwimMembershipProtocol - Started
-2022-09-14 13:42:38.848 [] [atomix-cluster-0] INFO io.atomix.cluster.impl.DefaultClusterMembershipService - Started cluster membership service for member Member{id=gateway, address=gateway:26502, properties={event-service-topics-subscribed=KIIDAGpvYnNBdmFpbGFibOU=}}
-2022-09-14 13:42:38.853 [] [atomix-cluster-0] INFO io.atomix.cluster.messaging.impl.DefaultClusterCommunicationService - Started
-2022-09-14 13:42:38.875 [] [atomix-cluster-0] INFO io.atomix.cluster.messaging.impl.DefaultClusterEventService - Started
-2022-09-14 13:42:41.392 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received new broker BrokerInfo{nodeId=0, partitionsCount=1, clusterSize=1, replicationFactor=1, partitionRoles={1=LEADER}, partitionLeaderTerms={1=2}, partitionHealthStatuses={1=HEALTHY}, version=1.4.0-SNAPSHOT}.
-2022-09-14 13:42:40.012 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received REACHABILITY_CHANGED for broker 0, do nothing.
-2022-09-14 13:42:42.076 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received REACHABILITY_CHANGED for broker 0, do nothing.
-2022-09-14 13:42:44.195 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 0, partitions {1=LEADER}, terms {1=4} and health {1=HEALTHY}.
-2022-09-14 13:42:46.696 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received new broker BrokerInfo{nodeId=1, partitionsCount=2, clusterSize=3, replicationFactor=3, partitionRoles={1=FOLLOWER, 2=LEADER}, partitionLeaderTerms={2=1}, partitionHealthStatuses={1=HEALTHY, 2=HEALTHY}, version=1.4.0-SNAPSHOT}.
-2022-09-14 13:42:46.699 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received new broker BrokerInfo{nodeId=2, partitionsCount=2, clusterSize=3, replicationFactor=3, partitionRoles={}, partitionLeaderTerms={}, partitionHealthStatuses={1=UNHEALTHY, 2=UNHEALTHY}, version=1.4.0-SNAPSHOT}.
-2022-09-14 13:42:49.261 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 0, partitions {1=LEADER}, terms {1=6} and health {1=HEALTHY}.
-2022-09-14 13:42:50.273 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 2, partitions {1=FOLLOWER, 2=FOLLOWER}, terms {} and health {1=HEALTHY, 2=HEALTHY}.
-2022-09-14 13:42:55.392 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 0, partitions {1=LEADER}, terms {1=8} and health {1=HEALTHY}.
-2022-09-14 13:43:00.522 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 1, partitions {1=LEADER, 2=LEADER}, terms {1=9, 2=1} and health {1=HEALTHY, 2=HEALTHY}.
-2022-09-14 13:43:01.535 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 0, partitions {1=LEADER}, terms {1=10} and health {1=HEALTHY}.
-2022-09-14 13:43:04.574 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 1, partitions {1=FOLLOWER, 2=LEADER}, terms {2=1} and health {1=HEALTHY, 2=HEALTHY}.
-2022-09-14 13:43:06.797 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 0, partitions {1=LEADER}, terms {1=12} and health {1=HEALTHY}.
-```
-### (9).  node-*启动
-```
-2022-09-14 13:42:03.871 [] [main] INFO
-      io.camunda.zeebe.broker.StandaloneBroker - Starting StandaloneBroker v1.4.0-SNAPSHOT using Java 18.0.2.1 on node
--1 with PID 10228 (/root/zeebe-node-1.4.0/lib/camunda-cloud-zeebe-1.4.0-SNAPSHOT.jar started by root in /root/zeebe-no
+2022-09-14 13:42:03.871 [] [main] INFO io.camunda.zeebe.broker.StandaloneBroker - Starting StandaloneBroker v1.4.0-SNAPSHOT using Java 18.0.2.1 on node-1 with PID 10228 (/root/zeebe-node-1.4.0/lib/camunda-cloud-zeebe-1.4.0-SNAPSHOT.jar started by root in /root/zeebe-no
 de-1.4.0/bin)
-2022-09-14 13:42:03.938 [] [main] DEBUG
-      io.camunda.zeebe.broker.StandaloneBroker - Running with Spring Boot v2.6.3, Spring v5.3.16
-2022-09-14 13:42:03.940 [] [main] INFO
-      io.camunda.zeebe.broker.StandaloneBroker - The following profiles are active: broker
-2022-09-14 13:42:08.923 [] [main] INFO
-      org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9600 (http)
-2022-09-14 13:42:08.976 [] [main] INFO
-      org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-9600"]
-2022-09-14 13:42:09.006 [] [main] INFO
-      org.apache.catalina.core.StandardService - Starting service [Tomcat]
-2022-09-14 13:42:09.050 [] [main] INFO
-      org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
-2022-09-14 13:42:09.736 [] [main] INFO
-      org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationCon
-text
-2022-09-14 13:42:09.737 [] [main] INFO
-      org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: in
-itialization completed in 5584 ms
-2022-09-14 13:42:15.802 [] [main] INFO
-      org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 6 endpoint(s) beneath base path '
-/actuator'
-2022-09-14 13:42:16.045 [] [main] INFO
-      org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-9600"]
-2022-09-14 13:42:16.173 [] [main] INFO
-      org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 9600 (http) with conte
-xt path ''
-2022-09-14 13:42:16.403 [] [main] INFO
-      io.camunda.zeebe.broker.StandaloneBroker - Started StandaloneBroker in 14.889 seconds (JVM running for 16.867)
-2022-09-14 13:42:16.542 [] [main] DEBUG
-      io.camunda.zeebe.broker.system - Initializing system with base path /root/zeebe-node-1.4.0
-2022-09-14 13:42:17.281 [] [main] INFO
-      io.camunda.zeebe.broker.system - Version: 1.4.0-SNAPSHOT
-2022-09-14 13:42:17.667 [] [main] INFO
-      io.camunda.zeebe.broker.system - Starting broker 0 with configuration {
+2022-09-14 13:42:03.938 [] [main] DEBUG io.camunda.zeebe.broker.StandaloneBroker - Running with Spring Boot v2.6.3, Spring v5.3.16
+2022-09-14 13:42:03.940 [] [main] INFO io.camunda.zeebe.broker.StandaloneBroker - The following profiles are active: broker
+2022-09-14 13:42:08.923 [] [main] INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9600 (http)
+2022-09-14 13:42:08.976 [] [main] INFO org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-9600"]
+2022-09-14 13:42:09.006 [] [main] INFO org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2022-09-14 13:42:09.050 [] [main] INFO org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
+2022-09-14 13:42:09.736 [] [main] INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2022-09-14 13:42:09.737 [] [main] INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5584 ms
+2022-09-14 13:42:15.802 [] [main] INFO org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 6 endpoint(s) beneath base path '/actuator'
+2022-09-14 13:42:16.045 [] [main] INFO org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-9600"]
+2022-09-14 13:42:16.173 [] [main] INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 9600 (http) with context path ''
+2022-09-14 13:42:16.403 [] [main] INFO io.camunda.zeebe.broker.StandaloneBroker - Started StandaloneBroker in 14.889 seconds (JVM running for 16.867)
+2022-09-14 13:42:16.542 [] [main] DEBUG io.camunda.zeebe.broker.system - Initializing system with base path /root/zeebe-node-1.4.0
+2022-09-14 13:42:17.281 [] [main] INFO io.camunda.zeebe.broker.system - Version: 1.4.0-SNAPSHOT
+2022-09-14 13:42:17.667 [] [main] INFO io.camunda.zeebe.broker.system - Starting broker 0 with configuration {
   "network" : {
     "host" : "node-1",
     "portOffset" : 0,
@@ -454,6 +349,90 @@ xt path ''
 2022-09-14 13:42:23.371 [Broker-0-ZeebePartition-1] [Broker-0-zb-actors-1] INFO io.camunda.zeebe.broker.system - Startup LogDeletionService
 2022-09-14 13:42:23.375 [Broker-0-ZeebePartition-1] [Broker-0-zb-actors-1] INFO io.camunda.zeebe.broker.system - Startup RocksDB metric timer
 2022-09-14 13:42:23.445 [Broker-0-ZeebePartition-1] [Broker-0-zb-actors-1] DEBUG io.camunda.zeebe.broker.system - Finished startup process
+```
+### (9). gateway启动
+```
+2022-09-14 13:42:21.366 [] [main] INFO io.camunda.zeebe.gateway.StandaloneGateway - Starting StandaloneGateway v1.4.0-SNAPSHOT using Java 18.0.2.1 on gateway with PID 10174 (/root/zeebe-gateway-1.4.0/lib/camunda-cloud-zeebe-1.4.0-SNAPSHOT.jar started by root in /root/zeebe-gateway-1.4.0/bin)
+2022-09-14 13:42:21.483 [] [main] DEBUG io.camunda.zeebe.gateway.StandaloneGateway - Running with Spring Boot v2.6.3, Spring v5.3.16
+2022-09-14 13:42:21.490 [] [main] INFO io.camunda.zeebe.gateway.StandaloneGateway - The following profiles are active: gateway
+2022-09-14 13:42:32.430 [] [main] INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9600 (http)
+2022-09-14 13:42:32.524 [] [main] INFO org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-9600"]
+2022-09-14 13:42:32.526 [] [main] INFO org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2022-09-14 13:42:32.527 [] [main] INFO org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
+2022-09-14 13:42:33.222 [] [main] INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2022-09-14 13:42:33.223 [] [main] INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 11244 ms
+2022-09-14 13:42:37.601 [] [main] INFO org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 5 endpoint(s) beneath base path '/actuator'
+2022-09-14 13:42:37.724 [] [main] INFO org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-9600"]
+2022-09-14 13:42:37.839 [] [main] INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 9600 (http) with context path ''
+2022-09-14 13:42:37.921 [] [main] INFO io.camunda.zeebe.gateway.StandaloneGateway - Started StandaloneGateway in 20.225 seconds (JVM running for 26.755)
+2022-09-14 13:42:37.948 [] [main] INFO io.camunda.zeebe.gateway - Version: 1.4.0-SNAPSHOT
+2022-09-14 13:42:38.001 [] [main] INFO io.camunda.zeebe.gateway - Starting standalone gateway with configuration {
+  "network" : {
+    "host" : "gateway",
+    "port" : 26500,
+    "minKeepAliveInterval" : "PT30S"
+  },
+  "cluster" : {
+    "contactPoint" : "node-1:26502",
+    "requestTimeout" : "PT15S",
+    "clusterName" : "zeebe-cluster",
+    "memberId" : "gateway",
+    "host" : "gateway",
+    "port" : 26502,
+    "membership" : {
+      "broadcastUpdates" : false,
+      "broadcastDisputes" : true,
+      "notifySuspect" : false,
+      "gossipInterval" : "PT0.25S",
+      "gossipFanout" : 2,
+      "probeInterval" : "PT1S",
+      "probeTimeout" : "PT0.1S",
+      "suspectProbes" : 3,
+      "failureTimeout" : "PT10S",
+      "syncInterval" : "PT10S"
+    },
+    "security" : {
+      "enabled" : false,
+      "certificateChainPath" : null,
+      "privateKeyPath" : null
+    },
+    "messageCompression" : "NONE"
+  },
+  "threads" : {
+    "managementThreads" : 1
+  },
+  "security" : {
+    "enabled" : false,
+    "certificateChainPath" : null,
+    "privateKeyPath" : null
+  },
+  "longPolling" : {
+    "enabled" : true
+  },
+  "interceptors" : [ ],
+  "initialized" : true
+}
+2022-09-14 13:42:38.634 [] [netty-messaging-event-epoll-server-0] INFO io.atomix.cluster.messaging.impl.NettyMessagingService - TCP server listening for connections on gateway:26502
+2022-09-14 13:42:38.643 [] [netty-messaging-event-epoll-server-0] INFO io.atomix.cluster.messaging.impl.NettyMessagingService - Started messaging service bound to [gateway:26502], advertising gateway:26502, and using plaintext
+2022-09-14 13:42:38.746 [] [netty-unicast-event-nio-client-0] INFO io.atomix.cluster.messaging.impl.NettyUnicastService - UDP server listening for connections on 0.0.0.0:26502
+2022-09-14 13:42:38.772 [] [atomix-cluster-0] INFO io.atomix.cluster.discovery.BootstrapDiscoveryProvider - Local node Node{id=gateway, address=gateway:26502} joined the bootstrap service
+2022-09-14 13:42:38.848 [] [atomix-cluster-0] INFO io.atomix.cluster.protocol.SwimMembershipProtocol - Started
+2022-09-14 13:42:38.848 [] [atomix-cluster-0] INFO io.atomix.cluster.impl.DefaultClusterMembershipService - Started cluster membership service for member Member{id=gateway, address=gateway:26502, properties={event-service-topics-subscribed=KIIDAGpvYnNBdmFpbGFibOU=}}
+2022-09-14 13:42:38.853 [] [atomix-cluster-0] INFO io.atomix.cluster.messaging.impl.DefaultClusterCommunicationService - Started
+2022-09-14 13:42:38.875 [] [atomix-cluster-0] INFO io.atomix.cluster.messaging.impl.DefaultClusterEventService - Started
+2022-09-14 13:42:41.392 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received new broker BrokerInfo{nodeId=0, partitionsCount=1, clusterSize=1, replicationFactor=1, partitionRoles={1=LEADER}, partitionLeaderTerms={1=2}, partitionHealthStatuses={1=HEALTHY}, version=1.4.0-SNAPSHOT}.
+2022-09-14 13:42:40.012 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received REACHABILITY_CHANGED for broker 0, do nothing.
+2022-09-14 13:42:42.076 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received REACHABILITY_CHANGED for broker 0, do nothing.
+2022-09-14 13:42:44.195 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 0, partitions {1=LEADER}, terms {1=4} and health {1=HEALTHY}.
+2022-09-14 13:42:46.696 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received new broker BrokerInfo{nodeId=1, partitionsCount=2, clusterSize=3, replicationFactor=3, partitionRoles={1=FOLLOWER, 2=LEADER}, partitionLeaderTerms={2=1}, partitionHealthStatuses={1=HEALTHY, 2=HEALTHY}, version=1.4.0-SNAPSHOT}.
+2022-09-14 13:42:46.699 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received new broker BrokerInfo{nodeId=2, partitionsCount=2, clusterSize=3, replicationFactor=3, partitionRoles={}, partitionLeaderTerms={}, partitionHealthStatuses={1=UNHEALTHY, 2=UNHEALTHY}, version=1.4.0-SNAPSHOT}.
+2022-09-14 13:42:49.261 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 0, partitions {1=LEADER}, terms {1=6} and health {1=HEALTHY}.
+2022-09-14 13:42:50.273 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 2, partitions {1=FOLLOWER, 2=FOLLOWER}, terms {} and health {1=HEALTHY, 2=HEALTHY}.
+2022-09-14 13:42:55.392 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 0, partitions {1=LEADER}, terms {1=8} and health {1=HEALTHY}.
+2022-09-14 13:43:00.522 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 1, partitions {1=LEADER, 2=LEADER}, terms {1=9, 2=1} and health {1=HEALTHY, 2=HEALTHY}.
+2022-09-14 13:43:01.535 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 0, partitions {1=LEADER}, terms {1=10} and health {1=HEALTHY}.
+2022-09-14 13:43:04.574 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 1, partitions {1=FOLLOWER, 2=LEADER}, terms {2=1} and health {1=HEALTHY, 2=HEALTHY}.
+2022-09-14 13:43:06.797 [GatewayTopologyManager] [gateway-scheduler-zb-actors-0] DEBUG io.camunda.zeebe.gateway - Received metadata change from Broker 0, partitions {1=LEADER}, terms {1=12} and health {1=HEALTHY}.
 ```
 ### (10). java代码验证集群状态
 ```
