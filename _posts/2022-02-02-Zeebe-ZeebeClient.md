@@ -166,5 +166,57 @@ private JobClient newJobClient() {
 	return new JobClientImpl(asyncStub, config, jsonMapper, credentialsProvider::shouldRetryRequest);
 }
 ``` 
-### (11). 总结
+### (11). ZeebeClient接口扫盲
+> 为什么在这里要稍微扫盲一下ZeebeClient,原因在于:ZeebeClient代表着Client拥有哪些能力. 
+
+```
+public interface ZeebeClient extends AutoCloseable, JobClient {
+	TopologyRequestStep1 newTopologyRequest();
+	
+	ZeebeClientConfiguration getConfiguration();
+	
+	// 创建流程部署命令
+	DeployProcessCommandStep1 newDeployCommand();
+	
+	// 创建新的流程实例命令
+	CreateProcessInstanceCommandStep1 newCreateInstanceCommand();
+	
+	// 创建流程实例取消命令
+	CancelProcessInstanceCommandStep1 newCancelInstanceCommand(long processInstanceKey);
+	
+	// 为某个流程,设置变量命令
+	SetVariablesCommandStep1 newSetVariablesCommand(long elementInstanceKey);
+	
+	// 发布消息命令
+	PublishMessageCommandStep1 newPublishMessageCommand();
+	
+	ResolveIncidentCommandStep1 newResolveIncidentCommand(long incidentKey);
+	
+	UpdateRetriesJobCommandStep1 newUpdateRetriesCommand(long jobKey);
+	
+	UpdateRetriesJobCommandStep1 newUpdateRetriesCommand(ActivatedJob job);
+	
+	// 创建Worker命令(Worker是指我们的业务逻辑Handler)
+	JobWorkerBuilderStep1 newWorker();
+	
+	// 创建一个活动的Job命令
+	ActivateJobsCommandStep1 newActivateJobsCommand();
+} // end ZeebeClient
+
+
+public interface JobClient { 
+	// 完成命令
+	CompleteJobCommandStep1 newCompleteCommand(long jobKey);
+	CompleteJobCommandStep1 newCompleteCommand(ActivatedJob job);
+	
+	// 失败命令
+	FailJobCommandStep1 newFailCommand(long jobKey);
+	FailJobCommandStep1 newFailCommand(ActivatedJob job);
+	
+	// 异常命令
+	ThrowErrorCommandStep1 newThrowErrorCommand(long jobKey);
+	ThrowErrorCommandStep1 newThrowErrorCommand(ActivatedJob job);
+} // end JobClient
+```
+### (12). 总结
 总体来说,ZeebeClient设计还是挺不错的,用到了:构建者模式,命令模式,责任链模式,ZeebClient有不少值得学习的地方,从始至终能发现,它基本都是面向接口编程.  
