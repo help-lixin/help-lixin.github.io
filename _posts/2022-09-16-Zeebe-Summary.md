@@ -34,10 +34,17 @@ tags:  Zeebe
   - 分析历史的工作流数据以做审计或BI.   
   - 跟踪Zeebe抛出的异常(incident).   
 
-### (4). 学习目索
+### (4). 基础学习目录
 + ["Zeebe源码编译(一)"](/2022/02/02/Zeebe-Source-Compile.html)  
 + ["Zeebe Broker安装(二)"](/2022/02/02/Zeebe-Broker-Install.html)   
 + ["Zeebe Client简单入门(三)"](/2022/02/02/Zeebe-Client-HelloWorld.html)  
 + ["Zeebe ZeebeClient源码部析(四)"](/2022/02/02/Zeebe-ZeebeClient.html)  
 + ["Zeebe集群搭建(五)"](/2022/09/14/Zeebe-Cluster.html)  
 + ["Zeebe源码之ZeebeClientFutureImpl(六)"](/2022/09/15/Zeebe-ZeebeClientFutureImpl.html)   
+
+### (5). gateway学习目录
++ ["Zeebe源码之AtomixCluster(七)"](/2022/09/16/Zeebe-AtomixCluster-1.html)  
+
+
+
+### (6). broker学习目录
