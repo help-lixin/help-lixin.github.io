@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Zeebe Gateway源码之StandaloneGateway(一)' 
+title: 'Zeebe Gateway源码之StandaloneGateway创建AtomixCluster详解(一)' 
 date: 2022-09-15
 author: 李新
 tags:  Zeebe

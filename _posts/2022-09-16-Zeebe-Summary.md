@@ -43,8 +43,8 @@ tags:  Zeebe
 + ["Zeebe源码之ZeebeClientFutureImpl(六)"](/2022/09/15/Zeebe-ZeebeClientFutureImpl.html)   
 
 ### (5). gateway学习目录
-+ ["Zeebe源码之AtomixCluster(七)"](/2022/09/16/Zeebe-AtomixCluster-1.html)  
-
++ ["Zeebe Gateway源码之StandaloneGateway创建AtomixCluster详解(一)"](/2022/09/16/Zeebe-StandaloneGateway-AtomixCluster.html)  
++ ["Zeebe Gateway源码之StandaloneGateway创建ActorScheduler详解(二)"](/2022/09/16/Zeebe-StandaloneGateway-ActorScheduler.html) 
 
 
 ### (6). broker学习目录
