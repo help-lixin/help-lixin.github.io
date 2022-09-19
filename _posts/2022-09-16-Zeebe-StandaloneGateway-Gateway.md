@@ -52,7 +52,7 @@ public final class Gateway {
     } // end setNetworkConfig
 }
 ```
-### (4). 
+### (4). Gateway.start
 ```
 public void start() throws IOException {
     healthManager.setStatus(Status.STARTING);
@@ -98,8 +98,10 @@ public void start() throws IOException {
     healthManager.setStatus(Status.RUNNING);
 } // end 
 ```
-### (5). 总结
+### (5). EndpointManager
+EndpointManager的方法签名,从签名上基本上是能看出来,它大概在做什么,我就不深入去研究了,毕竟,时间太赶了,Broker部份的代码才是核心值得深究的代码,对于Gateway部份的源码,我只要能找到入口在哪即可.  
+### (6). 总结
 > Gateway启动时,会绑定三个端口:  
-+ 9600(web端口,用于常用的监控数据).  
++ 9600(web端口,用于收集监控数据).  
 + 26500(Gateway对外提供的端口,主要用于JobWoker的通信).  
 + 26502(Gateway与Broker进行通信的端口,即Atomix集群监听端口).   
