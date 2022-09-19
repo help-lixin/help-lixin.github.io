@@ -58,4 +58,4 @@ public interface BrokerClient extends AutoCloseable {
 }	
 ```
 ### (4). 总结
-根据BrokerClient接口的能力,就能知道这个类主要用于向Broker发送请求来着的,具体的子类是如何实现的,暂时不太关心,因为,我的主要任务是:找到Gateway(Netty解码)接收请求,转发请求给Broker才是关键. 
+根据BrokerClient接口的能力,就能知道这个类主要用于向Broker发送请求来着的,具体的子类是如何实现的,暂时不太关心,因为,我的主要任务是:找到Gateway(Netty解码[GRPC对HTTP2进行解码的关键])接收请求,转发请求给Broker才是关键. 
