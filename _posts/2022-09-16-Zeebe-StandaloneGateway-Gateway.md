@@ -53,19 +53,53 @@ public final class Gateway {
 }
 ```
 ### (4). 
+```
+public void start() throws IOException {
+    healthManager.setStatus(Status.STARTING);
+    brokerClient = buildBrokerClient();
 
-### (5). 
+    final ActivateJobsHandler activateJobsHandler;
+	// 判断是否开启了轮询
+    if (gatewayCfg.getLongPolling().isEnabled()) { // true
+      final LongPollingActivateJobsHandler longPollingHandler = buildLongPollingHandler(brokerClient);
+      actorSchedulingService.submitActor(longPollingHandler);
+      activateJobsHandler = longPollingHandler;
+    } else {
+      activateJobsHandler = new RoundRobinActivateJobsHandler(brokerClient);
+    }
 
-### (6). 
+    // *******************************************************************************
+	// 1. 实际上分析到这里就大概知道了,Netty(GRPC)接收请求后,会把请求通过:EndpointManager进行转发.
+    // EndpointManager类内部持有BrokerClient,通过BrokerClient与Broker进行通信来着的.
+	// 比如:completeJob/cancelProcessInstance/createProcessInstance/createProcessInstanceWithResult
+	// *******************************************************************************
+    final EndpointManager endpointManager = new EndpointManager(brokerClient, activateJobsHandler);
+	
+	// *******************************************************************************
+	// 2. GatewayGrpcService包裹了EndpointManager,代表在EndpointManager的方法上进行了增强.
+	// *******************************************************************************
+    final GatewayGrpcService gatewayGrpcService = new GatewayGrpcService(endpointManager);
+    final ServerBuilder<?> serverBuilder = serverBuilderFactory.apply(gatewayCfg);
 
-### (7). 
+    final SecurityCfg securityCfg = gatewayCfg.getSecurity();
+    if (securityCfg.isEnabled()) {
+      setSecurityConfig(serverBuilder, securityCfg);
+    }
 
-### (8). 
-
-### (9). 
-
-### (10). 
-
-### (11). 
-
-### (12). 
+    server =
+        serverBuilder
+            .addService(applyInterceptors(gatewayGrpcService))
+            .addService(
+                ServerInterceptors.intercept(
+                    healthManager.getHealthService(), MONITORING_SERVER_INTERCEPTOR))
+            .build();
+			
+    server.start();
+    healthManager.setStatus(Status.RUNNING);
+} // end 
+```
+### (5). 总结
+> Gateway启动时,会绑定三个端口:  
++ 9600(web端口,用于常用的监控数据).  
++ 26500(Gateway对外提供的端口,主要用于JobWoker的通信).  
++ 26502(Gateway与Broker进行通信的端口,即Atomix集群监听端口).   
