@@ -318,6 +318,7 @@ public class HelloClient {
 + HelloReplyOrBuilder
 + HelloReply
 + GreeterGrpc
+
 ### (14). 总结
 >  GRPC编码过程如下:  
 + 编写proto文件. 
