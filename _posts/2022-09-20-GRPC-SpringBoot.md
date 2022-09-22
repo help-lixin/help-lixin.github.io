@@ -8,7 +8,7 @@ tags:  GRPC
 
 
 ### (1). 概述
-在这一小篇学习整合GRPC与SpringBoot的整合.
+在这一小篇学习GRPC与SpringBoot的整合.
 
 ### (2). 项目结构
 ```
