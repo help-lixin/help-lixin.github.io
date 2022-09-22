@@ -303,9 +303,13 @@ import io.grpc.ManagedChannelBuilder;
 public class HelloClient {
     public static void main(String[] args) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 8888).usePlaintext().build();
-        GreeterGrpc.GreeterBlockingStub helloWorldServiceStube = GreeterGrpc.newBlockingStub(channel);
-        HelloReply helloResponse = helloWorldServiceStube.sayHello(HelloRequest.newBuilder().setName("Client Hello World!!!").build());
-        System.out.println(helloResponse);
+        try {
+            GreeterGrpc.GreeterBlockingStub helloWorldServiceStube = GreeterGrpc.newBlockingStub(channel);
+            HelloReply helloResponse = helloWorldServiceStube.sayHello(HelloRequest.newBuilder().setName("Client Hello World!!!").build());
+            System.out.println(helloResponse);
+        } finally {
+            channel.shutdownNow();
+        }
     }
 }
 ```
