@@ -22,4 +22,4 @@ GRPC是一个高性能、开源、通用的RPC框架,由Google推出,基于HTTP2
 ### (3). GRPC学习目录
 + ["Mac环境安装Protoc"](/2022/09/19/Mac-Install-Protoc.html)   
 + ["GRPC HelloWorld入门"](/2022/09/19/GRPC-HelloWorld.html)  
-+ ["GRPC与SpringBoot整合"](/2022/09/20/GRPC-SpringBoot.html)  
++ ["GRPC与SpringBoot整合"](/2022/09/19/GRPC-SpringBoot.html)  
