@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Pulsar集群搭建(一)' 
+title: 'Pulsar集群搭建(二)' 
 date: 2021-10-03
 author: 李新
 tags:  Pulsar
