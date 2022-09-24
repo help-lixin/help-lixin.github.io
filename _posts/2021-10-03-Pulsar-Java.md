@@ -77,7 +77,8 @@ public class ProductTest {
         // 阻塞线程，直到返回结果
         String format2 = String.format("async message id is %s" , asyncMessageId.get());
         System.out.println(format2);
-        // 配置发送的消息元信息，同步发送
+        
+		// 配置发送的消息元信息，同步发送
         producer.newMessage()
                 .key("my-message-key")
                 .value("my-message")
