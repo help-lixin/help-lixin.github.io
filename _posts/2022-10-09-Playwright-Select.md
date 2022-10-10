@@ -29,9 +29,11 @@ tags:  Playwright
 
 	<script>
 		$(function(){
+		  // 8秒以后,动态添加option元素	
 		  setTimeout(function(){
 			$(".select").append('<option value="brown">Brown</option>');
 		  },8000);
+		  
 		});
 	</script>
 </body>
