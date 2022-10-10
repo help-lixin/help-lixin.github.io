@@ -8,7 +8,7 @@ tags:  Playwright
 
 
 ### (1). 概述
-对Playwright关注有一年多了,但是,一直没有花时间去细看,这些天要弄自动化测试,才有一点点时间学习下,并打算看下源码,学习下Microsoft的代码功底. 
+对Playwright关注有一年多了,但是,一直没有花时间去细看,这些天要弄自动化测试,才有一点点时间学习下,并打算看下源码,顺便学习下Microsoft工程师写的代码. 
 
 ### (2). Playwright基础入门
 + ["Playwright HelloWorld入门(一)"](/2022/10/09/Playwright-Hello-World.html) 
@@ -16,5 +16,6 @@ tags:  Playwright
 + ["Playwright下拉列表框(三)"](/2022/10/09/Playwright-Select.html)   
 + ["Playwright级联选择器学习(四)"](/2022/10/09/Playwright-Cascade.html)  
 + ["Playwright Textarea标签学习(五)"](/2022/10/09/Playwright-Textarea.html)  
++ ["Playwright Checkbox标签学习(六)"](/2022/10/09/Playwright-Checkbox.html)  
 
 ### (3). 
