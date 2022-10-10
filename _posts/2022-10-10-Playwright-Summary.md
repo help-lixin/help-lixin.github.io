@@ -13,5 +13,6 @@ tags:  Playwright
 ### (2). Playwright基础入门
 + ["Playwright HelloWorld入门(一)"](/2022/10/09/Playwright-Hello-World.html) 
 + ["Playwright代码录制并生成(二)"](/2022/10/09/Playwright-CodeGen.html) 
++ ["Playwright下拉列表框(三)"](/2022/10/09/Playwright-Select.html)   
 
 ### (3). 
