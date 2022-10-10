@@ -7,7 +7,7 @@ tags:  Playwright
 ---
 
 ### (1). 概述
-
+在这一小篇开始,对每一个HTML元素,通过Playwright进行定位.
 ### (2). html
 ```
 <!DOCTYPE html>
