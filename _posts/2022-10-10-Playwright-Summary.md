@@ -18,4 +18,7 @@ tags:  Playwright
 + ["Playwright Textarea标签学习(五)"](/2022/10/09/Playwright-Textarea.html)  
 + ["Playwright Checkbox标签学习(六)"](/2022/10/09/Playwright-Checkbox.html)  
 
-### (3). 
+### (3). Playwright源码学习
++ ["Playwright源码学习之全局俯瞰核心类(一)"](/2022/10/09/Playwright-Source-UML.html)  
+
+### (4). Playwright总结
