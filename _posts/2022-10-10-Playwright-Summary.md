@@ -20,5 +20,8 @@ tags:  Playwright
 
 ### (3). Playwright源码学习
 + ["Playwright源码学习之全局俯瞰核心类(一)"](/2022/10/09/Playwright-Source-UML.html)  
-+ ["Playwright源码之PlaywrightImpl下载Driver(二)"](/2022/10/09/Playwright-Source-Playwright-Driver.html)  
++ ["Playwright源码之PlaywrightImpl初始化(二)"](/2022/10/09/Playwright-Source-Playwright-Init.html)  
++ ["Playwright源码之Driver(三)"](/2022/10/09/Playwright-Source-Driver.html)  
+
+
 ### (4). Playwright总结
