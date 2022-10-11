@@ -7,7 +7,8 @@ tags:  Playwright
 ---
 
 ### (1). 概述
-这一小节,主要剖析:Driver
+上一小篇,剖析了PlaywrightImpl,它在初始化时,会委托给Driver类,所以,这一小篇是肯定少不了要剖析该类. 
+
 ### (2). Driver.ensureDriverInstalled
 ```
 public abstract class Driver {
