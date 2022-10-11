@@ -7,7 +7,7 @@ tags:  Playwright
 ---
 
 ### (1). 概述
-在这一小节,开始剖析Playwright源码,先从:PlaywrightImpl类开始,要深入了解下,Playwright底层到底是怎么做的.  
+在这一小节,开始剖析Playwright源码,先从:PlaywrightImpl类开始,要深入了解下,Playwright底层到底做了什么.   
 ### (2). PlaywrightImpl.create
 ```
 # 通过静态方法,快建构建:Playwright
