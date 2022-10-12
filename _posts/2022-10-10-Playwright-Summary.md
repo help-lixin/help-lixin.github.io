@@ -17,6 +17,7 @@ tags:  Playwright
 + ["Playwright级联选择器学习(四)"](/2022/10/09/Playwright-Cascade.html)  
 + ["Playwright Textarea标签学习(五)"](/2022/10/09/Playwright-Textarea.html)  
 + ["Playwright Checkbox标签学习(六)"](/2022/10/09/Playwright-Checkbox.html)  
++ ["Playwright Cookie和Session管理(七)"](/2022/10/09/Playwright-Cookie-Session.html)  
 
 ### (3). Playwright源码学习
 + ["Playwright源码学习之全局俯瞰核心类(一)"](/2022/10/09/Playwright-Source-UML.html)  
