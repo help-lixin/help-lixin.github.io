@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Zeebe总结' 
-date: 2022-09-14
+date: 2022-10-14
 author: 李新
 tags:  Zeebe
 ---
@@ -49,3 +49,5 @@ tags:  Zeebe
 + ["Zeebe Gateway源码之StandaloneGateway创建Gateway详解(四)"](/2022/09/16/Zeebe-StandaloneGateway-Gateway.html)  
 
 ### (6). Zeebe broker目录
++ ["Zeebe源码之Broker初始化(一)"](/2022/10/14/Zeebe-Broker.html)  
++ ["Zeebe源码之BrokerStartupProcess(二)"](/2022/10/14/Zeebe-BrokerStartupProcess.html)   
