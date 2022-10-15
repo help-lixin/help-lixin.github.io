@@ -163,4 +163,5 @@ void activateProtocolVersion(
 }
 ```
 ### (8). 总结
-NettyMessagingService的底层实际上是通过Netty监听一个端口(26502),通过这两个类进行编码和解码(MessageToByteEncoder/ByteToMessageDecoder),最终,会把请求移交给:MessageDispatcher进行处理. 
+NettyMessagingService的底层实际上是通过Netty监听一个端口(26502),通过这两个类进行编码和解码(MessageToByteEncoder/ByteToMessageDecoder),最终,会把请求移交给:MessageDispatcher进行处理,好像协议是自定义的:没有用PB或其它.
+
