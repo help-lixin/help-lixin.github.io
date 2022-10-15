@@ -75,5 +75,7 @@ private List<StartupStep<BrokerStartupContext>> buildStartupSteps(final BrokerCf
     return result;
 } // end buildStartupSteps
 ```
-### (4). 总结
+### (4). 设计模式
+在这里的代码剖析能看出来,Zeebe运用了:装饰器模式.
+### (5). 总结
 通过对代码的分析,能知道BrokerStartupProcess内部主要是配置:StartupStep(这个类下一小篇进行剖析),并通过:StartupProcess Hold住所有的StartupStep. 
