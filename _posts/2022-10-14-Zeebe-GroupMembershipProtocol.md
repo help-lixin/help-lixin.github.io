@@ -7,7 +7,7 @@ tags:  Zeebe
 ---
 
 ### (1). 概述
-
+在这一小篇,对GroupMembershipProtocol进行剖析.
 ### (2). AtomixCluster.buildMembershipProtocol
 ```
 protected static GroupMembershipProtocol buildMembershipProtocol(final ClusterConfig config) {
@@ -210,4 +210,4 @@ private void registerHandlers() {
 } // end registerHandlers
 ```
 ### (7). 总结
-SwimMembershipProtocol的主要职责是:更新成员列表/根据成员ID获得成员详细信息/加入集群/离开集群.  
+SwimMembershipProtocol的主要职责是:更新成员列表/根据成员ID获得成员详细信息/加入集群/离开集群,其实,内部又委托给了:MessagingService进行通信.  
