@@ -263,7 +263,6 @@ private RemoteClientConnection getOrCreateClientConnection(final Channel channel
 class ChannelPool {
 	// 从方法签名上就能看出来:是根据address创建:Channel
 	CompletableFuture<Channel> getChannel(final Address address, final String messageType);
-	
 }
 ```
 ### (15). 总结

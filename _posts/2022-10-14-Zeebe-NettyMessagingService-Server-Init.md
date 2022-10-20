@@ -84,7 +84,6 @@ private CompletableFuture<Void> bootstrapServer() {
 	// ************************************************************************
     b.childHandler(new BasicServerChannelInitializer());
 	
-	
     return bind(b);
 }
 ```
