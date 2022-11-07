@@ -21,15 +21,18 @@ Gossip其实是一种去中心化思路的分布式协议,解决状态在集群�
   - Gossip协议是去中心化的协议,所以集群中的所有节点都是对等的,没有特殊的节点,所以任何节点出现问题都不会阻止其他节点继续发送消息.任何节点都可以随时加入或离开,而不会影响系统的整体服务质量(QOS)
 + 最终一致性（Convergent consistency）
   - Gossip协议实现信息指数级的快速传播,因此在有新信息需要传播时,消息可以快速地发送到全局节点,在有限的时间内能够做到所有节点都拥有最新的数据. 
+
 ### (3). Gossip协议的类型
 前面说了节点会将信息传播到整个网络中,那么节点在什么情况下发起信息交换?这就涉及到Gossip协议的类型.目前主要有两种方法: 
 + Anti-Entropy(反熵): 每个节点周期性地随机选择其他节点，然后通过互相交换自己的所有数据来消除两者之间的差异.Anti-Entropy 这种方法非常可靠,但是每次节点两两交换自己的所有数据会带来非常大的通信负担,以此不会频繁使用.Anti-Entropy 使用“simple epidemics”的方式，所以其包含两种状态：susceptible 和 infective，这种模型也称为 SI model。处于 infective 状态的节点代表其有数据更新，并且会将这个数据分享给其他节点；处于 susceptible 状态的节点代表其并没有收到来自其他节点的更新. 
 + Rumor-Mongerin(谣言传播): 当一个节点有了新的信息后,这个节点变成活跃状态,并周期性地联系其他节点向其发送新信息.直到所有的节点都知道该新信息.因为节点之间只是交换新信息,所有大大减少了通信的负担.Rumor-Mongering 使用“complex epidemics”方法,相比Anti-Entropy多了一种状态:removed，这种模型也称为 SIR model.处于removed状态的节点说明其已经接收到来自其他节点的更新,但是其并不会将这个更新分享给其他节点.因为Rumor消息会在某个时间标记为removed,然后不会发送给其他节点,所以Rumor-Mongering类型的Gossip协议有极小概率使得更新不会达到所有节点.一般来说:为了在通信代价和可靠性之间取得折中,需要将这两种方法结合使用. 
+
 ### (4). Gossip协议的通讯方式
 不管是Anti-Entropy还是Rumor-Mongering都涉及到节点间的数据交互方式,节点间的交互方式主要有三种：Push、Pull 以及 Push&Pull.
 + Push: 发起信息交换的节点 A 随机选择联系节点 B,并向其发送自己的信息,节点 B 在收到信息后更新比自己新的数据,一般拥有新信息的节点才会作为发起节点.   
 + Pull: 发起信息交换的节点 A 随机选择联系节点 B,并从对方获取信息.一般无新信息的节点才会作为发起节点.   
 + Push&Pull: 发起信息交换的节点 A 向选择的节点 B 发送信息,同时从对方获取数据，用于更新自己的本地数据.   
+
 ### (5). Gossip源码索引目录
 + ["Gossip源码剖析之GossipManager(二)"](/2022/11/07/Gossip-GossipManager.html)   
 + ["Gossip源码剖析之RandomActiveGossipThread(三)"](/2022/11/07/Gossip-RandomActiveGossipThread.html)  
