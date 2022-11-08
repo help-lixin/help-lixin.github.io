@@ -145,5 +145,6 @@ public interface MessageHandler {
 + 工厂模式
 + 中介者模式
 + 组合模式 
+
 ### (8). 总结
 从MessageHandler的接口能力上就能看出来,它大概就是接受报文请求,然后,根据不同听报文体,分发给相应的MessageHandler.  
