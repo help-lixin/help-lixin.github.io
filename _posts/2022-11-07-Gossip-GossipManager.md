@@ -1,144 +1,109 @@
 ---
 layout: post
-title: 'Gossip源码剖析之GossipManager(二)' 
+title: 'Gossip源码之GossipManager(三)' 
 date: 2022-11-07
 author: 李新
 tags:  Gossip
 ---
 
+
 ### (1). 概述
 
-### (2). 先看下RandomGossipManager继承关系
+### (2). GossipManager构建过程
+> 需要注意uri所指向的是本机信息,而,gossipMembers所指向的是其它成员信息
+
 ```
-com.google.code.gossip.manager.GossipManager
-    com.google.code.gossip.manager.random.RandomGossipManager
+GossipSettings s = new GossipSettings();
+s.setWindowSize(1000);
+s.setGossipInterval(100);
+
+// GossipManager通过Builder模式创建
+GossipManager gossipService = GossipManagerBuilder.newBuilder()
+        .cluster("mycluster")
+		// 本机成员信息,以及唯一id
+		// udp://localhost:10000 0
+		.uri(URI.create("udp://localhost:10000")).id("0")
+		// 其它成员信息,以及,其它成员的唯一id
+		// udp://localhost:10001 1
+		.gossipMembers(Collections.singletonList(new RemoteMember("mycluster", URI.create("udp://localhost:10001"), "1")))
+		.gossipSettings(s)
+		.build();
 ```
-### (3). RandomGossipManager
+### (3). GossipManager构建器
 ```
-public class RandomGossipManager extends GossipManager {
+// ********************************************************************
+// 所有的成员列表信息,但是,不包含当前节点(自己).
+// ********************************************************************
+private final ConcurrentSkipListMap<LocalMember, GossipState> members;
+
+// 当前节点信息
+private final LocalMember me;
+
+
+public GossipManager(String cluster,
+                         URI uri, String id, Map<String, String> properties, GossipSettings settings,
+                         List<Member> gossipMembers, GossipListener listener, MetricRegistry registry,
+                         MessageHandler messageHandler) {
+    // ... ...
+								 
+	// *********************************************************************************
+	// 根据uri(udp://localhost:10000),创建:LocalMember
+	// *********************************************************************************
+	me = new LocalMember(cluster, uri, id, clock.nanoTime(), properties, settings.getWindowSize(), settings.getMinimumSamples(), settings.getDistribution());
 	
-  public RandomGossipManager(String cluster, String address, int port, String id,
-          GossipSettings settings, List<GossipMember> gossipMembers, GossipListener listener) {
-	// ***************************************************************		  
-	// OnlyProcessReceivedPassiveGossipThread:被动接受消息. 
-	// RandomActiveGossipThread: 随机向其它成员发送消息.
-	// ***************************************************************		  
-    super( OnlyProcessReceivedPassiveGossipThread.class, 
-	       RandomActiveGossipThread.class, cluster,
-		   // 127.0.0.1
-           address, 
-		   // 50001
-		   port, 
-		   // "1"
-		   id, 
-		   // gossipInterval=1000,cleanupInterval=1000
-		   settings, 
-		   // 所有的成员列表
-		   // Member [address=127.0.0.1:50001, id=1, heartbeat=1667828379424]
-		   // Member [address=127.0.0.1:50002, id=2, heartbeat=1667828379424]
-		   // Member [address=127.0.0.1:50003, id=3, heartbeat=1667828379424]
-		   gossipMembers, 
-		   // 监听器
-		   listener);
-  }
-}
-```
-### (4). GossipManager构建器
-```
-// **********************************************************
-// 继承于Thread,所以,重写run方法很重要
-// **********************************************************
-public abstract class GossipManager extends Thread implements NotificationListener {
-  
-  // 当前成员节点
-  private final LocalGossipMember me;
-  
-  
-  public GossipManager(Class<? extends PassiveGossipThread> passiveGossipThreadClass,
-            Class<? extends ActiveGossipThread> activeGossipThreadClass, String cluster,
-            String address, int port, String id, GossipSettings settings,
-            List<GossipMember> gossipMembers, GossipListener listener) {
-	  // OnlyProcessReceivedPassiveGossipThread
-      this.passiveGossipThreadClass = passiveGossipThreadClass;
-	  // RandomActiveGossipThread
-      this.activeGossipThreadClass = activeGossipThreadClass;
-      this.settings = settings;
-	  
-	  // 127.0.0.1:50001 
-      me = new LocalGossipMember(cluster, address, port, id, System.currentTimeMillis(), this, settings.getCleanupInterval());
-			  
-      members = new ConcurrentSkipListMap<>();
-	  
-      for (GossipMember startupMember : gossipMembers) {
-		// 排除当前成员节点:127.0.0.1:50001 
-		// **********************members**********************
-		// members为其它节点,内容如下:
-		// 127.0.0.1:50002
-		// 127.0.0.1:50003
-        if (!startupMember.equals(me)) { 
-          LocalGossipMember member = new LocalGossipMember(startupMember.getClusterName(),
-                  startupMember.getHost(), startupMember.getPort(), startupMember.getId(),
-                  System.currentTimeMillis(), this, settings.getCleanupInterval());
-          members.put(member, GossipState.UP);
-          GossipService.LOGGER.debug(member);
-        }
-      }
-	  
-	  // 创建线程池.
-      gossipThreadExecutor = Executors.newCachedThreadPool();
-      gossipServiceRunning = new AtomicBoolean(true);
-      this.listener = listener;
-      Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-        public void run() {
-          GossipService.LOGGER.debug("Service has been shutdown...");
-        }
-      }));
-    } // end 构建器
+
+	// *********************************************************************************
+	// gossipMembers = [ udp://localhost:10001 ]
+	// 把种子节点(udp://localhost:10001),转换成:LocalMember,并设置状态为下线(DOWN)
+	// *********************************************************************************
+	members = new ConcurrentSkipListMap<>();
+	for (Member startupMember : gossipMembers) {
+		if (!startupMember.equals(me)) {
+			LocalMember member = new LocalMember(startupMember.getClusterName(),
+					startupMember.getUri(), startupMember.getId(),
+					clock.nanoTime(), startupMember.getProperties(), settings.getWindowSize(),
+					settings.getMinimumSamples(), settings.getDistribution());
+			//TODO should members start in down state?
+			// 
+			members.put(member, GossipState.DOWN);
+		}
+	}
 	
-	
-	public LocalGossipMember getMyself() {
-	    return me;
-    } //end getMyself
-}
-```
-### (5). GossipManager.run
-```
-public void run() {
-    // 遍历所有的成员列表.
-	for (LocalGossipMember member : members.keySet()) {
-      if (member != me) {
-        // 启动定时任务
-        member.startTimeoutTimer();
-      }
-    }
-    try {
-      // ******************************************************************
-	  // 通过反射创建:OnlyProcessReceivedPassiveGossipThread.
-	  // OnlyProcessReceivedPassiveGossipThread主要用于被动接受请求.
-	  // ******************************************************************
-      passiveGossipThread = passiveGossipThreadClass.getConstructor(GossipManager.class).newInstance(this);
-      gossipThreadExecutor.execute(passiveGossipThread);
-	  
-	  // ******************************************************************
-	  // 通过反射创建:RandomActiveGossipThread
-	  // RandomActiveGossipThread的主要用于随机向其它成员发送消息.  
-	  // ******************************************************************
-      activeGossipThread = activeGossipThreadClass.getConstructor(GossipManager.class).newInstance(this);
-      gossipThreadExecutor.execute(activeGossipThread);
-    } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
-      throw new RuntimeException(e1);
-    }
-	
-    GossipService.LOGGER.debug("The GossipService is started.");
-    while (gossipServiceRunning.get()) {
-      try {
-        // TODO
-        TimeUnit.MILLISECONDS.sleep(1);
-      } catch (InterruptedException e) {
-        GossipService.LOGGER.warn("The GossipClient was interrupted.");
-      }
-    } // end while
+    // ... ...
 } // end 
 ```
-### (6). 总结
-GossipManager的主要作用于Hold住两个线程,这两个线程用于被动接受消息和随机向成员发送消息.  
+### (4). GossipManager.init
+```
+public void init() {
+	// 通过反射创建:协议处理(实际就是读写报文)
+	// org.apache.gossip.protocol.json.JacksonProtocolManager
+	protocolManager = ReflectionUtils.constructWithReflection(
+			settings.getProtocolManagerClass(),
+			new Class<?>[]{GossipSettings.class, String.class, MetricRegistry.class},
+			new Object[]{settings, me.getId(), this.getRegistry()}
+	);
+
+	// *************************************************************
+	// org.apache.gossip.transport.udp.UdpTransportManager
+	// *************************************************************
+	// 通过反射创建:传输层管理
+	transportManager = ReflectionUtils.constructWithReflection(
+			settings.getTransportManagerClass(),
+			new Class<?>[]{GossipManager.class, GossipCore.class},
+			new Object[]{this, gossipCore}
+	);
+
+	// *************************************************************
+	// startEndpoint用于监听端口,接受请求并处理.
+	// startActiveGossiper用于定时随机向成员发送成员列表数据.
+	// *************************************************************
+	// start processing gossip messages.
+	transportManager.startEndpoint();
+	
+	// startActiveGossiper
+	transportManager.startActiveGossiper();
+	// ... ...
+} // end init 
+```
+### (5). 总结
+GossipManager的内部有两个成员属性比较重要,一个是:me,另一个是:members,在GossipManager初始化时,传入的种子member(成员),默认状态就是下线(DOWN),在调用init方法时,会通过反射创建:TransportManager实例,进行消息的同步,所以,下一小篇开始会着重分析:UdpTransportManager.  

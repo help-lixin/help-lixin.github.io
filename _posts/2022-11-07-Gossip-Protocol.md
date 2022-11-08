@@ -33,6 +33,11 @@ Gossip其实是一种去中心化思路的分布式协议,解决状态在集群�
 + Pull: 发起信息交换的节点 A 随机选择联系节点 B,并从对方获取信息.一般无新信息的节点才会作为发起节点.   
 + Push&Pull: 发起信息交换的节点 A 向选择的节点 B 发送信息,同时从对方获取数据，用于更新自己的本地数据.   
 
-### (5). Gossip源码索引目录
-+ ["Gossip源码剖析之GossipManager(二)"](/2022/11/07/Gossip-GossipManager.html)   
-+ ["Gossip源码剖析之RandomActiveGossipThread(三)"](/2022/11/07/Gossip-RandomActiveGossipThread.html)  
+### (5). Gossip源码
+["Apache开源的Gossip"](https://github.com/help-lixin/incubator-retired-gossip)  
+
+### (6). Gossip源码索引目录
++ ["Gossip源码之MessageHandler(二)"](/2022/11/07/Gossip-MessageHandler.html) 
++ ["Gossip源码之GossipManager(三)"](/2022/11/07/Gossip-GossipManager.html) 
++ ["Gossip源码之UdpTransportManager接受消息并处理(四)"](/2022/11/07/Gossip-UdpTransportManager-Receive.html)  
++ ["Gossip源码之UdpTransportManager发送成员信息(五)"](/2022/11/07/Gossip-UdpTransportManager-Send.html)  
