@@ -190,4 +190,4 @@ public Message handleGetFile(final GetFileRequest request, final RpcRequestClosu
 }
 ```
 ### (8). 总结
-从SnapshotReader的接口签名上就能看出来,它最主要的目的是:产生一个readId,然后,通过readId与FileReader进行关联,下次,发起请求时,根据这个readId找到:FileReader读取文件来着的. 
+从SnapshotReader接口签名上来看就是生成一个可读取的URL,而SnapshotReader它最主要的目的是:产生一个readId,然后,通过readId与FileReader进行关联,下次,发起请求时,根据这个readId找到:FileReader读取文件来着的. 
