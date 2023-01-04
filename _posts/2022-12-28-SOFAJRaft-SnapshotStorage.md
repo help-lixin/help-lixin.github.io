@@ -361,4 +361,4 @@ public SnapshotReader open() {
 }
 ```
 ### (10). 总结
-SnapshotWriter和SnapshotReader是对底层的文件进行操作,而SnapshotStorage则是在它俩之上进行业务组合和叠加. 
+SnapshotWriter和SnapshotReader是对底层的文件进行操作,而SnapshotStorage则是在它俩之上进行业务组合和叠加,但是,功能依然是与存储相关,而:SnapshotExecutor又是在SnapshotStorage的基础上进行了业务的增强. 
