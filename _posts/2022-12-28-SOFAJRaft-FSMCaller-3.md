@@ -137,9 +137,18 @@ private void doCommitted(final long committedIndex) {
 		onTaskCommitted(taskClosures);
 
 		Requires.requireTrue(firstClosureIndex >= 0, "Invalid firstClosureIndex");
+		// IteratorImpl初始化时,就会通过LogManager加载lastAppliedIndex处的下一条数据来着.
 		final IteratorImpl iterImpl = new IteratorImpl(this, this.logManager, closures, firstClosureIndex, lastAppliedIndex, committedIndex, this.applyingIndex);
-		while (iterImpl.isGood()) { // 游标并未移动来着的
+		// **********************************************************
+		// 注意: 游标并未移动来着的,仅仅只是验证下是否有数据而已.
+		// **********************************************************
+		while (iterImpl.isGood()) { 
+			// logEntry = lastAppliedIndex + 1
 			final LogEntry logEntry = iterImpl.entry();
+			
+			// ******************************************************************************
+			// 在这里仅处理Entry类型为:ENTRY_TYPE_CONFIGURATION的日志,游标才会移动,其余情况下游标是不会移动的
+			// ******************************************************************************
 			if (logEntry.getType() != EnumOutter.EntryType.ENTRY_TYPE_DATA) { // 如果日志内容类型不是数据
 				if (logEntry.getType() == EnumOutter.EntryType.ENTRY_TYPE_CONFIGURATION) { // 如果日志类型为配置
 					if (logEntry.getOldPeers() != null && !logEntry.getOldPeers().isEmpty()) {
@@ -154,6 +163,10 @@ private void doCommitted(final long committedIndex) {
 				if (iterImpl.done() != null) {
 					iterImpl.done().run(Status.OK());
 				}
+				
+				// ******************************************************************************
+				// ENTRY_TYPE_CONFIGURATION才会移动游标
+				// ******************************************************************************
 				iterImpl.next();
 				continue;
 			}
