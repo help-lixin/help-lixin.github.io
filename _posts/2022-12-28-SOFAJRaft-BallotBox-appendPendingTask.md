@@ -89,7 +89,7 @@ private long                      lastCommittedIndex = 0;
 private long                      pendingIndex;
 
 // *************************************************************************
-// SegmentList 暂时不管它,就当他是一个队列,下一篇,再对这个类进行剖析.
+// SegmentList 分段存储集合来着的,以128为分界线.
 // *************************************************************************
 private final SegmentList<Ballot> pendingMetaQueue   = new SegmentList<>(false);
 ```
@@ -144,7 +144,7 @@ public boolean appendPendingTask(final Configuration conf, final Configuration o
 		}
 		
 		// ***********************************************************************
-		// 添加到队列里
+		// 添加分段集合里
 		// ***********************************************************************
 		this.pendingMetaQueue.add(bl);
 		this.closureQueue.appendPendingClosure(done);
