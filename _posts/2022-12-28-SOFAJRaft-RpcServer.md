@@ -7,7 +7,7 @@ tags:  SOFAJRaft
 ---
 
 ### (1). 概述
-在剖析Replicator时,发现会与网络有一些纠缠不清的东西,所以,这一小篇主要剖析与网络相关的类:RpcServer
+在准备剖析Replicator时,发现它会与网络通信有一些纠缠不清,因为与网络相关,想要剖析整个链路,不想再进行Mock了,所以,这一小篇主要剖析与网络相关的类:RpcServer
 
 ### (2). RpcServer UML图解
 !["RpcServer UML图"](/assets/jraft/imgs/RpcServer-ClassDiagram.jpg)
