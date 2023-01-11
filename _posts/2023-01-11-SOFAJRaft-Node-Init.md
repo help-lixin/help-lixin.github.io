@@ -1,7 +1,7 @@
 ---
 layout: post
-title: 'SOFAJRaft源码之Node(二二)' 
-date: 2022-12-28
+title: 'SOFAJRaft源码之Node初始化(二二)' 
+date: 2023-01-11
 author: 李新
 tags:  SOFAJRaft
 ---
