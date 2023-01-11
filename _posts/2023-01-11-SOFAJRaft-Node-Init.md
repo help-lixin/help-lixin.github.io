@@ -7,7 +7,7 @@ tags:  SOFAJRaft
 ---
 
 ### (1). 概述
-一直以为Node的角色是网络通信的Server,但是,稍微的剖析了一下之后,发现好像,它在网络通信层属于Client端. 
+一直以为Node的角色是网络通信的Server,但是,稍微的剖析了一下之后,发现好像,它在网络通信层属于Client端,这一篇主要是看下Node的初始化方法. 
 
 ### (2). Node UML图解
 !["Node UML图解"](/assets/jraft/imgs/Node-ClassDiagram.jpg)
