@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SOFAJRaft源码之Node初始化(二三)' 
+title: 'SOFAJRaft源码之Node初始化(二十三)' 
 date: 2023-01-11
 author: 李新
 tags:  SOFAJRaft
@@ -247,6 +247,28 @@ if (!this.readOnlyService.init(rosOpts)) {
 if (this.snapshotExecutor != null && this.options.getSnapshotIntervalSecs() > 0) {
 	LOG.debug("Node {} start snapshot timer, term={}.", getNodeId(), this.currTerm);
 	this.snapshotTimer.start();
+}
+```
+### (16). 开启选举定时任务
+```
+// **********************************************************************************
+// 127.0.0.1:8081,127.0.0.1:8082,127.0.0.1:8083
+// 其余节点不为空的情况下,进行配置
+// **********************************************************************************
+if (!this.conf.isEmpty()) { 
+	stepDown(this.currTerm, false, new Status());
+} // end if
+
+
+
+private void stepDown(final long term, final boolean wakeupCandidate, final Status status) {   
+  // ... ...
+  if (!isLearner()) {
+	  // ********************************************************************************
+	  // 启用选举
+	  // ********************************************************************************
+	  this.electionTimer.restart();
+  } // end if  
 }
 ```
 ### (15). 总结 
