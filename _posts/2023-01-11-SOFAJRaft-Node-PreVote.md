@@ -121,7 +121,7 @@ private void preVote() {
 	// ... ... 
 }	
 ```
-### (6). OnPreVoteRpcDone.handlePreVoteResponse
+### (6). Node.handlePreVoteResponse
 ```
 public void handlePreVoteResponse(final PeerId peerId, final long term, final RequestVoteResponse response) {
 	boolean doUnlock = true;
