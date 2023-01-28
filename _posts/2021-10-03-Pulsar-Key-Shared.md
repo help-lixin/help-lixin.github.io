@@ -118,6 +118,8 @@ public class KeySharedTest {
                     System.err.println(Thread.currentThread().getName() + " Revice Msg: " + format + " key: " + key);
                     // 消息确认机制
                     consumer.acknowledge(message);
+                    // 否定这条消息.
+                    // consumer.redeliverUnacknowledgedMessages();
                 } while (true);
             } catch (Exception ignore) {
                 System.out.println(Thread.currentThread().getName() + " Revice Msg ERROR: " + ignore.getMessage());
