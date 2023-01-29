@@ -113,4 +113,5 @@ private <T> CompletableFuture<Producer<T>> createProducerAsync(String topic,
 
 ### (5). 总结
 > 1. getPartitionedTopicMetadata方法会向Pulsar Broker发起请求,获取:topic的元数据.  
-> 2. 根据topic的元数据(partitions),创建不同的:ProducerBase实现类. 
+> 2. 根据topic的元数据(partitions),创建不同的:ProducerBase实现类.  
+>  Pulsar的做法与其它的MQ不同,Pulsar在发送数据之前,需要一个非常确定的信息(比如:tenant/namespace/topic),通过这些信息,获取到元数据之后,为topic每一个partition创建一个对应的类进行处理,优点:职责明确,各有各的缓存区来着的,缺点:对象还是挺多的.  
