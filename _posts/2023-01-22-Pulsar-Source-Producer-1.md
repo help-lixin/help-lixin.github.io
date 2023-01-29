@@ -94,8 +94,7 @@ public CompletableFuture<Producer<T>> createAsync() {
 ### (7). 设计模式
 > Producer生产者构建过程用到了哪些设计模式? 
 > 1. Builder模式(ProducerBuilderImpl).    
-> 2. 装饰器模式(ProducerInterceptors).   
-> 3. 责任链模式(ProducerInterceptor).   
+> 2. 责任链模式(ProducerInterceptor).   
 
 ### (8). 总结
 我剖析到这里,就暂停,是因为,再往下剖析的话,就不属于:Producer的职责了,为了不让内容显得太过长,下一篇继续剖析完:createProducerAsync. 
