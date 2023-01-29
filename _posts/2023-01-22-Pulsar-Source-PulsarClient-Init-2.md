@@ -119,5 +119,14 @@ private void setAuth(ClientConfigurationData conf) throws PulsarClientException 
 > 1. 工厂模式(ThreadFactory/AuthenticationFactory)    
 > 2. 策略模式(LookupService)   
 > 3. 状态模式(State)   
-### (6). 总结
-PulsarClient之外的东西,暂时不分析(连接池/认证启动),另开篇幅去剖析. 
+### (6). PulsarClient类图
+!["PulsarClient类图"](/assets/pulsar/imgs/Pulsar-Init-ClassDiagram.jpg)
+### (7). 总结
+> PulsarClient构建器的过程如下:  
+> 1. 通过ConnectionPool对Netty Client进行包装,目的是不用重复创建连接,而是共享连接.  
+> 2. 如果有配置Auth信息,则通过工厂(AuthenticationFactory),创建:Authentication. 
+> 3. 根据serviceUrl创建不同的的LookupService实现.  
+> 4. 创建定时任务管理器,前面在剖析JRAFT时有专门开一篇来讲,在这里,我不剖析了的.  
+> 5. PulsarClient内部会Hold住ProducerBase和ConsumerBase,它们都是集合类型.   
+> 6. 如果开启了事务,创建:TransactionCoordinatorClient.   
+> 7. 创建MemoryLimitController来管理限流. 
