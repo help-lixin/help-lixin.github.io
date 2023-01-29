@@ -116,7 +116,7 @@ private void setAuth(ClientConfigurationData conf) throws PulsarClientException 
 ```
 ### (5). 设计模式
 > PulsarClient构造器,代码比较少,但是,看到了几个设计模式:  
-> 1. 工厂模式(AuthenticationFactory)    
+> 1. 工厂模式(ThreadFactory/AuthenticationFactory)    
 > 2. 策略模式(LookupService)   
 > 3. 状态模式(State)   
 ### (6). 总结
