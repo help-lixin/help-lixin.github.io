@@ -121,6 +121,7 @@ private void setAuth(ClientConfigurationData conf) throws PulsarClientException 
 > 3. 状态模式(State)   
 
 ### (6). PulsarClient类图
+
 !["PulsarClient类图"](/assets/pulsar/imgs/Pulsar-Init-ClassDiagram.jpg)
 
 ### (7). 总结
