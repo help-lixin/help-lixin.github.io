@@ -14,5 +14,5 @@ tags:  Pulsar
 
 ### (2). Pulsar源码学习目录
 + ["Pulsar源码目录结构介绍(一)"](/2023/01/22/Pulsar-Source-Structure.html) 
-+ ["Pulsar源码之PulsarClient构建过程分析(二)"](/2023/01/22/Pulsar-Source-PulsarClient-Builder.html)   
-
++ ["Pulsar源码之PulsarClient构建过程分析(二)"](/2023/01/22/Pulsar-Source-PulsarClient-Init-1.html)   
++ ["Pulsar源码之PulsarClient初始化(三)"](/2023/01/22/Pulsar-Source-PulsarClient-Init-2.html)  
