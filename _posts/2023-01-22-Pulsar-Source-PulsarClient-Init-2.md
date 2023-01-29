@@ -119,8 +119,10 @@ private void setAuth(ClientConfigurationData conf) throws PulsarClientException 
 > 1. 工厂模式(ThreadFactory/AuthenticationFactory)    
 > 2. 策略模式(LookupService)   
 > 3. 状态模式(State)   
+
 ### (6). PulsarClient类图
 !["PulsarClient类图"](/assets/pulsar/imgs/Pulsar-Init-ClassDiagram.jpg)
+
 ### (7). 总结
 > PulsarClient构建器的过程如下:  
 > 1. 通过ConnectionPool对Netty Client进行包装,目的是不用重复创建连接,而是共享连接.  
