@@ -48,7 +48,7 @@ private PulsarClientImpl(ClientConfigurationData conf, EventLoopGroup eventLoopG
 		this.conf = conf;
 		clientClock = conf.getClock();
 		// ****************************************************************************
-		// 认证启用
+		// 认证启用,另开一篇去剖析
 		// ****************************************************************************
 		conf.getAuthentication().start();
 		this.cnxPool = cnxPool;
