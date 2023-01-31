@@ -1,13 +1,13 @@
 ---
 layout: post
-title: 'DiscoveryClient源码剖析' 
+title: 'Eureka源码分析之DiscoveryClient' 
 date: 2023-01-31
 author: 李新
 tags:  SpringCloud
 ---
 
 ### (1). 概述
-今天对Eureka进行扩展(要注意:Feign的调用,并不是走Spring包装的:DiscoveryClient,而是,走底层Eureka定义的DiscoveryClient),同时,还发现一段优秀的代码,特意记录下来.  
+今天对Eureka进行扩展(要注意:Feign的调用,并不是走Spring包装的:DiscoveryClient,而是,走Ribbon实际是:Eureka定义的DiscoveryClient),同时,还发现一段优秀的代码,特意记录下来.  
 
 ### (2). DiscoveryClient实现关系
 > 要注意,这里的DiscoveryClient是Spring封装的,而非最底层Eureka的:DiscoveryClient,咱们挑两个实现类进行简单的剖析. 
