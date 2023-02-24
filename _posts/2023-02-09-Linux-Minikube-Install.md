@@ -205,6 +205,12 @@ Events:
   ----     ------            ----                ----               -------
   Warning  FailedScheduling  35s (x2 over 6m4s)  default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node.kubernetes.io/not-ready: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling..
 
+
+# ***********************************************************************
+# 7. 卸载minikube 
+# 我是要先在这台机器上做测试,然后,才会买新的机器专门安装这个. 
+# # ***********************************************************************
+[root@lixin test]# minikube delete
 ```
 ### (6). 总结
 安装个Minikube比用Rancher安装更复杂,要不是因为省钱,我真的想放弃的心都有了. 
