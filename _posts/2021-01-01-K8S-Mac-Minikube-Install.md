@@ -131,7 +131,7 @@ kind: Pod
 metadata:
   labels:
     app: nginx
-  name: nginx
+  name: nginx-pod
 spec:
   containers: # 指定多个镜像,代表这些镜像在一个Pod内.
   - image: nginx:latest
