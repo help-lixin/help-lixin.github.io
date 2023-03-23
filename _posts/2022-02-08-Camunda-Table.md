@@ -7,7 +7,7 @@ tags:  Camunda
 ---
 
 ### (1). 概述
-最近在了解工作流,为什么选择Camunda,是因为Camunda 8面向了云原生,吞吐量有所提升来着的,这几天学习Camunda 7时,发现,Camunda 7的设计还是可以的,曾经我提到Activiti的问题,在Camunda都有做解决来着的. 
+最近在了解工作流,为什么选择Camunda,是因为Camunda 8面向了云原生,吞吐量有所提升来着的(暂时是不会向8靠拢),这几天学习Camunda 7时,发现,Camunda 7的设计还是可以的,曾经我提到Activiti的问题,在Camunda都有做解决来着的. 
 
 ### (2). 流程部署相关的表
 ```
