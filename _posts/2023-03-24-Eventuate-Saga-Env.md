@@ -6,10 +6,9 @@ author: 李新
 tags:  Eventuate
 ---
 
-### (1). 概述
-
-最近在研究Eventuate,其实,最初没打算用这套框架,但是,想了想吧!还是少自研一些,尽量向别人的框架靠拢,如果不满足自己做扩展,这样,有好处,也有坏处,坏处就是我需要花大量的时间看完源码,那么,如何入手呢?官网有一个Demo,经历漫长的拉取镜像和调试,终于是成功了的,特意摘抄这部份内容,方便后面从Docker容器迁本机做测试.    
-
+### (1). 背景
+在某些业务场景下,我们会用到消息中间件,那么,在用消息中间件在发送消息时,如何保证100%的不丢消息呢,那就需要事务消息了.   
+最近在研究Eventuate,其实,最初没打算用这套框架,但是,想了想吧!还是少自研一些,尽量向别人的开源框架靠拢,如果不满足自己做扩展,这样,有好处,也有坏处,坏处就是我需要花大量的时间看完源码,那么,如何入手呢?官网有一个Demo,经历漫长的拉取镜像和调试,终于是成功了的,特意摘抄这部份内容,方便后面从Docker容器迁本机做测试.    
 ### (2). cdc-service环境变量配置
 ```
 # 数据库配置
@@ -72,19 +71,7 @@ SPRING_SLEUTH_SAMPLER_PROBABILITY=1
 EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=localhost:9092
 EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=localhost:2181
 ```
-### (5). api-gateway-service环境变量配置
-```
-APIGATEWAY_TIMEOUT_MILLIS=1000000
-
-CUSTOMER_DESTINATIONS_CUSTOMERSERVICEURL=http://customer-service:8080
-
-SPRING_SLEUTH_ENABLED=true
-SPRING_ZIPKIN_BASE_URL=http://localhost:9411/
-SPRING_SLEUTH_SAMPLER_PROBABILITY=1
-
-ORDER_DESTINATIONS_ORDERSERVICEURL=http://order-service:8080
-```
-### (6). sql脚本
+### (5). sql脚本
 ```
 --
 -- Table structure for table `cdc_monitoring`
@@ -452,7 +439,7 @@ LOCK TABLES `snapshots` WRITE;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 ```
-### (7). cdc-service服务启动时会在kafka里存储binglog信息如下
+### (6). cdc-service服务启动时会在kafka里存储binglog信息如下
 ```
 # 查看有哪些topic
 lixin-macbook:bin lixin$ ./kafka-topics.sh --list --zookeeper localhost:2181
@@ -469,7 +456,7 @@ lixin-macbook:bin lixin$ ./kafka-console-consumer.sh --bootstrap-server 127.0.0.
 {"binlogFilename":"mysql-bin.000003","offset":1180,"rowsToSkip":0}
 {"binlogFilename":"mysql-bin.000003","offset":1348,"rowsToSkip":0}
 ```
-### (8). 调试
+### (7). 调试
 ```
 $ curl -X POST --header "Content-Type: application/json" -d '{
   "customerId": 1,
@@ -500,10 +487,10 @@ Content-Type: application/json;charset=UTF-8
   "orderState": "APPROVED"
 }
 ```
-### (9). 踩坑
+### (8). 踩坑经历
 我反反复的执行上面的SQL脚本,后来,不论怎么对订单操作,订单状态始终是:PENDING,后来找到原因,因为:cdc-service会从头到尾的监听binlog,所以,DROP TABLE然后,重新CREATE表,实际在binlong里依然保留着那些数据来着的,依然是会回放那些表里的数据.  
 
-### (10). 总结
+### (9). 总结 
 按照官网那张图的理解,业务系统(order/customer)会通过事务表的方式保存事件后,工作就已结束了,理当交给cdc来操作,从现在的剖析来看,好像业务系统强依赖了Kafka,没有kafka就启动不了. 
 
 
