@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Eventuate事件发布案例' 
+title: 'Eventuate事件发布' 
 date: 2023-03-24
 author: 李新
 tags:  Eventuate
