@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Eventuate环境搭建' 
+title: 'Eventuate事件发布案例' 
 date: 2023-03-24
 author: 李新
 tags:  Eventuate
@@ -8,175 +8,90 @@ tags:  Eventuate
 
 ### (1). 背景
 在某些业务场景下,我们会用到消息中间件,那么,在用消息中间件在发送消息时,如何保证100%的不丢消息呢,那就需要事务消息了.   
-最近在研究Eventuate,其实,最初没打算用这套框架,但是,想了想吧!还是少自研一些,尽量向别人的开源框架靠拢,如果不满足自己做扩展,这样,有好处,也有坏处,坏处就是我需要花大量的时间看完源码,那么,如何入手呢?官网有一个Demo,经历漫长的拉取镜像和调试,终于是成功了的,特意摘抄这部份内容,方便后面从Docker容器迁本机做测试.    
-### (2). cdc-service环境变量配置
+最近在研究Eventuate,最初没打算用这套框架,但是,想了想吧!还是少自研一些,尽量向别人的开源框架靠拢,如果不满足自己做扩展,这样,有好处,也有坏处,坏处就是我需要花大量的时间看完源码. 
+### (2). 项目结构
 ```
-# 数据库配置
-SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver
-SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/eventuate
-
-SPRING_DATASOURCE_USERNAME=mysqluser
-SPRING_DATASOURCE_PASSWORD=mysqlpw
-EVENTUATELOCAL_CDC_DB_USER_NAME=root
-EVENTUATELOCAL_CDC_DB_PASSWORD=rootpassword
-
-JAVA_OPTS=-Xmx64m
-
-# 读取数据的名称
-EVENTUATELOCAL_CDC_OFFSET_STORE_KEY=MySqlBinlog
-EVENTUATELOCAL_CDC_READ_OLD_DEBEZIUM_DB_OFFSET_STORAGE_TOPIC=false
-EVENTUATE_CDC_OUTBOX_PARTITIONING_OUTBOX_TABLES=
-
-EVENTUATELOCAL_CDC_READER_NAME=MySqlReader
-JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto
-EVENTUATELOCAL_CDC_MYSQL_BINLOG_CLIENT_UNIQUE_ID=1234567890
-
-# kafka配置
-EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=localhost:9092
-# zk配置
-EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=localhost:2181
-EVENTUATE_OUTBOX_ID=1
+lixin-macbook:event-example lixin$ tree
+.
+├── event-api-message                    # 生产者\消费者共用的业务模型和事件
+│   ├── pom.xml
+│   └── src
+│       └── main
+│           ├── java
+│           │   └── help
+│           │       └── lixin
+│           │           └── domain
+│           │               ├── Account.java
+│           │               └── AccountDebited.java
+│           └── resources
+├── event-consumer                         # 消费者模块
+│   ├── pom.xml
+│   └── src
+│       └── main
+│           ├── java
+│           │   └── help
+│           │       └── lixin
+│           │           └── consumer
+│           │               ├── EventConsumerApp.java
+│           │               ├── config
+│           │               │   └── EventConsumerConfig.java
+│           │               └── service
+│           │                   ├── AccountEventConsumer.java
+│           │                   ├── AggregateSupplier.java
+│           │                   └── IdSupplier.java
+│           └── resources
+│               └── application.yaml
+├── event-producer                          # 生产者模块
+│   ├── pom.xml
+│   └── src
+│       └── main
+│           ├── java
+│           │   └── help
+│           │       └── lixin
+│           │           └── producer
+│           │               ├── EventProducerApp.java
+│           │               ├── config
+│           │               │   └── ProducerConfig.java
+│           │               └── controller
+│           │                   └── PublisherController.java
+│           └── resources
+│               └── application.yaml
+├── pom.xml
+└── sql                                     # sql脚本
+    └── eventuate.sql
 ```
-### (3). order-service环境变量配置
+### (3). eventuate.sql
 ```
-# 依赖zipkin
-SPRING_ZIPKIN_BASE_URL=http://localhost:9411/
-SPRING_SLEUTH_SAMPLER_PROBABILITY=1
 
-# 依赖db
-SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver
-SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/eventuate
-SPRING_DATASOURCE_USERNAME=mysqluser
-SPRING_DATASOURCE_PASSWORD=mysqlpw
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
-EVENTUATE_TRAM_OUTBOX_PARTITIONING_OUTBOX_TABLES=
-
-# 依赖kafka和zk
-EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=localhost:9092
-EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=localhost:2181
-```
-### (4). customer-servie环境变量配置
-```
-SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver
-SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/eventuate
-SPRING_DATASOURCE_USERNAME=mysqluser
-SPRING_DATASOURCE_PASSWORD=mysqlpw
-
-EVENTUATE_TRAM_OUTBOX_PARTITIONING_OUTBOX_TABLES=
-
-SPRING_SLEUTH_ENABLED=true
-SPRING_ZIPKIN_BASE_URL=http://localhost:9411/
-SPRING_SLEUTH_SAMPLER_PROBABILITY=1
-
-EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=localhost:9092
-EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=localhost:2181
-```
-### (5). sql脚本
-```
---
--- Table structure for table `cdc_monitoring`
---
-
+-- ----------------------------
+-- Table structure for cdc_monitoring
+-- ----------------------------
 DROP TABLE IF EXISTS `cdc_monitoring`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cdc_monitoring` (
   `reader_id` varchar(255) NOT NULL,
   `last_time` bigint DEFAULT NULL,
   PRIMARY KEY (`reader_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `cdc_monitoring`
---
-
-LOCK TABLES `cdc_monitoring` WRITE;
-/*!40000 ALTER TABLE `cdc_monitoring` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cdc_monitoring` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `customer`
---
-
-DROP TABLE IF EXISTS `customer`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `customer` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `amount` decimal(19,2) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `version` bigint DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `customer`
---
-
-LOCK TABLES `customer` WRITE;
-/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `customer_credit_reservations`
---
-
-DROP TABLE IF EXISTS `customer_credit_reservations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `customer_credit_reservations` (
-  `customer_id` bigint NOT NULL,
-  `amount` decimal(19,2) DEFAULT NULL,
-  `credit_reservations_key` bigint NOT NULL,
-  PRIMARY KEY (`customer_id`,`credit_reservations_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `customer_credit_reservations`
---
-
-LOCK TABLES `customer_credit_reservations` WRITE;
-/*!40000 ALTER TABLE `customer_credit_reservations` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_credit_reservations` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `entities`
---
-
+-- ----------------------------
+-- Table structure for entities
+-- ----------------------------
 DROP TABLE IF EXISTS `entities`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `entities` (
   `entity_type` varchar(255) NOT NULL,
   `entity_id` varchar(255) NOT NULL,
   `entity_version` longtext NOT NULL,
   PRIMARY KEY (`entity_type`,`entity_id`),
   KEY `entities_idx` (`entity_type`,`entity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `entities`
---
-
-LOCK TABLES `entities` WRITE;
-/*!40000 ALTER TABLE `entities` DISABLE KEYS */;
-/*!40000 ALTER TABLE `entities` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `events`
---
-
+-- ----------------------------
+-- Table structure for events
+-- ----------------------------
 DROP TABLE IF EXISTS `events`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `events` (
   `event_id` varchar(255) NOT NULL,
   `event_type` longtext,
@@ -189,25 +104,12 @@ CREATE TABLE `events` (
   PRIMARY KEY (`event_id`),
   KEY `events_idx` (`entity_type`,`entity_id`,`event_id`),
   KEY `events_published_idx` (`published`,`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `events`
---
-
-LOCK TABLES `events` WRITE;
-/*!40000 ALTER TABLE `events` DISABLE KEYS */;
-/*!40000 ALTER TABLE `events` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `message`
---
-
+-- ----------------------------
+-- Table structure for message
+-- ----------------------------
 DROP TABLE IF EXISTS `message`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `message` (
   `id` varchar(255) NOT NULL,
   `destination` longtext NOT NULL,
@@ -218,100 +120,34 @@ CREATE TABLE `message` (
   `creation_time` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `message_published_idx` (`published`,`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `message`
---
-
-LOCK TABLES `message` WRITE;
-/*!40000 ALTER TABLE `message` DISABLE KEYS */;
-/*!40000 ALTER TABLE `message` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `offset_store`
---
-
+-- ----------------------------
+-- Table structure for offset_store
+-- ----------------------------
 DROP TABLE IF EXISTS `offset_store`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offset_store` (
   `client_name` varchar(255) NOT NULL,
   `serialized_offset` longtext,
   PRIMARY KEY (`client_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `offset_store`
---
-
-LOCK TABLES `offset_store` WRITE;
-/*!40000 ALTER TABLE `offset_store` DISABLE KEYS */;
-/*!40000 ALTER TABLE `offset_store` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `orders`
---
-
-DROP TABLE IF EXISTS `orders`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `orders` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `customer_id` bigint DEFAULT NULL,
-  `amount` decimal(19,2) DEFAULT NULL,
-  `rejection_reason` varchar(255) DEFAULT NULL,
-  `state` varchar(255) DEFAULT NULL,
-  `version` bigint DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `orders`
---
-
-LOCK TABLES `orders` WRITE;
-/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `received_messages`
---
-
+-- ----------------------------
+-- Table structure for received_messages
+-- ----------------------------
 DROP TABLE IF EXISTS `received_messages`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `received_messages` (
   `consumer_id` varchar(255) NOT NULL,
   `message_id` varchar(255) NOT NULL,
   `creation_time` bigint DEFAULT NULL,
   `published` smallint DEFAULT '0',
   PRIMARY KEY (`consumer_id`,`message_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `received_messages`
---
-
-LOCK TABLES `received_messages` WRITE;
-/*!40000 ALTER TABLE `received_messages` DISABLE KEYS */;
-/*!40000 ALTER TABLE `received_messages` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `saga_instance`
---
-
+-- ----------------------------
+-- Table structure for saga_instance
+-- ----------------------------
 DROP TABLE IF EXISTS `saga_instance`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `saga_instance` (
   `saga_type` varchar(255) NOT NULL,
   `saga_id` varchar(100) NOT NULL,
@@ -323,74 +159,35 @@ CREATE TABLE `saga_instance` (
   `saga_data_type` varchar(1000) NOT NULL,
   `saga_data_json` varchar(1000) NOT NULL,
   PRIMARY KEY (`saga_type`,`saga_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `saga_instance`
---
-
-LOCK TABLES `saga_instance` WRITE;
-/*!40000 ALTER TABLE `saga_instance` DISABLE KEYS */;
-/*!40000 ALTER TABLE `saga_instance` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `saga_instance_participants`
---
-
+-- ----------------------------
+-- Table structure for saga_instance_participants
+-- ----------------------------
 DROP TABLE IF EXISTS `saga_instance_participants`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `saga_instance_participants` (
   `saga_type` varchar(255) NOT NULL,
   `saga_id` varchar(100) NOT NULL,
   `destination` varchar(100) NOT NULL,
   `resource` varchar(100) NOT NULL,
   PRIMARY KEY (`saga_type`,`saga_id`,`destination`,`resource`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `saga_instance_participants`
---
-
-LOCK TABLES `saga_instance_participants` WRITE;
-/*!40000 ALTER TABLE `saga_instance_participants` DISABLE KEYS */;
-/*!40000 ALTER TABLE `saga_instance_participants` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `saga_lock_table`
---
-
+-- ----------------------------
+-- Table structure for saga_lock_table
+-- ----------------------------
 DROP TABLE IF EXISTS `saga_lock_table`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `saga_lock_table` (
   `target` varchar(100) NOT NULL,
   `saga_type` varchar(255) NOT NULL,
   `saga_Id` varchar(100) NOT NULL,
   PRIMARY KEY (`target`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `saga_lock_table`
---
-
-LOCK TABLES `saga_lock_table` WRITE;
-/*!40000 ALTER TABLE `saga_lock_table` DISABLE KEYS */;
-/*!40000 ALTER TABLE `saga_lock_table` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `saga_stash_table`
---
-
+-- ----------------------------
+-- Table structure for saga_stash_table
+-- ----------------------------
 DROP TABLE IF EXISTS `saga_stash_table`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `saga_stash_table` (
   `message_id` varchar(100) NOT NULL,
   `target` varchar(100) NOT NULL,
@@ -399,25 +196,12 @@ CREATE TABLE `saga_stash_table` (
   `message_headers` varchar(1000) NOT NULL,
   `message_payload` varchar(1000) NOT NULL,
   PRIMARY KEY (`message_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `saga_stash_table`
---
-
-LOCK TABLES `saga_stash_table` WRITE;
-/*!40000 ALTER TABLE `saga_stash_table` DISABLE KEYS */;
-/*!40000 ALTER TABLE `saga_stash_table` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `snapshots`
---
-
+-- ----------------------------
+-- Table structure for snapshots
+-- ----------------------------
 DROP TABLE IF EXISTS `snapshots`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `snapshots` (
   `entity_type` varchar(255) NOT NULL,
   `entity_id` varchar(255) NOT NULL,
@@ -426,71 +210,318 @@ CREATE TABLE `snapshots` (
   `snapshot_json` longtext NOT NULL,
   `triggering_events` longtext,
   PRIMARY KEY (`entity_type`,`entity_id`,`entity_version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `snapshots`
---
-
-LOCK TABLES `snapshots` WRITE;
-/*!40000 ALTER TABLE `snapshots` DISABLE KEYS */;
-/*!40000 ALTER TABLE `snapshots` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+SET FOREIGN_KEY_CHECKS = 1;
 ```
-### (6). cdc-service服务启动时会在kafka里存储binglog信息如下
+### (4). 定义业务模型
 ```
-# 查看有哪些topic
-lixin-macbook:bin lixin$ ./kafka-topics.sh --list --zookeeper localhost:2181
-__consumer_offsets
-offset.storage.topic
+package help.lixin.domain;
 
-# 尝试通过控制台,消息消息
-lixin-macbook:bin lixin$ ./kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092  --from-beginning --consumer-property group.id=test-console-consumer-group --topic offset.storage.topic
-{"binlogFilename":"mysql-bin.000003","offset":315,"rowsToSkip":0}
-{"binlogFilename":"mysql-bin.000003","offset":476,"rowsToSkip":0}
-{"binlogFilename":"mysql-bin.000003","offset":644,"rowsToSkip":0}
-{"binlogFilename":"mysql-bin.000003","offset":828,"rowsToSkip":0}
-{"binlogFilename":"mysql-bin.000003","offset":996,"rowsToSkip":0}
-{"binlogFilename":"mysql-bin.000003","offset":1180,"rowsToSkip":0}
-{"binlogFilename":"mysql-bin.000003","offset":1348,"rowsToSkip":0}
-```
-### (7). 调试
-```
-$ curl -X POST --header "Content-Type: application/json" -d '{
-  "customerId": 1,
-  "orderTotal": {
-    "amount": 4
-  }
-}' http://localhost:8081/orders
+public class Account {
 
-HTTP/1.1 200
-Content-Type: application/json;charset=UTF-8
-
-{
-  "orderId": 1
-}
-
-```
-
-Finally, check the status of the `Order`:
-
-```bash
-$ curl -X GET http://localhost:8081/orders/1
-
-HTTP/1.1 200
-Content-Type: application/json;charset=UTF-8
-
-{
-  "orderId": 1,
-  "orderState": "APPROVED"
 }
 ```
-### (8). 踩坑经历
-我反反复的执行上面的SQL脚本,后来,不论怎么对订单操作,订单状态始终是:PENDING,后来找到原因,因为:cdc-service会从头到尾的监听binlog,所以,DROP TABLE然后,重新CREATE表,实际在binlong里依然保留着那些数据来着的,依然是会回放那些表里的数据.  
+### (5). DomainEvent
+```
+package help.lixin.domain;
 
-### (9). 总结 
-按照官网那张图的理解,业务系统(order/customer)会通过事务表的方式保存事件后,工作就已结束了,理当交给cdc来操作,从现在的剖析来看,好像业务系统强依赖了Kafka,没有kafka就启动不了. 
+import io.eventuate.tram.events.common.DomainEvent;
+
+public class AccountDebited implements DomainEvent {
+    private long amount;
+
+    public AccountDebited() {
+    }
+
+    public AccountDebited(long amount) {
+
+        this.amount = amount;
+    }
+
+    public long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(long amount) {
+        this.amount = amount;
+    }
+}
+```
+### (6). 为业务模型工程添加依赖
+```
+<dependency>
+	<groupId>io.eventuate.tram.core</groupId>
+	<artifactId>eventuate-tram-events</artifactId>
+	<version>${eventuate-tram.version}</version>
+	<scope>provided</scope>
+</dependency>
+```
+### (7). 定义生产者配置
+```
+package help.lixin.producer.config;
+
+import io.eventuate.tram.spring.events.publisher.TramEventsPublisherConfiguration;
+import io.eventuate.tram.spring.messaging.producer.jdbc.TramMessageProducerJdbcConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+@Configuration
+@Import({TramEventsPublisherConfiguration.class,
+        //
+        TramMessageProducerJdbcConfiguration.class})
+public class ProducerConfig {
+
+}
+```
+### (8). 定义生产者发布事件
+```
+package help.lixin.producer.controller;
 
 
+import help.lixin.domain.Account;
+import help.lixin.domain.AccountDebited;
+import io.eventuate.tram.events.common.DomainEvent;
+import io.eventuate.tram.events.publisher.DomainEventPublisher;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
+
+@RestController
+public class PublisherController {
+
+    @Autowired
+    private DomainEventPublisher domainEventPublisher;
+
+
+    @GetMapping("/publish")
+    public String publish() {
+        String aggregateType = Account.class.getName();
+        Long aggregateId = System.currentTimeMillis();
+        Long uniqueId = aggregateId;
+        DomainEvent domainEvent = new AccountDebited(uniqueId);
+        // 发布事件.
+        domainEventPublisher.publish(
+                //
+                aggregateType,
+                //
+                uniqueId,
+                //
+                Collections.singletonList(domainEvent));
+        return "SUCCESS";
+    }
+}
+```
+### (9). 生产者配置文件
+> 注意:生产者是强依赖于db来着的
+
+```
+server:
+  port: 9091
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/eventuate
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+```
+### (10). 生产者依赖配置
+```
+<dependency>
+	<groupId>help.lixin</groupId>
+	<artifactId>event-api-message</artifactId>
+	<version>${project.version}</version>
+</dependency>
+
+
+<dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+</dependency>
+
+<dependency>
+	<groupId>io.eventuate.tram.core</groupId>
+	<artifactId>eventuate-tram-events</artifactId>
+	<version>${eventuate-tram.version}</version>
+</dependency>
+
+<dependency>
+	<groupId>io.eventuate.tram.core</groupId>
+	<artifactId>eventuate-tram-spring-producer-jdbc</artifactId>
+	<version>${eventuate-tram.version}</version>
+</dependency>
+
+<dependency>
+	<groupId>io.eventuate.tram.core</groupId>
+	<artifactId>eventuate-tram-spring-events-publisher</artifactId>
+	<version>${eventuate-tram.version}</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+### (11). 定义消费者配置类
+```
+package help.lixin.consumer.config;
+
+import help.lixin.consumer.service.AccountEventConsumer;
+import help.lixin.domain.Account;
+import io.eventuate.tram.consumer.common.DuplicateMessageDetector;
+import io.eventuate.tram.consumer.common.NoopDuplicateMessageDetector;
+import io.eventuate.tram.events.subscriber.DomainEventDispatcher;
+import io.eventuate.tram.events.subscriber.DomainEventDispatcherFactory;
+import io.eventuate.tram.spring.consumer.kafka.EventuateTramKafkaMessageConsumerConfiguration;
+import io.eventuate.tram.spring.events.subscriber.TramEventSubscriberConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+@Configuration
+@Import({TramEventSubscriberConfiguration.class,
+        EventuateTramKafkaMessageConsumerConfiguration.class})
+public class EventConsumerConfig {
+
+    @Bean
+    public DuplicateMessageDetector noopDuplicateMessageDetector() {
+        return new NoopDuplicateMessageDetector();
+    }
+
+    @Bean
+    public AccountEventConsumer accountEventConsumer() {
+        return new AccountEventConsumer(Account.class.getName());
+    }
+
+    @Bean
+    public DomainEventDispatcher domainEventDispatcher(
+            // 定义事件分发工厂,实际内部是持有一个MessageConsumer
+            DomainEventDispatcherFactory domainEventDispatcherFactory,
+            // 引用上面的:AccountEventConsumer
+            AccountEventConsumer target) {
+        return domainEventDispatcherFactory.make("eventDispatcherId", target.domainEventHandlers());
+    } // end
+}
+```
+### (12). 定义消费者类
+```
+package help.lixin.consumer.service;
+
+import help.lixin.domain.AccountDebited;
+import io.eventuate.tram.events.subscriber.DomainEventEnvelope;
+import io.eventuate.tram.events.subscriber.DomainEventHandlers;
+import io.eventuate.tram.events.subscriber.DomainEventHandlersBuilder;
+
+public class AccountEventConsumer {
+    private final String aggregateType;
+
+    public AccountEventConsumer(String aggregateType) {
+        this.aggregateType = aggregateType;
+    }
+
+    public DomainEventHandlers domainEventHandlers() {
+        return DomainEventHandlersBuilder
+                // 聚合根对象:Account
+                .forAggregateType(aggregateType)
+                // 事件处理
+                .onEvent(AccountDebited.class, this::handleAccountDebited)
+                //
+                .build();
+    }
+
+    public void handleAccountDebited(DomainEventEnvelope<AccountDebited> event) {
+        System.out.println(event);
+    }
+}
+```
+### (13). 定义消费者配置类
+```
+server:
+  port: 9092
+
+eventuatelocal:
+  kafka:
+    bootstrap:
+      servers: 127.0.0.1:9092
+```
+### (14). 定义消费者依赖
+```
+<dependency>
+	<groupId>help.lixin</groupId>
+	<artifactId>event-api-message</artifactId>
+	<version>${project.version}</version>
+</dependency>
+
+<dependency>
+	<groupId>io.eventuate.tram.core</groupId>
+	<artifactId>eventuate-tram-events</artifactId>
+	<version>${eventuate-tram.version}</version>
+</dependency>
+
+<dependency>
+	<groupId>io.eventuate.tram.core</groupId>
+	<artifactId>eventuate-tram-spring-events-subscriber</artifactId>
+	<version>${eventuate-tram.version}</version>
+</dependency>
+
+<dependency>
+	<groupId>io.eventuate.tram.core</groupId>
+	<artifactId>eventuate-tram-spring-consumer-kafka</artifactId>
+	<version>${eventuate-tram.version}</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+### (15). 配置启动:eventuate-cdc-service
+```
+#!/bin/bash
+
+export SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver
+export SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/eventuate
+
+export SPRING_DATASOURCE_USERNAME=root
+export SPRING_DATASOURCE_PASSWORD=123456
+export EVENTUATELOCAL_CDC_DB_USER_NAME=root
+export EVENTUATELOCAL_CDC_DB_PASSWORD=123456
+
+export JAVA_OPTS=-Xmx64m
+
+export EVENTUATELOCAL_CDC_OFFSET_STORE_KEY=MySqlBinlog
+export EVENTUATELOCAL_CDC_READ_OLD_DEBEZIUM_DB_OFFSET_STORAGE_TOPIC=false
+# EVENTUATE_CDC_OUTBOX_PARTITIONING_OUTBOX_TABLES=
+
+export EVENTUATELOCAL_CDC_READER_NAME=MySqlReader
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-18.0.1.1.jdk/Contents/Home
+export EVENTUATELOCAL_CDC_MYSQL_BINLOG_CLIENT_UNIQUE_ID=1234567890
+
+export EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+export EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=localhost:2181
+export EVENTUATE_OUTBOX_ID=1
+
+
+# 需要自己去拉取源码下来,然后,编译.
+# https://github.com/eventuate-foundation/eventuate-cdc
+java -jar ./eventuate-cdc-service-0.15.0-SNAPSHOT.jar -Xmx256m
+```
+### (16). 启动项目
+```
+1. 启动mysql(注意:mysql要配置开启binlong)
+2. 启动zookeeper
+3. 启动kafka
+4. 启动eventuate-cdc-service
+5. 启动producer
+6. 启动consumer
+```
+### (17). 测试
+```
+lixin-macbook:~ lixin$ curl http://localhost:9091/publish
+SUCCESS
+```
+### (18). 验证
+验证消费者端是否有消息消费成功. 
