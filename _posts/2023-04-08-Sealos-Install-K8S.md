@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Shenyu总结' 
+title: 'Sealos安装K8S集群' 
 date: 2023-04-08
 author: 李新
 tags:  K8S Sealos
