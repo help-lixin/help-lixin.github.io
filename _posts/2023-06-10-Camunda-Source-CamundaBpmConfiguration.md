@@ -33,6 +33,7 @@ public class CamundaBpmConfiguration {
   public ProcessEngineConfigurationImpl processEngineConfigurationImpl(
 		// ****************************************************************************************
 		// 2. ProcessEngineConfigurationImpl的创建依赖于:ProcessEnginePlugin的实现
+		// CompositeProcessEnginePlugin典型的组合模式哈
 		// ****************************************************************************************
 		List<ProcessEnginePlugin> processEnginePlugins) {
     final SpringProcessEngineConfiguration configuration = CamundaSpringBootUtil.springProcessEngineConfiguration();

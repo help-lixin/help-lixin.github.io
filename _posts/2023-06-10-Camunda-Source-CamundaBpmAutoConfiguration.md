@@ -50,6 +50,7 @@ org.springframework.context.ApplicationListener=org.camunda.bpm.spring.boot.star
   CamundaBpmTelemetryConfiguration.class,
   // **********************************************************
   // 2.5 对ProcessEngineServices接口进行配置,实际:ProcessEngineServices就是一个门面类,Hold住了的有的其它Service(比如:RuntimeService/RepositoryService/FormService/TaskService/HistoryService/IdentityService/)
+  //  典型的门面模式
   // **********************************************************
   SpringProcessEngineServicesConfiguration.class
 })
