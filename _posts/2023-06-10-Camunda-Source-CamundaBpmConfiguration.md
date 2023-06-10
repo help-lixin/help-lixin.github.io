@@ -202,7 +202,23 @@ public class SpringBootStarterPropertyHelper {
   } // end applyProperties
 }
 ```
-### (5). 总结
+### (5). ProcessEnginePlugin实现类
+```
+org.camunda.bpm.spring.boot.starter.configuration.impl.GenericPropertiesConfiguration
+org.camunda.bpm.spring.boot.starter.configuration.impl.DefaultProcessEngineConfiguration
+org.camunda.bpm.spring.boot.starter.configuration.impl.DefaultDatasourceConfiguration
+org.camunda.bpm.spring.boot.starter.configuration.impl.DefaultJobConfiguration
+org.camunda.bpm.spring.boot.starter.configuration.impl.DefaultHistoryConfiguration
+org.camunda.bpm.spring.boot.starter.configuration.impl.DefaultMetricsConfiguration
+org.camunda.bpm.spring.boot.starter.configuration.impl.DefaultAuthorizationConfiguration
+org.camunda.bpm.spring.boot.starter.configuration.impl.DefaultDeploymentConfiguration
+org.camunda.bpm.spring.boot.starter.configuration.impl.custom.CreateAdminUserConfiguration
+org.camunda.bpm.spring.boot.starter.configuration.impl.DefaultFailedJobConfiguration
+org.camunda.bpm.spring.boot.starter.event.EventPublisherPlugin
+org.camunda.bpm.spring.boot.starter.plugin.ApplicationContextClassloaderSwitchPlugin
+org.camunda.bpm.spring.boot.starter.spin.SpringBootSpinProcessEnginePlugin
+```
+### (6). 总结
 CamundaBpmConfiguration类配置的Bean大多数是:ProcessEnginePlugin接口的实现类,通过随机对ProcessEnginePlugin的实现类进行剖析,内部的原理为:      
 1. 创建:ProcessEngineConfigurationImpl对象的实现类(SpringProcessEngineConfiguration),并把该类交给Spring进行托管.   
 2. 在初始化ProcessEngine时,调用:ProcessEnginePlugin的方法,对:ProcessEngineConfigurationImpl进行配置. 
