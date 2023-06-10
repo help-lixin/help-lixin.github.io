@@ -32,10 +32,25 @@ org.springframework.context.ApplicationListener=org.camunda.bpm.spring.boot.star
 // 2. 导入其它的配置类
 // **********************************************************
 @Import({
+  // **********************************************************
+  // 2.1 Camunda重要配置类
+  // **********************************************************
   CamundaBpmConfiguration.class,
+  // **********************************************************
+  // 2.2 Actuator配置(不重要)
+  // **********************************************************
   CamundaBpmActuatorConfiguration.class,
+  // **********************************************************
+  // 2.3 配置ProcessEnginePlugin的实现类
+  // **********************************************************
   CamundaBpmPluginConfiguration.class,
+  // **********************************************************
+  // 2.4 获取Servlet容器的名称和版本,并把这个信息配置到:ManagementService里
+  // **********************************************************
   CamundaBpmTelemetryConfiguration.class,
+  // **********************************************************
+  // 2.5 对ProcessEngineServices接口进行配置,实际:ProcessEngineServices就是一个门面类,Hold住了的有的其它Service(比如:RuntimeService/RepositoryService/FormService/TaskService/HistoryService/IdentityService/)
+  // **********************************************************
   SpringProcessEngineServicesConfiguration.class
 })
 @Configuration
@@ -84,7 +99,8 @@ public class CamundaBpmAutoConfiguration {
 
 	
 	// ******************************************************************
-	// 2. 通过:ProcessEngineFactoryBean来创建:ProcessEngine实例
+	// 2. 通过: ProcessEngineFactoryBean来创建:ProcessEngine实例
+	//    注意:这个类比较重要,先把其它的类剖析完毕后,会另开一章去剖析这个类(ProcessEngineFactoryBean)
 	// ******************************************************************
     @Bean
     public ProcessEngineFactoryBean processEngineFactoryBean() {

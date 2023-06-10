@@ -26,18 +26,22 @@ public interface ProcessEnginePlugin {
 public class CamundaBpmConfiguration {
 
   // ********************************************************************************************
-  // 1. 创建:ProcessEngineConfigurationImpl对象
+  // 2. 创建:ProcessEngineConfigurationImpl对象
   // ********************************************************************************************
   @Bean
   @ConditionalOnMissingBean(ProcessEngineConfigurationImpl.class)
-  public ProcessEngineConfigurationImpl processEngineConfigurationImpl(List<ProcessEnginePlugin> processEnginePlugins) {
+  public ProcessEngineConfigurationImpl processEngineConfigurationImpl(
+		// ****************************************************************************************
+		// 2. ProcessEngineConfigurationImpl的创建依赖于:ProcessEnginePlugin的实现
+		// ****************************************************************************************
+		List<ProcessEnginePlugin> processEnginePlugins) {
     final SpringProcessEngineConfiguration configuration = CamundaSpringBootUtil.springProcessEngineConfiguration();
     configuration.getProcessEnginePlugins().add(new CompositeProcessEnginePlugin(processEnginePlugins));
     return configuration;
   }
 
   // ********************************************************************************************
-  // 2. CamundaProcessEngineConfiguration实际为:ProcessEnginePlugin接口的实现
+  // 1. CamundaProcessEngineConfiguration实际为:ProcessEnginePlugin接口的实现
   // ********************************************************************************************
   @Bean
   @ConditionalOnMissingBean(DefaultProcessEngineConfiguration.class)
@@ -116,6 +120,9 @@ public class CamundaBpmConfiguration {
     return new DefaultDeploymentConfiguration();
   }
 
+  // ********************************************************************************************
+  // 1. GenericPropertiesConfiguration实际为:ProcessEnginePlugin接口的实现
+  // ********************************************************************************************
   @Bean
   public GenericPropertiesConfiguration genericPropertiesConfiguration() {
     return new GenericPropertiesConfiguration();
