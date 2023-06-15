@@ -7,9 +7,11 @@ tags:  Camunda
 ---
 
 ### (1). 概述
-最近有这样一个需求,通过画布进行编排,画布产生的数据是json,而,自己懒得去写一套工作流,就想着把json向工作流靠拢即可,实际就是把json转换成xml. 
-### (2). 通过Camunda Modeler绘制图
+最近有这样一个需求,要实现一个编排系统,画布产生的数据是json,自己懒得去写一套工作流,就想着把json向工作流(Camunda/Activiti/Flowable)靠拢,实际就是把json转换成xml. 
+
+### (2). 通过Camunda Modeler绘制流程图
 !["Camunda example"](/assets/camunda/imgs/camunda-example.png) 
+
 ### (3). 通过Camunda Modeler绘制的原始xml
 ```
 <?xml version="1.0" encoding="UTF-8"?>
