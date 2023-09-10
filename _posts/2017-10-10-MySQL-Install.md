@@ -155,6 +155,9 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 mysql> SET PASSWORD=PASSWORD('111111');
 Query OK, 0 rows affected, 1 warning (0.00 sec)
 
+# 授权root允许远程访问
+mysql> grant all privileges on *.* to 'root'@'%'identified by '111111' with grant option;
+
 mysql> FLUSH PRIVILEGES;
 Query OK, 0 rows affected (0.00 sec)
 ```
