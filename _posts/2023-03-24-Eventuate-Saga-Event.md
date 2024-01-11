@@ -509,6 +509,31 @@ export EVENTUATE_OUTBOX_ID=1
 # https://github.com/eventuate-foundation/eventuate-cdc
 java -jar ./eventuate-cdc-service-0.15.0-SNAPSHOT.jar -Xmx256m
 ```
+
+```
+management.endpoint.health.show-details=ALWAYS
+management.endpoints.web.exposure.include=prometheus,health
+logging.level.root=INFO
+
+spring.datasource.test.on.borrow=true
+spring.datasource.validation.query=SELECT 1
+
+spring.datasource.driver.class.name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/eventuate
+spring.datasource.username=root
+spring.datasource.password=123456
+eventuatelocal.cdc.db.user.name=root
+eventuatelocal.cdc.db.password=123456
+
+eventuatelocal.cdc.offset.store.key=MySqlBinlog
+eventuatelocal.cdc.read.old.debezium.db.offset.storage.topic=false
+eventuatelocal.cdc.reader.name=MySqlReader
+eventuatelocal.cdc.mysql.binlog.client.unique.id=1234567890
+
+eventuatelocal.kafka.bootstrap.servers=localhost:9092
+eventuatelocal.zookeeper.connection.string=localhost:2181
+eventuate.outbox.id=1
+```
 ### (16). 启动项目
 ```
 1. 启动mysql(注意:mysql要配置开启binlong)
