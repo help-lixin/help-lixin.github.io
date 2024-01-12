@@ -511,6 +511,8 @@ java -jar ./eventuate-cdc-service-0.15.0-SNAPSHOT.jar -Xmx256m
 ```
 
 ```
+// 相关配置,详见: EventuateConfigurationProperties
+
 management.endpoint.health.show-details=ALWAYS
 management.endpoints.web.exposure.include=prometheus,health
 logging.level.root=INFO
