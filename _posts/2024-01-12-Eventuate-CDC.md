@@ -35,6 +35,8 @@ https://github.com/eventuate-foundation/eventuate-cdc.git
 4. CdcDataPublisher最终是委派给:相应的:DataProducer(Redis/ActiveMQ/Kafka/RabbitMQ)处理.
 
 5. Eventuate CDC最终的目的订阅或者拉取消息,并发送到MQ而已.
+6. cdc在启动时会创建一个topic(offset.storage.topic ),然后cdc在拉取消息时,每一个channel id(messag表中destination列)都会创建相应的topic. 
+7. __consumer_offsets为Kafka自带的offset存储位置.
 ```
 
 ### (6). Eventuate CDC 扩展
